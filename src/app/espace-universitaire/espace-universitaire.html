@@ -1,0 +1,623 @@
+    <!-- Navigation -->
+    <nav >
+        <div class="container">
+            <a class="navbar-brand" href="#"><i class="fas fa-university me-2"></i>SMS2i</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#enseignant"><i class="fas fa-chalkboard-teacher me-1"></i> Enseignants</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#pfe"><i class="fas fa-graduation-cap me-1"></i> Projets PFE</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#maquette"><i class="fas fa-puzzle-piece me-1"></i> Maquettes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#evenements"><i class="fas fa-calendar-alt me-1"></i> Événements</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container text-center">
+            <h1 class="hero-title">Espace Universitaire</h1>
+            <p class="hero-subtitle">Plateforme collaborative pour enseignants et étudiants</p>
+        </div>
+    </section>
+
+    <!-- Espace Enseignant -->
+    <section id="enseignant" class="py-5">
+        <div class="container">
+            <h2 class="space-title"><i class="fas fa-chalkboard-teacher me-2"></i>Espace Enseignant</h2>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card card-space">
+                        <img src="https://images.unsplash.com/photo-1588072432836-e10032774350?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" class="card-img-top" alt="Déposer Compétence">
+                        <div class="card-body">
+                            <h5 class="card-title"><i class="fas fa-plus-circle me-2 text-primary"></i>Déposer votre compétence</h5>
+                            <p class="card-text">Partagez vos compétences avec la communauté universitaire.</p>
+                            <button class="btn btn-univ" data-bs-toggle="modal" data-bs-target="#deposerCompetenceModal">
+                                <i class="fas fa-upload me-1"></i> Déposer
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card card-space">
+                        <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" class="card-img-top" alt="Proposer Sujet PFE">
+                        <div class="card-body">
+                            <h5 class="card-title"><i class="fas fa-lightbulb me-2 text-primary"></i>Proposer un sujet PFE</h5>
+                            <p class="card-text">Soumettez des sujets pour les projets de fin d'études.</p>
+                            <button class="btn btn-univ" data-bs-toggle="modal" data-bs-target="#proposerSujetModal">
+                                <i class="fas fa-paper-plane me-1"></i> Proposer
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+<!-- competence-form.component.html -->
+<div class="modal fade" id="deposerCompetenceModal" tabindex="-1" aria-labelledby="deposerCompetenceModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <form [formGroup]="competenceForm" (ngSubmit)="onSubmit()" enctype="multipart/form-data">
+        <div class="modal-header">
+          <h5 class="modal-title" id="deposerCompetenceModalLabel">
+            <i class="fas fa-plus-circle me-2"></i> Déposer votre compétence
+          </h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+
+        <div class="modal-body">
+          <div class="row mb-3">
+            <div class="col-md-6">
+              <label>Nom</label>
+              <input type="text" class="form-control" formControlName="nom" required />
+            </div>
+            <div class="col-md-6">
+              <label>Prénom</label>
+              <input type="text" class="form-control" formControlName="prenom" required />
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label>Email</label>
+            <input type="email" class="form-control" formControlName="email" required />
+          </div>
+
+          <div class="mb-3">
+            <label>Adresse</label>
+            <input type="text" class="form-control" formControlName="adresse" required />
+          </div>
+
+          <div class="mb-3">
+            <label>Téléphone</label>
+            <input type="tel" class="form-control" formControlName="telephone" required />
+          </div>
+
+          <div class="mb-3">
+            <label>Spécialité</label>
+            <input type="text" class="form-control" formControlName="specialite" required />
+          </div>
+
+          <div class="mb-3">
+            <label>Compétence</label>
+            <textarea class="form-control" formControlName="competence" required></textarea>
+          </div>
+
+          <div class="mb-3">
+            <label>Expérience</label>
+            <textarea class="form-control" formControlName="experience" required></textarea>
+          </div>
+
+          <div class="mb-3">
+            <label>Pièce jointe (CV)</label>
+            <input type="file" class="form-control" (change)="onFileChange($event)" accept=".pdf,.doc,.docx" required />
+            <small class="text-muted">Formats acceptés : PDF, DOC, DOCX</small>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+          <button type="submit" class="btn btn-univ" [disabled]="competenceForm.invalid">
+            <i class="fas fa-check me-1"></i> Soumettre
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<!-- Modal Proposer Sujet PFE -->
+<form #pfeForm="ngForm" (ngSubmit)="onSubmitpfe()" enctype="multipart/form-data">
+  <div class="modal fade" id="proposerSujetModal" tabindex="-1" aria-labelledby="proposerSujetModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <h5 class="modal-title">
+            <i class="fas fa-lightbulb me-2"></i>Proposer un sujet PFE
+          </h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+
+        <div class="modal-body">
+          <div class="row mb-3">
+            <div class="col-md-6">
+              <label for="pfeNom" class="form-label">Nom</label>
+              <input type="text" class="form-control" id="pfeNom" name="nom" [(ngModel)]="sujet.nom" required />
+            </div>
+            <div class="col-md-6">
+              <label for="pfePrenom" class="form-label">Prénom</label>
+              <input type="text" class="form-control" id="pfePrenom" name="prenom" [(ngModel)]="sujet.prenom" required />
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label for="pfeEmail" class="form-label">Email</label>
+            <input type="email" class="form-control" id="pfeEmail" name="email" [(ngModel)]="sujet.email" required />
+          </div>
+
+                    <div class="mb-3">
+              <label for="pfeTitre" class="form-label">Titre</label>
+              <input type="text" class="form-control" id="pfeTitre" name="titre" [(ngModel)]="sujet.titre" required />
+            </div>
+
+
+          <div class="mb-3">
+            <label for="pfeDescription" class="form-label">Description</label>
+            <textarea class="form-control" id="pfeDescription" name="description" [(ngModel)]="sujet.description" rows="5" required></textarea>
+          </div>
+
+          <!-- 🆕 Champ Type Sujet -->
+          <div class="mb-3">
+            <label for="pfeType" class="form-label">Type de sujet PFE</label>
+            <select class="form-select" id="pfeType" name="typeSujet" [(ngModel)]="sujet.type" required>
+              <option value="" disabled selected hidden>-- Sélectionnez un type --</option>
+              <option value="Informatique">Informatique</option>
+              <option value="Informatique Industrielle">Informatique Industrielle</option>
+            </select>
+          </div>
+
+          <div class="mb-3">
+            <label for="pfeFile" class="form-label">Pièce jointe</label>
+            <input type="file" class="form-control" id="pfeFile" (change)="onFileChangepfe($event)" accept=".pdf,.doc,.docx" required />
+            <small class="text-muted">Formats acceptés : .pdf, .doc, .docx</small>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+          <button type="submit" class="btn btn-primary" [disabled]="pfeForm.invalid">
+            <i class="fas fa-check me-1"></i> Proposer
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</form>
+<!-- Espace Projet Fin d'Étude -->
+<!-- section PFE -->
+<section id="pfe" class="py-5 bg-light-blue">
+  <div class="container">
+    <h2 class="space-title">
+      <i class="fas fa-graduation-cap me-2"></i>
+      Espace Projet Fin d'Étude
+    </h2>
+
+    <!-- Informatique -->
+    <div class="category-section mb-5" *ngIf="sujetsInfo && sujetsInfo.length > 0; else noSujetsInfo">
+      <h3 class="category-title mb-4">
+        <i class="fas fa-laptop-code me-2"></i>Informatique
+      </h3>
+      <div class="row">
+        <div class="col-md-6 mb-4" *ngFor="let sujet of sujetsInfo">
+          <div class="card card-space h-100">
+            <div class="card-body d-flex flex-column">
+              <div class="pfe-icon mb-3">
+                <i class="fas fa-university fa-3x text-univ"></i>
+              </div>
+              <h5 class="card-title">{{ sujet.titre }}</h5>
+              <p class="card-text">{{ sujet.description }}</p>
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <div class="price-tag">
+                  <span class="badge bg-warning text-dark">
+                    Prix Encadrement: {{ sujet.prixEncadrement }} TND
+                  </span>
+                </div>
+              </div>
+              <button class="btn btn-univ mt-auto"
+                      data-bs-toggle="modal"
+                      data-bs-target="#inscriptionModal"
+                      [attr.data-projet]="sujet.titre"
+                      [attr.data-projet-id]="sujet.id">
+                <i class="fas fa-user-plus me-1"></i> S'inscrire
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Informatique Industrielle -->
+    <div class="category-section" *ngIf="informatiqueIndustrielle && informatiqueIndustrielle.length > 0; else noSujetsIndus">
+      <h3 class="category-title mb-4">
+        <i class="fas fa-industry me-2"></i>Informatique Industrielle
+      </h3>
+      <div class="row">
+        <div class="col-md-6 mb-4" *ngFor="let sujet of informatiqueIndustrielle">
+          <div class="card card-space h-100">
+            <div class="card-body d-flex flex-column">
+              <div class="pfe-icon mb-3">
+                <i class="fas fa-robot fa-3x text-univ"></i>
+              </div>
+              <h5 class="card-title">{{ sujet.titre }}</h5>
+              <p class="card-text">{{ sujet.description }}</p>
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <div class="price-tag">
+                  <span class="badge bg-warning text-dark">
+                    Prix Encadrement : {{ sujet.prixEncadrement }} TND
+                  </span>
+                </div>
+              </div>
+              <button class="btn btn-univ mt-auto"
+                      data-bs-toggle="modal"
+                      data-bs-target="#inscriptionModal"
+                      [attr.data-projet]="sujet.titre"
+                      [attr.data-projet-id]="sujet.id">
+                <i class="fas fa-user-plus me-1"></i> S'inscrire
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Messages d'absence de données -->
+    <ng-template #noSujetsInfo>
+      <div class="no-data-container info">
+        <i class="fas fa-laptop-code no-data-icon"></i>
+        <h3 class="no-data-title">Aucun sujet disponible</h3>
+        <p class="no-data-text">Aucun sujet d'Informatique n'est disponible pour le moment.</p>
+        <p class="no-data-hint">Vérifiez ultérieurement ou proposez un sujet</p>
+      </div>
+    </ng-template>
+
+    <ng-template #noSujetsIndus>
+      <div class="no-data-container industrial">
+        <i class="fas fa-robot no-data-icon"></i>
+        <h3 class="no-data-title">Aucun sujet disponible</h3>
+        <p class="no-data-text">Aucun sujet d'Informatique Industrielle n'est disponible actuellement.</p>
+        <p class="no-data-hint">Vérifiez ultérieurement ou proposez un sujet</p>
+      </div>
+    </ng-template>
+  </div>
+</section>
+
+<!-- Modal d'inscription -->
+<div class="modal fade" id="inscriptionModal" tabindex="-1" aria-labelledby="inscriptionModalLabel" aria-hidden="true"
+     (shown.bs.modal)="openModal($event)">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header bg-univ text-white">
+        <h5 class="modal-title" id="inscriptionModalLabel">Inscription au PFE</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="formInscriptionPFE">
+          <input type="hidden" id="projetSelectionne">
+          <input type="hidden" id="projetId">
+
+          <div class="mb-3">
+            <label for="nom" class="form-label">Nom</label>
+            <input type="text" class="form-control" id="nom" name="nom" [(ngModel)]="formData.nom" required>
+          </div>
+          <div class="mb-3">
+            <label for="prenom" class="form-label">Prénom</label>
+            <input type="text" class="form-control" id="prenom" name="prenom" [(ngModel)]="formData.prenom" required>
+          </div>
+          <div class="mb-3">
+            <label for="telephone" class="form-label">Téléphone</label>
+            <input type="tel" class="form-control" id="telephone" name="telephone" [(ngModel)]="formData.telephone" required>
+          </div>
+          <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input type="email" class="form-control" id="email" name="email" [(ngModel)]="formData.email" required>
+          </div>
+          <div class="mb-3">
+            <label for="classe" class="form-label">Classe</label>
+            <input type="text" class="form-control" id="classe" name="classe" [(ngModel)]="formData.classe" required>
+          </div>
+          <div class="mb-3">
+            <label for="specialite" class="form-label">Spécialité</label>
+            <input type="text" class="form-control" id="specialite" name="specialite" [(ngModel)]="formData.specialite" required>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+        <button type="button" class="btn btn-univ" (click)="submitInscription()">Confirmer</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script>
+    // JavaScript pour gérer le modal
+    document.addEventListener('DOMContentLoaded', function() {
+        var inscriptionModal = document.getElementById('inscriptionModal');
+        
+        // Lorsque le modal s'affiche, mettre à jour le projet sélectionné
+        inscriptionModal.addEventListener('show.bs.modal', function (event) {
+            var button = event.relatedTarget; // Bouton qui a déclenché le modal
+            var projet = button.getAttribute('data-projet');
+            document.getElementById('projetSelectionne').value = projet;
+            document.getElementById('inscriptionModalLabel').textContent = 'Inscription - ' + projet;
+        });
+        
+        // Gestion du bouton de confirmation
+        document.getElementById('btnConfirmerInscription').addEventListener('click', function() {
+            // Ici vous pouvez ajouter le code pour traiter le formulaire
+            alert('Inscription envoyée avec succès!');
+            var modal = bootstrap.Modal.getInstance(inscriptionModal);
+            modal.hide();
+        });
+    });
+</script>
+
+<!-- Espace Maquette pour formation -->
+<section id="maquette" class="py-5 bg-light">
+    <div class="container">
+        <h2 class="space-title text-center mb-5"><i class="fas fa-puzzle-piece me-2 text-primary"></i>Espace Maquette Pour Formation</h2>
+        
+        <div class="row g-4 justify-content-center">
+            <div class="col-lg-5 col-md-6">
+                <div class="card card-space border-0 shadow-sm h-100">
+                    <div class="card-body p-4 text-center">
+                        <div class="icon-wrapper bg-primary-light mb-4 mx-auto rounded-circle">
+                            <i class="fas fa-share-square text-primary fa-2x"></i>
+                        </div>
+                        <h3 class="h5 card-title mb-3">Proposer une maquette</h3>
+                        <p class="card-text text-muted mb-4">
+                            Partagez vos maquettes didactiques avec la communauté éducative.
+                        </p>
+                        <button class="btn btn-univ px-4" data-bs-toggle="modal" data-bs-target="#proposerMaquetteModal">
+                            <i class="fas fa-paper-plane me-2"></i> Proposer
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-5 col-md-6">
+                <div class="card card-space border-0 shadow-sm h-100">
+                    <div class="card-body p-4 text-center">
+                        <div class="icon-wrapper bg-primary-light mb-4 mx-auto rounded-circle">
+                            <i class="fas fa-hand-holding text-primary fa-2x"></i>
+                        </div>
+                        <h3 class="h5 card-title mb-3">Demander une maquette</h3>
+                        <p class="card-text text-muted mb-4">
+                            Besoin d'une maquette spécifique pour vos besoins pédagogiques ?
+                        </p>
+                        <button class="btn btn-univ px-4" data-bs-toggle="modal" data-bs-target="#demanderMaquetteModal">
+                            <i class="fas fa-download me-2"></i> Demander
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Modal Proposer Maquette -->
+<div class="modal fade" id="proposerMaquetteModal" tabindex="-1" aria-labelledby="proposerMaquetteModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header bg-primary text-white">
+        <h5 class="modal-title" id="proposerMaquetteModalLabel">
+          <i class="fas fa-share-square me-2"></i>Proposer une maquette
+        </h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <form (ngSubmit)="onSubmitsMaquette()" #maquetteForm="ngForm" enctype="multipart/form-data">
+        <div class="modal-body p-4">
+          <div class="row mb-3">
+            <div class="col-md-6 mb-3">
+              <label for="maqNom" class="form-label">Nom</label>
+              <input type="text" class="form-control" id="maqNom" name="nom" [(ngModel)]="form.nom" required>
+            </div>
+            <div class="col-md-6 mb-3">
+              <label for="maqPrenom" class="form-label">Prénom</label>
+              <input type="text" class="form-control" id="maqPrenom" name="prenom" [(ngModel)]="form.prenom" required>
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label for="maqtelephone" class="form-label">Téléphone</label>
+            <input type="tel" class="form-control" id="maqtelephone" name="telephone" [(ngModel)]="form.telephone" required>
+          </div>
+
+          <div class="mb-3">
+            <label for="maqEmail" class="form-label">Email</label>
+            <input type="email" class="form-control" id="maqEmail" name="email" [(ngModel)]="form.email" required>
+          </div>
+
+          <div class="mb-3">
+            <label for="maqDescription" class="form-label">Description de la maquette</label>
+            <textarea class="form-control" id="maqDescription" name="description" [(ngModel)]="form.description" rows="4" required></textarea>
+          </div>
+
+          <div class="mb-3">
+            <label for="maqFichier" class="form-label">Fichier de la maquette (PDF, ZIP, etc.)</label>
+            <input class="form-control" type="file" id="maqFichier" (change)="onFileSelectedMaquette($event)" required accept=".pdf,.zip,.doc,.docx">
+
+            <!-- Aperçu fichier -->
+            <div *ngIf="selectedFileMaquette" class="mt-2 text-muted small">
+              <i class="fas fa-file me-1"></i> {{ selectedFileMaquette.name }}
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+          <button type="submit" class="btn btn-primary" [disabled]="maquetteForm.invalid || loading">
+            <i *ngIf="!loading" class="fas fa-paper-plane me-1"></i>
+            <span *ngIf="loading" class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span>
+            {{ loading ? 'Envoi en cours...' : 'Envoyer la proposition' }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- ✅ Toast Succès -->
+<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 1055">
+  <div id="toastSuccess" class="toast align-items-center text-white bg-success border-0" role="alert">
+    <div class="d-flex">
+      <div class="toast-body">
+        ✅ Proposition envoyée avec succès.
+      </div>
+      <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+    </div>
+  </div>
+</div>
+
+<!-- ❌ Toast Erreur -->
+<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 1055">
+  <div id="toastError" class="toast align-items-center text-white bg-danger border-0" role="alert">
+    <div class="d-flex">
+      <div class="toast-body">
+        ❌ Une erreur s’est produite lors de l’envoi.
+      </div>
+      <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Demander Maquette -->
+<div class="modal fade" id="demanderMaquetteModal" tabindex="-1" aria-labelledby="demanderMaquetteModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <form [formGroup]="demandeMaquetteForm" (ngSubmit)="onSubmitDemandeMaquette()">
+        <div class="modal-header bg-primary text-white">
+          <h5 class="modal-title" id="demanderMaquetteModalLabel">
+            <i class="fas fa-hand-holding me-2"></i>Demander une maquette
+          </h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+
+        <div class="modal-body p-4">
+          <div class="mb-3">
+            <label for="demNomComplet" class="form-label">Nom complet</label>
+            <input type="text" id="demNomComplet" class="form-control" formControlName="nomComplet" required />
+          </div>
+
+          <div class="mb-3">
+            <label for="demEmail" class="form-label">Email</label>
+            <input type="email" id="demEmail" class="form-control" formControlName="email" required />
+          </div>
+
+          <div class="mb-3">
+            <label for="demInstitution" class="form-label">Institution/Établissement</label>
+            <input type="text" id="demInstitution" class="form-control" formControlName="institution" />
+          </div>
+
+          <div class="mb-3">
+            <label for="demDescription" class="form-label">Description de votre besoin</label>
+            <textarea class="form-control" id="demDescription" formControlName="descriptionBesoin" rows="4" required></textarea>
+          </div>
+
+          <div class="mb-3">
+            <label for="demDate" class="form-label">Date souhaitée de réception</label>
+            <input type="date" id="demDate" class="form-control" formControlName="dateSouhaitee" />
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+          <button type="submit" class="btn btn-primary" [disabled]="demandeMaquetteForm.invalid">
+            <i class="fas fa-paper-plane me-1"></i> Envoyer la demande
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+    
+    <!-- Modal Inscription Événement -->
+    <div class="modal fade" id="inscriptionEventModal" tabindex="-1" aria-labelledby="inscriptionEventModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="inscriptionEventModalLabel"><i class="fas fa-user-plus me-2"></i>Inscription à l'événement</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="eventNom" class="form-label">Nom</label>
+                                <input type="text" class="form-control" id="eventNom" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="eventPrenom" class="form-label">Prénom</label>
+                                <input type="text" class="form-control" id="eventPrenom" required>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="eventTelephone" class="form-label">Téléphone</label>
+                            <input type="tel" class="form-control" id="eventTelephone" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="eventEmail" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="eventEmail" required>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                    <button type="button" class="btn btn-univ"><i class="fas fa-check me-1"></i> S'inscrire</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="text-center">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 mb-4 mb-md-0">
+                    <h5><i class="fas fa-university me-2"></i>Université Excellence</h5>
+                    <p>Excellence en éducation et recherche</p>
+                </div>
+                <div class="col-md-4 mb-4 mb-md-0">
+                    <h5><i class="fas fa-envelope me-2"></i>Contact</h5>
+                    <p>contact.universite-excellence.edu<br>+1 234-567-8900</p>
+                </div>
+                <div class="col-md-4">
+                    <h5><i class="fas fa-share-alt me-2"></i>Réseaux sociaux</h5>
+                    <a href="#" class="social-icon me-3"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social-icon me-3"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="social-icon me-3"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+            <hr class="my-4 bg-light">
+            <p class="mb-0">&copy; 2023 Université Excellence. Tous droits réservés.</p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>

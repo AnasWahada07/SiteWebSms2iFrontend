@@ -1,0 +1,86 @@
+<div class="container">
+  <!-- 📋 Liste des galeries -->
+  <div class="galerie-list">
+    <h2 class="section-title">Mes Galeries</h2>
+
+    <!-- Affichage conditionnel -->
+    <div *ngIf="galeries.length > 0; else noGalerie">
+      <div class="galerie-grid">
+        <div class="galerie-card" *ngFor="let galerie of galeries">
+          <div class="card-image-container">
+            <img [src]="galerie.imageUrl || 'assets/default-image.jpg'" alt="{{galerie.title}}" />
+            <div class="card-actions">
+              <button class="action-btn edit-btn" (click)="onEdit(galerie)" title="Modifier">
+                <i class="fas fa-edit"></i>
+              </button>
+              <button class="action-btn delete-btn" (click)="onDelete(galerie.id!)" title="Supprimer">
+                <i class="fas fa-trash"></i>
+              </button>
+            </div>
+          </div>
+          <div class="card-content">
+            <h3>{{ galerie.title }}</h3>
+            <p class="description">{{ galerie.description }}</p>
+            <div class="client-info">
+              <i class="fas fa-user"></i>
+              <span>{{ galerie.client || 'Non spécifié' }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Message si aucune galerie -->
+    <ng-template #noGalerie>
+      <div class="no-galerie-message">
+        <i class="fas fa-folder-open"></i>
+        <p>Aucun projet trouvé.</p>
+      </div>
+    </ng-template>
+  </div>
+
+  <!-- ➕ Formulaire d'ajout ou de modification -->
+  <div class="galerie-form" [class.active]="galerieForm.valid || updateMode">
+    <div class="form-header">
+      <h2>{{ updateMode ? 'Modifier la galerie' : 'Ajouter une galerie' }}</h2>
+      <button class="close-btn" (click)="resetForm()" *ngIf="updateMode">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+
+    <form [formGroup]="galerieForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label>Titre</label>
+        <input formControlName="title" placeholder="Donnez un titre à votre galerie" />
+      </div>
+
+      <div class="form-group">
+        <label>Description</label>
+        <textarea formControlName="description" placeholder="Décrivez cette galerie"></textarea>
+      </div>
+
+      <div class="form-group">
+        <label>Client</label>
+        <input formControlName="client" placeholder="Pour quel client ?" />
+      </div>
+
+      <div class="form-group file-upload">
+        <label>Image</label>
+        <div class="upload-area" (click)="fileInput.click()">
+          <i class="fas fa-cloud-upload-alt"></i>
+          <p>Sélectionnez une image</p>
+          <input #fileInput type="file" (change)="onFileSelected($event)" accept="image/*" hidden />
+        </div>
+      </div>
+
+      <div class="button-group">
+        <button type="submit" class="primary-btn" [disabled]="galerieForm.invalid">
+          {{ updateMode ? 'Mettre à jour' : 'Ajouter' }}
+        </button>
+        <button type="button" class="secondary-btn" (click)="resetForm()" *ngIf="updateMode">
+          Annuler
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

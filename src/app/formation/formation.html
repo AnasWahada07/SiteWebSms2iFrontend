@@ -1,0 +1,176 @@
+<!-- Navigation - Version améliorée -->
+<nav class="navbar navbar-expand-lg navbar-light bg-white sticky-top shadow-sm">
+    <div class="container">
+        <a class="navbar-brand fw-bold text-primary" href="/formation">
+            <i class="fas fa-graduation-cap me-2"></i>SMS2I
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link btn-formation btn-hover-effect" href="/demandeformation">
+                        <span class="btn-formation-content d-flex align-items-center">
+                            <i class="fas fa-graduation-cap me-2"></i>Demande de Formation
+                        </span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- Hero Section - Version améliorée -->
+<section class="hero-section bg-gradient-primary text-white py-5 mb-5">
+    <div class="container py-5 text-center">
+        <h1 class="hero-title display-4 fw-bold mb-4">Développez vos compétences avec SMS2I</h1>
+        <p class="lead mb-4">Formations professionnelles adaptées à vos besoins industriels</p>
+        <div class="hero-search mx-auto" style="max-width: 500px;">
+        </div>
+    </div>
+</section>
+
+<!-- Categories Section - Version améliorée -->
+<!-- Nos domaines de formation -->
+<section class="container mb-5">
+  <h2 class="section-title text-center mb-5 fw-bold">Nos domaines de formation</h2>
+  <div class="row g-4">
+    <div class="col-md-4 col-6">
+      <div class="category-card card h-100 text-center p-4 border-0 shadow-sm hover-effect">
+        <div class="icon-wrapper bg-light-primary rounded-circle mx-auto mb-3">
+          <i class="fas fa-laptop-code category-icon text-primary"></i>
+        </div>
+        <h5 class="fw-bold">Automatisme industriel</h5>
+        <p class="text-muted small">Siemens, Schneider, Rockwell</p>
+        <a href="#" class="stretched-link"></a>
+      </div>
+    </div>
+    <div class="col-md-4 col-6">
+      <div class="category-card card h-100 text-center p-4 border-0 shadow-sm hover-effect">
+        <div class="icon-wrapper bg-light-warning rounded-circle mx-auto mb-3">
+          <i class="fas fa-cogs category-icon text-warning"></i>
+        </div>
+        <h5 class="fw-bold">Mécanique</h5>
+        <p class="text-muted small">Conception, Fabrication</p>
+        <a href="#" class="stretched-link"></a>
+      </div>
+    </div>
+    <div class="col-md-4 col-6">
+      <div class="category-card card h-100 text-center p-4 border-0 shadow-sm hover-effect">
+        <div class="icon-wrapper bg-light-info rounded-circle mx-auto mb-3">
+          <i class="fas fa-desktop category-icon text-info"></i>
+        </div>
+        <h5 class="fw-bold">Informatique</h5>
+        <p class="text-muted small">Développement, Bureautique, Réseaux</p>
+        <a href="#" class="stretched-link"></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="container mb-5" *ngIf="formations">
+  <h2 class="section-title fw-bold mb-4">Nos formations par type</h2>
+
+  <!-- Inter-entreprise -->
+  <div class="mb-5">
+    <h4 class="fw-bold text-primary mb-3">Formations Inter-entreprise</h4>
+    <div class="row g-4" *ngIf="formations?.interEntreprise && formations.interEntreprise.length > 0; else noInter">
+      <div class="col-md-6" *ngFor="let f of formations.interEntreprise">
+        <div class="card border-0 shadow-sm p-4 h-100">
+          <span class="badge bg-primary mb-2">{{ f.theme }}</span>
+          <h5 class="fw-bold">{{ f.titre }}</h5>
+          <p class="text-muted">{{ f.description }}</p>
+          <span class="fw-bold text-dark">Prix : {{ f.proposerPrix }} TND</span>
+        </div>
+      </div>
+    </div>
+    <ng-template #noInter>
+      <div class="card text-center shadow-sm border-top border-primary mx-auto" style="border-radius: 1rem; max-width: 600px;">
+        <div class="card-body p-4">
+          <div class="mb-3 fs-1 text-primary">
+            <i class="fas fa-laptop-code"></i>
+          </div>
+          <h5 class="fw-bold">Aucune formation disponible</h5>
+          <p class="text-muted mb-1">Aucune formation Inter-entreprise n'est disponible pour le moment.</p>
+          <small class="text-muted fst-italic">Vérifiez ultérieurement ou proposez une formation</small>
+        </div>
+      </div>
+    </ng-template>
+  </div>
+
+  <!-- Intra-entreprise -->
+  <div class="mb-5">
+    <h4 class="fw-bold text-success mb-3">Formations Intra-entreprise</h4>
+    <div class="row g-4" *ngIf="formations?.intraEntreprise && formations.intraEntreprise.length > 0; else noIntra">
+      <div class="col-md-6" *ngFor="let f of formations.intraEntreprise">
+        <div class="card border-0 shadow-sm p-4 h-100">
+          <span class="badge bg-success mb-2">{{ f.theme }}</span>
+          <h5 class="fw-bold">{{ f.titre }}</h5>
+          <p class="text-muted">{{ f.description }}</p>
+          <span class="fw-bold text-dark">Prix : {{ f.proposerPrix }} TND</span>
+        </div>
+      </div>
+    </div>
+    <ng-template #noIntra>
+      <div class="card text-center shadow-sm border-top border-success mx-auto" style="border-radius: 1rem; max-width: 600px;">
+        <div class="card-body p-4">
+          <div class="mb-3 fs-1 text-success">
+            <i class="fas fa-people-arrows"></i>
+          </div>
+          <h5 class="fw-bold">Aucune formation disponible</h5>
+          <p class="text-muted mb-1">Aucune formation Intra-entreprise n'est disponible pour le moment.</p>
+          <small class="text-muted fst-italic">Vérifiez ultérieurement ou proposez une formation</small>
+        </div>
+      </div>
+    </ng-template>
+  </div>
+
+  <!-- Universitaires -->
+  <div>
+    <h4 class="fw-bold text-warning mb-3">Formations Universitaires</h4>
+    <div class="row g-4" *ngIf="formations?.universitaire && formations.universitaire.length > 0; else noUniv">
+      <div class="col-md-6" *ngFor="let f of formations.universitaire">
+        <div class="card border-0 shadow-sm p-4 h-100">
+          <span class="badge bg-warning mb-2 text-dark">{{ f.theme }}</span>
+          <h5 class="fw-bold">{{ f.titre }}</h5>
+          <p class="text-muted">{{ f.description }}</p>
+          <span class="fw-bold text-dark">Prix : {{ f.proposerPrix }} TND</span>
+        </div>
+      </div>
+    </div>
+    <ng-template #noUniv>
+      <div class="card text-center shadow-sm border-top border-warning mx-auto" style="border-radius: 1rem; max-width: 600px;">
+        <div class="card-body p-4">
+          <div class="mb-3 fs-1 text-warning">
+            <i class="fas fa-graduation-cap"></i>
+          </div>
+          <h5 class="fw-bold">Aucune formation disponible</h5>
+          <p class="text-muted mb-1">Aucune formation universitaire n'est disponible pour le moment.</p>
+          <small class="text-muted fst-italic">Vérifiez ultérieurement ou proposez une formation</small>
+        </div>
+      </div>
+    </ng-template>
+  </div>
+</section>
+
+<!-- Call to Action - Version améliorée -->
+<section class="bg-dark text-white py-5 mb-5 position-relative overflow-hidden">
+    <div class="position-absolute top-0 end-0 w-100 h-100">
+        <div class="cta-pattern"></div>
+    </div>
+    <div class="container py-4 position-relative">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 text-center">
+                <h2 class="display-5 fw-bold mb-4">Prêt à développer vos compétences industrielles ?</h2>
+                <p class="lead mb-5">Rejoignez nos formations professionnelles et certifiantes pour booster votre carrière</p>
+                <div class="d-flex justify-content-center gap-3">
+                    <a href="/inscriptionformation" class="btn btn-light btn-lg rounded-pill px-4 fw-bold">
+                        <i class="fas fa-arrow-right me-2"></i>S'inscrire maintenant
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

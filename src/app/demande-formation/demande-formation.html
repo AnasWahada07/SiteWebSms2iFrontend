@@ -1,0 +1,152 @@
+<div class="container py-5 d-flex justify-content-center">
+  <div class="w-100" style="max-width: 900px;">
+    <div class="form-container shadow rounded-4 overflow-hidden">
+
+      <!-- Header -->
+      <div class="form-header bg-primary text-white p-4">
+        <h2 class="mb-0"><i class="fas fa-graduation-cap me-2"></i>Demande de Formation Professionnelle</h2>
+        <p class="mt-2 opacity-75">Remplissez ce formulaire pour nous faire part de vos besoins</p>
+      </div>
+
+      <!-- Form Body -->
+      <div class="form-body p-4 bg-white">
+        <form [formGroup]="formationForm" (ngSubmit)="onSubmit()" novalidate>
+
+          <!-- Informations Personnelles -->
+          <div class="form-section mb-5">
+            <h3 class="form-section-title d-flex align-items-center mb-4 text-primary">
+              <span class="icon-circle bg-primary-soft me-3"><i class="fas fa-user-circle"></i></span>
+              Informations Personnelles
+            </h3>
+
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label for="nom" class="form-label fw-bold">Nom <span class="text-danger">*</span></label>
+                <input type="text" class="form-control form-control-lg" id="nom" placeholder="Votre nom" formControlName="nom"
+                       [class.is-invalid]="isInvalid('nom')">
+                <div class="invalid-feedback">Veuillez saisir votre nom.</div>
+              </div>
+
+              <div class="col-md-6">
+                <label for="prenom" class="form-label fw-bold">Prénom <span class="text-danger">*</span></label>
+                <input type="text" class="form-control form-control-lg" id="prenom" placeholder="Votre prénom" formControlName="prenom"
+                       [class.is-invalid]="isInvalid('prenom')">
+                <div class="invalid-feedback">Veuillez saisir votre prénom.</div>
+              </div>
+
+              <div class="col-md-6">
+                <label for="email" class="form-label fw-bold">Email <span class="text-danger">*</span></label>
+                <input type="email" class="form-control form-control-lg" id="email" placeholder="exemple@domaine.com" formControlName="email"
+                       [class.is-invalid]="isInvalid('email')">
+                <div class="invalid-feedback">Veuillez saisir une adresse email valide.</div>
+              </div>
+
+              <div class="col-md-6">
+                <label for="telephone" class="form-label fw-bold">Téléphone</label>
+                <input type="tel" class="form-control form-control-lg" id="telephone" placeholder="+216" formControlName="telephone">
+              </div>
+            </div>
+          </div>
+
+          <!-- Type de Formation -->
+          <div class="form-section mb-5">
+            <h3 class="form-section-title d-flex align-items-center mb-4 text-primary">
+              <span class="icon-circle bg-primary-soft me-3"><i class="fas fa-chalkboard-teacher"></i></span>
+              Type de Formation
+            </h3>
+
+            <div class="radio-group">
+              <div class="form-check card-radio mb-3">
+                <input class="form-check-input" type="radio" id="inter" value="inter" formControlName="formationType">
+                <label class="form-check-label card p-3" for="inter">
+                  <span class="h5 d-block mb-2"><i class="fas fa-users me-2 text-primary"></i>Inter-entreprise</span>
+                  <span class="d-block text-muted">Formation ouverte à plusieurs organisations…</span>
+                </label>
+              </div>
+
+              <div class="form-check card-radio mb-3">
+                <input class="form-check-input" type="radio" id="intra" value="intra" formControlName="formationType">
+                <label class="form-check-label card p-3" for="intra">
+                  <span class="h5 d-block mb-2"><i class="fas fa-building me-2 text-primary"></i>Intra-entreprise</span>
+                  <span class="d-block text-muted">Formation dédiée exclusivement…</span>
+                </label>
+              </div>
+
+              <div class="form-check card-radio mb-3">
+                <input class="form-check-input" type="radio" id="etudiant" value="etudiant" formControlName="formationType">
+                <label class="form-check-label card p-3" for="etudiant">
+                  <span class="h5 d-block mb-2"><i class="fas fa-university me-2 text-primary"></i> Universitaire</span>
+                  <span class="d-block text-muted">Formation pour étudiants</span>
+                </label>
+              </div>
+
+              <div class="invalid-feedback d-block" *ngIf="isInvalid('formationType')">
+                Veuillez sélectionner un type de formation.
+              </div>
+            </div>
+          </div>
+
+          <!-- Détails de la Formation -->
+          <div class="form-section mb-5">
+            <h3 class="form-section-title d-flex align-items-center mb-4 text-primary">
+              <span class="icon-circle bg-primary-soft me-3"><i class="fas fa-book-open"></i></span>
+              Détails de la Formation
+            </h3>
+
+            <div class="mb-4">
+              <label for="titre" class="form-label fw-bold">Titre de la formation <span class="text-danger">*</span></label>
+              <input type="text" class="form-control form-control-lg" id="titre" placeholder="Ex : Initiation Web" formControlName="titre"
+                     [class.is-invalid]="isInvalid('titre')">
+              <div class="invalid-feedback">Veuillez indiquer le titre de la formation.</div>
+            </div>
+
+            <div class="mb-4">
+              <label for="theme" class="form-label fw-bold">Thème de la formation <span class="text-danger">*</span></label>
+              <select class="form-select form-select-lg" id="theme" formControlName="theme" [class.is-invalid]="isInvalid('theme')">
+                <option value="" disabled>Choisissez un thème</option>
+                <option value="Informatique">Informatique</option>
+                <option value="Informatique Industrielle">Informatique Industrielle</option>
+              </select>
+              <div class="invalid-feedback">Veuillez sélectionner un thème.</div>
+            </div>
+
+            <div class="mb-4">
+              <label for="description" class="form-label fw-bold">Description de vos besoins <span class="text-danger">*</span></label>
+              <textarea class="form-control form-control-lg" id="description" rows="5" formControlName="description"
+                        placeholder="Décrivez vos objectifs, le niveau des participants…" [class.is-invalid]="isInvalid('description')"></textarea>
+              <div class="invalid-feedback">Veuillez décrire vos besoins.</div>
+            </div>
+
+            <div class="mb-4">
+              <label for="proposerPrix" class="form-label fw-bold">Proposer un prix (en TND)</label>
+              <input type="number" class="form-control form-control-lg" id="proposerPrix" placeholder="Ex : 500" formControlName="proposerPrix">
+              <div class="form-text">Optionnel : vous pouvez suggérer un budget.</div>
+            </div>
+
+            <div class="mb-3">
+              <label for="participants" class="form-label fw-bold">Nombre approximatif de participants</label>
+              <select class="form-select form-select-lg" id="participants" formControlName="participants">
+                <option value="">Sélectionnez...</option>
+                <option value="1-5">1-5 personnes</option>
+                <option value="6-10">6-10 personnes</option>
+                <option value="11-20">11-20 personnes</option>
+                <option value="20+">Plus de 20 personnes</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Submit -->
+          <div class="d-grid">
+            <button type="submit" class="btn btn-primary btn-lg py-3">
+              <i class="fas fa-paper-plane me-2"></i>Envoyer la demande
+            </button>
+          </div>
+
+          <!-- Messages -->
+          <div *ngIf="successMessage" class="alert alert-success mt-3">{{ successMessage }}</div>
+          <div *ngIf="errorMessage" class="alert alert-danger mt-3">{{ errorMessage }}</div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

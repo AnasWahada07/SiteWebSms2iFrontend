@@ -1,0 +1,175 @@
+/* -------- Global -------- */
+body {
+  background-color: #f4f6f9;
+  font-family: 'Inter', 'Segoe UI', sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 40px auto;
+  background-color: #ffffff;
+  border-radius: 16px;
+  padding: 40px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.06);
+}
+
+/* -------- Titre -------- */
+h2 {
+  font-size: 28px;
+  font-weight: 600;
+  color: #2c3e50;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+/* -------- Tableau -------- */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  border-radius: 12px;
+  overflow: hidden;
+  background-color: #ffffff;
+}
+
+thead {
+  background-color: #f0f2f5;
+}
+
+th {
+  text-align: left;
+  padding: 16px 12px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #34495e;
+  text-transform: uppercase;
+  border-bottom: 1px solid #e6e6e6;
+}
+
+td {
+  padding: 14px 12px;
+  font-size: 14px;
+  color: #2d3436;
+  border-bottom: 1px solid #f2f2f2;
+}
+
+tr:hover {
+  background-color: #f9fbfd;
+}
+
+a {
+  color: #2980b9;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* -------- Boutons -------- */
+button {
+  padding: 8px 12px;
+  font-size: 13px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-right: 5px;
+  transition: all 0.2s ease-in-out;
+}
+
+button:hover {
+  opacity: 0.95;
+  transform: translateY(-1px);
+}
+
+button:first-child {
+  background-color: #f1c40f;
+  color: #000;
+}
+
+button:nth-child(2) {
+  background-color: #e74c3c;
+  color: #fff;
+}
+
+/* -------- Formulaire -------- */
+.form-container {
+  background-color: #fafafa;
+  padding: 30px;
+  margin-top: 50px;
+  border: 1px solid #e0e0e0;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.form-container h3 {
+  text-align: center;
+  font-size: 22px;
+  color: #2c3e50;
+  margin-bottom: 25px;
+}
+
+.form-container label {
+  display: block;
+  font-weight: 500;
+  margin-bottom: 6px;
+  color: #34495e;
+}
+
+.form-container input,
+.form-container select,
+.form-container textarea {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 18px;
+  font-size: 14px;
+  border: 1px solid #dcdde1;
+  border-radius: 8px;
+  background-color: #fff;
+  transition: border 0.3s ease;
+}
+
+.form-container input:focus,
+.form-container textarea:focus,
+.form-container select:focus {
+  border-color: #3498db;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.15);
+}
+
+textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+/* -------- Boutons formulaire -------- */
+.form-buttons {
+  display: flex;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.form-buttons button {
+  flex: 1;
+  font-size: 15px;
+  padding: 10px 0;
+  border-radius: 6px;
+  border: none;
+}
+
+button[type="submit"] {
+  background-color: #2ecc71;
+  color: white;
+  font-weight: 600;
+}
+
+button[type="button"] {
+  background-color: #95a5a6;
+  color: white;
+  font-weight: 600;
+}

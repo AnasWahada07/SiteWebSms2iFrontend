@@ -1,0 +1,78 @@
+import { Component, Inject, PLATFORM_ID } from '@angular/core';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { ContactService } from '../Services/Contact.service';
+import { HttpClientModule } from '@angular/common/http';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { ProjetService } from '../Services/Projet.service';
+import { Projet } from '../Class/Projet';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+
+
+
+@Component({
+  selector: 'app-accueil',
+  imports: [
+
+        ReactiveFormsModule,
+        HttpClientModule ,
+        CommonModule
+
+
+  ],
+  templateUrl: './accueil.html',
+  styleUrl: './accueil.css'
+})
+export class Accueil {
+
+
+    contactForm: FormGroup;
+  submitted = false;
+  successMessage = '';
+  errorMessage = '';
+
+  projets: Projet[] = [];
+
+    constructor(private fb: FormBuilder, private contactService: ContactService , private projetService: ProjetService ,  private sanitizer: DomSanitizer , 
+          @Inject(PLATFORM_ID) private platformId: Object
+
+    ) {
+    this.contactForm = this.fb.group({
+      name: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      phone: [''],
+      subject: [''],
+      message: ['', Validators.required],
+      consent: [false]
+    });
+
+  }
+
+  ngOnInit(): void {
+    this.projetService.getAllProjets().subscribe({
+      next: (data) => (this.projets = data),
+      error: (err) => console.error('Erreur lors du chargement des projets', err),
+    });
+  }
+
+
+
+
+
+  onSubmit(): void {
+    this.submitted = true;
+    if (this.contactForm.invalid) return;
+
+    this.contactService.sendMessage(this.contactForm.value).subscribe({
+      next: () => {
+        this.successMessage = 'Message envoyé avec succès.';
+        this.contactForm.reset();
+        this.submitted = false;
+      },
+      error: () => {
+        this.errorMessage = 'Erreur lors de l\'envoi. Veuillez réessayer.';
+      }
+    });
+  }
+}
+

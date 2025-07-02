@@ -1,0 +1,79 @@
+<div class="container">
+  <h2>Liste des Sujets PFE</h2>
+
+  <!-- 📄 Tableau des sujets -->
+  <table border="1" cellpadding="5" cellspacing="0">
+    <thead>
+      <tr>
+        <th>Nom</th>
+        <th>Prénom</th>
+        <th>Titre</th>
+        <th>Description</th>
+        <th>Prix Encadrement</th>
+        <th>Type</th>
+        <th>Nombre Inscriptions</th>
+        <th>Fichier de Sujet</th>
+        <th>Statut</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let sujet of sujets">
+        <td>{{ sujet.nom }}</td>
+        <td>{{ sujet.prenom }}</td>
+        <td>{{ sujet.titre }}</td>
+        <td>{{ sujet.description }}</td>
+        <td>{{ sujet.prixEncadrement }}</td>
+        <td>{{ sujet.type }}</td>
+        <td>{{ sujet.nombreInscription }}</td>
+        <td>
+          <a *ngIf="sujet.fileName" [href]="getFileUrl(sujet.fileName)" target="_blank" download>
+            📄 Télécharger
+          </a>
+        </td>
+        <td>{{ sujet.statut }}</td>
+        <td>
+          <button (click)="selectSujet(sujet)">📝 Modifier</button>
+          <button (click)="delete(sujet.id)">🗑 Supprimer</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- 📝 Formulaire de modification -->
+  <div *ngIf="selectedSujet" class="form-container">
+    <h3>Modifier le Sujet</h3>
+    <form (ngSubmit)="updateSelectedSujet()">
+      <label>Nom:</label>
+      <input [(ngModel)]="selectedSujet.nom" name="nom" required /><br />
+
+      <label>Prénom:</label>
+      <input [(ngModel)]="selectedSujet.prenom" name="prenom" required /><br />
+
+      <label>Titre:</label>
+      <input [(ngModel)]="selectedSujet.titre" name="titre" /><br />
+
+      <label>Description:</label>
+      <textarea [(ngModel)]="selectedSujet.description" name="description"></textarea><br />
+
+      <label>Type:</label>
+      <input [(ngModel)]="selectedSujet.type" name="type" /><br />
+
+      <label>Statut:</label>
+      <select [(ngModel)]="selectedSujet.statut" name="statut">
+        <option *ngFor="let statut of statutOptions" [value]="statut">{{ statut }}</option>
+      </select><br />
+
+      <label>Prix Encadrement:</label>
+      <input type="text" [(ngModel)]="selectedSujet.prixEncadrement" name="prixEncadrement" /><br />
+
+      <label>Nombre d’inscriptions:</label>
+      <input type="number" [(ngModel)]="selectedSujet.nombreInscription" name="nombreInscription" /><br />
+
+      <div class="form-buttons">
+        <button type="submit">✅ Enregistrer</button>
+        <button type="button" (click)="cancelEdit()">❌ Annuler</button>
+      </div>
+    </form>
+  </div>
+</div>

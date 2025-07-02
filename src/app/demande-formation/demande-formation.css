@@ -1,0 +1,55 @@
+    .form-container {
+        max-width: 900px;
+        margin: 0 auto;
+        overflow: hidden;
+    }
+    
+    .form-header {
+        padding: 1.5rem 2rem;
+    }
+    
+    .form-section-title {
+        font-size: 1.25rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 2px solid #e9ecef;
+    }
+    
+    .icon-circle {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 2.5rem;
+        height: 2.5rem;
+        border-radius: 50%;
+        color: #0d6efd;
+    }
+    
+    .card-radio .form-check-input {
+        position: absolute;
+        clip: rect(0, 0, 0, 0);
+        pointer-events: none;
+    }
+    
+    .card-radio .form-check-label {
+        cursor: pointer;
+        transition: all 0.3s;
+        border: 2px solid #dee2e6;
+        border-radius: 0.5rem;
+    }
+    
+    .card-radio .form-check-input:checked + .form-check-label {
+        border-color: #0d6efd;
+        background-color: rgba(13, 110, 253, 0.05);
+    }
+    
+    .card-radio .form-check-input:focus + .form-check-label {
+        box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+    }
+    
+    .form-control-lg, .form-select-lg, .btn-lg {
+        border-radius: 0.5rem;
+    }
+    
+    .bg-primary-soft {
+        background-color: rgba(13, 110, 253, 0.1);
+    }

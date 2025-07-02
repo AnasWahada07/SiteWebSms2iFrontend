@@ -1,0 +1,424 @@
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm fixed-top">
+  <div class="container">
+    <a class="navbar-brand fw-bold" href="/acceuil" aria-label="Accueil SMS2!">
+      <i class="fas fa-cogs me-1"></i> <span>SMS</span>2<span>!</span>
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto align-items-center gap-2">
+        <li class="nav-item"><a class="nav-link" href="/acceuil">Accueil</a></li>
+        <li class="nav-item"><a class="nav-link" href="/service">Services</a></li>
+        <li class="nav-item"><a class="nav-link" href="/galerie">Galerie</a></li>
+        <li class="nav-item"><a class="nav-link" href="/espaceuniversitaire">Espace Universitaire</a></li>
+        <li class="nav-item"><a class="nav-link" href="/formation">Formation</a></li>
+        <li class="nav-item"><a class="nav-link" href="#testimonials">Références</a></li>
+        <li class="nav-item"><a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#contactModal">Contact</a></li>
+        <li class="d-flex gap-2 ms-3">
+          <a href="/signin" class="btn btn-outline-light btn-sm">Se connecter</a>
+          <a href="/signup" class="btn btn-light text-dark btn-sm">S'inscrire</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="langDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Langue</a>
+          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="langDropdown">
+            <li><a class="dropdown-item" href="#" onclick="setLanguage('fr')">Français</a></li>
+            <li><a class="dropdown-item" href="#" onclick="setLanguage('en')">English</a></li>
+            <li><a class="dropdown-item" href="#" onclick="setLanguage('ar')">العربية</a></li>
+          </ul>
+        </li>
+        <li class="nav-item">
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- Script for Dark Mode and Language Switch -->
+<script>
+  function setLanguage(lang) {
+    const elements = document.querySelectorAll('[data-i18n]');
+    fetch(`/assets/i18n/${lang}.json`).then(res => res.json()).then(data => {
+      elements.forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (data[key]) el.innerText = data[key];
+      });
+    });
+  }
+</script>
+    <!-- Hero Section -->
+    <section class="hero-section" id="home">
+        <div class="floating-elements">
+            <div class="floating-element"><i class="fas fa-cog"></i></div>
+            <div class="floating-element"><i class="fas fa-robot"></i></div>
+            <div class="floating-element"><i class="fas fa-industry"></i></div>
+            <div class="floating-element"><i class="fas fa-microchip"></i></div>
+        </div>
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-7">
+                    <div class="hero-content animate__animated animate__fadeInUp">
+                        <h1 class="hero-title">WELCOME TO <span>SMS2!</span></h1>
+                        <p class="hero-subtitle">SMS2! offre des services complets d'automatisation et de maintenance pour optimiser vos processus industriels.</p>
+                        <div class="d-flex gap-3">
+                            <a href="#" class="btn btn-hero btn-hero-primary" data-bs-toggle="modal" data-bs-target="#contactModal">Contactez-nous</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="services-section py-5" id="services">
+        <div class="container">
+            <div class="text-center mb-5 animate__animated animate__fadeIn">
+                <h2 class="section-title">Nos Services</h2>
+                <p class="section-subtitle">Des solutions complètes pour vos besoins industriels</p>
+            </div>
+            
+            <div class="row g-4">
+                <!-- Service 1 -->
+                <div class="col-md-6 col-lg-4 animate__animated animate__fadeInUp" data-wow-delay="0.1s">
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                        <h3>Integration des systèmes</h3>
+                        <p>SMS2I assure l'intégration de plusieurs solutions dans les différents domaines industriels : armoires électriques, câblage, réseaux électriques, implémentation de solutions complètes.</p>
+                    </div>
+                </div>
+                
+                <!-- Service 2 -->
+                <div class="col-md-6 col-lg-4 animate__animated animate__fadeInUp" data-wow-delay="0.2s">
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fas fa-desktop"></i>
+                        </div>
+                        <h3>Automatisme et Engineering Industriel</h3>
+                        <p>Automatisme, contrôle et instrumentation électrique, gestion des processus et réseaux industriels intelligents.</p>
+                    </div>
+                </div>
+                
+                <!-- Service 3 -->
+                <div class="col-md-6 col-lg-4 animate__animated animate__fadeInUp" data-wow-delay="0.3s">
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fas fa-tools"></i>
+                        </div>
+                        <h3>Construction Mécanique</h3>
+                        <p> Conception et Fabrication complète des pièces de rechange mécanique spéciales en interne (Usinage , Ajustage , Montage ) . </p>
+                    </div>
+                </div>
+                
+                <!-- Service 4 -->
+                <div class="col-md-6 col-lg-4 animate__animated animate__fadeInUp" data-wow-delay="0.4s">
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fas fa-microchip"></i>
+                        </div>
+                        <h3>Instrumentation Industrielle</h3>
+                        <p>Installation, calibration et supervision d'instruments de mesure pour vos processus de production.</p>
+                    </div>
+                </div>
+                
+                <!-- Service 5 -->
+                <div class="col-md-6 col-lg-4 animate__animated animate__fadeInUp" data-wow-delay="0.5s">
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fas fa-chalkboard-teacher"></i>
+                        </div>
+                        <h3>Formation Industrielle</h3>
+                        <p>Formations certifiantes pour vos équipes en automatisme, supervision industrielle et nouvelles technologies.</p>
+                    </div>
+                </div>
+                
+                <!-- Service 6 -->
+                <div class="col-md-6 col-lg-4 animate__animated animate__fadeInUp" data-wow-delay="0.6s">
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fas fa-headset"></i>
+                        </div>
+                        <h3>Supports clients de haute qualité</h3>
+                        <p>Assistance proactive et support technique pour garantir la disponibilité et la performance de vos systèmes.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about-section py-5" id="about">
+        <div class="container">
+            <div class="text-center mb-5 animate__animated animate__fadeIn">
+                <h2 class="section-title">À propos de <span>SMS2I</span></h2>
+                <p class="section-subtitle">
+                    Votre partenaire de confiance pour l'automatisation et la maintenance industrielle
+                </p>
+            </div>
+            <div class="row align-items-center g-4">
+                <div class="col-lg-6 animate__animated animate__fadeInLeft">
+                    <img
+                        src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
+                        alt="À propos de SMS2I"
+                        class="img-fluid rounded shadow-sm"
+                    >
+                </div>
+                <div class="col-lg-6 animate__animated animate__fadeInRight">
+                    <div class="about-content">
+                        <p>
+                            <strong>SMS2I</strong> (Services et Maintenance des Systèmes Informatiques et Industriels) a vu le jour en mai 2008,
+                            portée par l'expertise de plusieurs enseignants universitaires. Depuis, nous nous engageons à fournir
+                            des solutions sur mesure pour optimiser vos processus industriels.
+                        </p>
+                        <p>
+                            Basés à la zone industrielle de Messaadine (Immeuble Néodeme, Sousse), nous sommes reconnus pour
+                            notre rigueur, la qualité de nos interventions et notre capacité à innover en partenariat avec
+                            les plus grands (Siemens, Endress+Hauser, etc.).
+                        </p>
+                        <a href="#" class="btn btn-primary mt-3">
+                            Notre histoire <i class="fas fa-arrow-right ms-1"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features-section py-5 bg-light" id="features">
+        <div class="container">
+            <div class="text-center mb-5 animate__animated animate__fadeIn">
+                <h2 class="section-title">Pourquoi choisir SMS2I ?</h2>
+                <p class="section-subtitle">Notre expertise fait la différence</p>
+            </div>
+            
+            <div class="row g-4">
+                <div class="col-md-6 col-lg-4 animate__animated animate__fadeInUp" data-wow-delay="0.1s">
+                    <div class="feature-box">
+                        <div class="feature-icon">
+                            <i class="fas fa-certificate"></i>
+                        </div>
+                        <h3>Partenaire Siemens</h3>
+                        <p>Intégrateur officiel de SIEMENS SA depuis 2010 et bientôt Solution Partner en Automatisme.</p>
+                    </div>
+                </div>
+                
+                <div class="col-md-6 col-lg-4 animate__animated animate__fadeInUp" data-wow-delay="0.2s">
+                    <div class="feature-box">
+                        <div class="feature-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <h3>Équipe qualifiée</h3>
+                        <p>Une équipe d'experts en électrique, électronique, mécanique, automatisme et informatique industriel.</p>
+                    </div>
+                </div>
+                
+                <div class="col-md-6 col-lg-4 animate__animated animate__fadeInUp" data-wow-delay="0.3s">
+                    <div class="feature-box">
+                        <div class="feature-icon">
+                            <i class="fas fa-globe"></i>
+                        </div>
+                        <h3>Portée internationale</h3>
+                        <p>Collaboration avec des fournisseurs de solutions industrielles en Afrique.</p>
+                    </div>
+                </div>
+                
+                <div class="col-md-6 col-lg-4 animate__animated animate__fadeInUp" data-wow-delay="0.4s">
+                    <div class="feature-box">
+                        <div class="feature-icon">
+                            <i class="fas fa-medal"></i>
+                        </div>
+                        <h3>Qualité certifiée</h3>
+                        <p>Processus qualité rigoureux selon les normes internationales en vigueur.</p>
+                    </div>
+                </div>
+                
+                <div class="col-md-6 col-lg-4 animate__animated animate__fadeInUp" data-wow-delay="0.5s">
+                    <div class="feature-box">
+                        <div class="feature-icon">
+                            <i class="fas fa-lightbulb"></i>
+                        </div>
+                        <h3>Solutions innovantes</h3>
+                        <p>Approche créative et solutions sur mesure pour répondre à vos défis industriels.</p>
+                    </div>
+                </div>
+                
+                <div class="col-md-6 col-lg-4 animate__animated animate__fadeInUp" data-wow-delay="0.6s">
+                    <div class="feature-box">
+                        <div class="feature-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <h3>Support 24/7</h3>
+                        <p>Assistance technique disponible 24 heures sur 24 pour vos urgences industrielles.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Modal -->
+     
+<div class="modal fade" id="contactModal" tabindex="-1" aria-labelledby="contactModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <form [formGroup]="contactForm" (ngSubmit)="onSubmit()">
+        <div class="modal-header">
+          <h5 class="modal-title" id="contactModalLabel">Contactez-nous</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
+        </div>
+
+        <div class="modal-body">
+          <div class="row g-3">
+            <div class="col-md-6">
+              <div class="form-floating">
+                <input type="text" class="form-control" id="contact-name" formControlName="name" placeholder="Votre nom">
+                <label for="contact-name">Votre nom *</label>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="form-floating">
+                <input type="email" class="form-control" id="contact-email" formControlName="email" placeholder="Votre email">
+                <label for="contact-email">Votre email *</label>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="form-floating">
+                <input type="tel" class="form-control" id="contact-phone" formControlName="phone" placeholder="Votre téléphone">
+                <label for="contact-phone">Votre téléphone</label>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="form-floating">
+                <select class="form-select" id="contact-subject" formControlName="subject">
+                  <option value="" disabled selected>Sélectionnez un sujet</option>
+                  <option value="devis">Demande de devis</option>
+                  <option value="support">Support technique</option>
+                  <option value="formation">Information sur les formations</option>
+                  <option value="autre">Autre demande</option>
+                </select>
+                <label for="contact-subject">Sujet</label>
+              </div>
+            </div>
+
+            <div class="col-12">
+              <div class="form-floating">
+                <textarea class="form-control" id="contact-message" formControlName="message" style="height: 150px" placeholder="Votre message"></textarea>
+                <label for="contact-message">Votre message *</label>
+              </div>
+            </div>
+
+            <div class="col-12">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="contact-consent" formControlName="consent">
+                <label class="form-check-label" for="contact-consent">
+                  J'autorise SMS2I à utiliser mes informations pour répondre à ma demande.
+                </label>
+              </div>
+            </div>
+
+            <div class="col-12">
+              <div *ngIf="successMessage" class="alert alert-success mt-3">
+                {{ successMessage }}
+              </div>
+              <div *ngIf="errorMessage" class="alert alert-danger mt-3">
+                {{ errorMessage }}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary" [disabled]="contactForm.invalid">
+            <i class="fas fa-paper-plane me-2"></i>Envoyer le message
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- ❗ Modal d'alerte si l'email est déjà utilisé -->
+<div class="modal fade" id="emailExistsModal" tabindex="-1" aria-labelledby="emailExistsLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content border-danger">
+      <div class="modal-header bg-danger text-white">
+        <h5 class="modal-title" id="emailExistsLabel">Adresse email déjà utilisée</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Fermer"></button>
+      </div>
+      <div class="modal-body text-center">
+        Cette adresse email est déjà enregistrée dans notre système. Veuillez utiliser une autre adresse.
+      </div>
+      <div class="modal-footer justify-content-center">
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Fermer</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+    <!-- Gallery Section -->
+<section class="gallery-section py-5" id="gallery">
+  <div class="container">
+    <div class="text-center mb-5 animate__animated animate__fadeIn">
+      <h2 class="section-title">Galerie de nos Projets</h2>
+      <p class="section-subtitle">Découvrez nos réalisations industrielles</p>
+    </div>
+
+    <div class="row g-4">
+      <div
+        *ngFor="let projet of projets; let i = index"
+        class="col-md-6 col-lg-4 animate__animated animate__fadeInUp"
+        [attr.data-wow-delay]="(i + 1) * 0.1 + 's'"
+      >
+        <div class="project-card">
+          <div class="project-image position-relative">
+            <img [src]="projet.imageUrl" [alt]="projet.title" class="img-fluid" />
+            <div class="project-overlay">
+              <a class="project-btn" data-bs-toggle="modal" [attr.data-bs-target]="'#projectModal' + projet.id">
+                <i class="fas fa-search-plus"></i>
+              </a>
+            </div>
+          </div>
+          <div class="project-info">
+            <h3>{{ projet.title }}</h3>
+            <p>{{ projet.description }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modals par projet -->
+    <ng-container *ngFor="let projet of projets">
+      <div
+        class="modal fade"
+        [id]="'projectModal' + projet.id"
+        tabindex="-1"
+        [attr.aria-labelledby]="'projectModalLabel' + projet.id"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" [id]="'projectModalLabel' + projet.id">{{ projet.title }}</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
+            </div>
+            <div class="modal-body">
+              <img [src]="projet.imageUrl" class="img-fluid mb-3" />
+              <p><strong>Description :</strong> {{ projet.description }}</p>
+              <p><strong>Durée :</strong> {{ projet.duree }}</p>
+              <p><strong>Client :</strong> {{ projet.client }}</p>
+              <p><strong>Technologie :</strong> {{ projet.technologie }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</section>

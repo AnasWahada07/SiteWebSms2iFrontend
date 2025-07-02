@@ -1,0 +1,94 @@
+        .gallery-section {
+            padding: 80px 0;
+            background-color: #f9f9f9;
+        }
+        
+        .section-title {
+            font-size: 2.5rem;
+            color: #2c3e50;
+            margin-bottom: 50px;
+            font-weight: 700;
+            text-transform: uppercase;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            width: 60%;
+            height: 3px;
+            background: #3498db;
+            bottom: -10px;
+            left: 20%;
+        }
+        
+        .gallery-item {
+            position: relative;
+            margin-bottom: 30px;
+            overflow: hidden;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .gallery-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+        }
+        
+        .gallery-item img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+        
+        .gallery-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+            color: white;
+            padding: 20px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .gallery-item:hover .gallery-overlay {
+            opacity: 1;
+        }
+        
+        .gallery-overlay h5 {
+            font-size: 1.3rem;
+            margin-bottom: 5px;
+            transform: translateY(20px);
+            transition: transform 0.3s ease;
+        }
+        
+        .gallery-overlay p {
+            font-size: 0.9rem;
+            margin: 0;
+            transform: translateY(20px);
+            transition: transform 0.3s ease 0.1s;
+        }
+        
+        .gallery-item:hover .gallery-overlay h5,
+        .gallery-item:hover .gallery-overlay p {
+            transform: translateY(0);
+        }
+
+
+        
+.no-project-message {
+  border: 2px dashed #ccc;
+  border-radius: 12px;
+  padding: 2rem;
+  margin-top: 2rem;
+  background-color: #fafafa;
+}

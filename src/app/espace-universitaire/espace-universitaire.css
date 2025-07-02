@@ -1,0 +1,530 @@
+:root {
+  --univ-blue: #0056b3;
+  --univ-light: #1f78e4;
+  --univ-accent: #17a2b8;
+  --univ-shadow: rgba(0, 0, 0, 0.1);
+}
+
+body {
+  font-family: 'Segoe UI', 'Roboto', sans-serif;
+  background-color: var(--univ-light);
+  color: #333;
+}
+
+.navbar {
+  background-color: var(--univ-blue);
+  box-shadow: 0 4px 12px var(--univ-shadow);
+}
+
+.navbar-brand {
+  font-weight: 600;
+  font-size: 1.5rem;
+  color: white !important;
+}
+
+.nav-link {
+  color: rgb(67, 16, 207) !important;
+  transition: 0.3s;
+}
+.nav-link:hover {
+  color: #ffc107 !important;
+}
+
+.hero-section {
+  padding: 100px 0;
+  background: linear-gradient(to right, #0056b3, #007bff);
+  color: white;
+}
+.hero-title {
+  font-size: 3rem;
+  font-weight: bold;
+}
+.hero-subtitle {
+  font-size: 1.25rem;
+  margin-bottom: 30px;
+}
+.btn-univ {
+  background-color: #ffc107;
+  color: #1d1d1d;
+  border: none;
+  transition: all 0.3s ease;
+  font-weight: 500;
+  border-radius: 30px;
+}
+.btn-univ:hover {
+  background-color: #e0a800;
+  color: white;
+}
+
+.card-space {
+  box-shadow: 0 4px 10px var(--univ-shadow);
+  transition: transform 0.3s ease;
+  border-radius: 10px;
+}
+.card-space:hover {
+  transform: translateY(-5px);
+}
+.card-title {
+  font-weight: 600;
+}
+
+.section-divider {
+  height: 80px;
+  background: transparent;
+}
+
+.space-title {
+  font-size: 2rem;
+  font-weight: 600;
+  margin-bottom: 30px;
+  color: var(--univ-blue);
+}
+
+.bg-light-blue {
+  background-color: #e9f3fd;
+}
+
+footer {
+  background-color: #003366;
+  color: #fff;
+  padding: 40px 0;
+}
+footer h5 {
+  font-weight: 600;
+}
+footer a.social-icon {
+  color: white;
+  font-size: 1.2rem;
+  transition: 0.3s;
+}
+footer a.social-icon:hover {
+  color: #ffc107;
+}
+
+    .bg-light-blue {
+        background-color: #f8f9fa;
+    }
+    
+    .space-title {
+        color: #2c3e50;
+        font-weight: 700;
+        margin-bottom: 2rem;
+        text-align: center;
+    }
+    
+    .card-space {
+        border: none;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease;
+    }
+    
+    .card-space:hover {
+        transform: translateY(-5px);
+    }
+    
+    .pfe-icon {
+        color: #3498db;
+        text-align: center;
+    }
+    
+    .btn-univ {
+        background-color: #ffc107;
+        border: none;
+        color: #2c3e50;
+        font-weight: 600;
+        border-radius: 5px;
+        padding: 8px 15px;
+        transition: all 0.3s ease;
+    }
+    
+    .btn-univ:hover {
+        background-color: #e0a800;
+        transform: translateY(-2px);
+    }
+    
+    .price-tag {
+        text-align: center;
+    }
+    
+    .badge {
+        font-size: 0.9rem;
+        padding: 8px 12px;
+        border-radius: 20px;
+    }
+
+
+    .bg-light-blue {
+        background-color: #f8f9fa;
+    }
+    
+    .space-title {
+        color: #2c3e50;
+        font-weight: 700;
+        margin-bottom: 2.5rem;
+        text-align: center;
+    }
+    
+    .category-title {
+        color: #2c3e50;
+        font-weight: 600;
+        padding-bottom: 0.5rem;
+        border-bottom: 2px solid #3498db;
+        display: inline-block;
+    }
+    
+    .category-section {
+        margin-bottom: 3rem;
+    }
+    
+    .card-space {
+        border: none;
+        border-radius: 10px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        transition: transform 0.3s ease;
+        background-color: white;
+    }
+    
+    .card-space:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+    }
+    
+    .pfe-icon {
+        color: #3498db;
+        text-align: center;
+    }
+    
+    .btn-univ {
+        background-color: #ffc107;
+        border: none;
+        color: #2c3e50;
+        font-weight: 600;
+        border-radius: 5px;
+        padding: 8px 15px;
+        transition: all 0.3s ease;
+        width: 100%;
+    }
+    
+    .btn-univ:hover {
+        background-color: #e0a800;
+        transform: translateY(-2px);
+    }
+    
+    .price-tag {
+        text-align: center;
+    }
+    
+    .badge {
+        font-size: 0.9rem;
+        padding: 8px 12px;
+        border-radius: 20px;
+        font-weight: 500;
+    }
+    
+    .card-title {
+        color: #2c3e50;
+        font-weight: 600;
+    }
+    
+    .card-text {
+        color: #6c757d;
+    }
+
+
+    .bg-light-blue {
+        background-color: #f8f9fa;
+    }
+    
+    .space-title {
+        color: #2c3e50;
+        font-weight: 700;
+        margin-bottom: 2.5rem;
+        text-align: center;
+    }
+    
+    .category-title {
+        color: #2c3e50;
+        font-weight: 600;
+        padding-bottom: 0.5rem;
+        border-bottom: 2px solid #3498db;
+        display: inline-block;
+    }
+    
+    .category-section {
+        margin-bottom: 3rem;
+    }
+    
+    .card-space {
+        border: none;
+        border-radius: 10px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        transition: transform 0.3s ease;
+        background-color: white;
+    }
+    
+    .card-space:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+    }
+    
+    .pfe-icon {
+        color: #3498db;
+        text-align: center;
+    }
+    
+    .btn-univ {
+        background-color: #ffc107;
+        border: none;
+        color: #2c3e50;
+        font-weight: 600;
+        border-radius: 5px;
+        padding: 8px 15px;
+        transition: all 0.3s ease;
+        width: 100%;
+    }
+    
+    .btn-univ:hover {
+        background-color: #e0a800;
+        transform: translateY(-2px);
+    }
+    
+    .price-tag {
+        text-align: center;
+    }
+    
+    .badge {
+        font-size: 0.9rem;
+        padding: 8px 12px;
+        border-radius: 20px;
+        font-weight: 500;
+    }
+    
+    /* Styles pour le modal */
+    .bg-univ {
+        background-color: #2c3e50;
+    }
+    
+    .modal-content {
+        border-radius: 10px;
+        overflow: hidden;
+    }
+    
+    .form-control, .form-select {
+        border-radius: 5px;
+        padding: 10px;
+    }
+    
+    .form-control:focus, .form-select:focus {
+        border-color: #ffc107;
+        box-shadow: 0 0 0 0.25rem rgba(255, 193, 7, 0.25);
+    }
+
+
+        .bg-light-blue {
+        background-color: #f8f9fa;
+    }
+    
+    .space-title {
+        color: #2c3e50;
+        font-weight: 700;
+        margin-bottom: 2.5rem;
+        text-align: center;
+    }
+    
+    .category-title {
+        color: #2c3e50;
+        font-weight: 600;
+        padding-bottom: 0.5rem;
+        border-bottom: 2px solid #3498db;
+        display: inline-block;
+    }
+    
+    .card-space {
+        border: none;
+        border-radius: 10px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        transition: all 0.3s ease;
+    }
+    
+    .card-space:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+    }
+    
+    .pfe-icon {
+        color: #3498db;
+        text-align: center;
+    }
+    
+    .btn-univ {
+        background-color: #ffc107;
+        border: none;
+        color: #2c3e50;
+        font-weight: 600;
+        border-radius: 5px;
+        padding: 8px 15px;
+        transition: all 0.3s ease;
+    }
+    
+    .btn-univ:hover {
+        background-color: #e0a800;
+        transform: translateY(-2px);
+    }
+    
+    .bg-univ {
+        background-color: #2c3e50;
+    }
+    
+    .inscription-count .badge {
+        font-size: 0.85rem;
+        padding: 5px 10px;
+        border-radius: 15px;
+    }
+    
+    .price-tag .badge {
+        font-size: 0.9rem;
+        padding: 5px 10px;
+    }
+
+
+    .no-data-container {
+  text-align: center;
+  padding: 2rem;
+  margin: 2rem auto;
+  max-width: 500px;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  background: white;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.no-data-container:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.12);
+}
+
+.no-data-container.info {
+  border-top: 4px solid #3498db;
+}
+
+.no-data-container.industrial {
+  border-top: 4px solid #2ecc71;
+}
+
+.no-data-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  opacity: 0.8;
+}
+
+.no-data-container.info .no-data-icon {
+  color: #3498db;
+}
+
+.no-data-container.industrial .no-data-icon {
+  color: #2ecc71;
+}
+
+.no-data-title {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+  color: #2c3e50;
+  font-weight: 600;
+}
+
+.no-data-text {
+  color: #7f8c8d;
+  margin-bottom: 0.5rem;
+  font-size: 1.1rem;
+}
+
+.no-data-hint {
+  color: #bdc3c7;
+  font-style: italic;
+  font-size: 0.9rem;
+  margin-top: 1rem;
+}
+
+
+    .icon-wrapper {
+        width: 80px;
+        height: 80px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .bg-primary-light {
+        background-color: rgba(13, 110, 253, 0.1);
+    }
+    
+    .card-space {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        border-radius: 12px;
+    }
+    
+    .card-space:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    }
+    
+    .btn-univ {
+        background-color: #0d6efd;
+        color: white;
+        border-radius: 8px;
+        padding: 8px 20px;
+        transition: all 0.3s;
+    }
+    
+    .btn-univ:hover {
+        background-color: #0b5ed7;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+    .icon-wrapper {
+        width: 80px;
+        height: 80px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .bg-primary-light {
+        background-color: rgba(13, 110, 253, 0.1);
+    }
+    
+    .card-space {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        border-radius: 12px;
+    }
+    
+    .card-space:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    }
+    
+    .btn-univ {
+        background-color: #0d6efd;
+        color: white;
+        border-radius: 8px;
+        padding: 8px 20px;
+        transition: all 0.3s;
+    }
+    
+    .btn-univ:hover {
+        background-color: #0b5ed7;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    
+    .modal-header {
+        border-bottom: none;
+    }
+    
+    .modal-content {
+        border-radius: 12px;
+        border: none;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    }

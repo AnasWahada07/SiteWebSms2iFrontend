@@ -1,0 +1,169 @@
+/* GLOBAL DASHBOARD STYLING */
+.inscription-dashboard {
+  padding: 30px;
+  font-family: 'Inter', 'Segoe UI', sans-serif;
+  background: linear-gradient(to bottom right, #f1f5f9, #ffffff);
+  min-height: 100vh;
+}
+
+.dashboard-title {
+  font-size: 28px;
+  font-weight: 600;
+  color: #2c3e50;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+}
+
+.dashboard-title i {
+  color: #5a67d8;
+  margin-right: 10px;
+}
+
+/* TABLE WRAPPER */
+.table-wrapper {
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
+  overflow-x: auto;
+  padding: 10px;
+}
+
+/* TABLE STYLING */
+.modern-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 1100px;
+}
+
+.modern-table th {
+  background-color: #374151;
+  color: #f9fafb;
+  font-size: 14px;
+  padding: 14px 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.modern-table td {
+  padding: 12px;
+  font-size: 15px;
+  color: #374151;
+  text-align: center;
+}
+
+.modern-table tr:nth-child(even) {
+  background-color: #f9fafb;
+}
+
+.modern-table tr:hover {
+  background-color: #f1f5f9;
+  transition: background 0.3s;
+}
+
+.is-editing {
+  background-color: #fffbe6 !important;
+}
+
+/* INPUT & SELECT */
+.form-input,
+.form-select {
+  width: 100%;
+  padding: 8px 10px;
+  font-size: 14px;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  background-color: #fff;
+  transition: border 0.3s, box-shadow 0.3s;
+}
+
+.form-input:focus,
+.form-select:focus {
+  outline: none;
+  border-color: #5a67d8;
+  box-shadow: 0 0 0 3px rgba(90, 103, 216, 0.2);
+}
+
+/* BADGES (ÉTAT) */
+.status-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-weight: 600;
+  font-size: 13px;
+  color: #fff;
+}
+
+.status-icon {
+  font-size: 14px;
+}
+
+.is-pending {
+  background-color: #f59e0b; /* amber-500 */
+}
+
+.is-confirmed {
+  background-color: #10b981; /* emerald-500 */
+}
+
+/* ACTION BUTTONS */
+.action-group {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+}
+
+.action-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.action-btn:hover {
+  transform: scale(1.2);
+}
+
+.edit-btn i {
+  color: #3b82f6;
+}
+
+.delete-btn i {
+  color: #ef4444;
+}
+
+.save-btn i {
+  color: #10b981;
+}
+
+.cancel-btn i {
+  color: #9ca3af;
+}
+
+/* RESPONSIVE EMAIL / PHONE LINKS */
+.email-link, .phone-link {
+  color: #2563eb;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.email-link:hover,
+.phone-link:hover {
+  color: #1e40af;
+}
+
+/* FOOTER */
+.summary-footer {
+  margin-top: 25px;
+  text-align: right;
+  color: #475569;
+  font-size: 14px;
+}
+
+.total-count i {
+  margin-right: 6px;
+  color: #0ea5e9;
+}

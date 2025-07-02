@@ -1,0 +1,231 @@
+.container {
+  max-width: 1200px;
+  margin: auto;
+  padding: 2rem;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+/* --- TITRES --- */
+.section-title {
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+  color: #333;
+}
+
+/* --- LISTE DES CARTES --- */
+.galerie-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+/* --- CARTE DE GALERIE --- */
+.galerie-card {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.2s;
+}
+
+.galerie-card:hover {
+  transform: translateY(-5px);
+}
+
+.card-image-container {
+  position: relative;
+  height: 180px;
+  overflow: hidden;
+}
+
+.card-image-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.card-actions {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: flex;
+  gap: 10px;
+}
+
+.action-btn {
+  background-color: rgba(255, 255, 255, 0.9);
+  border: none;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.action-btn:hover {
+  background-color: #f0f0f0;
+}
+
+.edit-btn i {
+  color: #007bff;
+}
+
+.delete-btn i {
+  color: #dc3545;
+}
+
+.card-content {
+  padding: 1rem;
+}
+
+.card-content h3 {
+  margin: 0 0 0.5rem;
+  font-size: 1.2rem;
+}
+
+.card-content .description {
+  font-size: 0.95rem;
+  color: #666;
+}
+
+.client-info {
+  margin-top: 0.8rem;
+  font-size: 0.9rem;
+  color: #444;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* --- FORMULAIRE --- */
+.galerie-form {
+  margin-top: 3rem;
+  padding: 2rem;
+  background: #f9f9f9;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.05);
+}
+
+.galerie-form.active {
+  border-left: 5px solid #007bff;
+}
+
+.form-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.form-header h2 {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  font-size: 1.3rem;
+  color: #999;
+  cursor: pointer;
+}
+
+.form-group {
+  margin-bottom: 1.2rem;
+}
+
+.form-group label {
+  font-weight: 600;
+  display: block;
+  margin-bottom: 0.4rem;
+}
+
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  padding: 0.6rem 0.8rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 0.95rem;
+}
+
+textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.file-upload .upload-area {
+  border: 2px dashed #aaa;
+  border-radius: 8px;
+  text-align: center;
+  padding: 1.5rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.upload-area:hover {
+  background: #f0f0f0;
+}
+
+.upload-area i {
+  font-size: 2rem;
+  color: #007bff;
+  margin-bottom: 0.5rem;
+}
+
+.button-group {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.primary-btn,
+.secondary-btn {
+  padding: 0.6rem 1.2rem;
+  font-size: 1rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.primary-btn {
+  background-color: #007bff;
+  color: #fff;
+}
+
+.primary-btn:disabled {
+  background-color: #b3d3ff;
+  cursor: not-allowed;
+}
+
+.secondary-btn {
+  background-color: #ccc;
+  color: #333;
+}
+
+.secondary-btn:hover {
+  background-color: #bbb;
+}
+
+.no-galerie-message {
+  text-align: center;
+  padding: 3rem 1rem;
+  color: #888;
+  font-size: 1.1rem;
+  border: 2px dashed #ccc;
+  border-radius: 12px;
+  background-color: #fdfdfd;
+  margin-top: 2rem;
+}
+
+.no-galerie-message i {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  color: #aaa;
+}
