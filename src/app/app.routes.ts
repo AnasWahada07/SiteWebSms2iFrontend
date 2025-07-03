@@ -13,6 +13,8 @@ import { ViewProjet } from './view-projet/view-projet';
 import { ViewGalerie } from './view-galerie/view-galerie';
 import { ViewFormation } from './view-formation/view-formation';
 import { ViewInscription } from './view-inscription/view-inscription';
+import { DashboardAdmin } from './dashboard-admin/dashboard-admin';
+import { ResetPassword } from './reset-password/reset-password';
 
 export const routes: Routes = [
 
@@ -30,6 +32,10 @@ export const routes: Routes = [
             { path: 'viewgalerie', component: ViewGalerie },
             { path: 'viewformation', component: ViewFormation },
             { path: 'viewinscription', component: ViewInscription },
+            { path: 'Admin', component: DashboardAdmin },
+            { path: 'password', component: ResetPassword },
+
+
 
 
 
