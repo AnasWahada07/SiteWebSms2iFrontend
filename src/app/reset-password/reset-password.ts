@@ -16,37 +16,51 @@ export class ResetPassword implements OnInit {
 
 
 
-    resetForm!: FormGroup;
-  token!: string;
+  resetForm!: FormGroup;
+  token: string = '';
+  submitted = false;
+  successMessage: string = '';
+  errorMessage: string = '';
 
   constructor(
-    private route: ActivatedRoute,
     private fb: FormBuilder,
+    private route: ActivatedRoute,
     private authService: AuthService,
     private router: Router
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.token = this.route.snapshot.queryParamMap.get('token') || '';
     this.resetForm = this.fb.group({
       newPassword: ['', [Validators.required, Validators.minLength(6)]]
     });
   }
 
-  onSubmit() {
-    if (this.resetForm.valid) {
-      const newPassword = this.resetForm.value.newPassword;
+  onSubmit(): void {
+    this.submitted = true;
+    this.successMessage = '';
+    this.errorMessage = '';
 
-      this.authService.updatePassword(this.token, newPassword).subscribe({
-        next: () => {
-          alert('Mot de passe modifié avec succès.');
-          this.router.navigate(['/']);
-        },
-        error: () => {
-          alert('Erreur lors de la mise à jour du mot de passe.');
-        }
-      });
+    if (this.resetForm.invalid) {
+      return;
     }
-  }
 
+    const newPassword = this.resetForm.get('newPassword')?.value;
+
+    this.authService.resetPasswordConfirm(this.token, newPassword).subscribe({
+      next: () => {
+        this.successMessage = '🎉 Votre mot de passe a été réinitialisé avec succès.';
+        this.resetForm.reset();
+        this.submitted = false;
+
+        setTimeout(() => {
+          this.router.navigate(['/signin']);
+        }, 3000);
+      },
+      error: () => {
+        this.errorMessage = '❌ Erreur lors de la réinitialisation du mot de passe.';
+        this.submitted = false;
+      }
+    });
+  }
 }

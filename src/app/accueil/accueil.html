@@ -20,33 +20,25 @@
           <a href="/signin" class="btn btn-outline-light btn-sm">Se connecter</a>
           <a href="/signup" class="btn btn-light text-dark btn-sm">S'inscrire</a>
         </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="langDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Langue</a>
-          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="langDropdown">
-            <li><a class="dropdown-item" href="#" onclick="setLanguage('fr')">Français</a></li>
-            <li><a class="dropdown-item" href="#" onclick="setLanguage('en')">English</a></li>
-            <li><a class="dropdown-item" href="#" onclick="setLanguage('ar')">العربية</a></li>
-          </ul>
-        </li>
+        <!-- 🔁 Google Translate intégré -->
         <li class="nav-item">
+          <div id="google_translate_element"></div>
         </li>
       </ul>
     </div>
   </div>
 </nav>
-
 <!-- Script for Dark Mode and Language Switch -->
-<script>
-  function setLanguage(lang) {
-    const elements = document.querySelectorAll('[data-i18n]');
-    fetch(`/assets/i18n/${lang}.json`).then(res => res.json()).then(data => {
-      elements.forEach(el => {
-        const key = el.getAttribute('data-i18n');
-        if (data[key]) el.innerText = data[key];
-      });
-    });
+<script type="text/javascript">
+  function googleTranslateElementInit() {
+    new google.translate.TranslateElement({
+      pageLanguage: 'fr',
+      includedLanguages: 'fr,en,ar',
+      layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+    }, 'google_translate_element');
   }
 </script>
+<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
     <!-- Hero Section -->
     <section class="hero-section" id="home">
         <div class="floating-elements">
