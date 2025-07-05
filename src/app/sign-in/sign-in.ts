@@ -32,27 +32,33 @@ export class SignIn {
     this.showPassword = !this.showPassword;
   }
 
-  onSubmit() {
-    if (this.loginForm.valid) {
-      this.authService.login(this.loginForm.value).subscribe({
-        next: (res) => {
-          localStorage.setItem('token', res.token);
-          localStorage.setItem('userId', res.userId?.toString() || '');
-          localStorage.setItem('role', res.role);
+onSubmit(): void {
+  if (this.loginForm.invalid) return;
 
-          if (res.role?.toLowerCase() === 'admin') {
-            this.router.navigate(['/Admin']);
-          } else {
-            alert('Accès refusé : vous n\'êtes pas administrateur.');
-            this.router.navigate(['/acceuil']);
-          }
-        },
-        error: () => {
-          alert('Email ou mot de passe incorrect.');
-        }
-      });
+  const { email, password } = this.loginForm.value;
+
+this.authService.login(email, password).subscribe({
+  next: (res) => {
+    console.log('✅ Connexion réussie');
+
+    localStorage.setItem('token', res.token);
+    localStorage.setItem('userId', res.userId.toString());
+    localStorage.setItem('role', res.role);
+    localStorage.setItem('nom', res.nom || '');
+    localStorage.setItem('prenom', res.prenom || '');
+    localStorage.setItem('username', `${res.prenom} ${res.nom}`.trim());
+      if (res.role.toLowerCase() === 'admin') {
+        this.router.navigate(['/Admin']);
+      } else {
+        alert('Accès refusé : vous n\'êtes pas administrateur.');
+        this.router.navigate(['/acceuil']);
+      }
+    }, 
+    error: () => {
+      alert('Email ou mot de passe incorrect.');
     }
-  }
+  });
+}
 
 
 onForgetPassword() {
@@ -66,7 +72,7 @@ onForgetPassword() {
   this.authService.resetPassword(email).subscribe({
     next: (res: string) => {
       console.log(res); 
-      alert(res); // res est un string retourné depuis Spring Boot
+      alert(res); 
     },
     error: (err) => {
       console.error(err);
