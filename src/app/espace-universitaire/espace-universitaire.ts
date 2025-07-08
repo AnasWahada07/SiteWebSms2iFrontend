@@ -71,12 +71,13 @@ export class EspaceUniversitaire implements OnInit {
       prenom: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       adresse: ['', Validators.required],
-      telephone: ['', Validators.required],
+      telephone: ['', [Validators.required, Validators.pattern('^[0-9]{8,15}$')]],
       specialite: ['', Validators.required],
-      competence: ['', Validators.required],
-      experience: ['', Validators.required],
+      competence: ['', [Validators.required, Validators.minLength(10)]],
+      experience: ['', [Validators.required, Validators.minLength(10)]],
+      cv: [null, Validators.required] 
     });
-
+  
     this.demandeMaquetteForm = this.fb.group({
       nomComplet: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
@@ -113,12 +114,10 @@ export class EspaceUniversitaire implements OnInit {
   }
 
   // ✅ Envoi proposition maquette avec fichier
-  onFileSelectedMaquette(event: Event): void {
-    const target = event.target as HTMLInputElement;
-    if (target.files && target.files.length > 0) {
-      this.selectedFileMaquette = target.files[0];
-    }
-  }
+onFileSelectedMaquette(event: any): void {
+  const file = event.target.files[0];
+  this.selectedFileMaquette = file ? file : null;
+}
 
   onSubmitsMaquette(): void {
     if (!this.selectedFileMaquette) {
@@ -168,9 +167,12 @@ export class EspaceUniversitaire implements OnInit {
   }
 
   onFileChange(event: any) {
-    this.selectedFile = event.target.files[0];
+    const file = event.target.files[0];
+    if (file) {
+      this.competenceForm.patchValue({ cv: file });
+    }
   }
-
+  
   onSubmit() {
     if (!this.selectedFile) {
       alert('Veuillez joindre un fichier.');

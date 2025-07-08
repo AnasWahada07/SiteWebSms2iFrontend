@@ -16,8 +16,8 @@ import { ViewGalerie } from './view-galerie/view-galerie';
 import { ViewFormation } from './view-formation/view-formation';
 import { ViewInscription } from './view-inscription/view-inscription';
 import { DashboardAdmin } from './dashboard-admin/dashboard-admin';
+import { adminGuard } from './Services/Admin.guard';
 
-import { adminGuard } from './Services/Admin.guard'; 
 
 export const routes: Routes = [
   { path: 'acceuil', component: Accueil },
@@ -37,5 +37,5 @@ export const routes: Routes = [
   { path: 'viewgalerie', component: ViewGalerie, canActivate: [adminGuard] },
   { path: 'viewformation', component: ViewFormation, canActivate: [adminGuard] },
   { path: 'viewinscription', component: ViewInscription, canActivate: [adminGuard] },
-  { path: 'Admin', component: DashboardAdmin, canActivate: [adminGuard] }
+  { path: 'Admin', component: DashboardAdmin, canActivate: [adminGuard] },
 ];

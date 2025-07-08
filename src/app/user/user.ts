@@ -1,19 +1,20 @@
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { 
-  faSyncAlt, 
-  faEdit, 
-  faTrashAlt, 
-  faTimes, 
+import {
+  faSyncAlt,
+  faEdit,
+  faTrashAlt,
+  faTimes,
   faSave,
   faUsersCog,
   faUserSlash,
   faCheckCircle,
   faExclamationCircle
 } from '@fortawesome/free-solid-svg-icons';
+import { Subject, takeUntil } from 'rxjs';
 
 interface UserModel {
   id: number;
@@ -35,12 +36,14 @@ interface UserModel {
   templateUrl: './user.html',
   styleUrls: ['./user.css']
 })
-export class User implements OnInit {
+export class User implements OnInit, OnDestroy {
   users: UserModel[] = [];
   errorMessage = '';
   successMessage = '';
   selectedUser: UserModel | null = null;
   isLoading = false;
+
+  private destroy$ = new Subject<void>(); // ✅ Pour clean RXJS
 
   // Font Awesome icons
   icons = {
@@ -61,9 +64,15 @@ export class User implements OnInit {
     this.loadUsers();
   }
 
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
   loadUsers(): void {
     this.isLoading = true;
     this.http.get<UserModel[]>('http://localhost:8080/api/users/getalluser')
+      .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (users) => {
           this.users = users;
@@ -84,6 +93,7 @@ export class User implements OnInit {
 
     this.isLoading = true;
     this.http.delete(`http://localhost:8080/api/users/${id}`)
+      .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: () => {
           this.users = this.users.filter(user => user.id !== id);
@@ -109,6 +119,7 @@ export class User implements OnInit {
 
     this.isLoading = true;
     this.http.put(`http://localhost:8080/api/users/${updatedUser.id}`, updatedUser)
+      .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: () => {
           const index = this.users.findIndex(u => u.id === updatedUser.id);

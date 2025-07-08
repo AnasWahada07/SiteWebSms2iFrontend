@@ -81,48 +81,80 @@
           <div class="row mb-3">
             <div class="col-md-6">
               <label>Nom</label>
-              <input type="text" class="form-control" formControlName="nom" required />
+              <input type="text" class="form-control" formControlName="nom" />
+              <div class="text-danger mt-1" *ngIf="competenceForm.get('nom')?.touched && competenceForm.get('nom')?.invalid">
+                Le nom est requis.
+              </div>
             </div>
+
             <div class="col-md-6">
               <label>Prénom</label>
-              <input type="text" class="form-control" formControlName="prenom" required />
+              <input type="text" class="form-control" formControlName="prenom" />
+              <div class="text-danger mt-1" *ngIf="competenceForm.get('prenom')?.touched && competenceForm.get('prenom')?.invalid">
+                Le prénom est requis.
+              </div>
             </div>
           </div>
 
           <div class="mb-3">
             <label>Email</label>
-            <input type="email" class="form-control" formControlName="email" required />
+            <input type="email" class="form-control" formControlName="email" />
+            <div class="text-danger mt-1" *ngIf="competenceForm.get('email')?.touched && competenceForm.get('email')?.invalid">
+              <span *ngIf="competenceForm.get('email')?.errors?.['required']">L'email est requis.</span>
+              <span *ngIf="competenceForm.get('email')?.errors?.['email']">Format d'email invalide.</span>
+            </div>
           </div>
 
           <div class="mb-3">
             <label>Adresse</label>
-            <input type="text" class="form-control" formControlName="adresse" required />
+            <input type="text" class="form-control" formControlName="adresse" />
+            <div class="text-danger mt-1" *ngIf="competenceForm.get('adresse')?.touched && competenceForm.get('adresse')?.invalid">
+              L'adresse est requise.
+            </div>
           </div>
 
           <div class="mb-3">
             <label>Téléphone</label>
-            <input type="tel" class="form-control" formControlName="telephone" required />
+            <input type="tel" class="form-control" formControlName="telephone" />
+            <div class="text-danger mt-1" *ngIf="competenceForm.get('telephone')?.touched && competenceForm.get('telephone')?.invalid">
+              <span *ngIf="competenceForm.get('telephone')?.errors?.['required']">Le téléphone est requis.</span>
+              <span *ngIf="competenceForm.get('telephone')?.errors?.['pattern']">Numéro invalide (8 à 15 chiffres).</span>
+            </div>
           </div>
 
           <div class="mb-3">
             <label>Spécialité</label>
-            <input type="text" class="form-control" formControlName="specialite" required />
+            <input type="text" class="form-control" formControlName="specialite" />
+            <div class="text-danger mt-1" *ngIf="competenceForm.get('specialite')?.touched && competenceForm.get('specialite')?.invalid">
+              La spécialité est requise.
+            </div>
           </div>
 
           <div class="mb-3">
             <label>Compétence</label>
-            <textarea class="form-control" formControlName="competence" required></textarea>
+            <textarea class="form-control" formControlName="competence"></textarea>
+            <div class="text-danger mt-1" *ngIf="competenceForm.get('competence')?.touched && competenceForm.get('competence')?.invalid">
+              <span *ngIf="competenceForm.get('competence')?.errors?.['required']">Ce champ est requis.</span>
+              <span *ngIf="competenceForm.get('competence')?.errors?.['minlength']">Minimum 10 caractères.</span>
+            </div>
           </div>
 
           <div class="mb-3">
             <label>Expérience</label>
-            <textarea class="form-control" formControlName="experience" required></textarea>
+            <textarea class="form-control" formControlName="experience"></textarea>
+            <div class="text-danger mt-1" *ngIf="competenceForm.get('experience')?.touched && competenceForm.get('experience')?.invalid">
+              <span *ngIf="competenceForm.get('experience')?.errors?.['required']">Ce champ est requis.</span>
+              <span *ngIf="competenceForm.get('experience')?.errors?.['minlength']">Minimum 10 caractères.</span>
+            </div>
           </div>
 
           <div class="mb-3">
             <label>Pièce jointe (CV)</label>
-            <input type="file" class="form-control" (change)="onFileChange($event)" accept=".pdf,.doc,.docx" required />
+            <input type="file" class="form-control" (change)="onFileChange($event)" accept=".pdf,.doc,.docx" />
             <small class="text-muted">Formats acceptés : PDF, DOC, DOCX</small>
+            <div class="text-danger mt-1" *ngIf="competenceForm.get('cv')?.touched && competenceForm.get('cv')?.invalid">
+              Le fichier CV est requis.
+            </div>
           </div>
         </div>
 
@@ -136,6 +168,7 @@
     </div>
   </div>
 </div>
+
 <!-- Modal Proposer Sujet PFE -->
 <form #pfeForm="ngForm" (ngSubmit)="onSubmitpfe()" enctype="multipart/form-data">
   <div class="modal fade" id="proposerSujetModal" tabindex="-1" aria-labelledby="proposerSujetModalLabel" aria-hidden="true">
@@ -150,53 +183,138 @@
         </div>
 
         <div class="modal-body">
+
           <div class="row mb-3">
             <div class="col-md-6">
               <label for="pfeNom" class="form-label">Nom</label>
-              <input type="text" class="form-control" id="pfeNom" name="nom" [(ngModel)]="sujet.nom" required />
+              <input
+                type="text"
+                class="form-control"
+                id="pfeNom"
+                name="nom"
+                [(ngModel)]="sujet.nom"
+                #nom="ngModel"
+                required
+                minlength="2"
+              />
+              <div *ngIf="(nom.touched || pfeForm.submitted) && nom.invalid" class="text-danger">
+                <small *ngIf="nom.errors?.['required']">Le nom est requis.</small>
+                <small *ngIf="nom.errors?.['minlength']">Minimum 2 caractères requis.</small>
+              </div>
             </div>
+
             <div class="col-md-6">
               <label for="pfePrenom" class="form-label">Prénom</label>
-              <input type="text" class="form-control" id="pfePrenom" name="prenom" [(ngModel)]="sujet.prenom" required />
+              <input
+                type="text"
+                class="form-control"
+                id="pfePrenom"
+                name="prenom"
+                [(ngModel)]="sujet.prenom"
+                #prenom="ngModel"
+                required
+                minlength="2"
+              />
+              <div *ngIf="(prenom.touched || pfeForm.submitted) && prenom.invalid" class="text-danger">
+                <small *ngIf="prenom.errors?.['required']">Le prénom est requis.</small>
+                <small *ngIf="prenom.errors?.['minlength']">Minimum 2 caractères requis.</small>
+              </div>
             </div>
           </div>
 
           <div class="mb-3">
             <label for="pfeEmail" class="form-label">Email</label>
-            <input type="email" class="form-control" id="pfeEmail" name="email" [(ngModel)]="sujet.email" required />
+            <input
+              type="email"
+              class="form-control"
+              id="pfeEmail"
+              name="email"
+              [(ngModel)]="sujet.email"
+              #email="ngModel"
+              required
+              email
+            />
+            <div *ngIf="(email.touched || pfeForm.submitted) && email.invalid" class="text-danger">
+              <small *ngIf="email.errors?.['required']">L’email est requis.</small>
+              <small *ngIf="email.errors?.['email']">Format email invalide.</small>
+            </div>
           </div>
 
-                    <div class="mb-3">
-              <label for="pfeTitre" class="form-label">Titre</label>
-              <input type="text" class="form-control" id="pfeTitre" name="titre" [(ngModel)]="sujet.titre" required />
+          <div class="mb-3">
+            <label for="pfeTitre" class="form-label">Titre</label>
+            <input
+              type="text"
+              class="form-control"
+              id="pfeTitre"
+              name="titre"
+              [(ngModel)]="sujet.titre"
+              #titre="ngModel"
+              required
+              minlength="5"
+            />
+            <div *ngIf="(titre.touched || pfeForm.submitted) && titre.invalid" class="text-danger">
+              <small *ngIf="titre.errors?.['required']">Le titre est requis.</small>
+              <small *ngIf="titre.errors?.['minlength']">Minimum 5 caractères requis.</small>
             </div>
-
+          </div>
 
           <div class="mb-3">
             <label for="pfeDescription" class="form-label">Description</label>
-            <textarea class="form-control" id="pfeDescription" name="description" [(ngModel)]="sujet.description" rows="5" required></textarea>
+            <textarea
+              class="form-control"
+              id="pfeDescription"
+              name="description"
+              [(ngModel)]="sujet.description"
+              #description="ngModel"
+              rows="5"
+              required
+              minlength="10"
+            ></textarea>
+            <div *ngIf="(description.touched || pfeForm.submitted) && description.invalid" class="text-danger">
+              <small *ngIf="description.errors?.['required']">La description est requise.</small>
+              <small *ngIf="description.errors?.['minlength']">Minimum 10 caractères requis.</small>
+            </div>
           </div>
 
-          <!-- 🆕 Champ Type Sujet -->
           <div class="mb-3">
             <label for="pfeType" class="form-label">Type de sujet PFE</label>
-            <select class="form-select" id="pfeType" name="typeSujet" [(ngModel)]="sujet.type" required>
+            <select
+              class="form-select"
+              id="pfeType"
+              name="typeSujet"
+              [(ngModel)]="sujet.type"
+              #typeSujet="ngModel"
+              required
+            >
               <option value="" disabled selected hidden>-- Sélectionnez un type --</option>
               <option value="Informatique">Informatique</option>
               <option value="Informatique Industrielle">Informatique Industrielle</option>
             </select>
+            <div *ngIf="(typeSujet.touched || pfeForm.submitted) && typeSujet.invalid" class="text-danger">
+              <small>Veuillez sélectionner un type de sujet.</small>
+            </div>
           </div>
 
           <div class="mb-3">
             <label for="pfeFile" class="form-label">Pièce jointe</label>
-            <input type="file" class="form-control" id="pfeFile" (change)="onFileChangepfe($event)" accept=".pdf,.doc,.docx" required />
+            <input
+              type="file"
+              class="form-control"
+              id="pfeFile"
+              (change)="onFileChangepfe($event)"
+              accept=".pdf,.doc,.docx"
+              required
+            />
             <small class="text-muted">Formats acceptés : .pdf, .doc, .docx</small>
+            <div *ngIf="pfeForm.submitted && !selectedFile" class="text-danger mt-1">
+              <small>Veuillez sélectionner un fichier valide.</small>
+            </div>
           </div>
         </div>
 
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
-          <button type="submit" class="btn btn-primary" [disabled]="pfeForm.invalid">
+          <button type="submit" class="btn btn-primary" [disabled]="pfeForm.invalid || !selectedFile">
             <i class="fas fa-check me-1"></i> Proposer
           </button>
         </div>
@@ -205,7 +323,6 @@
     </div>
   </div>
 </form>
-<!-- Espace Projet Fin d'Étude -->
 <!-- section PFE -->
 <section id="pfe" class="py-5 bg-light-blue">
   <div class="container">
@@ -304,52 +421,87 @@
 </section>
 
 <!-- Modal d'inscription -->
-<div class="modal fade" id="inscriptionModal" tabindex="-1" aria-labelledby="inscriptionModalLabel" aria-hidden="true"
-     (shown.bs.modal)="openModal($event)">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header bg-univ text-white">
-        <h5 class="modal-title" id="inscriptionModalLabel">Inscription au PFE</h5>
-        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <form id="formInscriptionPFE">
+<form #inscriptionForm="ngForm" (ngSubmit)="submitInscription()" id="formInscriptionPFE">
+  <div class="modal fade" id="inscriptionModal" tabindex="-1" aria-labelledby="inscriptionModalLabel" aria-hidden="true"
+       (shown.bs.modal)="openModal($event)">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header bg-univ text-white">
+          <h5 class="modal-title" id="inscriptionModalLabel">Inscription au PFE</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+
+        <div class="modal-body">
           <input type="hidden" id="projetSelectionne">
           <input type="hidden" id="projetId">
 
           <div class="mb-3">
             <label for="nom" class="form-label">Nom</label>
-            <input type="text" class="form-control" id="nom" name="nom" [(ngModel)]="formData.nom" required>
+            <input type="text" class="form-control" id="nom" name="nom" [(ngModel)]="formData.nom" #nom="ngModel" required>
+            <div *ngIf="(nom.touched || inscriptionForm.submitted) && nom.invalid" class="text-danger">
+              <small>Le nom est requis.</small>
+            </div>
           </div>
+
           <div class="mb-3">
             <label for="prenom" class="form-label">Prénom</label>
-            <input type="text" class="form-control" id="prenom" name="prenom" [(ngModel)]="formData.prenom" required>
+            <input type="text" class="form-control" id="prenom" name="prenom" [(ngModel)]="formData.prenom" #prenom="ngModel" required>
+            <div *ngIf="(prenom.touched || inscriptionForm.submitted) && prenom.invalid" class="text-danger">
+              <small>Le prénom est requis.</small>
+            </div>
           </div>
+
           <div class="mb-3">
             <label for="telephone" class="form-label">Téléphone</label>
-            <input type="tel" class="form-control" id="telephone" name="telephone" [(ngModel)]="formData.telephone" required>
+            <input type="tel" class="form-control" id="telephone" name="telephone"
+                   [(ngModel)]="formData.telephone" #telephone="ngModel"
+                   required pattern="^[0-9]{8,15}$">
+            <div *ngIf="(telephone.touched || inscriptionForm.submitted) && telephone.invalid" class="text-danger">
+              <small *ngIf="telephone.errors?.['required']">Le numéro est requis.</small>
+              <small *ngIf="telephone.errors?.['pattern']">Numéro invalide (8 à 15 chiffres).</small>
+            </div>
           </div>
+
           <div class="mb-3">
             <label for="email" class="form-label">Email</label>
-            <input type="email" class="form-control" id="email" name="email" [(ngModel)]="formData.email" required>
+            <input type="email" class="form-control" id="email" name="email"
+                   [(ngModel)]="formData.email" #email="ngModel"
+                   required email
+                   [pattern]="'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$'">
+            <div *ngIf="(email.touched || inscriptionForm.submitted) && email.invalid" class="text-danger">
+              <small *ngIf="email.errors?.['required']">L’email est requis.</small>
+              <small *ngIf="email.errors?.['email']">Format d’email invalide.</small>
+              <small *ngIf="email.errors?.['pattern']">Veuillez entrer un email valide </small>
+            </div>
           </div>
+
           <div class="mb-3">
             <label for="classe" class="form-label">Classe</label>
-            <input type="text" class="form-control" id="classe" name="classe" [(ngModel)]="formData.classe" required>
+            <input type="text" class="form-control" id="classe" name="classe" [(ngModel)]="formData.classe" #classe="ngModel" required>
+            <div *ngIf="(classe.touched || inscriptionForm.submitted) && classe.invalid" class="text-danger">
+              <small>La classe est requise.</small>
+            </div>
           </div>
+
           <div class="mb-3">
             <label for="specialite" class="form-label">Spécialité</label>
-            <input type="text" class="form-control" id="specialite" name="specialite" [(ngModel)]="formData.specialite" required>
+            <input type="text" class="form-control" id="specialite" name="specialite" [(ngModel)]="formData.specialite" #specialite="ngModel" required>
+            <div *ngIf="(specialite.touched || inscriptionForm.submitted) && specialite.invalid" class="text-danger">
+              <small>La spécialité est requise.</small>
+            </div>
           </div>
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-        <button type="button" class="btn btn-univ" (click)="submitInscription()">Confirmer</button>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+          <button type="submit" class="btn btn-univ" [disabled]="inscriptionForm.invalid">
+            Confirmer
+          </button>
+        </div>
       </div>
     </div>
   </div>
-</div>
+</form>
 
 
 <script>
@@ -431,37 +583,66 @@
 
       <form (ngSubmit)="onSubmitsMaquette()" #maquetteForm="ngForm" enctype="multipart/form-data">
         <div class="modal-body p-4">
-          <div class="row mb-3">
+          <div class="row">
             <div class="col-md-6 mb-3">
               <label for="maqNom" class="form-label">Nom</label>
-              <input type="text" class="form-control" id="maqNom" name="nom" [(ngModel)]="form.nom" required>
+              <input type="text" class="form-control" id="maqNom" name="nom" [(ngModel)]="form.nom" #nom="ngModel" required>
+              <div *ngIf="(nom.touched || maquetteForm.submitted) && nom.invalid" class="text-danger">
+                <small>Le nom est requis.</small>
+              </div>
             </div>
             <div class="col-md-6 mb-3">
               <label for="maqPrenom" class="form-label">Prénom</label>
-              <input type="text" class="form-control" id="maqPrenom" name="prenom" [(ngModel)]="form.prenom" required>
+              <input type="text" class="form-control" id="maqPrenom" name="prenom" [(ngModel)]="form.prenom" #prenom="ngModel" required>
+              <div *ngIf="(prenom.touched || maquetteForm.submitted) && prenom.invalid" class="text-danger">
+                <small>Le prénom est requis.</small>
+              </div>
             </div>
           </div>
 
           <div class="mb-3">
             <label for="maqtelephone" class="form-label">Téléphone</label>
-            <input type="tel" class="form-control" id="maqtelephone" name="telephone" [(ngModel)]="form.telephone" required>
+            <input type="tel" class="form-control" id="maqtelephone" name="telephone"
+                   [(ngModel)]="form.telephone" #telephone="ngModel"
+                   required pattern="^[0-9]{8,15}$">
+            <div *ngIf="(telephone.touched || maquetteForm.submitted) && telephone.invalid" class="text-danger">
+              <small *ngIf="telephone.errors?.['required']">Le téléphone est requis.</small>
+              <small *ngIf="telephone.errors?.['pattern']">Le numéro doit contenir entre 8 et 15 chiffres.</small>
+            </div>
           </div>
 
           <div class="mb-3">
             <label for="maqEmail" class="form-label">Email</label>
-            <input type="email" class="form-control" id="maqEmail" name="email" [(ngModel)]="form.email" required>
+            <input type="email" class="form-control" id="maqEmail" name="email"
+                   [(ngModel)]="form.email" #email="ngModel"
+                   required email
+                   [pattern]="'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$'">
+            <div *ngIf="(email.touched || maquetteForm.submitted) && email.invalid" class="text-danger">
+              <small *ngIf="email.errors?.['required']">L’email est requis.</small>
+              <small *ngIf="email.errors?.['email']">Format d’email invalide.</small>
+              <small *ngIf="email.errors?.['pattern']">Veuillez saisir un email valide .</small>
+            </div>
           </div>
 
           <div class="mb-3">
             <label for="maqDescription" class="form-label">Description de la maquette</label>
-            <textarea class="form-control" id="maqDescription" name="description" [(ngModel)]="form.description" rows="4" required></textarea>
+            <textarea class="form-control" id="maqDescription" name="description"
+                      [(ngModel)]="form.description" #description="ngModel"
+                      rows="4" required></textarea>
+            <div *ngIf="(description.touched || maquetteForm.submitted) && description.invalid" class="text-danger">
+              <small>La description est requise.</small>
+            </div>
           </div>
 
           <div class="mb-3">
             <label for="maqFichier" class="form-label">Fichier de la maquette (PDF, ZIP, etc.)</label>
-            <input class="form-control" type="file" id="maqFichier" (change)="onFileSelectedMaquette($event)" required accept=".pdf,.zip,.doc,.docx">
+            <input class="form-control" type="file" id="maqFichier"
+                   (change)="onFileSelectedMaquette($event)" accept=".pdf,.zip,.doc,.docx" required>
+            <div *ngIf="maquetteForm.submitted && !selectedFileMaquette" class="text-danger mt-1">
+              <small>Veuillez sélectionner un fichier à joindre.</small>
+            </div>
 
-            <!-- Aperçu fichier -->
+            <!-- Aperçu du fichier -->
             <div *ngIf="selectedFileMaquette" class="mt-2 text-muted small">
               <i class="fas fa-file me-1"></i> {{ selectedFileMaquette.name }}
             </div>
@@ -518,26 +699,42 @@
         </div>
 
         <div class="modal-body p-4">
+
+          <!-- Nom complet -->
           <div class="mb-3">
             <label for="demNomComplet" class="form-label">Nom complet</label>
-            <input type="text" id="demNomComplet" class="form-control" formControlName="nomComplet" required />
+            <input type="text" id="demNomComplet" class="form-control" formControlName="nomComplet" />
+            <div *ngIf="demandeMaquetteForm.get('nomComplet')?.touched && demandeMaquetteForm.get('nomComplet')?.invalid" class="text-danger">
+              <small *ngIf="demandeMaquetteForm.get('nomComplet')?.errors?.['required']">Le nom complet est requis.</small>
+            </div>
           </div>
 
+          <!-- Email -->
           <div class="mb-3">
             <label for="demEmail" class="form-label">Email</label>
-            <input type="email" id="demEmail" class="form-control" formControlName="email" required />
+            <input type="email" id="demEmail" class="form-control" formControlName="email" />
+            <div *ngIf="demandeMaquetteForm.get('email')?.touched && demandeMaquetteForm.get('email')?.invalid" class="text-danger">
+              <small *ngIf="demandeMaquetteForm.get('email')?.errors?.['required']">L’email est requis.</small>
+              <small *ngIf="demandeMaquetteForm.get('email')?.errors?.['email']">Format d’email invalide.</small>
+            </div>
           </div>
 
+          <!-- Institution -->
           <div class="mb-3">
             <label for="demInstitution" class="form-label">Institution/Établissement</label>
             <input type="text" id="demInstitution" class="form-control" formControlName="institution" />
           </div>
 
+          <!-- Description -->
           <div class="mb-3">
             <label for="demDescription" class="form-label">Description de votre besoin</label>
-            <textarea class="form-control" id="demDescription" formControlName="descriptionBesoin" rows="4" required></textarea>
+            <textarea class="form-control" id="demDescription" formControlName="descriptionBesoin" rows="4"></textarea>
+            <div *ngIf="demandeMaquetteForm.get('descriptionBesoin')?.touched && demandeMaquetteForm.get('descriptionBesoin')?.invalid" class="text-danger">
+              <small *ngIf="demandeMaquetteForm.get('descriptionBesoin')?.errors?.['required']">La description est requise.</small>
+            </div>
           </div>
 
+          <!-- Date souhaitée -->
           <div class="mb-3">
             <label for="demDate" class="form-label">Date souhaitée de réception</label>
             <input type="date" id="demDate" class="form-control" formControlName="dateSouhaitee" />

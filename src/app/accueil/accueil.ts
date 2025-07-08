@@ -41,11 +41,11 @@ export class Accueil {
       name: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       phone: [''],
-      subject: [''],
+      subject: ['', Validators.required],
       message: ['', Validators.required],
-      consent: [false]
+      consent: [false, Validators.requiredTrue]
     });
-
+  
   }
 
   ngOnInit(): void {
@@ -60,19 +60,14 @@ export class Accueil {
 
 
   onSubmit(): void {
-    this.submitted = true;
-    if (this.contactForm.invalid) return;
-
-    this.contactService.sendMessage(this.contactForm.value).subscribe({
-      next: () => {
-        this.successMessage = 'Message envoyé avec succès.';
-        this.contactForm.reset();
-        this.submitted = false;
-      },
-      error: () => {
-        this.errorMessage = 'Erreur lors de l\'envoi. Veuillez réessayer.';
-      }
-    });
+    if (this.contactForm.valid) {
+      // simulate sending data
+      this.successMessage = "Message envoyé avec succès.";
+      this.errorMessage = '';
+      this.contactForm.reset();
+    } else {
+      this.successMessage = '';
+      this.errorMessage = "Veuillez corriger les erreurs du formulaire.";
+    }
   }
 }
-

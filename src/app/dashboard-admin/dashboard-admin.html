@@ -10,14 +10,26 @@
       <h1>SMS2I</h1>
     </div>
     <div class="header-right">
-      <div class="notif-icon">
-        <span class="badge">3</span>
-        <svg viewBox="0 0 24 24">
-          <path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5S10.5 3.17 10.5 4v.68C7.64 5.36 6 7.93 6 11v5l-2 2v1h16v-1l-2-2z"/>
-        </svg>
+<div class="notif-icon" style="position: relative;" (click)="showDropdown = !showDropdown">
+  <span class="badge" *ngIf="unseenCount > 0">{{ unseenCount }}</span>
+  <svg viewBox="0 0 24 24" style="cursor: pointer;">
+    <path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5S10.5 3.17 10.5 4v.68C7.64 5.36 6 7.93 6 11v5l-2 2v1h16v-1l-2-2z"/>
+  </svg>
+
+  <!-- Menu déroulant -->
+  <div *ngIf="showDropdown" class="notif-dropdown">
+    <div *ngIf="notifications.length > 0; else noNotif">
+      <div *ngFor="let notif of notifications" (click)="markNotificationAsSeen(notif)" class="notif-item">
+        <span class="notif-message">{{ notif.message }}</span>
+        <span class="notif-date">{{ notif.createdAt | date:'short' }}</span>
       </div>
+    </div>
+    <ng-template #noNotif>
+      <div class="notif-item">Aucune nouvelle notification</div>
+    </ng-template>
+  </div>
+</div>
       <div class="user-profile">
-        <div class="avatar">AD</div>
         <span class="username">{{ adminName }}</span>
         <svg class="dropdown-arrow" viewBox="0 0 24 24">
           <path d="M7 10l5 5 5-5z"/>
@@ -62,14 +74,12 @@
         <li>
           <a href="viewformation">
             <svg viewBox="0 0 24 24"><path d="M21.41 11.58l-9-9C12.05 2.22 11.55 2 11 2H4c-1.1 0-2 .9-2 2v7c0 .55.22 1.05.59 1.42l9 9c.36.36.86.58 1.41.58.55 0 1.05-.22 1.41-.59l7-7c.37-.36.59-.86.59-1.41 0-.55-.23-1.06-.59-1.42zM13 20.01L4 11V4h7v-.01l9 9-7 7.02z"/><circle cx="6.5" cy="6.5" r="1.5"/></svg>
-            <span>Les Demandes PFE
-
-</span>
+            <span>Les Demandes PFE</span>
           </a>
         </li>
         <li>
           <a href="viewinscription">
-            <svg viewBox="0 0 24 24"><path d="M19.43 12.98c.04-.32.07-.64.07-.98s-.03-.66-.07-.98l2.11-1.65c.19-.15.24-.42.12-.64l-2-3.46c-.12-.22-.39-.3-.61-.22l-2.49 1c-.52-.4-1.08-.73-1.69-.98l-.38-2.65C14.46 2.18 14.25 2 14 2h-4c-.25 0-.46.18-.49.42l-.38 2.65c-.61.25-1.17.59-1.69.98l-2.49-1c-.23-.09-.49 0-.61.22l-2 3.46c-.13.22-.07.49.12.64l2.11 1.65c-.04.32-.07.65-.07.98s.03.66.07.98l-2.11 1.65c-.19.15-.24.42-.12.64l2 3.46c.12.22.39.3.61.22l2.49-1c.52.4 1.08.73 1.69.98l.38 2.65c.03.24.24.42.49.42h4c.25 0 .46-.18.49-.42l.38-2.65c.61-.25 1.17-.59 1.69-.98l2.49 1c.23.09.49 0 .61-.22l2-3.46c.12-.22.07-.49-.12-.64l-2.11-1.65zM12 15.5c-1.93 0-3.5-1.57-3.5-3.5s1.57-3.5 3.5-3.5 3.5 1.57 3.5 3.5-1.57 3.5-3.5 3.5z"/></svg>
+            <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm.31-8.86c-1.77-.45-2.34-.94-2.34-1.67 0-.84.79-1.43 2.1-1.43 1.38 0 1.9.66 1.94 1.64h1.71c-.05-1.34-.87-2.57-2.49-2.97V5H10.9v1.69c-1.51.32-2.72 1.3-2.72 2.81 0 1.79 1.49 2.69 3.66 3.21 1.95.46 2.34 1.15 2.34 1.87 0 .53-.39 1.39-2.1 1.39-1.6 0-2.23-.72-2.32-1.64H8.04c.1 1.7 1.36 2.66 2.86 2.97V19h2.34v-1.67c1.52-.29 2.72-1.16 2.73-2.77-.01-2.2-1.9-2.96-3.66-3.42z"/></svg>
             <span>Les Inscriptions PFE</span>
           </a>
         </li>
@@ -79,174 +89,112 @@
 
   <!-- Main Content -->
   <main class="dashboard-main">
-    <div class="stats-grid">
-      <div class="stat-card">
-        <div class="stat-icon" style="background-color: #3498db20;">
-          <svg viewBox="0 0 24 24" style="fill: #3498db;"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
-        </div>
-        <div class="stat-info">
-          <div class="stat-value">2,451</div>
-          <div class="stat-label">Utilisateurs</div>
-        </div>
-        <div class="stat-trend up">+12%</div>
-      </div>
-
-      <div class="stat-card">
-        <div class="stat-icon" style="background-color: #2ecc7120;">
-          <svg viewBox="0 0 24 24" style="fill: #2ecc71;"><path d="M13 2.05v3.03c3.39.49 6 3.39 6 6.92 0 .9-.18 1.75-.48 2.54l2.6 1.53c.56-1.24.88-2.62.88-4.07 0-5.18-3.95-9.45-9-9.95zM12 19c-3.87 0-7-3.13-7-7 0-3.53 2.61-6.43 6-6.92V2.05c-5.06.5-9 4.76-9 9.95 0 5.52 4.47 10 9.99 10 3.31 0 6.24-1.61 8.06-4.09l-2.6-1.53C16.17 17.98 14.21 19 12 19z"/></svg>
-        </div>
-        <div class="stat-info">
-          <div class="stat-value">4,236</div>
-          <div class="stat-label">Visites</div>
-        </div>
-        <div class="stat-trend up">+8%</div>
-      </div>
-
-      <div class="stat-card">
-        <div class="stat-icon" style="background-color: #e74c3c20;">
-          <svg viewBox="0 0 24 24" style="fill: #e74c3c;"><path d="M11 15h2v2h-2zm0-8h2v6h-2zm.99-5C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"/></svg>
-        </div>
-        <div class="stat-info">
-          <div class="stat-value">324</div>
-          <div class="stat-label">Erreurs</div>
-        </div>
-        <div class="stat-trend down">-4%</div>
-      </div>
-
-      <div class="stat-card">
-        <div class="stat-icon" style="background-color: #f39c1220;">
-          <svg viewBox="0 0 24 24" style="fill: #f39c12;"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm.31-8.86c-1.77-.45-2.34-.94-2.34-1.67 0-.84.79-1.43 2.1-1.43 1.38 0 1.9.66 1.94 1.64h1.71c-.05-1.34-.87-2.57-2.49-2.97V5H10.9v1.69c-1.51.32-2.72 1.3-2.72 2.81 0 1.79 1.49 2.69 3.66 3.21 1.95.46 2.34 1.15 2.34 1.87 0 .53-.39 1.39-2.1 1.39-1.6 0-2.23-.72-2.32-1.64H8.04c.1 1.7 1.36 2.66 2.86 2.97V19h2.34v-1.67c1.52-.29 2.72-1.16 2.73-2.77-.01-2.2-1.9-2.96-3.66-3.42z"/></svg>
-        </div>
-        <div class="stat-info">
-          <div class="stat-value">€18,290</div>
-          <div class="stat-label">Revenus</div>
-        </div>
-        <div class="stat-trend up">+21%</div>
-      </div>
+    <!-- Welcome Section -->
+<div class="welcome-section">
+  <div class="welcome-card">
+    <div class="welcome-content">
+      <h2>Bonjour, {{ adminName }}! <span class="welcome-emoji">👋</span></h2>
+      <p class="welcome-message">
+        Nous sommes ravis de vous revoir. Votre journée commence sous les meilleurs auspices !
+      </p>
+      <p class="date-info">
+        Aujourd'hui, nous sommes le {{ currentDate | date:'fullDate' }}
+      </p>
     </div>
-
-    <div class="content-grid">
-      <div class="card recent-orders">
-        <div class="card-header">
-          <h2>Commandes récentes</h2>
-          <a href="#" class="view-all">Voir tout</a>
-        </div>
-        <div class="card-body">
-          <table>
-            <thead>
-              <tr>
-                <th>N° Commande</th>
-                <th>Client</th>
-                <th>Date</th>
-                <th>Montant</th>
-                <th>Statut</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>#ORD-7852</td>
-                <td>Sophie Martin</td>
-                <td>12/06/2023</td>
-                <td>€149.99</td>
-                <td><span class="status completed">Complété</span></td>
-                <td><button class="action-btn"><svg viewBox="0 0 24 24"><path d="M6 10c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm12 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm-6 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/></svg></button></td>
-              </tr>
-              <tr>
-                <td>#ORD-7851</td>
-                <td>Thomas Leroy</td>
-                <td>11/06/2023</td>
-                <td>€89.50</td>
-                <td><span class="status shipped">Expédié</span></td>
-                <td><button class="action-btn"><svg viewBox="0 0 24 24"><path d="M6 10c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm12 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm-6 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/></svg></button></td>
-              </tr>
-              <tr>
-                <td>#ORD-7850</td>
-                <td>Laura Dubois</td>
-                <td>11/06/2023</td>
-                <td>€215.00</td>
-                <td><span class="status processing">Traitement</span></td>
-                <td><button class="action-btn"><svg viewBox="0 0 24 24"><path d="M6 10c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm12 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm-6 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/></svg></button></td>
-              </tr>
-              <tr>
-                <td>#ORD-7849</td>
-                <td>Marc Bertrand</td>
-                <td>10/06/2023</td>
-                <td>€59.99</td>
-                <td><span class="status canceled">Annulé</span></td>
-                <td><button class="action-btn"><svg viewBox="0 0 24 24"><path d="M6 10c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm12 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm-6 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/></svg></button></td>
-              </tr>
-              <tr>
-                <td>#ORD-7848</td>
-                <td>Émilie Rousseau</td>
-                <td>09/06/2023</td>
-                <td>€129.99</td>
-                <td><span class="status pending">Paiement</span></td>
-                <td><button class="action-btn"><svg viewBox="0 0 24 24"><path d="M6 10c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm12 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm-6 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/></svg></button></td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      <div class="card activity-feed">
-        <div class="card-header">
-          <h2>Activité récente</h2>
-        </div>
-        <div class="card-body">
-          <div class="activity-item">
-            <div class="activity-avatar">JD</div>
-            <div class="activity-content">
-              <div class="activity-meta">
-                <span class="activity-user">Jean Dupont</span>
-                <span class="activity-time">Il y a 2 min</span>
-              </div>
-              <p class="activity-text">a créé une nouvelle commande #ORD-7852</p>
-            </div>
-          </div>
-          <div class="activity-item">
-            <div class="activity-avatar">SM</div>
-            <div class="activity-content">
-              <div class="activity-meta">
-                <span class="activity-user">Sophie Martin</span>
-                <span class="activity-time">Il y a 15 min</span>
-              </div>
-              <p class="activity-text">a mis à jour son profil</p>
-            </div>
-          </div>
-          <div class="activity-item">
-            <div class="activity-avatar">AD</div>
-            <div class="activity-content">
-              <div class="activity-meta">
-                <span class="activity-user">Admin</span>
-                <span class="activity-time">Il y a 1h</span>
-              </div>
-              <p class="activity-text">a ajouté 3 nouveaux produits</p>
-            </div>
-          </div>
-          <div class="activity-item">
-            <div class="activity-avatar">TL</div>
-            <div class="activity-content">
-              <div class="activity-meta">
-                <span class="activity-user">Thomas Leroy</span>
-                <span class="activity-time">Il y a 3h</span>
-              </div>
-              <p class="activity-text">a annulé sa commande #ORD-7841</p>
-            </div>
-          </div>
-          <div class="activity-item">
-            <div class="activity-avatar">LD</div>
-            <div class="activity-content">
-              <div class="activity-meta">
-                <span class="activity-user">Laura Dubois</span>
-                <span class="activity-time">Il y a 5h</span>
-              </div>
-              <p class="activity-text">a effectué un paiement de €215.00</p>
-            </div>
-          </div>
-        </div>
-      </div>
+    <div class="welcome-illustration">
+      <svg viewBox="0 0 500 300">
+        <path d="M50,150 Q150,50 250,150 T450,150" fill="none" stroke="#4e73df" stroke-width="3"/>
+        <circle cx="50" cy="150" r="8" fill="#4e73df"/>
+        <circle cx="250" cy="150" r="8" fill="#4e73df"/>
+        <circle cx="450" cy="150" r="8" fill="#4e73df"/>
+      </svg>
     </div>
-  </main>
-
+  </div>
 </div>
+    <!-- Quick Stats -->
+    <div class="quick-stats">
+      <div class="stat-card motivation-card">
+        <div class="stat-icon">
+          <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+        </div>
+        <div class="stat-content">
+          <h3>Votre impact aujourd'hui</h3>
+          <p>Chaque action que vous entreprenez fait une différence pour nos utilisateurs.</p>
+        </div>
+      </div>
+
+<div class="stat-card weather-card">
+  <div class="stat-icon">
+    <ng-container *ngIf="weatherIconUrl; else fallbackIcon">
+      <img [src]="weatherIconUrl" alt="Météo" width="48" height="48" />
+    </ng-container>
+    <ng-template #fallbackIcon>
+      <svg viewBox="0 0 24 24" width="48" height="48" fill="#4e73df">
+        <path d="M6 14l3 3v5h6v-5l3-3V9H6v5zm2-3h8v2.17l-3 3V20h-2v-3.83l-3-3V11zm3-9h2v3h-2zM3.502 5.874L4.916 4.46l2.122 2.12-1.414 1.415zm13.458.708l2.123-2.12 1.413 1.416-2.123 2.12z"/>
+      </svg>
+    </ng-template>
+  </div>
+  <div class="stat-content">
+    <h3>Météo du jour</h3>
+    <p>{{ weatherText }}</p>
+  </div>
+</div>
+    </div>
+
+    <!-- Personalized Content -->
+    <div class="personalized-content">
+      <div class="content-card quote-card">
+        <div class="card-header">
+          <h3>Citation inspirante</h3>
+        </div>
+        <div class="card-body">
+          <blockquote>
+            "L'excellence n'est pas un acte, mais une habitude. Vous êtes ce que vous faites de manière répétée."
+            <footer>- Aristote</footer>
+          </blockquote>
+        </div>
+      </div>
+
+      <div class="content-card tips-card">
+        <div class="card-header">
+          <h3>Conseil du jour</h3>
+        </div>
+        <div class="card-body">
+          <p>Prenez 5 minutes pour planifier votre journée - cela peut vous faire gagner des heures de travail.</p>
+          <div class="tip-actions">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Recent Activity -->
+<div class="recent-activity">
+  <div class="card">
+    <div class="card-header">
+      <h2>Les Notifications</h2>
+      <a href="#" class="view-all">Voir tout</a>
+    </div>
+    <div class="card-body">
+
+      <div *ngIf="allNotifications.length > 0; else noActivity">
+        <div class="activity-item" *ngFor="let notif of allNotifications">
+          <div class="activity-avatar" [style.background-color]="notif.seen ? '#ccc' : '#4e73df'">🔔</div>
+          <div class="activity-content">
+            <div class="activity-meta">
+              <span class="activity-user">{{ notif.type | titlecase }}</span>
+              <span class="activity-time">{{ notif.createdAt | date:'short' }}</span>
+            </div>
+          <p class="activity-text" [ngClass]="{ 'unseen': !notif.seen }">{{ notif.message }}</p>
+          </div>
+        </div>
+      </div>
+
+      <ng-template #noActivity>
+        <p>Aucune activité récente</p>
+      </ng-template>
+
+    </div>
+  </div>
+</div>
+
+

@@ -263,20 +263,30 @@
 
         <div class="modal-body">
           <div class="row g-3">
+            <!-- Nom -->
             <div class="col-md-6">
               <div class="form-floating">
                 <input type="text" class="form-control" id="contact-name" formControlName="name" placeholder="Votre nom">
                 <label for="contact-name">Votre nom *</label>
               </div>
+              <div *ngIf="contactForm.get('name')?.invalid && contactForm.get('name')?.touched" class="text-danger mt-1">
+                Le nom est requis.
+              </div>
             </div>
 
+            <!-- Email -->
             <div class="col-md-6">
               <div class="form-floating">
                 <input type="email" class="form-control" id="contact-email" formControlName="email" placeholder="Votre email">
                 <label for="contact-email">Votre email *</label>
               </div>
+              <div *ngIf="contactForm.get('email')?.invalid && contactForm.get('email')?.touched" class="text-danger mt-1">
+                <div *ngIf="contactForm.get('email')?.errors?.['required']">L'email est requis.</div>
+                <div *ngIf="contactForm.get('email')?.errors?.['email']">Format d'email invalide.</div>
+              </div>
             </div>
 
+            <!-- Téléphone -->
             <div class="col-md-6">
               <div class="form-floating">
                 <input type="tel" class="form-control" id="contact-phone" formControlName="phone" placeholder="Votre téléphone">
@@ -284,6 +294,7 @@
               </div>
             </div>
 
+            <!-- Sujet -->
             <div class="col-md-6">
               <div class="form-floating">
                 <select class="form-select" id="contact-subject" formControlName="subject">
@@ -293,17 +304,25 @@
                   <option value="formation">Information sur les formations</option>
                   <option value="autre">Autre demande</option>
                 </select>
-                <label for="contact-subject">Sujet</label>
+                <label for="contact-subject">Sujet *</label>
+              </div>
+              <div *ngIf="contactForm.get('subject')?.invalid && contactForm.get('subject')?.touched" class="text-danger mt-1">
+                Le sujet est requis.
               </div>
             </div>
 
+            <!-- Message -->
             <div class="col-12">
               <div class="form-floating">
                 <textarea class="form-control" id="contact-message" formControlName="message" style="height: 150px" placeholder="Votre message"></textarea>
                 <label for="contact-message">Votre message *</label>
               </div>
+              <div *ngIf="contactForm.get('message')?.invalid && contactForm.get('message')?.touched" class="text-danger mt-1">
+                Le message est requis.
+              </div>
             </div>
 
+            <!-- Consentement -->
             <div class="col-12">
               <div class="form-check">
                 <input class="form-check-input" type="checkbox" id="contact-consent" formControlName="consent">
@@ -311,8 +330,12 @@
                   J'autorise SMS2I à utiliser mes informations pour répondre à ma demande.
                 </label>
               </div>
+              <div *ngIf="contactForm.get('consent')?.invalid && contactForm.get('consent')?.touched" class="text-danger mt-1">
+                Vous devez accepter la politique de confidentialité.
+              </div>
             </div>
 
+            <!-- Messages de succès/erreur -->
             <div class="col-12">
               <div *ngIf="successMessage" class="alert alert-success mt-3">
                 {{ successMessage }}
@@ -414,3 +437,5 @@
     </ng-container>
   </div>
 </section>
+
+
