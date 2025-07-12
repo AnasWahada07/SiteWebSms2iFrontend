@@ -1,4 +1,4 @@
-import { Component, Inject, PLATFORM_ID } from '@angular/core';
+import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ContactService } from '../Services/Contact.service';
@@ -23,7 +23,10 @@ import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
   templateUrl: './accueil.html',
   styleUrl: './accueil.css'
 })
-export class Accueil {
+export class Accueil implements OnInit  {
+
+  currentYear: number = new Date().getFullYear();
+
 
 
     contactForm: FormGroup;
@@ -59,15 +62,25 @@ export class Accueil {
 
 
 
-  onSubmit(): void {
-    if (this.contactForm.valid) {
-      // simulate sending data
-      this.successMessage = "Message envoyé avec succès.";
-      this.errorMessage = '';
-      this.contactForm.reset();
-    } else {
-      this.successMessage = '';
-      this.errorMessage = "Veuillez corriger les erreurs du formulaire.";
-    }
+onSubmit(): void {
+  if (this.contactForm.valid) {
+    const contactData = this.contactForm.value;
+
+    this.contactService.sendMessage(contactData).subscribe({
+      next: (res) => {
+        this.successMessage = res;
+        this.errorMessage = '';
+        this.contactForm.reset();
+      },
+      error: (err) => {
+        console.error('Erreur envoi :', err);
+        this.successMessage = '';
+        this.errorMessage = "❌ Une erreur est survenue lors de l'envoi du message.";
+      }
+    });
+  } else {
+    this.successMessage = '';
+    this.errorMessage = "Veuillez corriger les erreurs du formulaire.";
   }
+}
 }

@@ -18,6 +18,10 @@ declare var bootstrap: any;
 })
 export class EspaceUniversitaire implements OnInit {
 
+  successMessage: string = '';
+errorMessage: string = '';
+
+
   form = {
     nom: '',
     prenom: '',
@@ -75,7 +79,6 @@ export class EspaceUniversitaire implements OnInit {
       specialite: ['', Validators.required],
       competence: ['', [Validators.required, Validators.minLength(10)]],
       experience: ['', [Validators.required, Validators.minLength(10)]],
-      cv: [null, Validators.required] 
     });
   
     this.demandeMaquetteForm = this.fb.group({
@@ -96,7 +99,7 @@ export class EspaceUniversitaire implements OnInit {
 
     const data = this.demandeMaquetteForm.value;
 
-    this.http.post('http://localhost:8080/api/demandes', data).subscribe({
+    this.http.post('http://192.168.1.54:8082/api/demandes', data).subscribe({
       next: () => {
         const modal = bootstrap.Modal.getInstance(document.getElementById('demanderMaquetteModal')!);
         modal?.hide();
@@ -119,40 +122,44 @@ onFileSelectedMaquette(event: any): void {
   this.selectedFileMaquette = file ? file : null;
 }
 
-  onSubmitsMaquette(): void {
-    if (!this.selectedFileMaquette) {
-      alert("Veuillez sélectionner un fichier.");
-      return;
-    }
-
-    this.loading = true;
-
-    const formData = new FormData();
-    formData.append('nom', this.form.nom);
-    formData.append('prenom', this.form.prenom);
-    formData.append('telephone', this.form.telephone);
-    formData.append('email', this.form.email);
-    formData.append('description', this.form.description);
-    formData.append('fichier', this.selectedFileMaquette);
-
-    this.http.post('http://localhost:8080/api/maquettes', formData).subscribe({
-      next: () => {
-        this.loading = false;
-        this.resetMaquetteForm();
-        const modal = bootstrap.Modal.getInstance(document.getElementById('proposerMaquetteModal')!);
-        modal?.hide();
-        const toastEl = document.getElementById('toastSuccess');
-        if (toastEl) new bootstrap.Toast(toastEl).show();
-      },
-      error: (err) => {
-        this.loading = false;
-        console.error(err);
-        const toastErr = document.getElementById('toastError');
-        if (toastErr) new bootstrap.Toast(toastErr).show();
-      }
-    });
+onSubmitsMaquette(): void {
+  if (!this.selectedFileMaquette) {
+    alert("Veuillez sélectionner un fichier.");
+    return;
   }
 
+  this.loading = true;
+
+  const formData = new FormData();
+
+  const maquetteData = {
+    nom: this.form.nom,
+    prenom: this.form.prenom,
+    telephone: this.form.telephone,
+    email: this.form.email,
+    description: this.form.description
+  };
+
+  formData.append('maquette', new Blob([JSON.stringify(maquetteData)], { type: 'application/json' }));
+  formData.append('file', this.selectedFileMaquette);
+
+  this.http.post('http://192.168.1.54:8082/api/maquettes', formData).subscribe({
+    next: () => {
+      this.loading = false;
+      this.resetMaquetteForm();
+      const modal = bootstrap.Modal.getInstance(document.getElementById('proposerMaquetteModal')!);
+      modal?.hide();
+      const toastEl = document.getElementById('toastSuccess');
+      if (toastEl) new bootstrap.Toast(toastEl).show();
+    },
+    error: (err) => {
+      this.loading = false;
+      console.error(err);
+      const toastErr = document.getElementById('toastError');
+      if (toastErr) new bootstrap.Toast(toastErr).show();
+    }
+  });
+}
   resetMaquetteForm(): void {
     this.form = {
       nom: '',
@@ -166,36 +173,57 @@ onFileSelectedMaquette(event: any): void {
     if (fileInput) fileInput.value = '';
   }
 
-  onFileChange(event: any) {
-    const file = event.target.files[0];
-    if (file) {
-      this.competenceForm.patchValue({ cv: file });
-    }
+onFileChange(event: any): void {
+  const file = event.target.files[0];
+  if (file) {
+    this.selectedFile = file;
+    console.log("✅ Fichier sélectionné :", file.name);
   }
+}
   
-  onSubmit() {
-    if (!this.selectedFile) {
-      alert('Veuillez joindre un fichier.');
-      return;
+onSubmit(): void {
+if (this.competenceForm.invalid || !this.selectedFile) {
+  this.errorMessage = "Veuillez remplir tous les champs requis et sélectionner un fichier.";
+  this.successMessage = "";
+  return;
+}
+
+  const formData = new FormData();
+
+  // ✅ correspond à @RequestPart("cv")
+  formData.append('cv', this.selectedFile);
+
+  // ✅ correspond à @RequestPart("competence")
+  const competencePayload = this.competenceForm.value;
+  formData.append('competence', new Blob(
+    [JSON.stringify(competencePayload)],
+    { type: 'application/json' }
+  ));
+
+  this.competenceService.addCompetence(formData).subscribe({
+    next: () => {
+      this.successMessage = "Compétence envoyée avec succès.";
+      this.resetCompetenceForm();
+    },
+    error: (err) => {
+      console.error("❌ Erreur backend :", err);
+      this.errorMessage = "Erreur lors de l'envoi.";
     }
+  });
+}
+resetCompetenceForm(): void {
+  this.competenceForm.reset();
+  this.selectedFile = null;
 
-    const formData = new FormData();
-    formData.append('cv', this.selectedFile);
+  const fileInput = document.getElementById('cvFileInput') as HTMLInputElement;
+  if (fileInput) fileInput.value = '';
+}
 
-    const competencePayload = this.competenceForm.value;
-    formData.append('competence', new Blob([JSON.stringify(competencePayload)], { type: 'application/json' }));
+showToast(id: string): void {
+  const el = document.getElementById(id);
+  if (el) new bootstrap.Toast(el).show();
+}
 
-    this.competenceService.addCompetence(formData).subscribe({
-      next: () => {
-        alert('Compétence envoyée avec succès');
-        this.competenceForm.reset();
-      },
-      error: (err) => {
-        console.error(err);
-        alert("Erreur lors de l'envoi");
-      }
-    });
-  }
 
   openModal(event: any): void {
     const btn = event.relatedTarget;
@@ -234,7 +262,7 @@ onFileSelectedMaquette(event: any): void {
     formData.append('sujet', new Blob([JSON.stringify(this.sujet)], { type: 'application/json' }));
     formData.append('file', this.selectedFile);
 
-    this.http.post('http://localhost:8080/api/sujets', formData).subscribe({
+    this.http.post('http://192.168.1.54:8082/api/sujets', formData).subscribe({
       next: () => {
         alert('Sujet proposé avec succès !');
         this.resetForm();

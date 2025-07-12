@@ -10,7 +10,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class InscriptionPFEService {
-  private apiUrl = 'http://localhost:8080/api/inscriptions';
+  private apiUrl = 'http://192.168.1.54:8082/api/inscriptions';
 
   constructor(private http: HttpClient) {}
 

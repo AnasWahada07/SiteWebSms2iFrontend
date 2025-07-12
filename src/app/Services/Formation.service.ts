@@ -11,9 +11,9 @@ import { FormationsParTypeDTO } from '../Class/FormationsParTypeDTO';
   providedIn: 'root'
 })
 export class FormationService {
-  private apiUrl = 'http://localhost:8080/api/formations';
+  private apiUrl = 'http://192.168.1.54:8082/api/formations';
 
-    private Url = 'http://localhost:8080/api/formations/confirmetype';
+    private Url = 'http://192.168.1.54:8082/api/formations/confirmetype';
 
 
   constructor(private http: HttpClient) {}

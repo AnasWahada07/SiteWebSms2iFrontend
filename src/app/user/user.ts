@@ -43,7 +43,7 @@ export class User implements OnInit, OnDestroy {
   selectedUser: UserModel | null = null;
   isLoading = false;
 
-  private destroy$ = new Subject<void>(); // ✅ Pour clean RXJS
+  private destroy$ = new Subject<void>(); 
 
   // Font Awesome icons
   icons = {
@@ -71,7 +71,7 @@ export class User implements OnInit, OnDestroy {
 
   loadUsers(): void {
     this.isLoading = true;
-    this.http.get<UserModel[]>('http://localhost:8080/api/users/getalluser')
+    this.http.get<UserModel[]>('http://192.168.1.54:8082/api/users/getalluser')
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (users) => {
@@ -92,7 +92,7 @@ export class User implements OnInit, OnDestroy {
     if (!confirmDelete) return;
 
     this.isLoading = true;
-    this.http.delete(`http://localhost:8080/api/users/${id}`)
+    this.http.delete(`http://192.168.1.54:8082/api/users/${id}`)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: () => {
@@ -118,7 +118,7 @@ export class User implements OnInit, OnDestroy {
     if (!updatedUser) return;
 
     this.isLoading = true;
-    this.http.put(`http://localhost:8080/api/users/${updatedUser.id}`, updatedUser)
+    this.http.put(`http://192.168.1.54:8082/api/users/${updatedUser.id}`, updatedUser)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: () => {

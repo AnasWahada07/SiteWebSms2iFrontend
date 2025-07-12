@@ -78,6 +78,13 @@
         </div>
 
         <div class="modal-body">
+          <div *ngIf="successMessage" class="alert alert-success">
+            {{ successMessage }}
+          </div>
+          <div *ngIf="errorMessage" class="alert alert-danger">
+            {{ errorMessage }}
+          </div>
+
           <div class="row mb-3">
             <div class="col-md-6">
               <label>Nom</label>
@@ -150,17 +157,21 @@
 
           <div class="mb-3">
             <label>Pièce jointe (CV)</label>
-            <input type="file" class="form-control" (change)="onFileChange($event)" accept=".pdf,.doc,.docx" />
+            <input 
+              type="file" 
+              id="cvFileInput"
+              class="form-control" 
+              (change)="onFileChange($event)" 
+              accept=".pdf,.doc,.docx" 
+            />
             <small class="text-muted">Formats acceptés : PDF, DOC, DOCX</small>
-            <div class="text-danger mt-1" *ngIf="competenceForm.get('cv')?.touched && competenceForm.get('cv')?.invalid">
-              Le fichier CV est requis.
-            </div>
           </div>
         </div>
 
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
-          <button type="submit" class="btn btn-univ" [disabled]="competenceForm.invalid">
+          <!-- ✅ plus de [disabled] -->
+          <button type="submit" class="btn btn-univ">
             <i class="fas fa-check me-1"></i> Soumettre
           </button>
         </div>
@@ -753,7 +764,6 @@
 </div>
 
     
-    <!-- Modal Inscription Événement -->
     <div class="modal fade" id="inscriptionEventModal" tabindex="-1" aria-labelledby="inscriptionEventModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">

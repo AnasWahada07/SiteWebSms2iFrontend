@@ -62,6 +62,6 @@ export class ViewFormation implements OnInit {
   }
 
   getFileUrl(fileName: string): string {
-    return `http://localhost:8080/api/sujets/files/${fileName}`;
+    return `http://192.168.1.54:8082/api/sujets/files/${fileName}`;
   }
 }

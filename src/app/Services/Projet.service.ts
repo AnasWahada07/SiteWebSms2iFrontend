@@ -8,7 +8,7 @@ import { Projet } from '../Class/Projet';
 })
 export class ProjetService {
 
-  private apiUrl = 'http://localhost:8080/api/projets';
+  private apiUrl = 'http://192.168.1.54:8082/api/projets';
   private getAllUrl = `${this.apiUrl}/gettallprojets`; 
 
   constructor(private http: HttpClient) {}

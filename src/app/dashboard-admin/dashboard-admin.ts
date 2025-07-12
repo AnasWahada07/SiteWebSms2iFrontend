@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { PLATFORM_ID } from '@angular/core';
@@ -29,37 +29,44 @@ export class DashboardAdmin implements OnInit {
     private router: Router,
     private authService: AuthService,
     private notificationService: NotificationService,
+      private cdr: ChangeDetectorRef,
     @Inject(PLATFORM_ID) private platformId: Object
   ) {}
 
-  ngOnInit(): void {
-    if (isPlatformBrowser(this.platformId)) {
-      const user: AuthResponse | null = this.authService.getUser();
-      if (user && user.prenom && user.nom) {
-        this.adminName = `${user.prenom} ${user.nom}`;
-        console.log('NOM/PRENOM RÉCUPÉRÉS :', this.adminName);
-      } else {
-        this.adminName = 'Admin';
-      }
+ngOnInit(): void {
+  if (isPlatformBrowser(this.platformId)) {
+    const user: AuthResponse | null = this.authService.getUser();
+    if (user && user.prenom && user.nom) {
+      this.adminName = `${user.prenom} ${user.nom}`;
+      console.log('NOM/PRENOM RÉCUPÉRÉS :', this.adminName);
+    } else {
+      this.adminName = 'Admin';
+    }
 
+    this.loadNotifications();
+    this.loadAllNotifications();
+    this.loadWeather();
+
+    setInterval(() => {
       this.loadNotifications();
       this.loadAllNotifications();
-      this.loadWeather();
-    }
+    }, 2000); 
   }
-
-  loadAllNotifications(): void {
-    this.notificationService.getAllNotifications().subscribe((data) => {
-      this.allNotifications = data;
+}
+loadAllNotifications(): void {
+  this.notificationService.getAllNotifications().subscribe((data) => {
+    this.allNotifications = data.sort((a, b) => {
+      return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
     });
-  }
-
+  });
+}
   loadNotifications(): void {
-    this.notificationService.getUnseenNotifications().subscribe((data) => {
-      this.notifications = data;
-      this.unseenCount = data.length;
-    });
-  }
+  this.notificationService.getUnseenNotifications().subscribe((data) => {
+    this.notifications = data;
+    this.unseenCount = data.length;
+    this.cdr.detectChanges(); 
+  });
+}
 
   markNotificationAsSeen(notification: Notification): void {
     this.notificationService.markAsSeen(notification.id).subscribe(() => {
@@ -75,11 +82,21 @@ loadWeather(): void {
       this.weatherIconUrl = `https://openweathermap.org/img/wn/${data.icon}@2x.png`;
     },
     error: err => {
-      console.error('❌ Erreur météo :', err); // ← VOIR L'ERREUR EXACTE ICI
+      console.error('❌ Erreur météo :', err); 
       this.weatherText = 'Erreur de chargement météo';
     }
   });
 }
+
+deleteNotification(notification: Notification): void {
+  if (confirm('Êtes-vous sûr de vouloir supprimer cette notification ?')) {
+    this.notificationService.deleteNotification(notification.id).subscribe(() => {
+      this.loadAllNotifications();
+      this.loadNotifications();
+    });
+  }
+}
+
 
   logout(): void {
     if (isPlatformBrowser(this.platformId)) {

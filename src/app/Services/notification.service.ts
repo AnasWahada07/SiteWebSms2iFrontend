@@ -12,14 +12,13 @@ export interface Notification {
 
 @Injectable({ providedIn: 'root' })
 export class NotificationService {
-  private baseUrl = 'http://localhost:8080/api/notifications';
-  private weatherApiKey = 'd4018802d6ad0ae758708a18a30c201b'
-; 
+  private baseUrl = 'http://192.168.1.54:8082/api/notifications';
+  private weatherApiKey = 'd4018802d6ad0ae758708a18a30c201b'; 
   private city = 'Tunis'; 
 
   constructor(private http: HttpClient) {}
 
-  // 🔔 Notification
+  // 🔔 Notifications
   getAllNotifications(): Observable<Notification[]> {
     return this.http.get<Notification[]>(`${this.baseUrl}/all`);
   }
@@ -32,16 +31,20 @@ export class NotificationService {
     return this.http.put<void>(`${this.baseUrl}/markAsSeen/${id}`, {});
   }
 
-  // 🌤 Météo
-getCurrentWeather(): Observable<{ temp: number; desc: string; icon: string }> {
-  const url = `https://api.openweathermap.org/data/2.5/weather?q=${this.city}&appid=${this.weatherApiKey}&units=metric&lang=fr`;
+  deleteNotification(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}/delete/${id}`);
+  }
 
-  return this.http.get<any>(url).pipe(
-    map(response => ({
-      temp: response.main.temp,
-      desc: response.weather[0].description,
-      icon: response.weather[0].icon
-    }))
-  );
-}
+  // 🌤 Météo
+  getCurrentWeather(): Observable<{ temp: number; desc: string; icon: string }> {
+    const url = `https://api.openweathermap.org/data/2.5/weather?q=${this.city}&appid=${this.weatherApiKey}&units=metric&lang=fr`;
+
+    return this.http.get<any>(url).pipe(
+      map(response => ({
+        temp: response.main.temp,
+        desc: response.weather[0].description,
+        icon: response.weather[0].icon
+      }))
+    );
+  }
 }

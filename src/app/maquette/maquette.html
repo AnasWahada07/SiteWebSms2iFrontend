@@ -1,0 +1,42 @@
+<div class="container mt-4">
+  <h2 class="text-center mb-4">Liste des propositions de maquette</h2>
+
+
+  <table *ngIf="maquettes && maquettes.length > 0" class="table table-bordered table-hover">
+    <thead class="table-light">
+      <tr>
+        <th>Nom Complet</th>
+        <th>Email</th>
+        <th>Téléphone</th>
+        <th>Description</th>
+        <th>Fichier</th>
+        <th>Date</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let m of maquettes">
+        <td>{{ m.prenom }} {{ m.nom }}</td>
+        <td>{{ m.email }}</td>
+        <td>{{ m.telephone }}</td>
+        <td>{{ m.description }}</td>
+        <td>
+          <a *ngIf="m.fichierUrl" [href]="m.fichierUrl" class="btn btn-sm btn-outline-primary" download>
+            Télécharger
+          </a>
+        </td>
+        <td>{{ m.dateSoumission | date:'short' }}</td>
+        <td>
+          <button class="btn btn-sm btn-danger" (click)="delete(m.id)">
+            Supprimer
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- ✅ Cas où aucune maquette n'est disponible -->
+  <div *ngIf="maquettes && maquettes.length === 0" class="alert alert-info text-center mt-3">
+    Aucune proposition de maquette disponible.
+  </div>
+</div>

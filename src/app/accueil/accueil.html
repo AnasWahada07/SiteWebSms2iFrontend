@@ -14,7 +14,6 @@
         <li class="nav-item"><a class="nav-link" href="/galerie">Galerie</a></li>
         <li class="nav-item"><a class="nav-link" href="/espaceuniversitaire">Espace Universitaire</a></li>
         <li class="nav-item"><a class="nav-link" href="/formation">Formation</a></li>
-        <li class="nav-item"><a class="nav-link" href="#testimonials">Références</a></li>
         <li class="nav-item"><a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#contactModal">Contact</a></li>
         <li class="d-flex gap-2 ms-3">
           <a href="/signin" class="btn btn-outline-light btn-sm">Se connecter</a>
@@ -140,43 +139,48 @@
         </div>
     </section>
 
-    <!-- About Section -->
-    <section class="about-section py-5" id="about">
-        <div class="container">
-            <div class="text-center mb-5 animate__animated animate__fadeIn">
-                <h2 class="section-title">À propos de <span>SMS2I</span></h2>
-                <p class="section-subtitle">
-                    Votre partenaire de confiance pour l'automatisation et la maintenance industrielle
-                </p>
-            </div>
-            <div class="row align-items-center g-4">
-                <div class="col-lg-6 animate__animated animate__fadeInLeft">
-                    <img
-                        src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
-                        alt="À propos de SMS2I"
-                        class="img-fluid rounded shadow-sm"
-                    >
-                </div>
-                <div class="col-lg-6 animate__animated animate__fadeInRight">
-                    <div class="about-content">
-                        <p>
-                            <strong>SMS2I</strong> (Services et Maintenance des Systèmes Informatiques et Industriels) a vu le jour en mai 2008,
-                            portée par l'expertise de plusieurs enseignants universitaires. Depuis, nous nous engageons à fournir
-                            des solutions sur mesure pour optimiser vos processus industriels.
-                        </p>
-                        <p>
-                            Basés à la zone industrielle de Messaadine (Immeuble Néodeme, Sousse), nous sommes reconnus pour
-                            notre rigueur, la qualité de nos interventions et notre capacité à innover en partenariat avec
-                            les plus grands (Siemens, Endress+Hauser, etc.).
-                        </p>
-                        <a href="#" class="btn btn-primary mt-3">
-                            Notre histoire <i class="fas fa-arrow-right ms-1"></i>
-                        </a>
-                    </div>
-                </div>
-            </div>
+<!-- About Section -->
+<section class="about-section py-5" id="about">
+  <div class="container">
+    <div class="text-center mb-5 animate__animated animate__fadeIn">
+      <h2 class="section-title">À propos de <span>SMS2I</span></h2>
+      <p class="section-subtitle">
+        Votre partenaire de confiance pour l'automatisation et la maintenance industrielle
+      </p>
+    </div>
+    <div class="row align-items-center g-4">
+      <!-- Carte Google à gauche -->
+      <div class="col-lg-6 animate__animated animate__fadeInLeft">
+<div class="ratio ratio-4x3 rounded shadow-sm">
+  <iframe
+    src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d1343.6404891536794!2d10.561611!3d35.728208!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sfr!2stn!4v1700000000000!5m2!1sfr!2stn"
+    width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"
+    referrerpolicy="no-referrer-when-downgrade"
+  ></iframe>
+</div>
+      </div>
+
+      <!-- Texte à droite -->
+      <div class="col-lg-6 animate__animated animate__fadeInRight">
+        <div class="about-content">
+          <p>
+            <strong>SMS2I</strong> (Services et Maintenance des Systèmes Informatiques et Industriels) a vu le jour en mai 2008,
+            portée par l'expertise de plusieurs enseignants universitaires. Depuis, nous nous engageons à fournir
+            des solutions sur mesure pour optimiser vos processus industriels.
+          </p>
+          <p>
+            Basés à la zone industrielle de Messaadine (Immeuble Néodeme, Sousse), nous sommes reconnus pour
+            notre rigueur, la qualité de nos interventions et notre capacité à innover en partenariat avec
+            les plus grands (Siemens, Endress+Hauser, etc.).
+          </p>
+          <button class="btn btn-primary mt-3" data-bs-toggle="modal" data-bs-target="#histoireModal">
+            Notre histoire <i class="fas fa-arrow-right ms-1"></i>
+          </button>
         </div>
-    </section>
+      </div>
+    </div>
+  </div>
+</section>
 
     <!-- Features Section -->
     <section class="features-section py-5 bg-light" id="features">
@@ -299,10 +303,10 @@
               <div class="form-floating">
                 <select class="form-select" id="contact-subject" formControlName="subject">
                   <option value="" disabled selected>Sélectionnez un sujet</option>
-                  <option value="devis">Demande de devis</option>
-                  <option value="support">Support technique</option>
-                  <option value="formation">Information sur les formations</option>
-                  <option value="autre">Autre demande</option>
+                    <option value="Demande de devis">Demande de devis</option>
+                    <option value="Support technique">Support technique</option>
+                    <option value="Information sur les formations">Information sur les formations</option>
+                    <option value="Autre demande">Autre demande</option>
                 </select>
                 <label for="contact-subject">Sujet *</label>
               </div>
@@ -438,4 +442,96 @@
   </div>
 </section>
 
+<!-- Modal Notre Histoire -->
+<div class="modal fade" id="histoireModal" tabindex="-1" aria-labelledby="histoireModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header bg-primary text-white">
+        <h5 class="modal-title" id="histoireModalLabel">Notre Histoire – Groupe SMS2I</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Fermer"></button>
+      </div>
+
+      <div class="modal-body">
+        <p>
+          <strong>SMS2I</strong>, acronyme de <em>Services et Maintenance des Systèmes Informatiques et Industriels</em>, a été fondée en mai 2008 par un groupe d’enseignants universitaires passionnés. Leur ambition : offrir aux entreprises tunisiennes des solutions fiables en automatisation, supervision et maintenance industrielle.
+        </p>
+
+        <p>
+          Implantée à la zone industrielle de Messaadine (Immeuble Néodeme – Sousse), l’entreprise a su se distinguer par son sérieux, la qualité de ses interventions et sa capacité à innover, en s’appuyant sur des compétences pluridisciplinaires (électricité, électronique, mécanique, automatisme, informatique industrielle).
+        </p>
+
+        <p>
+          En 2010, SMS2I devient intégrateur officiel de <strong>SIEMENS SA</strong> et aspire à obtenir prochainement le statut de <em>Solution Partner</em> dans le domaine de l’automatisme industriel.
+        </p>
+
+        <p>
+          Grâce à cette reconnaissance, la société a su nouer des partenariats avec de grands acteurs internationaux tels que <strong>PCM France</strong> (pompes et systèmes de dosage) ou encore <strong>IPI Italie</strong> (machines de conditionnement pour le lait et les jus).
+        </p>
+
+        <p>
+          Pour répondre à une demande croissante à l’échelle internationale, les fondateurs ont structuré leur vision en créant un véritable <strong>Groupe SMS2I</strong>, composé de plusieurs entités complémentaires, opérant localement et à l’international.
+        </p>
+
+        <hr class="my-4">
+
+        <div class="text-center">
+          <h6 class="mb-3">Architecture du Groupe SMS2I</h6>
+          <img src="assets/sms2iimage.png" alt="Architecture du Groupe SMS2I" class="img-fluid rounded shadow">
+          <small class="d-block text-muted mt-2">Structure des entités locales et internationales</small>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Footer -->
+<footer class="bg-dark text-light pt-5 pb-4 mt-5 shadow-lg">
+  <div class="container">
+    <div class="row">
+
+      <!-- Logo et description -->
+      <div class="col-md-4 mb-4">
+        <h5 class="fw-bold text-uppercase mb-3"><i class="fas fa-cogs me-2"></i>SMS2I</h5>
+        <p>
+          SMS2I est votre partenaire de confiance dans l'automatisation industrielle, la formation technique, et les services de maintenance sur mesure.
+        </p>
+        <div class="d-flex gap-2">
+          <a href="https://www.facebook.com/people/SMS2i/100067593331912/" class="text-light fs-5"><i class="fab fa-facebook-f"></i></a>
+          <a href="#" class="text-light fs-5"><i class="fab fa-linkedin-in"></i></a>
+          <a href="#" class="text-light fs-5"><i class="fab fa-youtube"></i></a>
+        </div>
+      </div>
+
+      <!-- Liens rapides -->
+      <div class="col-md-4 mb-4">
+        <h6 class="text-uppercase fw-bold mb-3">Navigation</h6>
+        <ul class="list-unstyled">
+          <li><a href="/acceuil" class="text-light text-decoration-none">Accueil</a></li>
+          <li><a href="/service" class="text-light text-decoration-none">Services</a></li>
+          <li><a href="/galerie" class="text-light text-decoration-none">Galerie</a></li>
+          <li><a href="/formation" class="text-light text-decoration-none">Formations</a></li>
+          <li><a href="#" class="text-light text-decoration-none" data-bs-toggle="modal" data-bs-target="#contactModal">Contact</a></li>
+        </ul>
+      </div>
+
+      <!-- Contact rapide -->
+      <div class="col-md-4 mb-4">
+        <h6 class="text-uppercase fw-bold mb-3">Contact</h6>
+        <p><i class="fas fa-map-marker-alt me-2"></i>Rue 14 janvier (GP1), Imm Neodeme 1ere Etage, Messadine 4013, Sousse</p>
+        <p><i class="fas fa-phone me-2"></i>+216 73 284 160</p>
+        <p><i class="fas fa-envelope me-2"></i>contact.sms2i.tn</p>
+      </div>
+    </div>
+
+    <hr class="border-top border-light">
+
+    <div class="text-center small">
+      &copy; {{ currentYear || '2025' }} SMS2I. Tous droits réservés.
+    </div>
+  </div>
+</footer>
 

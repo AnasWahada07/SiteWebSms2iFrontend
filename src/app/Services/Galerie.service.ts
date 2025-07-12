@@ -7,7 +7,7 @@ import { Galeries } from '../Class/Galeries';
   providedIn: 'root'
 })
 export class GalerieService {
-  private apiUrl = 'http://localhost:8080/api/galeries';
+  private apiUrl = 'http://192.168.1.54:8082/api/galeries';
 
   constructor(private http: HttpClient) {}
 

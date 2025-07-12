@@ -1,23 +1,33 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { Contact } from '../Class/Contact';
 
-export interface Contact {
-  name: string;
-  email: string;
-  phone?: string;
-  subject?: string;
-  message: string;
-  consent: boolean;
-}
 
 @Injectable({ providedIn: 'root' })
 export class ContactService {
-  private apiUrl = 'http://localhost:8080/send';
+    private apiUrl = 'http://192.168.1.54:8082/api/contact';
 
   constructor(private http: HttpClient) {}
 
-  sendMessage(contact: Contact): Observable<any> {
-    return this.http.post(this.apiUrl, contact);
+sendMessage(contact: Contact): Observable<string> {
+  return this.http.post(`${this.apiUrl}/send`, contact, { responseType: 'text' });
+}
+
+  getAllContacts(): Observable<Contact[]> {
+    return this.http.get<Contact[]>(`${this.apiUrl}/allcontact`);
   }
+
+  getContactById(id: number): Observable<Contact> {
+    return this.http.get<Contact>(`${this.apiUrl}/getcontact/${id}`);
+  }
+
+  updateContact(id: number, contact: Contact): Observable<string> {
+    return this.http.put(`${this.apiUrl}/modifcontact/${id}`, contact, { responseType: 'text' });
+  }
+
+  deleteContact(id: number): Observable<string> {
+    return this.http.delete(`${this.apiUrl}/deletecontact/${id}`, { responseType: 'text' });
+  }
+
 }

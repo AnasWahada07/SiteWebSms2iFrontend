@@ -56,7 +56,7 @@ export class SignUp {
       password: this.registerForm.value.password,
     };
 
-    this.http.post('http://localhost:8080/api/users/register', userData).subscribe({
+    this.http.post('http://192.168.1.54:8082/api/users/register', userData).subscribe({
       next: () => {
         this.message = 'Inscription réussie !';
         this.success = true;

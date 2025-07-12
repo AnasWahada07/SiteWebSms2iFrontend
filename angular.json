@@ -13,47 +13,34 @@
         "build": {
           "builder": "@angular/build:application",
           "options": {
+            "outputPath": "dist/SiteWebSMS2I",
             "browser": "src/main.ts",
             "tsConfig": "tsconfig.app.json",
             "assets": [
-              "src/assets",
-              "src/favicon.ico"
+              "src/assets"
             ],
             "styles": [
-              "src/styles.css",
-              "node_modules/bootstrap/dist/css/bootstrap.min.css",
-              "node_modules/@fortawesome/fontawesome-free/css/all.min.css",
-              "node_modules/animate.css/animate.min.css"
+  "src/styles.css",
+  "node_modules/bootstrap/dist/css/bootstrap.min.css",
+    "node_modules/bootstrap-icons/font/bootstrap-icons.css",
+  "node_modules/@fortawesome/fontawesome-free/css/all.min.css",
+  "node_modules/animate.css/animate.min.css"
             ],
             "scripts": [
               "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"
-            ],
-            "outputMode": "server",
-            "server": "src/main.server.ts",
-            "ssr": {
-              "entry": "src/server.ts"
-            }
+            ]
           },
           "configurations": {
             "production": {
-              "budgets": [
-  {
-    "type": "initial",
-    "maximumWarning": "2mb",
-    "maximumError": "5mb"
-  },
-                {
-  "type": "anyComponentStyle",
-  "maximumWarning": "10kb",
-  "maximumError": "20kb"
-}
-              ],
-              "outputHashing": "all"
+              "outputHashing": "all",
+              "optimization": true,
+              "sourceMap": false,
+              "extractLicenses": true
             },
             "development": {
               "optimization": false,
-              "extractLicenses": false,
-              "sourceMap": true
+              "sourceMap": true,
+              "extractLicenses": false
             }
           },
           "defaultConfiguration": "production"
@@ -71,18 +58,17 @@
           "defaultConfiguration": "development"
         },
         "extract-i18n": {
-          "builder": "@angular/build:extract-i18n"
+          "builder": "@angular/build:extract-i18n",
+          "options": {
+            "buildTarget": "SiteWebSMS2I:build"
+          }
         },
         "test": {
           "builder": "@angular/build:karma",
           "options": {
             "tsConfig": "tsconfig.spec.json",
-            "assets": [
-              "src/assets"
-            ],
-            "styles": [
-              "src/styles.css"
-            ]
+            "assets": ["src/assets"],
+            "styles": ["src/styles.css"]
           }
         }
       }

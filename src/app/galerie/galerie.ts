@@ -28,7 +28,8 @@ export class Galerie implements OnInit {
 
   ngOnInit(): void {
     this.galerieService.getAll().subscribe(data => {
+      console.log(data);
       this.galeries = data;
     });
-  }
+  } 
 }

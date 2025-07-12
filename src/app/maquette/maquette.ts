@@ -1,0 +1,64 @@
+import { Component, OnInit } from '@angular/core';
+import { PropositionMaquette } from '../Class/PropositionMaquette';
+import { MaquetteService } from '../Services/Maquette.service';
+import { CommonModule } from '@angular/common';
+import { HttpClientModule } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
+import { DemandeMaquette } from '../Class/DemandeMaquette';
+
+@Component({
+  selector: 'app-maquette',
+  standalone: true,
+  imports: [CommonModule, HttpClientModule, FormsModule],
+  templateUrl: './maquette.html',
+  styleUrl: './maquette.css'
+})
+export class Maquette implements OnInit {
+  maquettes: PropositionMaquette[] = [];
+    demandes: DemandeMaquette[] = [];
+
+
+  constructor(private maquetteService: MaquetteService) {}
+
+  ngOnInit(): void {
+    this.loadMaquettes();
+  }
+
+loadMaquettes(): void {
+  this.maquetteService.getAll().subscribe({
+    next: (data) => {
+      console.log("Maquettes reçues :", data); 
+      this.maquettes = data;
+    },
+    error: (err) => console.error("Erreur récupération maquettes :", err)
+  });
+}
+
+  delete(id: number): void {
+    if (confirm('Voulez-vous vraiment supprimer cette proposition ?')) {
+      this.maquetteService.delete(id).subscribe(() => {
+        this.loadMaquettes();
+      });
+    }
+  }
+chargerDemandes(): void {
+  this.maquetteService.getAlls().subscribe({
+    next: data => {
+      console.log("Données brutes reçues depuis le backend :", data); 
+      this.demandes = data;
+    },
+    error: err => console.error('Erreur chargement demandes :', err)
+  });
+}
+
+  supprimer(id: number): void {
+    if (confirm("Confirmer la suppression de cette demande ?")) {
+      this.maquetteService.deletes(id).subscribe(() => {
+        this.chargerDemandes();
+      });
+    }
+  }
+}
+
+
+

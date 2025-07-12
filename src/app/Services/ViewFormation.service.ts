@@ -23,13 +23,14 @@ export interface SujetPFE {
 
 @Injectable({ providedIn: 'root' })
 export class ViewFormationService {
-  private apiUrl = 'http://localhost:8080/api/sujets';
+  private apiUrl = 'http://192.168.1.54:8082/api/sujets';
 
   constructor(private http: HttpClient) {}
 
   getAllSujets(): Observable<SujetPFE[]> {
     return this.http.get<SujetPFE[]>(`${this.apiUrl}/getallpfe`);
   }
+  
 
   deleteSujet(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);

@@ -17,9 +17,13 @@ import { ViewFormation } from './view-formation/view-formation';
 import { ViewInscription } from './view-inscription/view-inscription';
 import { DashboardAdmin } from './dashboard-admin/dashboard-admin';
 import { adminGuard } from './Services/Admin.guard';
+import { Contact } from './Class/Contact';
+import { Contacts } from './contact/contact';
+import { Maquette } from './maquette/maquette';
 
 
 export const routes: Routes = [
+  { path: '', redirectTo: 'acceuil', pathMatch: 'full' }, 
   { path: 'acceuil', component: Accueil },
   { path: 'signup', component: SignUp },
   { path: 'signin', component: SignIn },
@@ -30,6 +34,10 @@ export const routes: Routes = [
   { path: 'inscriptionformation', component: InscriptionFormation },
   { path: 'espaceuniversitaire', component: EspaceUniversitaire },
   { path: 'password', component: ResetPassword },
+      { path: 'contact', component: Contacts  },
+            { path: 'maquettes', component: Maquette  },
+
+
 
   // 🔐 Routes protégées par adminGuard fonctionnel
   { path: 'gestionuser', component: User, canActivate: [adminGuard] },
@@ -38,4 +46,8 @@ export const routes: Routes = [
   { path: 'viewformation', component: ViewFormation, canActivate: [adminGuard] },
   { path: 'viewinscription', component: ViewInscription, canActivate: [adminGuard] },
   { path: 'Admin', component: DashboardAdmin, canActivate: [adminGuard] },
+    { path: 'contact', component: Contacts , canActivate: [adminGuard] },
+    { path: 'contact', component: Contacts , canActivate: [adminGuard] },
+
+
 ];

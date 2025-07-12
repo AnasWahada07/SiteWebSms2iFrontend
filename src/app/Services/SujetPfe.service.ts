@@ -11,7 +11,7 @@ import { SujetsParTypeDTO } from '../Class/SujetsParTypeDTO';
 })
 export class SujetPfeService {
 
-  private apiUrl = 'http://localhost:8080/api/sujets/confirmes-groupes'; 
+  private apiUrl = 'http://192.168.1.54:8082/api/sujets/confirmes-groupes'; 
 
   constructor(private http: HttpClient) {}
 
