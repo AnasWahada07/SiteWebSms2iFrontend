@@ -489,3 +489,20 @@ footer h5, footer h6 {
 footer ul li {
   margin-bottom: 8px;
 }
+
+.card-img-top {
+  height: 200px;
+  object-fit: cover;
+}
+
+.card-title {
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.modal-body img {
+  border-radius: 8px;
+  max-height: 400px;
+  object-fit: cover;
+  width: 100%;
+}

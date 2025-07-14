@@ -29,38 +29,49 @@ export class ResetPassword implements OnInit {
     private router: Router
   ) {}
 
-  ngOnInit(): void {
-    this.token = this.route.snapshot.queryParamMap.get('token') || '';
-    this.resetForm = this.fb.group({
-      newPassword: ['', [Validators.required, Validators.minLength(6)]]
-    });
+ngOnInit(): void {
+  this.token = this.route.snapshot.queryParamMap.get('token') || '';
+  console.log('🔐 Token reçu depuis l’URL :', this.token);
+
+  if (!this.token) {
+    this.errorMessage = 'Lien invalide ou expiré.';
+    return;
   }
 
-  onSubmit(): void {
-    this.submitted = true;
-    this.successMessage = '';
-    this.errorMessage = '';
+  this.resetForm = this.fb.group({
+    newPassword: ['', [Validators.required, Validators.minLength(6)]]
+  });
+}
 
-    if (this.resetForm.invalid) {
-      return;
+onSubmit(): void {
+  this.successMessage = '';
+  this.errorMessage = '';
+
+  if (this.resetForm.invalid || this.submitted) {
+    return;
+  }
+
+  this.submitted = true; 
+
+  const newPassword = this.resetForm.get('newPassword')?.value;
+
+  this.authService.resetPasswordConfirm(this.token, newPassword).subscribe({
+    next: () => {
+      this.successMessage = '🎉 Votre mot de passe a été réinitialisé avec succès.';
+      this.resetForm.reset();
+
+      setTimeout(() => {
+        this.router.navigate(['/signin']);
+      }, 3000);
+    },
+    error: (err) => {
+      console.error('Erreur API:', err);
+      this.errorMessage = '❌ Erreur lors de la réinitialisation du mot de passe.';
+      this.submitted = false; 
+    },
+    complete: () => {
+      this.submitted = false; 
     }
-
-    const newPassword = this.resetForm.get('newPassword')?.value;
-
-    this.authService.resetPasswordConfirm(this.token, newPassword).subscribe({
-      next: () => {
-        this.successMessage = '🎉 Votre mot de passe a été réinitialisé avec succès.';
-        this.resetForm.reset();
-        this.submitted = false;
-
-        setTimeout(() => {
-          this.router.navigate(['/signin']);
-        }, 3000);
-      },
-      error: () => {
-        this.errorMessage = '❌ Erreur lors de la réinitialisation du mot de passe.';
-        this.submitted = false;
-      }
-    });
-  }
+  });
+}
 }

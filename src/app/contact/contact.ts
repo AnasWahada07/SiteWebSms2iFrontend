@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ContactService } from '../Services/Contact.service';
 import { Contact } from '../Class/Contact';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -16,7 +16,7 @@ export class Contacts implements OnInit {
   editForm!: FormGroup;
   selectedContact: Contact | null = null;
 
-  constructor(private contactService: ContactService, private fb: FormBuilder) {}
+  constructor(private contactService: ContactService, private fb: FormBuilder , private cdRef: ChangeDetectorRef) {}
 
   ngOnInit(): void {
     this.getContacts();
@@ -32,7 +32,7 @@ export class Contacts implements OnInit {
     this.contactService.getAllContacts().subscribe({
       next: (data) => {
         this.contacts = data;
-        console.log('CONTACTS:', this.contacts);
+        this.cdRef.detectChanges();
       },
       error: (err) => console.error(err),
     });

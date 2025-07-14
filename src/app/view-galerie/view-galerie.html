@@ -71,6 +71,12 @@
           <p>Sélectionnez une image</p>
           <input #fileInput type="file" (change)="onFileSelected($event)" accept="image/*" hidden />
         </div>
+
+        <!-- Aperçu de l'image sélectionnée ou existante -->
+        <div class="image-preview-container" *ngIf="selectedImageUrl">
+          <p>Aperçu de l'image :</p>
+          <img [src]="selectedImageUrl" alt="Aperçu image" class="image-preview" />
+        </div>
       </div>
 
       <div class="button-group">

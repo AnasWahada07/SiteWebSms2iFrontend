@@ -762,3 +762,22 @@ body {
   color: #2c3e50;
 }
 
+.admin-info {
+  display: inline-flex;
+  align-items: center;
+  background-color: #eef1ff;
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 0.95rem;
+  color: #3b3b3b;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+  gap: 8px;
+}
+
+.admin-icon {
+  fill: #5b3cc4;
+}
+
+.username {
+  font-weight: bold; /* ✅ Le nom est en gras maintenant */
+}

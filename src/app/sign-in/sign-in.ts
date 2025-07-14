@@ -1,15 +1,16 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
 import { AuthService } from '../Services/ Auth.service';
 import { AuthResponse } from '../Class/AuthResponse';
 
 @Component({
   selector: 'app-sign-in',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule, HttpClientModule],
+  imports: [ReactiveFormsModule, FormsModule, CommonModule, HttpClientModule],
   templateUrl: './sign-in.html',
   styleUrls: ['./sign-in.css']
 })
@@ -23,50 +24,82 @@ export class SignIn {
     private authService: AuthService,
     private router: Router
   ) {
-    this.loginForm = this.fb.group({
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', Validators.required]
-    });
+const savedEmail = localStorage.getItem('rememberedEmail');
+console.log('📥 Email chargé depuis localStorage :', savedEmail);
+
+this.loginForm = this.fb.group({
+  email: [savedEmail ?? '', [Validators.required, Validators.email]],
+  password: ['', Validators.required],
+  rememberMe: [!!savedEmail]
+});
   }
+
 
   togglePassword() {
     this.showPassword = !this.showPassword;
   }
 
+onRememberMeChange(): void {
+  const checked = this.loginForm.get('rememberMe')?.value;
+  const email = this.loginForm.get('email')?.value;
+
+  if (checked && email && this.loginForm.get('email')?.valid) {
+    localStorage.setItem('rememberedEmail', email); // ⬅️ SAUVEGARDE
+    const toast = document.getElementById('rememberToast');
+    if (toast) {
+      toast.style.display = 'block';
+      setTimeout(() => {
+        toast.style.display = 'none';
+      }, 4000);
+    }
+  } else {
+    localStorage.removeItem('rememberedEmail'); // ⬅️ SUPPRESSION si décoché
+  }
+}
+
   onSubmit(): void {
     if (this.loginForm.invalid || this.isSubmitting) return;
 
     this.isSubmitting = true;
-    const { email, password } = this.loginForm.value;
+    const { email, password, rememberMe } = this.loginForm.value;
 
-    this.authService.login(email, password).subscribe({
-      next: (res: AuthResponse) => {
-        this.isSubmitting = false;
+if (rememberMe) {
+  localStorage.setItem('rememberedEmail', email);
+  console.log('✅ Email enregistré dans localStorage.');
+} else {
+  localStorage.removeItem('rememberedEmail');
+  console.log('❌ Email supprimé du localStorage.');
+}
 
-        if (!res || !res.role) {
-          alert('Réponse invalide du serveur.');
-          return;
-        }
+this.authService.login(email, password).subscribe({
+  next: (res: AuthResponse) => {
+    this.isSubmitting = false;
 
-        // ✅ Stocker tous les champs du backend (incl. nom, prenom, userId)
-        this.authService.setUser(res);
+    if (!res || !res.role) {
+      alert('Réponse invalide du serveur.');
+      return;
+    }
 
-        console.log('📦 Utilisateur connecté :', res.nom, res.prenom);
+    this.authService.setUser(res);
+    console.log('📦 Utilisateur connecté :', res.nom, res.prenom);
 
-        if (res.role.toLowerCase() === 'admin') {
-          this.router.navigate(['/Admin']);
-        } else {
-          alert('Accès refusé : vous n\'êtes pas administrateur.');
-          this.router.navigate(['/acceuil']);
-        }
-      },
-      error: (err: any) => {
-        this.isSubmitting = false;
-        alert('Email ou mot de passe incorrect.');
-        console.error(err);
+    // ✅ Attendre un peu avant redirection
+    setTimeout(() => {
+      if (res.role.toLowerCase() === 'admin') {
+        this.router.navigate(['/Admin']);
+      } else {
+        alert('Accès refusé : vous n\'êtes pas administrateur.');
+        this.router.navigate(['/acceuil']);
       }
-    });
+    }, 50); // délai très court pour laisser le temps au navigateur d'écrire dans localStorage
+  },
+  error: (err: any) => {
+    this.isSubmitting = false;
+    alert('Email ou mot de passe incorrect.');
+    console.error(err);
   }
+});
+}
 
   onForgetPassword() {
     const email = this.loginForm.get('email')?.value;

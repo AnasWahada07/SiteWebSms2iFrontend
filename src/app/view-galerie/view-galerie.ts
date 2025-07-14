@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { GalerieService } from '../Services/Galerie.service';
 import { Galeries } from '../Class/Galeries';
@@ -22,11 +22,12 @@ export class ViewGalerie implements OnInit {
   galeries: Galeries[] = [];
   galerieForm: FormGroup;
   selectedImage: File | null = null;
+  selectedImageUrl: string | null = null;
   updateMode = false;
   selectedGalerieId?: number;
   showForm: boolean = false;
 
-  constructor(private galerieService: GalerieService, private fb: FormBuilder) {
+  constructor(private galerieService: GalerieService, private fb: FormBuilder , private cdRef: ChangeDetectorRef) {
     this.galerieForm = this.fb.group({
       title: ['', Validators.required],
       description: ['', Validators.required],
@@ -42,7 +43,7 @@ export class ViewGalerie implements OnInit {
     this.galerieService.getAll().subscribe({
       next: (data) => {
         this.galeries = data;
-        console.log("📸 Galeries chargées :", this.galeries);
+        this.cdRef.detectChanges();
       },
       error: (err) => {
         console.error("❌ Erreur lors du chargement des galeries :", err);
@@ -54,6 +55,14 @@ export class ViewGalerie implements OnInit {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files.length > 0) {
       this.selectedImage = input.files[0];
+
+      // Libérer l'ancienne URL si existante
+      if (this.selectedImageUrl) {
+        URL.revokeObjectURL(this.selectedImageUrl);
+      }
+
+      // Générer une URL locale pour prévisualisation
+      this.selectedImageUrl = URL.createObjectURL(this.selectedImage);
     }
   }
 
@@ -98,6 +107,10 @@ export class ViewGalerie implements OnInit {
       client: galerie.client
     });
     this.selectedImage = null;
+
+    // Affiche l'image existante (adapter le champ imageUrl selon ta donnée)
+    this.selectedImageUrl = galerie.imageUrl || null;
+
     this.showForm = true;
   }
 
@@ -125,6 +138,12 @@ export class ViewGalerie implements OnInit {
     this.selectedGalerieId = undefined;
     this.galerieForm.reset();
     this.selectedImage = null;
+
+    if (this.selectedImageUrl) {
+      URL.revokeObjectURL(this.selectedImageUrl);
+    }
+    this.selectedImageUrl = null;
+
     this.showForm = false;
   }
 }

@@ -13,7 +13,7 @@
       </div>
 
       <div class="project-image-container">
-        <img *ngIf="projet.imageUrl" [src]="projet.imageUrl" class="project-image">
+        <img *ngIf="projet.imageUrl" [src]="projet.imageUrl" class="project-image" alt="Image du projet {{projet.title}}">
         <div *ngIf="!projet.imageUrl" class="image-placeholder">
           <svg width="24" height="24" viewBox="0 0 24 24">
             <path fill="currentColor"
@@ -65,51 +65,48 @@
     <h3 class="section-title">Ajouter un projet</h3>
 
     <form (ngSubmit)="saveProjet()" class="project-form">
-      <div class="form-group">
-        <input [(ngModel)]="newProjet.title" name="title" placeholder=" " required>
-        <label>Titre*</label>
+      <div class="form-group floating-label">
+        <input [(ngModel)]="newProjet.title" name="title" id="title" placeholder=" " required />
+        <label for="title">Titre*</label>
       </div>
 
-      <div class="form-group">
-        <textarea [(ngModel)]="newProjet.description" name="description" placeholder=" " required></textarea>
-        <label>Description*</label>
+      <div class="form-group floating-label">
+        <textarea [(ngModel)]="newProjet.description" name="description" id="description" placeholder=" " required></textarea>
+        <label for="description">Description*</label>
       </div>
 
       <div class="form-row">
-        <div class="form-group">
-          <input [(ngModel)]="newProjet.duree" name="duree" placeholder=" ">
-          <label>Durée</label>
+        <div class="form-group floating-label">
+          <input [(ngModel)]="newProjet.duree" name="duree" id="duree" placeholder=" " />
+          <label for="duree">Durée</label>
         </div>
-        <div class="form-group">
-          <input [(ngModel)]="newProjet.client" name="client" placeholder=" ">
-          <label>Client</label>
+        <div class="form-group floating-label">
+          <input [(ngModel)]="newProjet.client" name="client" id="client" placeholder=" " />
+          <label for="client">Client</label>
         </div>
       </div>
 
-      <div class="form-group">
-        <input [(ngModel)]="newProjet.technologie" name="technologie" placeholder=" ">
-        <label>Technologie</label>
+      <div class="form-group floating-label">
+        <input [(ngModel)]="newProjet.technologie" name="technologie" id="technologie" placeholder=" " />
+        <label for="technologie">Technologie</label>
       </div>
 
-      <!-- Image upload déplacé juste avant le bouton -->
       <div class="file-upload">
-        <label>
-          <input type="file" (change)="onFileSelected($event)" accept="image/*">
+        <label class="upload-button">
+          <input type="file" (change)="onFileSelected($event)" accept="image/*" />
           <span class="upload-label">
             <svg width="24" height="24" viewBox="0 0 24 24">
-              <path fill="currentColor"
-                d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z" />
+              <path fill="currentColor" d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z" />
             </svg>
             Choisir une image
           </span>
         </label>
 
         <div *ngIf="previewUrl" class="image-preview">
-          <img [src]="previewUrl">
-          <button type="button" (click)="previewUrl = null" class="remove-image">
+          <img [src]="previewUrl" alt="Aperçu image" />
+          <button type="button" (click)="previewUrl = null" class="remove-image" aria-label="Supprimer l'image">
             <svg width="20" height="20" viewBox="0 0 24 24">
-              <path fill="currentColor"
-                d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z" />
+              <path fill="currentColor" d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z" />
             </svg>
           </button>
         </div>
@@ -117,8 +114,7 @@
 
       <button type="submit" class="btn-submit">
         <svg width="20" height="20" viewBox="0 0 24 24">
-          <path fill="currentColor"
-            d="M17,3H5A2,2 0 0,0 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V7L17,3M12,12A4,4 0 0,0 8,16A4,4 0 0,0 12,20A4,4 0 0,0 16,16A4,4 0 0,0 12,12Z" />
+          <path fill="currentColor" d="M17,3H5A2,2 0 0,0 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V7L17,3M12,12A4,4 0 0,0 8,16A4,4 0 0,0 12,20A4,4 0 0,0 16,16A4,4 0 0,0 12,12Z" />
         </svg>
         Ajouter le projet
       </button>
@@ -127,62 +123,60 @@
 
   <!-- Modal de modification -->
   <div *ngIf="selectedProjet" class="edit-modal">
+    <div class="modal-overlay" (click)="selectedProjet = null"></div>
     <div class="modal-content">
       <div class="modal-header">
         <h3>Modifier le projet</h3>
-        <button (click)="selectedProjet = null" class="close-modal">
+        <button (click)="selectedProjet = null" class="close-modal" aria-label="Fermer">
           <svg width="24" height="24" viewBox="0 0 24 24">
-            <path fill="currentColor"
-              d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z" />
+            <path fill="currentColor" d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z" />
           </svg>
         </button>
       </div>
 
       <form (ngSubmit)="updateProjet()" class="project-form">
-        <div class="form-group">
-          <input [(ngModel)]="selectedProjet.title" name="editTitle" placeholder=" ">
-          <label>Titre</label>
+        <div class="form-group floating-label">
+          <input [(ngModel)]="selectedProjet.title" name="editTitle" id="editTitle" placeholder=" ">
+          <label for="editTitle">Titre</label>
         </div>
 
-        <div class="form-group">
-          <textarea [(ngModel)]="selectedProjet.description" name="editDescription" placeholder=" "></textarea>
-          <label>Description</label>
+        <div class="form-group floating-label">
+          <textarea [(ngModel)]="selectedProjet.description" name="editDescription" id="editDescription" placeholder=" "></textarea>
+          <label for="editDescription">Description</label>
         </div>
 
         <div class="form-row">
-          <div class="form-group">
-            <input [(ngModel)]="selectedProjet.duree" name="editDuree" placeholder=" ">
-            <label>Durée</label>
+          <div class="form-group floating-label">
+            <input [(ngModel)]="selectedProjet.duree" name="editDuree" id="editDuree" placeholder=" ">
+            <label for="editDuree">Durée</label>
           </div>
-          <div class="form-group">
-            <input [(ngModel)]="selectedProjet.client" name="editClient" placeholder=" ">
-            <label>Client</label>
+          <div class="form-group floating-label">
+            <input [(ngModel)]="selectedProjet.client" name="editClient" id="editClient" placeholder=" ">
+            <label for="editClient">Client</label>
           </div>
         </div>
 
-        <div class="form-group">
-          <input [(ngModel)]="selectedProjet.technologie" name="editTechnologie" placeholder=" ">
-          <label>Technologie</label>
+        <div class="form-group floating-label">
+          <input [(ngModel)]="selectedProjet.technologie" name="editTechnologie" id="editTechnologie" placeholder=" ">
+          <label for="editTechnologie">Technologie</label>
         </div>
 
         <div class="file-upload">
-          <label>
+          <label class="upload-button">
             <input type="file" (change)="onEditFileSelected($event)" accept="image/*">
             <span class="upload-label">
               <svg width="24" height="24" viewBox="0 0 24 24">
-                <path fill="currentColor"
-                  d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z" />
+                <path fill="currentColor" d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z" />
               </svg>
               Changer l'image
             </span>
           </label>
 
-          <div *ngIf="editPreviewUrl || selectedProjet.imageUrl" class="image-preview">
-            <img [src]="editPreviewUrl || selectedProjet.imageUrl">
-            <button type="button" (click)="editPreviewUrl = null; selectedProjet.imageUrl = null" class="remove-image">
+          <div *ngIf="editPreviewUrl || selectedProjet?.imageUrl" class="image-preview">
+            <img [src]="editPreviewUrl || selectedProjet.imageUrl" alt="Image du projet" />
+            <button type="button" (click)="editPreviewUrl = null; selectedProjet.imageUrl = null" class="remove-image" aria-label="Supprimer l'image">
               <svg width="20" height="20" viewBox="0 0 24 24">
-                <path fill="currentColor"
-                  d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z" />
+                <path fill="currentColor" d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z" />
               </svg>
             </button>
           </div>
@@ -190,8 +184,7 @@
 
         <button type="submit" class="btn-submit">
           <svg width="20" height="20" viewBox="0 0 24 24">
-            <path fill="currentColor"
-              d="M17,3H5A2,2 0 0,0 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V7L17,3M12,19C10.34,19 9,17.66 9,16C9,14.34 10.34,13 12,13C13.66,13 15,14.34 15,16C15,17.66 13.66,19 12,19M15,9H5V5H15V9Z" />
+            <path fill="currentColor" d="M17,3H5A2,2 0 0,0 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V7L17,3M12,19C10.34,19 9,17.66 9,16C9,14.34 10.34,13 12,13C13.66,13 15,14.34 15,16C15,17.66 13.66,19 12,19M15,9H5V5H15V9Z" />
           </svg>
           Mettre à jour
         </button>

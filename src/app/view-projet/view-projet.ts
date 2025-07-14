@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Projet } from '../Class/Projet';
 import { ProjetService } from '../Services/Projet.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -31,15 +31,18 @@ export class ViewProjet implements OnInit {
   selectedEditImageFile?: File;
   editPreviewUrl: string | ArrayBuffer | null = null;
 
-  constructor(private projetService: ProjetService) {}
+  constructor(private projetService: ProjetService , private cdRef: ChangeDetectorRef) {}
 
   ngOnInit(): void {
     this.loadProjets();
   }
 
-  loadProjets(): void {
-    this.projetService.getAllProjets().subscribe(data => this.projets = data);
-  }
+loadProjets(): void {
+  this.projetService.getAllProjets().subscribe(data => {
+    this.projets = data;
+    this.cdRef.detectChanges(); 
+  });
+}
 
   onFileSelected(event: Event): void {
     const input = event.target as HTMLInputElement;

@@ -14,7 +14,6 @@
         <li class="nav-item"><a class="nav-link" href="/galerie">Galerie</a></li>
         <li class="nav-item"><a class="nav-link" href="/espaceuniversitaire">Espace Universitaire</a></li>
         <li class="nav-item"><a class="nav-link" href="/formation">Formation</a></li>
-        <li class="nav-item"><a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#contactModal">Contact</a></li>
         <li class="d-flex gap-2 ms-3">
           <a href="/signin" class="btn btn-outline-light btn-sm">Se connecter</a>
           <a href="/signup" class="btn btn-light text-dark btn-sm">S'inscrire</a>
@@ -386,7 +385,7 @@
 <section class="gallery-section py-5" id="gallery">
   <div class="container">
     <div class="text-center mb-5 animate__animated animate__fadeIn">
-      <h2 class="section-title">Galerie de nos Projets</h2>
+      <h2 class="section-title">Nos Projets</h2>
       <p class="section-subtitle">Découvrez nos réalisations industrielles</p>
     </div>
 
@@ -452,25 +451,15 @@
       </div>
 
       <div class="modal-body">
-        <p>
-          <strong>SMS2I</strong>, acronyme de <em>Services et Maintenance des Systèmes Informatiques et Industriels</em>, a été fondée en mai 2008 par un groupe d’enseignants universitaires passionnés. Leur ambition : offrir aux entreprises tunisiennes des solutions fiables en automatisation, supervision et maintenance industrielle.
-        </p>
+        <p><strong>SMS2I</strong>, acronyme de <em>Services et Maintenance des Systèmes Informatiques et Industriels</em>, a été fondée en mai 2008 par un groupe d’enseignants universitaires passionnés. Leur ambition : offrir aux entreprises tunisiennes des solutions fiables en automatisation, supervision et maintenance industrielle.</p>
 
-        <p>
-          Implantée à la zone industrielle de Messaadine (Immeuble Néodeme – Sousse), l’entreprise a su se distinguer par son sérieux, la qualité de ses interventions et sa capacité à innover, en s’appuyant sur des compétences pluridisciplinaires (électricité, électronique, mécanique, automatisme, informatique industrielle).
-        </p>
+        <p>Implantée à la zone industrielle de Messaadine (Immeuble Néodeme – Sousse), l’entreprise a su se distinguer par son sérieux, la qualité de ses interventions et sa capacité à innover, en s’appuyant sur des compétences pluridisciplinaires (électricité, électronique, mécanique, automatisme, informatique industrielle).</p>
 
-        <p>
-          En 2010, SMS2I devient intégrateur officiel de <strong>SIEMENS SA</strong> et aspire à obtenir prochainement le statut de <em>Solution Partner</em> dans le domaine de l’automatisme industriel.
-        </p>
+        <p>En 2010, SMS2I devient intégrateur officiel de <strong>SIEMENS SA</strong> et aspire à obtenir prochainement le statut de <em>Solution Partner</em> dans le domaine de l’automatisme industriel.</p>
 
-        <p>
-          Grâce à cette reconnaissance, la société a su nouer des partenariats avec de grands acteurs internationaux tels que <strong>PCM France</strong> (pompes et systèmes de dosage) ou encore <strong>IPI Italie</strong> (machines de conditionnement pour le lait et les jus).
-        </p>
+        <p>Grâce à cette reconnaissance, la société a su nouer des partenariats avec de grands acteurs internationaux tels que <strong>PCM France</strong> (pompes et systèmes de dosage) ou encore <strong>IPI Italie</strong> (machines de conditionnement pour le lait et les jus).</p>
 
-        <p>
-          Pour répondre à une demande croissante à l’échelle internationale, les fondateurs ont structuré leur vision en créant un véritable <strong>Groupe SMS2I</strong>, composé de plusieurs entités complémentaires, opérant localement et à l’international.
-        </p>
+        <p>Pour répondre à une demande croissante à l’échelle internationale, les fondateurs ont structuré leur vision en créant un véritable <strong>Groupe SMS2I</strong>, composé de plusieurs entités complémentaires, opérant localement et à l’international.</p>
 
         <hr class="my-4">
 
@@ -488,6 +477,16 @@
   </div>
 </div>
 
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const modalEl = document.getElementById('histoireModal');
+    modalEl.addEventListener('hidden.bs.modal', () => {
+      if (document.activeElement) {
+        document.activeElement.blur(); // ⬅️ enlève le focus
+      }
+    });
+  });
+</script>
 <!-- Footer -->
 <footer class="bg-dark text-light pt-5 pb-4 mt-5 shadow-lg">
   <div class="container">

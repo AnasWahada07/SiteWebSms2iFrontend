@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
+import { ChangeDetectorRef, Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ContactService } from '../Services/Contact.service';
@@ -27,6 +27,8 @@ export class Accueil implements OnInit  {
 
   currentYear: number = new Date().getFullYear();
 
+  isLoading: boolean = true;
+  
 
 
     contactForm: FormGroup;
@@ -37,7 +39,7 @@ export class Accueil implements OnInit  {
   projets: Projet[] = [];
 
     constructor(private fb: FormBuilder, private contactService: ContactService , private projetService: ProjetService ,  private sanitizer: DomSanitizer , 
-          @Inject(PLATFORM_ID) private platformId: Object
+          @Inject(PLATFORM_ID) private platformId: Object , private cdRef: ChangeDetectorRef
 
     ) {
     this.contactForm = this.fb.group({
@@ -51,12 +53,22 @@ export class Accueil implements OnInit  {
   
   }
 
-  ngOnInit(): void {
-    this.projetService.getAllProjets().subscribe({
-      next: (data) => (this.projets = data),
-      error: (err) => console.error('Erreur lors du chargement des projets', err),
-    });
-  }
+ngOnInit(): void {
+  this.projetService.getAllProjets().subscribe({
+    next: (data) => {
+      this.projets = data;
+      this.isLoading = false;
+
+      this.cdRef.detectChanges(); // 🔁 force Angular à re-rendre le DOM
+    },
+    error: (err) => {
+      console.error('Erreur de chargement', err);
+      this.isLoading = false;
+      this.cdRef.detectChanges(); // même en cas d'erreur
+    }
+  });
+}
+
 
 
 

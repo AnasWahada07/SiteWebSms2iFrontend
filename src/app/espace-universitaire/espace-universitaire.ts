@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CompetenceService } from '../Services/Competence.service';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
@@ -17,6 +17,9 @@ declare var bootstrap: any;
   styleUrls: ['./espace-universitaire.css']
 })
 export class EspaceUniversitaire implements OnInit {
+
+    currentYear: number = new Date().getFullYear();
+
 
   successMessage: string = '';
 errorMessage: string = '';
@@ -66,7 +69,8 @@ errorMessage: string = '';
     private competenceService: CompetenceService,
     private http: HttpClient,
     private SujetPfeService: SujetPfeService,
-    private inscriptionService: InscriptionPFEService
+    private inscriptionService: InscriptionPFEService,
+    private cdRef: ChangeDetectorRef
   ) {
     setTimeout(() => this.loadSujets(), 0);
 
@@ -190,10 +194,8 @@ if (this.competenceForm.invalid || !this.selectedFile) {
 
   const formData = new FormData();
 
-  // ✅ correspond à @RequestPart("cv")
   formData.append('cv', this.selectedFile);
 
-  // ✅ correspond à @RequestPart("competence")
   const competencePayload = this.competenceForm.value;
   formData.append('competence', new Blob(
     [JSON.stringify(competencePayload)],
@@ -278,6 +280,7 @@ showToast(id: string): void {
     this.SujetPfeService.getSujetsConfirmesGroupes().subscribe(data => {
       this.sujetsInfo = data.informatique;
       this.informatiqueIndustrielle = data.informatiqueIndustrielle;
+      this.cdRef.detectChanges(); 
     });
   }
 

@@ -11,24 +11,7 @@ body {
   color: #333;
 }
 
-.navbar {
-  background-color: var(--univ-blue);
-  box-shadow: 0 4px 12px var(--univ-shadow);
-}
 
-.navbar-brand {
-  font-weight: 600;
-  font-size: 1.5rem;
-  color: white !important;
-}
-
-.nav-link {
-  color: rgb(67, 16, 207) !important;
-  transition: 0.3s;
-}
-.nav-link:hover {
-  color: #ffc107 !important;
-}
 
 .hero-section {
   padding: 100px 0;

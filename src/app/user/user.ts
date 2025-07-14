@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import {
@@ -58,7 +58,7 @@ export class User implements OnInit, OnDestroy {
     error: faExclamationCircle
   };
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient ,   private cdRef: ChangeDetectorRef) {}
 
   ngOnInit(): void {
     this.loadUsers();
@@ -77,6 +77,7 @@ export class User implements OnInit, OnDestroy {
         next: (users) => {
           this.users = users;
           this.isLoading = false;
+           this.cdRef.detectChanges();
         },
         error: (err) => {
           this.errorMessage = 'Échec du chargement des utilisateurs';

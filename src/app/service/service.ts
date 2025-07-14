@@ -8,4 +8,7 @@ import { Component } from '@angular/core';
 })
 export class Service {
 
+    currentYear: number = new Date().getFullYear();
+
+
 }

@@ -22,7 +22,6 @@
     </div>
 </nav>
 
-<!-- Hero Section - Version améliorée -->
  <!-- Hero Section - Version améliorée -->
 <section class="hero-section bg-gradient-primary text-white py-5 mb-5">
     <div class="container py-5 text-center">
@@ -157,21 +156,69 @@
 </section>
 
 <!-- Call to Action - Version améliorée -->
-<section class="bg-dark text-white py-5 mb-5 position-relative overflow-hidden">
-    <div class="position-absolute top-0 end-0 w-100 h-100">
-        <div class="cta-pattern"></div>
-    </div>
-    <div class="container py-4 position-relative">
-        <div class="row justify-content-center">
-            <div class="col-lg-8 text-center">
-                <h2 class="display-5 fw-bold mb-4">Prêt à développer vos compétences industrielles ?</h2>
-                <p class="lead mb-5">Rejoignez nos formations professionnelles et certifiantes pour booster votre carrière</p>
-                <div class="d-flex justify-content-center gap-3">
-                    <a href="/inscriptionformation" class="btn btn-light btn-lg rounded-pill px-4 fw-bold">
-                        <i class="fas fa-arrow-right me-2"></i>S'inscrire maintenant
-                    </a>
-                </div>
-            </div>
+<section class="text-white py-5 mb-5 position-relative overflow-hidden" style="background: linear-gradient(to right, #3a7bd5, #00d2ff);">
+  <div class="position-absolute top-0 end-0 w-100 h-100">
+    <div class="cta-pattern"></div>
+  </div>
+  <div class="container py-4 position-relative">
+    <div class="row justify-content-center">
+      <div class="col-lg-8 text-center">
+        <h2 class="display-5 fw-bold mb-4">Prêt à développer vos compétences industrielles ?</h2>
+        <p class="lead mb-5">Rejoignez nos formations professionnelles et certifiantes pour booster votre carrière</p>
+        <div class="d-flex justify-content-center gap-3">
+          <a href="/inscriptionformation" class="btn btn-light btn-lg rounded-pill px-4 fw-bold">
+            <i class="fas fa-arrow-right me-2"></i>S'inscrire maintenant
+          </a>
         </div>
+      </div>
     </div>
+  </div>
 </section>
+<!-- Footer -->
+<footer class="bg-dark text-light pt-5 pb-4 mt-5 shadow-lg">
+  <div class="container">
+    <div class="row">
+
+      <!-- Logo et description -->
+      <div class="col-md-4 mb-4">
+        <h5 class="fw-bold text-uppercase mb-3"><i class="fas fa-cogs me-2"></i>SMS2I</h5>
+        <p>
+          SMS2I est votre partenaire de confiance dans l'automatisation industrielle, la formation technique, et les services de maintenance sur mesure.
+        </p>
+        <div class="d-flex gap-2">
+          <a href="https://www.facebook.com/people/SMS2i/100067593331912/" class="text-light fs-5"><i class="fab fa-facebook-f"></i></a>
+          <a href="#" class="text-light fs-5"><i class="fab fa-linkedin-in"></i></a>
+          <a href="#" class="text-light fs-5"><i class="fab fa-youtube"></i></a>
+        </div>
+      </div>
+
+      <!-- Liens rapides -->
+      <div class="col-md-4 mb-4">
+        <h6 class="text-uppercase fw-bold mb-3">Navigation</h6>
+        <ul class="list-unstyled">
+          <li><a href="/acceuil" class="text-light text-decoration-none">Accueil</a></li>
+          <li><a href="/service" class="text-light text-decoration-none">Services</a></li>
+          <li><a href="/galerie" class="text-light text-decoration-none">Galerie</a></li>
+          <li><a href="/formation" class="text-light text-decoration-none">Formations</a></li>
+          <li><a href="#" class="text-light text-decoration-none" data-bs-toggle="modal" data-bs-target="#contactModal">Contact</a></li>
+        </ul>
+      </div>
+
+      <!-- Contact rapide -->
+      <div class="col-md-4 mb-4">
+        <h6 class="text-uppercase fw-bold mb-3">Contact</h6>
+        <p><i class="fas fa-map-marker-alt me-2"></i>Rue 14 janvier (GP1), Imm Neodeme 1ere Etage, Messadine 4013, Sousse</p>
+        <p><i class="fas fa-phone me-2"></i>+216 73 284 160</p>
+        <p><i class="fas fa-envelope me-2"></i>contact.sms2i.tn</p>
+      </div>
+    </div>
+
+    <hr class="border-top border-light">
+
+    <div class="text-center small">
+      &copy; {{ currentYear || '2025' }} SMS2I. Tous droits réservés.
+    </div>
+  </div>
+</footer>
+
+

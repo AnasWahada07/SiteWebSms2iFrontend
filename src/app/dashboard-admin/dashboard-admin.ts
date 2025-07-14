@@ -98,10 +98,14 @@ deleteNotification(notification: Notification): void {
 }
 
 
-  logout(): void {
-    if (isPlatformBrowser(this.platformId)) {
-      localStorage.clear();
-      this.router.navigate(['/signin']);
-    }
+logout(): void {
+  if (isPlatformBrowser(this.platformId)) {
+    const rememberedEmail = localStorage.getItem('rememberedEmail');
+    localStorage.clear(); 
+    if (rememberedEmail) {
+      localStorage.setItem('rememberedEmail', rememberedEmail); 
+    this.router.navigate(['/signin']);
   }
+}
+}
 }

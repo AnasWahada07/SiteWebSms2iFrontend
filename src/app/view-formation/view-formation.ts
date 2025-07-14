@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
@@ -17,7 +17,7 @@ export class ViewFormation implements OnInit {
 
   statutOptions = ['CONFIRMEE', 'EN_ATTENTE', 'REJETEE'];
 
-  constructor(private service: ViewFormationService) {}
+  constructor(private service: ViewFormationService , private cdRef: ChangeDetectorRef) {}
 
   ngOnInit(): void {
     this.loadSujets();
@@ -26,6 +26,7 @@ export class ViewFormation implements OnInit {
   loadSujets(): void {
     this.service.getAllSujets().subscribe(data => {
       this.sujets = data;
+      this.cdRef.detectChanges();
     });
   }
 

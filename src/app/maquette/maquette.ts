@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { PropositionMaquette } from '../Class/PropositionMaquette';
 import { MaquetteService } from '../Services/Maquette.service';
 import { CommonModule } from '@angular/common';
@@ -18,10 +18,11 @@ export class Maquette implements OnInit {
     demandes: DemandeMaquette[] = [];
 
 
-  constructor(private maquetteService: MaquetteService) {}
+  constructor(private maquetteService: MaquetteService , private cdRef: ChangeDetectorRef) {}
 
   ngOnInit(): void {
     this.loadMaquettes();
+    this.chargerDemandes();
   }
 
 loadMaquettes(): void {
@@ -29,6 +30,7 @@ loadMaquettes(): void {
     next: (data) => {
       console.log("Maquettes reçues :", data); 
       this.maquettes = data;
+      this.cdRef.detectChanges();
     },
     error: (err) => console.error("Erreur récupération maquettes :", err)
   });
@@ -44,8 +46,9 @@ loadMaquettes(): void {
 chargerDemandes(): void {
   this.maquetteService.getAlls().subscribe({
     next: data => {
-      console.log("Données brutes reçues depuis le backend :", data); 
       this.demandes = data;
+       this.cdRef.detectChanges();
+
     },
     error: err => console.error('Erreur chargement demandes :', err)
   });

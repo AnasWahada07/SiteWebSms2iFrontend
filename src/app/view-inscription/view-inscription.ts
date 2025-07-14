@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { InscriptionPFE, ViewInscriptionService } from '../Services/ViewInscription.service';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -26,7 +26,8 @@ export class ViewInscription implements OnInit {
   inscriptions: InscriptionPFE[] = [];
   selectedInscription?: InscriptionPFE;
 
-  constructor(private inscriptionService: ViewInscriptionService) {}
+  constructor(private inscriptionService: ViewInscriptionService , private cdRef: ChangeDetectorRef) {}
+
 
   ngOnInit(): void {
     this.loadInscriptions();
@@ -35,8 +36,10 @@ export class ViewInscription implements OnInit {
   loadInscriptions(): void {
     this.inscriptionService.getAll().subscribe(data => {
       this.inscriptions = data;
+      this.cdRef.detectChanges(); // force la mise à jour de la vue
     });
   }
+
 
   deleteInscription(id: number): void {
     if (confirm('Voulez-vous vraiment supprimer cette inscription ?')) {
