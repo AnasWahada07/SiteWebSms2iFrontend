@@ -107,8 +107,36 @@
   <path d="M6.5 6a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5z"/>
   <path d="M5.5.5a.5.5 0 0 0-1 0V2A2.5 2.5 0 0 0 2 4.5H.5a.5.5 0 0 0 0 1H2v1H.5a.5.5 0 0 0 0 1H2v1H.5a.5.5 0 0 0 0 1H2v1H.5a.5.5 0 0 0 0 1H2A2.5 2.5 0 0 0 4.5 14v1.5a.5.5 0 0 0 1 0V14h1v1.5a.5.5 0 0 0 1 0V14h1v1.5a.5.5 0 0 0 1 0V14h1v1.5a.5.5 0 0 0 1 0V14a2.5 2.5 0 0 0 2.5-2.5h1.5a.5.5 0 0 0 0-1H14v-1h1.5a.5.5 0 0 0 0-1H14v-1h1.5a.5.5 0 0 0 0-1H14v-1h1.5a.5.5 0 0 0 0-1H14A2.5 2.5 0 0 0 11.5 2V.5a.5.5 0 0 0-1 0V2h-1V.5a.5.5 0 0 0-1 0V2h-1V.5a.5.5 0 0 0-1 0V2h-1zm1 4.5h3A1.5 1.5 0 0 1 11 6.5v3A1.5 1.5 0 0 1 9.5 11h-3A1.5 1.5 0 0 1 5 9.5v-3A1.5 1.5 0 0 1 6.5 5"/>
 </svg> <span>Gestion des Maquettes</span>
+
+
+
           </a>
         </li>
+
+                        <li>
+          <a href="viewdemandeformation">
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bank" viewBox="0 0 16 16">
+  <path d="m8 0 6.61 3h.89a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.5.5H15v7a.5.5 0 0 1 .485.38l.5 2a.498.498 0 0 1-.485.62H.5a.498.498 0 0 1-.485-.62l.5-2A.5.5 0 0 1 1 13V6H.5a.5.5 0 0 1-.5-.5v-2A.5.5 0 0 1 .5 3h.89zM3.777 3h8.447L8 1zM2 6v7h1V6zm2 0v7h2.5V6zm3.5 0v7h1V6zm2 0v7H12V6zM13 6v7h1V6zm2-1V4H1v1zm-.39 9H1.39l-.25 1h13.72z"/>
+</svg><span>Liste Des Formations</span>
+
+          </a>
+        </li>
+
+                                <li>
+          <a href="viewformationinscrit">
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-clipboard-check-fill" viewBox="0 0 16 16">
+  <path d="M6.5 0A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0zm3 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5z"/>
+  <path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1A2.5 2.5 0 0 1 9.5 5h-3A2.5 2.5 0 0 1 4 2.5zm6.854 7.354-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 0 1 .708-.708L7.5 10.793l2.646-2.647a.5.5 0 0 1 .708.708"/>
+</svg><span>Les Inscriptions Formations</span>
+
+
+
+          </a>
+        </li>
+
+
+
+
 
 
       </ul>
@@ -154,17 +182,19 @@
 <div class="stat-card weather-card">
   <div class="stat-icon">
     <ng-container *ngIf="weatherIconUrl; else fallbackIcon">
-      <img [src]="weatherIconUrl" alt="Météo" width="48" height="48" />
+      <img [src]="weatherIconUrl" alt="Icône météo" class="weather-icon" />
     </ng-container>
     <ng-template #fallbackIcon>
-      <svg viewBox="0 0 24 24" width="48" height="48" fill="#4e73df">
-        <path d="M6 14l3 3v5h6v-5l3-3V9H6v5zm2-3h8v2.17l-3 3V20h-2v-3.83l-3-3V11zm3-9h2v3h-2zM3.502 5.874L4.916 4.46l2.122 2.12-1.414 1.415zm13.458.708l2.123-2.12 1.413 1.416-2.123 2.12z"/>
+      <svg viewBox="0 0 24 24" class="weather-icon" fill="#4e73df">
+        <path
+          d="M6 14l3 3v5h6v-5l3-3V9H6v5zm2-3h8v2.17l-3 3V20h-2v-3.83l-3-3V11zm3-9h2v3h-2zM3.502 5.874L4.916 4.46l2.122 2.12-1.414 1.415zm13.458.708l2.123-2.12 1.413 1.416-2.123 2.12z"
+        />
       </svg>
     </ng-template>
   </div>
   <div class="stat-content">
-    <h3>Météo du jour</h3>
-    <p>{{ weatherText }}</p>
+    <h3 class="weather-title">🌤 Météo du jour</h3>
+    <p class="weather-desc">{{ weatherText }}</p>
   </div>
 </div>
     </div>
@@ -195,7 +225,7 @@
       </div>
     </div>
 
-<!-- Recent Activity -->
+<!-- Notifications -->
 <div class="recent-activity mt-4">
   <div class="card shadow-sm border-0">
     <div class="card-header bg-white border-bottom d-flex justify-content-between align-items-center">
@@ -206,6 +236,25 @@
 
     <div class="card-body">
       <div *ngIf="allNotifications.length > 0; else noActivity">
+<div class="row align-items-center mb-4 g-2">
+  <div class="col-md-8">
+    <div class="position-relative">
+      <input
+        type="text"
+        class="form-control search-input ps-5"
+        placeholder=" Rechercher par type de notification"
+        [(ngModel)]="searchNotifType"
+        (ngModelChange)="filterNotifications()" />
+      <i class="bi bi-search position-absolute search-icon"></i>
+    </div>
+  </div>
+  <div class="col-md-4 text-md-end text-center">
+    <button class="btn btn-outline-danger btn-sm px-4 shadow-sm" (click)="resetNotifFilter()">
+      <i class="bi bi-x-circle me-1"></i> Réinitialiser Recherche
+    </button>
+  </div>
+</div>
+
         <div
           class="activity-item d-flex align-items-start justify-content-between py-3 border-bottom"
           *ngFor="let notif of allNotifications"
@@ -254,7 +303,7 @@
       <!-- Aucun résultat -->
       <ng-template #noActivity>
         <p class="text-muted text-center py-4">
-          Aucune activité récente pour le moment.
+          Aucune Notification pour le moment.
         </p>
       </ng-template>
     </div>

@@ -16,6 +16,10 @@ export class Contacts implements OnInit {
   editForm!: FormGroup;
   selectedContact: Contact | null = null;
 
+  searchQuery: string = '';
+  contactsOriginal: Contact[] = []; 
+
+
   constructor(private contactService: ContactService, private fb: FormBuilder , private cdRef: ChangeDetectorRef) {}
 
   ngOnInit(): void {
@@ -33,10 +37,30 @@ export class Contacts implements OnInit {
       next: (data) => {
         this.contacts = data;
         this.cdRef.detectChanges();
+          this.contactsOriginal = data;
+      this.contacts = [...this.contactsOriginal];
+
       },
       error: (err) => console.error(err),
     });
   }
+
+  applyContactFilter(): void {
+  const query = this.searchQuery.toLowerCase().trim();
+
+  this.contacts = this.contactsOriginal.filter(contact =>
+    (contact.name && contact.name.toLowerCase().includes(query)) ||
+    (contact.email && contact.email.toLowerCase().includes(query)) ||
+    (contact.subject && contact.subject.toLowerCase().includes(query))
+  );
+}
+
+resetContactFilter(): void {
+  this.searchQuery = '';
+  this.contacts = [...this.contactsOriginal];
+}
+
+
 
   deleteContact(contact: Contact): void {
     if (confirm('Êtes-vous sûr de vouloir supprimer ce contact ?')) {

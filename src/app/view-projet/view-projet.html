@@ -1,4 +1,22 @@
+
+
 <div class="projects-container">
+  <div class="row mb-4">
+  <div class="col-md-8">
+    <input
+      type="text"
+      class="form-control shadow-sm"
+      placeholder="🔍 Rechercher par titre ou client"
+      [(ngModel)]="searchQuery"
+      (ngModelChange)="applyProjetFilter()" />
+  </div>
+  <div class="col-md-4 text-end">
+    <button class="btn btn-outline-secondary btn-sm shadow-sm" (click)="resetProjetFilter()">
+      <i class="bi bi-x-circle me-1"></i> Réinitialiser Recherche
+    </button>
+  </div>
+</div>
+
   <!-- Liste des projets -->
   <div class="projects-header">
     <h2 class="section-title">Liste des Projets</h2>

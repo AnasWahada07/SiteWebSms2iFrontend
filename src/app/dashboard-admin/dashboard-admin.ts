@@ -10,7 +10,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 @Component({
   selector: 'app-dashboard-admin',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule , FormsModule],
   templateUrl: './dashboard-admin.html',
   styleUrls: ['./dashboard-admin.css']
 })
@@ -19,6 +19,15 @@ export class DashboardAdmin implements OnInit {
   currentDate: Date = new Date();
   weatherText = 'Chargement...';
   weatherIconUrl: string = '';
+ sidebarOpen = false;
+
+searchNotifType: string = '';
+ notificationsOriginal: Notification[] = []; 
+
+
+
+
+
 
   notifications: Notification[] = [];
   allNotifications: Notification[] = [];
@@ -56,6 +65,9 @@ ngOnInit(): void {
 loadAllNotifications(): void {
   this.notificationService.getAllNotifications().subscribe((data) => {
     this.allNotifications = data.sort((a, b) => {
+      this.notificationsOriginal = data;
+  this.allNotifications = [...this.notificationsOriginal];
+
       return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
     });
   });
@@ -96,6 +108,26 @@ deleteNotification(notification: Notification): void {
     });
   }
 }
+
+toggleSidebar() {
+  this.sidebarOpen = !this.sidebarOpen;
+}
+
+filterNotifications(): void {
+  const query = this.searchNotifType.toLowerCase().trim();
+
+  this.allNotifications = this.notificationsOriginal.filter(notif =>
+    notif.type?.toLowerCase().includes(query)
+  );
+}
+
+resetNotifFilter(): void {
+  this.searchNotifType = '';
+  this.allNotifications = [...this.notificationsOriginal];
+}
+
+
+
 
 
 logout(): void {

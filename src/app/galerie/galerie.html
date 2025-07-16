@@ -1,11 +1,13 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm fixed-top">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm fixed-top py-2">
   <div class="container">
-    <a class="navbar-brand fw-bold" href="/acceuil" aria-label="Accueil SMS2!">
-      <i class="fas fa-cogs me-1"></i> <span>SMS</span>2<span>!</span>
+    <a class="navbar-brand fw-bold d-flex align-items-center" href="/acceuil" aria-label="Accueil SMS2!">
+      <i class="fas fa-cogs me-2 fs-4 text-warning"></i>
+      <span><span class="text-light">SMS</span><span class="text-primary">2!</span></span>
     </a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
+
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav ms-auto align-items-center gap-2">
         <li class="nav-item"><a class="nav-link" href="/acceuil">Accueil</a></li>
@@ -14,11 +16,10 @@
         <li class="nav-item"><a class="nav-link" href="/espaceuniversitaire">Espace Universitaire</a></li>
         <li class="nav-item"><a class="nav-link" href="/formation">Formation</a></li>
         <li class="d-flex gap-2 ms-3">
-          <a href="/signin" class="btn btn-outline-light btn-sm">Se connecter</a>
-          <a href="/signup" class="btn btn-light text-dark btn-sm">S'inscrire</a>
+          <a href="/signin" class="btn btn-outline-light btn-sm px-3">Se connecter</a>
+          <a href="/signup" class="btn btn-light text-dark btn-sm px-3">S'inscrire</a>
         </li>
-        <!-- 🔁 Google Translate intégré -->
-        <li class="nav-item">
+        <li class="nav-item ms-3">
           <div id="google_translate_element"></div>
         </li>
       </ul>
@@ -27,79 +28,69 @@
 </nav>
 
 
-<section class="gallery-section" id="gallery">
+<section class="gallery-section py-5 mt-5" id="gallery">
   <div class="container text-center">
-    <h2 class="section-title">Galerie de nos réalisations</h2>
+    <h2 class="section-title display-6 fw-bold mb-4">📸 Galerie de nos réalisations</h2>
 
-    <!-- ✅ Vérification s'il y a des galeries -->
     <div *ngIf="galeries.length > 0; else noProjects">
       <div class="row">
         <div *ngFor="let g of galeries" class="col-md-4 col-lg-3 mb-4">
-          <div class="gallery-item">
-            <img [src]="g.imageUrl" [alt]="g.title">
-            <div class="gallery-overlay">
-              <h5>{{ g.title }}</h5>
-              <p>Client {{ g.client }}</p>
+          <div class="gallery-item position-relative overflow-hidden rounded shadow-sm">
+            <img [src]="g.imageUrl" [alt]="g.title" class="w-100 h-100 object-fit-cover rounded">
+            <div class="gallery-overlay position-absolute top-0 start-0 w-100 h-100 bg-dark bg-opacity-75 text-light d-flex flex-column justify-content-center align-items-center opacity-0 hover-opacity-100 transition">
+              <h5 class="fw-bold">{{ g.title }}</h5>
+              <p class="mb-0">Client : {{ g.client }}</p>
             </div>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- 🚫 Aucun projet trouvé -->
     <ng-template #noProjects>
       <div class="no-project-message py-5">
         <i class="fas fa-folder-open fa-3x mb-3 text-muted"></i>
         <p class="text-muted fs-5">Aucun projet trouvé pour le moment.</p>
       </div>
     </ng-template>
-
   </div>
 </section>
-
 <!-- Footer -->
 <footer class="bg-dark text-light pt-5 pb-4 mt-5 shadow-lg">
   <div class="container">
-    <div class="row">
+    <div class="row gy-4">
 
-      <!-- Logo et description -->
-      <div class="col-md-4 mb-4">
+      <div class="col-md-4">
         <h5 class="fw-bold text-uppercase mb-3"><i class="fas fa-cogs me-2"></i>SMS2I</h5>
-        <p>
-          SMS2I est votre partenaire de confiance dans l'automatisation industrielle, la formation technique, et les services de maintenance sur mesure.
-        </p>
-        <div class="d-flex gap-2">
-          <a href="https://www.facebook.com/people/SMS2i/100067593331912/" class="text-light fs-5"><i class="fab fa-facebook-f"></i></a>
+        <p>SMS2I est votre partenaire de confiance dans l'automatisation industrielle, la formation technique et les services de maintenance sur mesure.</p>
+        <div class="d-flex gap-3 mt-3">
+          <a href="https://www.facebook.com/people/SMS2i/100067593331912/" class="text-light fs-5" target="_blank"><i class="fab fa-facebook-f"></i></a>
           <a href="#" class="text-light fs-5"><i class="fab fa-linkedin-in"></i></a>
           <a href="#" class="text-light fs-5"><i class="fab fa-youtube"></i></a>
         </div>
       </div>
 
-      <!-- Liens rapides -->
-      <div class="col-md-4 mb-4">
+      <div class="col-md-4">
         <h6 class="text-uppercase fw-bold mb-3">Navigation</h6>
         <ul class="list-unstyled">
-          <li><a href="/acceuil" class="text-light text-decoration-none">Accueil</a></li>
-          <li><a href="/service" class="text-light text-decoration-none">Services</a></li>
-          <li><a href="/galerie" class="text-light text-decoration-none">Galerie</a></li>
-          <li><a href="/formation" class="text-light text-decoration-none">Formations</a></li>
-          <li><a href="#" class="text-light text-decoration-none" data-bs-toggle="modal" data-bs-target="#contactModal">Contact</a></li>
+          <li><a href="/acceuil" class="footer-link">Accueil</a></li>
+          <li><a href="/service" class="footer-link">Services</a></li>
+          <li><a href="/galerie" class="footer-link">Galerie</a></li>
+          <li><a href="/formation" class="footer-link">Formations</a></li>
+          <li><a href="#" class="footer-link" data-bs-toggle="modal" data-bs-target="#contactModal">Contact</a></li>
         </ul>
       </div>
 
-      <!-- Contact rapide -->
-      <div class="col-md-4 mb-4">
+      <div class="col-md-4">
         <h6 class="text-uppercase fw-bold mb-3">Contact</h6>
-        <p><i class="fas fa-map-marker-alt me-2"></i>Rue 14 janvier (GP1), Imm Neodeme 1ere Etage, Messadine 4013, Sousse</p>
+        <p><i class="fas fa-map-marker-alt me-2"></i>Rue 14 janvier (GP1), Imm Neodeme, Messadine 4013</p>
         <p><i class="fas fa-phone me-2"></i>+216 73 284 160</p>
         <p><i class="fas fa-envelope me-2"></i>contact.sms2i.tn</p>
       </div>
     </div>
 
-    <hr class="border-top border-light">
-
-    <div class="text-center small">
-      &copy; {{ currentYear || '2025' }} SMS2I. Tous droits réservés.
+    <hr class="border-top border-light mt-4">
+    <div class="text-center small pt-2">
+      &copy; {{ currentYear || '2025' }} <strong>SMS2I</strong>. Tous droits réservés.
     </div>
   </div>
 </footer>

@@ -73,8 +73,8 @@
               </div>
 
               <div class="form-check card-radio mb-3">
-                <input class="form-check-input" type="radio" id="etudiant" value="etudiant" formControlName="formationType">
-                <label class="form-check-label card p-3" for="etudiant">
+                <input class="form-check-input" type="radio" id="universitaire" value="universitaire" formControlName="formationType">
+                <label class="form-check-label card p-3" for="universitaire">
                   <span class="h5 d-block mb-2"><i class="fas fa-university me-2 text-primary"></i> Universitaire</span>
                   <span class="d-block text-muted">Formation pour étudiants</span>
                 </label>
@@ -123,16 +123,16 @@
               <div class="form-text">Optionnel : vous pouvez suggérer un budget.</div>
             </div>
 
-            <div class="mb-3">
-              <label for="participants" class="form-label fw-bold">Nombre approximatif de participants</label>
-              <select class="form-select form-select-lg" id="participants" formControlName="participants">
-                <option value="">Sélectionnez...</option>
-                <option value="1-5">1-5 personnes</option>
-                <option value="6-10">6-10 personnes</option>
-                <option value="11-20">11-20 personnes</option>
-                <option value="20+">Plus de 20 personnes</option>
-              </select>
-            </div>
+<div class="mb-3">
+  <label for="participants" class="form-label fw-bold">Nombre approximatif de participants</label>
+  <input
+    type="text"
+    class="form-control form-control-lg"
+    id="participants"
+    placeholder="Ex: 10 personnes"
+    formControlName="participants"
+  />
+</div>
           </div>
 
           <!-- Submit -->

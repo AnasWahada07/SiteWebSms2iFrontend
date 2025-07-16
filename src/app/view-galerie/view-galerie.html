@@ -1,5 +1,22 @@
 <div class="container">
-  <!-- 📋 Liste des galeries -->
+
+<div class="row mb-4">
+  <div class="col-md-8">
+    <input
+      type="text"
+      class="form-control shadow-sm"
+      placeholder="🔍 Rechercher par titre ou client"
+      [(ngModel)]="searchQuery"
+      (ngModelChange)="applyFilter()" />
+  </div>
+  <div class="col-md-4 text-end">
+    <button class="btn btn-outline-secondary btn-sm shadow-sm" (click)="resetFilter()">
+      <i class="bi bi-x-circle me-1"></i> Réinitialiser Recherche
+    </button>
+  </div>
+</div>
+
+
   <div class="galerie-list">
     <h2 class="section-title">Mes Galeries</h2>
 

@@ -1,4 +1,22 @@
 <div class="inscription-dashboard">
+
+
+  <div class="row mb-4">
+  <div class="col-md-8">
+    <input
+      type="text"
+      class="form-control shadow-sm"
+      placeholder="🔍 Rechercher par nom, prénom, classe ou sujet"
+      [(ngModel)]="searchQuery"
+      (ngModelChange)="applyFilter()" />
+  </div>
+  <div class="col-md-4 text-end">
+    <button class="btn btn-outline-secondary btn-sm shadow-sm" (click)="resetFilter()">
+      <i class="fas fa-times-circle me-1"></i> Réinitialiser
+    </button>
+  </div>
+</div>
+
   <h2 class="dashboard-title">
     <i class="fas fa-user-graduate"></i> Gestion des Inscriptions
   </h2>

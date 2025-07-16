@@ -15,6 +15,9 @@ export class ViewFormation implements OnInit {
   sujets: SujetPFE[] = [];
   selectedSujet: SujetPFE | null = null;
 
+  searchQuery: string = '';
+  sujetsOriginal: SujetPFE[] = []; 
+
   statutOptions = ['CONFIRMEE', 'EN_ATTENTE', 'REJETEE'];
 
   constructor(private service: ViewFormationService , private cdRef: ChangeDetectorRef) {}
@@ -26,7 +29,10 @@ export class ViewFormation implements OnInit {
   loadSujets(): void {
     this.service.getAllSujets().subscribe(data => {
       this.sujets = data;
-      this.cdRef.detectChanges();
+        this.cdRef.detectChanges();
+    this.sujetsOriginal = data;
+   this.sujets = [...this.sujetsOriginal];
+
     });
   }
 
@@ -57,6 +63,24 @@ export class ViewFormation implements OnInit {
       }
     });
   }
+
+  applyGlobalFilter(): void {
+  const query = this.searchQuery.toLowerCase().trim();
+
+  this.sujets = this.sujetsOriginal.filter(sujet =>
+    (sujet.titre && sujet.titre.toLowerCase().includes(query)) ||
+    (sujet.type && sujet.type.toLowerCase().includes(query)) ||
+    (sujet.statut && sujet.statut.toLowerCase().includes(query)) ||
+    (sujet.prixEncadrement && sujet.prixEncadrement.toString().includes(query))
+  );
+}
+
+  resetFilters(): void {
+    this.searchQuery = '';
+    this.sujets = [...this.sujetsOriginal];
+  }
+
+
 
   cancelEdit(): void {
     this.selectedSujet = null;

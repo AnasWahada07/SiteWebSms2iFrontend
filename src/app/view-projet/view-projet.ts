@@ -27,6 +27,10 @@ export class ViewProjet implements OnInit {
   selectedImageFile?: File;
   previewUrl: string | ArrayBuffer | null = null;
 
+  searchQuery: string = '';
+projetsOriginal: any[] = []; 
+
+
   selectedProjet?: any;
   selectedEditImageFile?: File;
   editPreviewUrl: string | ArrayBuffer | null = null;
@@ -41,6 +45,7 @@ loadProjets(): void {
   this.projetService.getAllProjets().subscribe(data => {
     this.projets = data;
     this.cdRef.detectChanges(); 
+    this.projetsOriginal = [...this.projets]; 
   });
 }
 
@@ -109,6 +114,21 @@ loadProjets(): void {
       this.loadProjets();
     });
   }
+applyProjetFilter(): void {
+  const query = this.searchQuery.toLowerCase().trim();
+
+  this.projets = this.projetsOriginal.filter(projet =>
+    (projet.title && projet.title.toLowerCase().includes(query)) ||
+    (projet.client && projet.client.toLowerCase().includes(query))
+  );
+}
+
+resetProjetFilter(): void {
+  this.searchQuery = '';
+  this.projets = [...this.projetsOriginal];
+}
+
+
 
   deleteProjet(id: number): void {
     this.projetService.deleteProjet(id).subscribe(() => this.loadProjets());

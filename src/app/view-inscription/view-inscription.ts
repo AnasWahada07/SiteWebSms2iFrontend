@@ -22,6 +22,10 @@ import { CommonModule } from '@angular/common';
 })
 export class ViewInscription implements OnInit {
 
+  searchQuery: string = '';
+  inscriptionsOriginal: InscriptionPFE[] = []; // pour garder toutes les inscriptions sans filtrage
+
+
 
   inscriptions: InscriptionPFE[] = [];
   selectedInscription?: InscriptionPFE;
@@ -36,7 +40,11 @@ export class ViewInscription implements OnInit {
   loadInscriptions(): void {
     this.inscriptionService.getAll().subscribe(data => {
       this.inscriptions = data;
-      this.cdRef.detectChanges(); // force la mise à jour de la vue
+            this.cdRef.detectChanges(); 
+        this.inscriptionsOriginal = data;
+       this.inscriptions = [...this.inscriptionsOriginal];
+
+      this.cdRef.detectChanges(); 
     });
   }
 
@@ -61,6 +69,22 @@ saveModification(): void {
     this.loadInscriptions();
   });
 }
+
+applyFilter(): void {
+  const query = this.searchQuery.toLowerCase().trim();
+
+  this.inscriptions = this.inscriptionsOriginal.filter(i =>
+    (i.nom && i.nom.toLowerCase().includes(query)) ||
+    (i.prenom && i.prenom.toLowerCase().includes(query)) ||
+    (i.classe && i.classe.toLowerCase().includes(query)) ||
+    (i.sujetTitre && i.sujetTitre.toLowerCase().includes(query))
+  );
+}
+
+  resetFilter(): void {
+    this.searchQuery = '';
+    this.inscriptions = [...this.inscriptionsOriginal];
+  }
 
 
 

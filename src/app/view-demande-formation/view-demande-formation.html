@@ -1,0 +1,135 @@
+<div class="formations-container">
+  <h2 class="mb-4 text-primary fw-bold text-center">Liste des Formations</h2>
+
+
+<div class="row mb-3 align-items-center">
+  <div class="col-md-8">
+    <input
+      type="text"
+      class="form-control shadow-sm"
+      placeholder="🔍 Rechercher par titre, type ou thème"
+      [(ngModel)]="searchQuery"
+      (ngModelChange)="applyFilters()" />
+  </div>
+  <div class="col-md-4 text-end">
+    <button class="btn btn-outline-secondary btn-sm shadow-sm" (click)="resetFilters()">
+      <i class="bi bi-x-circle me-1"></i> Réinitialiser Recherche
+    </button>
+  </div>
+</div>
+
+
+  <div class="table-responsive mb-5">
+    <table class="table table-bordered table-hover align-middle text-center">
+      <thead class="table-light">
+        <tr>
+          <th>Nom</th>
+          <th>Prénom</th>
+          <th>Email</th>
+          <th>Téléphone</th>
+          <th>Titre</th>
+          <th>Type</th>
+          <th>Thème</th>
+          <th>Participants</th>
+          <th>Prix (TND)</th>
+          <th>Statut</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let formation of formations">
+          <td>{{ formation.nom }}</td>
+          <td>{{ formation.prenom }}</td>
+          <td>{{ formation.email }}</td>
+          <td>{{ formation.telephone }}</td>
+          <td>{{ formation.titre }}</td>
+          <td>{{ formation.formationType }}</td>
+          <td>{{ formation.theme }}</td>
+          <td>{{ formation.participants }}</td>
+          <td>{{ formation.proposerPrix }}</td>
+          <td>
+            <span class="badge"
+              [ngClass]="{
+                'bg-success': formation.statut === 'CONFIRMEE',
+                'bg-warning text-dark': formation.statut === 'EN_ATTENTE',
+                'bg-danger': formation.statut === 'REJETEE'
+              }">
+              {{ formation.statut }}
+            </span>
+          </td>
+          <td>
+            <button class="btn btn-outline-primary btn-sm me-1" (click)="selectFormation(formation)">
+              <i class="bi bi-pencil-fill"></i>
+            </button>
+            <button class="btn btn-outline-danger btn-sm" (click)="deleteFormation(formation.id)">
+              <i class="bi bi-trash-fill"></i>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Formulaire de modification -->
+  <div *ngIf="selectedFormation" class="card p-4 shadow-sm">
+    <h4 class="mb-4 text-primary"><i class="bi bi-pencil-square me-2"></i>Modifier la Formation</h4>
+    <form (ngSubmit)="updateSelectedFormation()">
+      <div class="row g-3">
+        <div class="col-md-6">
+          <label class="form-label">Nom</label>
+          <input class="form-control" [(ngModel)]="selectedFormation.nom" name="nom" required>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Prénom</label>
+          <input class="form-control" [(ngModel)]="selectedFormation.prenom" name="prenom" required>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Email</label>
+          <input type="email" class="form-control" [(ngModel)]="selectedFormation.email" name="email" required>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Téléphone</label>
+          <input class="form-control" [(ngModel)]="selectedFormation.telephone" name="telephone">
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Titre</label>
+          <input class="form-control" [(ngModel)]="selectedFormation.titre" name="titre" required>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Type</label>
+          <input class="form-control" [(ngModel)]="selectedFormation.formationType" name="formationType" required>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Thème</label>
+          <input class="form-control" [(ngModel)]="selectedFormation.theme" name="theme">
+        </div>
+        <div class="col-md-12">
+          <label class="form-label">Description</label>
+          <textarea class="form-control" [(ngModel)]="selectedFormation.description" name="description"></textarea>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Participants</label>
+          <input type="number" class="form-control" [(ngModel)]="selectedFormation.participants" name="participants">
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Proposer Prix (TND)</label>
+          <input type="number" class="form-control" [(ngModel)]="selectedFormation.proposerPrix" name="proposerPrix">
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Statut</label>
+          <select class="form-select" [(ngModel)]="selectedFormation.statut" name="statut">
+            <option *ngFor="let statut of statutOptions" [value]="statut">{{ statut }}</option>
+          </select>
+        </div>
+      </div>
+      <div class="mt-4 d-flex justify-content-end gap-2">
+        <button type="submit" class="btn btn-success">
+          <i class="bi bi-check-circle me-1"></i> Enregistrer
+        </button>
+        <button type="button" class="btn btn-secondary" (click)="cancelEdit()">
+          <i class="bi bi-x-circle me-1"></i> Annuler
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

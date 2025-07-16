@@ -20,6 +20,9 @@ import { adminGuard } from './Services/Admin.guard';
 import { Contact } from './Class/Contact';
 import { Contacts } from './contact/contact';
 import { Maquette } from './maquette/maquette';
+import { Paiement } from './paiement/paiement';
+import { ViewDemandeFormation } from './view-demande-formation/view-demande-formation';
+import { ViewInscritFormation } from './view-inscrit-formation/view-inscrit-formation';
 
 
 export const routes: Routes = [
@@ -36,6 +39,11 @@ export const routes: Routes = [
   { path: 'password', component: ResetPassword },
       { path: 'contact', component: Contacts  },
             { path: 'maquettes', component: Maquette  },
+            { path: 'paiement', component: Paiement },
+            { path: 'viewformationinscrit', component: ViewInscritFormation },
+
+
+
 
 
 
@@ -48,6 +56,9 @@ export const routes: Routes = [
   { path: 'Admin', component: DashboardAdmin, canActivate: [adminGuard] },
     { path: 'contact', component: Contacts , canActivate: [adminGuard] },
     { path: 'contact', component: Contacts , canActivate: [adminGuard] },
+        { path: 'viewdemandeformation', component: ViewDemandeFormation , canActivate: [adminGuard] },
+
+
 
 
 ];

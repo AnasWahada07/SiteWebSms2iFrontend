@@ -1,79 +1,112 @@
-<div class="container">
-  <h2>Liste des Sujets PFE</h2>
+<div class="container my-5">
 
-  <!-- 📄 Tableau des sujets -->
-  <table border="1" cellpadding="5" cellspacing="0">
-    <thead>
-      <tr>
-        <th>Nom</th>
-        <th>Prénom</th>
-        <th>Titre</th>
-        <th>Description</th>
-        <th>Prix Encadrement</th>
-        <th>Type</th>
-        <th>Nombre Inscriptions</th>
-        <th>Fichier de Sujet</th>
-        <th>Statut</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let sujet of sujets">
-        <td>{{ sujet.nom }}</td>
-        <td>{{ sujet.prenom }}</td>
-        <td>{{ sujet.titre }}</td>
-        <td>{{ sujet.description }}</td>
-        <td>{{ sujet.prixEncadrement }}</td>
-        <td>{{ sujet.type }}</td>
-        <td>{{ sujet.nombreInscription }}</td>
-        <td>
-          <a *ngIf="sujet.fileName" [href]="getFileUrl(sujet.fileName)" target="_blank" download>
-            📄 Télécharger
-          </a>
-        </td>
-        <td>{{ sujet.statut }}</td>
-        <td>
-          <button (click)="selectSujet(sujet)">📝 Modifier</button>
-          <button (click)="delete(sujet.id)">🗑 Supprimer</button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+  <div class="row mb-4">
+  <div class="col-md-8">
+    <input
+      type="text"
+      class="form-control shadow-sm"
+      placeholder="🔍 Rechercher par titre, type, statut ou prix"
+      [(ngModel)]="searchQuery"
+      (ngModelChange)="applyGlobalFilter()" />
+  </div>
+  <div class="col-md-4 text-end">
+    <button class="btn btn-outline-secondary btn-sm shadow-sm" (click)="resetFilters()">
+      <i class="bi bi-x-circle me-1"></i> Réinitialiser Recherche
+    </button>
+  </div>
+</div>
+
+  <h2 class="text-center mb-4 fw-bold text-primary">📋 Liste des Sujets PFE</h2>
+
+  <div class="table-responsive">
+    <table class="table table-bordered table-hover align-middle">
+      <thead class="table-light text-center">
+        <tr>
+          <th>Nom</th>
+          <th>Prénom</th>
+          <th>Titre</th>
+          <th>Description</th>
+          <th>Prix Encadrement (TND)</th>
+          <th>Type</th>
+          <th>Nombre Inscriptions</th>
+          <th>Fichier</th>
+          <th>Statut</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let sujet of sujets">
+          <td>{{ sujet.nom }}</td>
+          <td>{{ sujet.prenom }}</td>
+          <td>{{ sujet.titre }}</td>
+          <td>{{ sujet.description }}</td>
+          <td>{{ sujet.prixEncadrement }}</td>
+          <td>{{ sujet.type }}</td>
+          <td class="text-center">{{ sujet.nombreInscription }}</td>
+          <td class="text-center">
+            <a *ngIf="sujet.fileName" class="btn btn-sm btn-outline-primary" [href]="getFileUrl(sujet.fileName)" target="_blank" download>
+              📄 Télécharger
+            </a>
+          </td>
+          <td>{{ sujet.statut }}</td>
+          <td class="text-center">
+            <button class="btn btn-warning btn-sm me-1" (click)="selectSujet(sujet)">📝 Modifier</button>
+            <button class="btn btn-danger btn-sm" (click)="delete(sujet.id)">🗑 Supprimer</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 
   <!-- 📝 Formulaire de modification -->
-  <div *ngIf="selectedSujet" class="form-container">
-    <h3>Modifier le Sujet</h3>
-    <form (ngSubmit)="updateSelectedSujet()">
-      <label>Nom:</label>
-      <input [(ngModel)]="selectedSujet.nom" name="nom" required /><br />
+  <div *ngIf="selectedSujet" class="card shadow mt-5">
+    <div class="card-header bg-primary text-white fw-bold text-center">
+      Modifier le Sujet
+    </div>
+    <div class="card-body">
+      <form (ngSubmit)="updateSelectedSujet()">
+        <div class="row g-3">
+          <div class="col-md-6">
+            <label class="form-label">Nom</label>
+            <input class="form-control" [(ngModel)]="selectedSujet.nom" name="nom" required />
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Prénom</label>
+            <input class="form-control" [(ngModel)]="selectedSujet.prenom" name="prenom" required />
+          </div>
+          <div class="col-12">
+            <label class="form-label">Titre</label>
+            <input class="form-control" [(ngModel)]="selectedSujet.titre" name="titre" />
+          </div>
+          <div class="col-12">
+            <label class="form-label">Description</label>
+            <textarea class="form-control" [(ngModel)]="selectedSujet.description" name="description" rows="3"></textarea>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Type</label>
+            <input class="form-control" [(ngModel)]="selectedSujet.type" name="type" />
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Statut</label>
+            <select class="form-select" [(ngModel)]="selectedSujet.statut" name="statut">
+              <option *ngFor="let statut of statutOptions" [value]="statut">{{ statut }}</option>
+            </select>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Prix Encadrement</label>
+            <input class="form-control" type="text" [(ngModel)]="selectedSujet.prixEncadrement" name="prixEncadrement" />
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Nombre d’inscriptions</label>
+            <input class="form-control" type="number" [(ngModel)]="selectedSujet.nombreInscription" name="nombreInscription" />
+          </div>
+        </div>
 
-      <label>Prénom:</label>
-      <input [(ngModel)]="selectedSujet.prenom" name="prenom" required /><br />
-
-      <label>Titre:</label>
-      <input [(ngModel)]="selectedSujet.titre" name="titre" /><br />
-
-      <label>Description:</label>
-      <textarea [(ngModel)]="selectedSujet.description" name="description"></textarea><br />
-
-      <label>Type:</label>
-      <input [(ngModel)]="selectedSujet.type" name="type" /><br />
-
-      <label>Statut:</label>
-      <select [(ngModel)]="selectedSujet.statut" name="statut">
-        <option *ngFor="let statut of statutOptions" [value]="statut">{{ statut }}</option>
-      </select><br />
-
-      <label>Prix Encadrement:</label>
-      <input type="text" [(ngModel)]="selectedSujet.prixEncadrement" name="prixEncadrement" /><br />
-
-      <label>Nombre d’inscriptions:</label>
-      <input type="number" [(ngModel)]="selectedSujet.nombreInscription" name="nombreInscription" /><br />
-
-      <div class="form-buttons">
-        <button type="submit">✅ Enregistrer</button>
-        <button type="button" (click)="cancelEdit()">❌ Annuler</button>
-      </div>
-    </form>
+        <div class="d-flex justify-content-end mt-4 gap-3">
+          <button type="submit" class="btn btn-success">✅ Enregistrer</button>
+          <button type="button" class="btn btn-secondary" (click)="cancelEdit()">❌ Annuler</button>
+        </div>
+      </form>
+    </div>
   </div>
 </div>

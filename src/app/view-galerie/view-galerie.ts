@@ -27,6 +27,10 @@ export class ViewGalerie implements OnInit {
   selectedGalerieId?: number;
   showForm: boolean = false;
 
+searchQuery: string = '';
+galeriesOriginal: Galeries[] = []; // pour garder toutes les galeries sans filtrage
+
+
   constructor(private galerieService: GalerieService, private fb: FormBuilder , private cdRef: ChangeDetectorRef) {
     this.galerieForm = this.fb.group({
       title: ['', Validators.required],
@@ -44,6 +48,9 @@ export class ViewGalerie implements OnInit {
       next: (data) => {
         this.galeries = data;
         this.cdRef.detectChanges();
+        this.galeriesOriginal = [...data];
+
+
       },
       error: (err) => {
         console.error("❌ Erreur lors du chargement des galeries :", err);
@@ -131,6 +138,20 @@ export class ViewGalerie implements OnInit {
     if (!this.showForm && this.updateMode) {
       this.resetForm();
     }
+
+  }
+
+  applyFilter(): void {
+    const query = this.searchQuery.toLowerCase().trim();
+    this.galeries = this.galeriesOriginal.filter(galerie =>
+      (galerie.title && galerie.title.toLowerCase().includes(query)) ||
+      (galerie.client && galerie.client.toLowerCase().includes(query))
+    );
+  }
+
+  resetFilter(): void {
+    this.searchQuery = '';
+    this.galeries = [...this.galeriesOriginal];
   }
 
   resetForm(): void {
