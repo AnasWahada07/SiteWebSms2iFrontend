@@ -15,53 +15,51 @@ import { DemandeMaquette } from '../Class/DemandeMaquette';
 })
 export class Maquette implements OnInit {
   maquettes: PropositionMaquette[] = [];
-    demandes: DemandeMaquette[] = [];
+  demandes: DemandeMaquette[] = [];
 
-
-  constructor(private maquetteService: MaquetteService , private cdRef: ChangeDetectorRef) {}
+  constructor(private maquetteService: MaquetteService, private cdRef: ChangeDetectorRef) {}
 
   ngOnInit(): void {
     this.loadMaquettes();
     this.chargerDemandes();
   }
 
-loadMaquettes(): void {
-  this.maquetteService.getAll().subscribe({
-    next: (data) => {
-      console.log("Maquettes reçues :", data); 
-      this.maquettes = data;
-      this.cdRef.detectChanges();
-    },
-    error: (err) => console.error("Erreur récupération maquettes :", err)
-  });
-}
-
-  delete(id: number): void {
-    if (confirm('Voulez-vous vraiment supprimer cette proposition ?')) {
-      this.maquetteService.delete(id).subscribe(() => {
-        this.loadMaquettes();
-      });
-    }
+  loadMaquettes(): void {
+    this.maquetteService.getAll().subscribe({
+      next: (data) => {
+        this.maquettes = data;
+        this.cdRef.detectChanges();
+      },
+      error: (err) => console.error("Erreur récupération maquettes :", err)
+    });
   }
-chargerDemandes(): void {
-  this.maquetteService.getAlls().subscribe({
-    next: data => {
-      this.demandes = data;
-       this.cdRef.detectChanges();
 
-    },
-    error: err => console.error('Erreur chargement demandes :', err)
-  });
-}
-
-  supprimer(id: number): void {
-    if (confirm("Confirmer la suppression de cette demande ?")) {
-      this.maquetteService.deletes(id).subscribe(() => {
-        this.chargerDemandes();
-      });
-    }
+supprimerProposition(id: number): void {
+  if (confirm('Voulez-vous vraiment supprimer cette proposition ?')) {
+    this.maquetteService.delete(id).subscribe(() => {
+      this.loadMaquettes();
+    });
   }
 }
 
+
+  chargerDemandes(): void {
+    this.maquetteService.getAlls().subscribe({
+      next: data => {
+        this.demandes = data;
+        this.cdRef.detectChanges();
+      },
+      error: err => console.error('Erreur chargement demandes :', err)
+    });
+  }
+
+supprimerDemande(id: number): void {
+  if (confirm('Voulez-vous vraiment supprimer cette demande ?')) {
+    this.maquetteService.deletes(id).subscribe(() => {
+      this.chargerDemandes();
+    });
+  }
+}
+}
 
 

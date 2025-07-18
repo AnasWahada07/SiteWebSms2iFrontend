@@ -6,5 +6,6 @@ export interface InscriptionFormation {
   prenom: string;
   email: string;
   telephone?: string;
+  etat?: string;
   formation: Formations;
 }

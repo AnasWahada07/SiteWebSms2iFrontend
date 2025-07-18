@@ -27,22 +27,17 @@ export class Paiement implements OnInit {
 
 ngOnInit(): void {
   this.route.queryParams.subscribe(params => {
-    this.token = params['token'];
+    this.token = (params['token'] || '').trim(); // 🔥 CORRECTION ICI
     const successParam = params['success'];
-
 
     if (this.token) {
       this.http.get(`http://192.168.1.54:8082/api/inscriptions/formation/by-token/${this.token}`)
         .subscribe({
           next: (res: any) => {
             this.inscription.set(res);
-            console.log('ℹ️ Inscription chargée :', res);
 
             if (successParam === 'true') {
-              console.log('✅ Redirection après paiement détectée → confirmation en cours...');
               this.confirmerPaiementViaToken(this.token);
-            } else {
-              console.log('ℹ️ Aucune redirection de paiement détectée (success ≠ true)');
             }
           },
           error: () => {

@@ -53,3 +53,67 @@
         background-color: #e7f1ff;
         color: #0056b3 !important;
     }
+.login-logo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.logo-container {
+  position: relative;
+  display: inline-block;
+  animation: fadeIn 1s ease-in-out;
+}
+
+.logo-img {
+  max-width: 100px;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  transition: transform 0.4s ease;
+}
+
+.logo-img:hover {
+  transform: scale(1.05);
+}
+
+.shield-icon {
+  position: absolute;
+  bottom: -8px;
+  right: -10px;
+  background-color: #343a40;
+  padding: 8px;
+  border-radius: 50%;
+  color: white;
+  font-size: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.app-title {
+  margin-top: 12px;
+  margin-bottom: 5px;
+  font-size: 28px;
+  font-weight: bold;
+  background: linear-gradient(90deg, #1d4ed8, #9333ea);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.slogan {
+  color: #6c757d;
+  font-size: 14px;
+  font-style: italic;
+  animation: fadeIn 1s 0.3s ease-in-out both;
+}
+
+/* Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

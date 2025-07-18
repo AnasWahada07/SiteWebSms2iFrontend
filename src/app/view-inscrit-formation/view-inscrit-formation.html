@@ -1,33 +1,84 @@
-<div class="container mt-5">
-  <div class="card shadow-sm border-0">
-    <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
-      <h4 class="mb-0">📋 Liste des inscriptions</h4>
-      <span class="badge bg-light text-dark">{{ inscriptions.length }} inscrits</span>
+<div class="container my-5">
+
+  <!-- Barre de recherche et filtres -->
+  <div class="p-4 bg-white shadow rounded-3 mb-4 border">
+    <div class="row g-3 align-items-center">
+      <div class="col-md-5">
+        <input type="text"
+               class="form-control shadow-sm"
+               placeholder="🔍 Rechercher nom, prénom ou formation..."
+               [(ngModel)]="searchText"
+               (ngModelChange)="applyFilters()">
+      </div>
+      <div class="col-md-4">
+        <select class="form-select shadow-sm"
+                [(ngModel)]="selectedEtat"
+                (ngModelChange)="applyFilters()">
+          <option value="">📌 Tous les états</option>
+          <option value="PAIEMENT_CONFIRME">✔️ Acceptée</option>
+          <option value="EN_ATTENTE_DE_PAIEMENT">⏳ En attente</option>
+        </select>
+      </div>
+      <div class="col-md-3 text-end">
+        <button class="btn btn-outline-danger btn-sm shadow-sm"
+                (click)="resetFilters()">
+          <i class="bi bi-x-circle me-1"></i> Réinitialiser
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Carte avec tableau -->
+  <div class="card shadow border-0 rounded-4">
+    <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center px-4 py-3 rounded-top">
+      <h5 class="mb-0"><i class="bi bi-journal-text me-2"></i> Liste des inscriptions</h5>
+      <span class="badge bg-light text-dark fw-bold fs-6 shadow-sm px-3 py-2 rounded-pill">
+        {{ filteredInscriptions.length }} inscrits
+      </span>
     </div>
 
     <div class="card-body p-0">
       <div class="table-responsive">
-        <table class="table table-hover table-striped align-middle mb-0">
-          <thead class="table-primary">
+        <table class="table table-hover table-striped table-bordered align-middle mb-0">
+          <thead class="table-light text-center text-uppercase small">
             <tr>
-              <th scope="col">👤 Nom</th>
-              <th scope="col">🧍‍♀️ Prénom</th>
-              <th scope="col">📧 Email</th>
-              <th scope="col">📞 Téléphone</th>
-              <th scope="col">🎓 Formation</th>
-              <th scope="col">⚙️ Actions</th>
+              <th>Nom</th>
+              <th>Prénom</th>
+              <th>Email</th>
+              <th>Téléphone</th>
+              <th>Formation</th>
+              <th>État</th>
+              <th>Actions</th>
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let insc of inscriptions">
-              <td>{{ insc.nom }}</td>
-              <td>{{ insc.prenom }}</td>
-              <td>{{ insc.email }}</td>
+            <tr *ngFor="let insc of filteredInscriptions" class="text-center">
+              <td class="fw-semibold">{{ insc.nom }}</td>
+              <td class="fw-semibold">{{ insc.prenom }}</td>
+              <td class="text-muted">{{ insc.email }}</td>
               <td>{{ insc.telephone || '-' }}</td>
-              <td>{{ insc.formation.titre }}</td>
+              <td class="text-primary">{{ insc.formation.titre }}</td>
+<td>
+  <span class="badge d-inline-flex align-items-center gap-1 px-3 py-2 fs-6 rounded-pill"
+        [ngClass]="{
+          'bg-success': insc.etat === 'PAIEMENT_CONFIRME',
+          'bg-warning text-dark': insc.etat === 'EN_ATTENTE_DE_PAIEMENT'
+        }">
+    <i class="bi"
+       [ngClass]="{
+         'bi-check-circle-fill': insc.etat === 'PAIEMENT_CONFIRME',
+         'bi-clock-fill': insc.etat === 'EN_ATTENTE_DE_PAIEMENT'
+       }"></i>
+    <span>
+      {{ insc.etat === 'PAIEMENT_CONFIRME' ? 'Paiement confirmé' : 'En attente de paiement' }}
+    </span>
+  </span>
+</td>
               <td>
-                <button class="btn btn-sm btn-outline-danger" (click)="deleteInscription(insc.id)">
-                  <i class="bi bi-trash3-fill me-1"></i> Supprimer
+                <button class="btn btn-sm btn-outline-danger shadow-sm d-flex align-items-center justify-content-center gap-2"
+                        (click)="deleteInscription(insc.id)">
+                  <i class="bi bi-trash3-fill"></i>
+                  Supprimer
                 </button>
               </td>
             </tr>

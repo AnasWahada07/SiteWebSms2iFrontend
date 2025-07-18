@@ -85,16 +85,25 @@
             <td class="column-class">{{ i.classe }}</td>
             <td class="column-specialty">{{ i.specialite }}</td>
             <td class="column-subject">{{ i.sujetTitre }}</td>
-            <td class="column-status">
-              <span class="status-tag" 
-                    [class.is-pending]="i.etat === 'CONTACTEZ_ADMINISTRATION_DE_SMS2I_POUR_EFFECTUER_LE_PAIEMENT'" 
-                    [class.is-confirmed]="i.etat === 'PAIEMENT_CONFIRMÉ_AVEC_SUCCÈS'">
-                <i class="status-icon" [class.fa-clock]="i.etat === 'CONTACTEZ_ADMINISTRATION_DE_SMS2I_POUR_EFFECTUER_LE_PAIEMENT'"
-                              [class.fa-check-circle]="i.etat === 'PAIEMENT_CONFIRMÉ_AVEC_SUCCÈS'"></i>
-                {{ i.etat === 'CONTACTEZ_ADMINISTRATION_DE_SMS2I_POUR_EFFECTUER_LE_PAIEMENT' ? 'En attente de Paiement' : 'Paiement Confirme ' }}
-              </span>
-            </td>
-            <td class="column-actions">
+<td class="column-status">
+  <span class="status-tag"
+        [ngClass]="{
+          'is-pending': i.etat === 'CONTACTEZ_ADMINISTRATION_DE_SMS2I_POUR_EFFECTUER_LE_PAIEMENT',
+          'is-confirmed': i.etat === 'PAIEMENT_CONFIRMÉ_AVEC_SUCCÈS'
+        }">
+
+    <i class="status-icon me-1"
+       [ngClass]="{
+         'bi-clock-fill': i.etat === 'CONTACTEZ_ADMINISTRATION_DE_SMS2I_POUR_EFFECTUER_LE_PAIEMENT',
+         'fas fa-check-circle text-success': i.etat === 'PAIEMENT_CONFIRMÉ_AVEC_SUCCÈS'
+       }">
+    </i>
+
+    {{ i.etat === 'CONTACTEZ_ADMINISTRATION_DE_SMS2I_POUR_EFFECTUER_LE_PAIEMENT'
+        ? 'En attente de paiement'
+        : 'Paiement confirmé' }}
+  </span>
+</td>            <td class="column-actions">
               <div class="action-group">
                 <button class="action-btn edit-btn" (click)="editInscription(i)" title="Modifier">
                   <i class="fas fa-edit"></i>

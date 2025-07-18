@@ -75,7 +75,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-images" viewBox="0 0 16 16">
   <path d="M4.502 9a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3"/>
   <path d="M14.002 13a2 2 0 0 1-2 2h-10a2 2 0 0 1-2-2V5A2 2 0 0 1 2 3a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v8a2 2 0 0 1-1.998 2M14 2H4a1 1 0 0 0-1 1h9.002a2 2 0 0 1 2 2v7A1 1 0 0 0 15 11V3a1 1 0 0 0-1-1M2.002 4a1 1 0 0 0-1 1v8l2.646-2.354a.5.5 0 0 1 .63-.062l2.66 1.773 3.71-3.71a.5.5 0 0 1 .577-.094l1.777 1.947V5a1 1 0 0 0-1-1z"/>
-</svg>            <span>Galerie</span>
+</svg>            <span>Gestion Galerie</span>
           </a>
         </li>
         <li>
@@ -153,9 +153,10 @@
       <p class="welcome-message">
         Nous sommes ravis de vous revoir. Votre journée commence sous les meilleurs auspices !
       </p>
-      <p class="date-info">
-        Aujourd'hui, nous sommes le {{ currentDate | date:'fullDate' }}
-      </p>
+<p class="date-info">
+  <i class="bi bi-calendar-day-fill calendar-icon"></i>
+  Aujourd'hui, nous sommes le <strong>{{ currentDate | date:'fullDate' }}</strong>
+</p>
     </div>
     <div class="welcome-illustration">
       <svg viewBox="0 0 500 300">
@@ -205,13 +206,16 @@
         <div class="card-header">
           <h3>Citation inspirante</h3>
         </div>
-        <div class="card-body">
-          <blockquote>
-            "L'excellence n'est pas un acte, mais une habitude. Vous êtes ce que vous faites de manière répétée."
-            <footer>- Aristote</footer>
-          </blockquote>
-        </div>
-      </div>
+<div class="card-body text-center p-4">
+  <blockquote class="blockquote mb-0">
+    <p class="fs-5 fst-italic text-dark">
+      "إِنَّ اللَّهَ يُحِبُّ إِذَا عَمِلَ أَحَدُكُمْ عَمَلًا أَنْ يُتْقِنَهُ"
+    </p>
+<footer class="blockquote-footer mt-3 text-muted fst-italic">
+   حديث نبوي شريف 
+</footer>
+  </blockquote>
+</div>      </div>
 
       <div class="content-card tips-card">
         <div class="card-header">

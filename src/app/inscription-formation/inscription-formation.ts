@@ -54,29 +54,39 @@ export class InscriptionFormation implements OnInit {
 
   submits() {
   if (this.form.invalid) {
-    this.form.markAllAsTouched(); // pour afficher les erreurs
+    this.form.markAllAsTouched();
     return;
   }
   }
 
 
-  submit() {
-    if (this.form.invalid) return;
+submit() {
+  if (this.form.invalid) return;
 
-    const values = this.form.value;
-    const payload = {
-      prenom: values.prenom,
-      nom: values.nom,
-      email: values.email,
-      telephone: values.telephone,
-      formation: { id: values.formationId }
-    };
+  const values = this.form.value;
+  const payload = {
+    prenom: values.prenom,
+    nom: values.nom,
+    email: values.email,
+    telephone: values.telephone,
+    formation: { id: values.formationId }
+  };
 
-    this.inscriptionService.register(payload).subscribe({
-      next: () => alert('Inscription réussie'),
-      error: () => alert('Erreur lors de l\'inscription')
-    });
-  }
+  this.inscriptionService.register(payload).subscribe({
+    next: () => {
+      alert('✅ Inscription réussie');
+      this.form.reset();       
+      this.formations = [];    
+    },
+    error: () => alert('❌ Erreur lors de l\'inscription')
+  });
+}
+
+  resetForm() {
+  this.form.reset();
+  this.formations = []; 
+}
+
 
 }
 

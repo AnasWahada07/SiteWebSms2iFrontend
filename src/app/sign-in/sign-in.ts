@@ -65,10 +65,8 @@ onRememberMeChange(): void {
 
 if (rememberMe) {
   localStorage.setItem('rememberedEmail', email);
-  console.log('✅ Email enregistré dans localStorage.');
 } else {
   localStorage.removeItem('rememberedEmail');
-  console.log('❌ Email supprimé du localStorage.');
 }
 
 this.authService.login(email, password).subscribe({
@@ -81,7 +79,6 @@ this.authService.login(email, password).subscribe({
     }
 
     this.authService.setUser(res);
-    console.log('📦 Utilisateur connecté :', res.nom, res.prenom);
 
     // ✅ Attendre un peu avant redirection
     setTimeout(() => {

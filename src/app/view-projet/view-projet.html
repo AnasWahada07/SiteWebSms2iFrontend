@@ -18,10 +18,10 @@
 </div>
 
   <!-- Liste des projets -->
-  <div class="projects-header">
-    <h2 class="section-title">Liste des Projets</h2>
-    <div class="projects-count">{{ projets.length }} projet(s)</div>
-  </div>
+<div class="projects-header">
+  <h2 class="section-title">Liste des Projets</h2>
+  <div class="projects-count">{{ projets.length }} projet(s)</div>
+</div>
 
   <ul class="projects-list">
     <li *ngFor="let projet of projets; let i = index" class="project-card" [style.--delay]="i * 0.05 + 's'">
@@ -131,9 +131,9 @@
       </div>
 
       <button type="submit" class="btn-submit">
-        <svg width="20" height="20" viewBox="0 0 24 24">
-          <path fill="currentColor" d="M17,3H5A2,2 0 0,0 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V7L17,3M12,12A4,4 0 0,0 8,16A4,4 0 0,0 12,20A4,4 0 0,0 16,16A4,4 0 0,0 12,12Z" />
-        </svg>
+            <svg width="24" height="24" viewBox="0 0 24 24">
+              <path fill="currentColor" d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z" />
+            </svg>
         Ajouter le projet
       </button>
     </form>

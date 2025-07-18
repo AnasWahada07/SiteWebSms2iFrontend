@@ -29,7 +29,7 @@ export class MaquetteService {
   }
 
   delete(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrls}/${id}`);
+    return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
 
   getAlls(): Observable<DemandeMaquette[]> {

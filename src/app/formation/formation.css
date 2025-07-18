@@ -44,3 +44,32 @@
     height: 100%;
 }
 
+/* Style de base du bouton */
+.btn-formation {
+  padding: 8px 16px;
+  border-radius: 30px;
+  background-color: #0d6efd;
+  color: #fff !important;
+  font-weight: 500;
+  transition: all 0.3s ease-in-out;
+  display: inline-block;
+}
+
+/* Effet de survol */
+.btn-formation:hover,
+.btn-formation:focus {
+  background-color: #0b5ed7;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(13, 110, 253, 0.3);
+  color: #fff;
+  text-decoration: none;
+}
+
+/* Animation sur l'icône */
+.btn-formation-content i {
+  transition: transform 0.3s ease;
+}
+
+.btn-formation:hover i {
+  transform: scale(1.2) rotate(-5deg);
+}

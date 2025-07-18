@@ -8,17 +8,17 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link btn-formation btn-hover-effect" href="/demandeformation">
-                        <span class="btn-formation-content d-flex align-items-center">
-                            <i class="fas fa-graduation-cap me-2"></i>Demande de Formation
-                        </span>
-                    </a>
-                </li>
-            </ul>
-        </div>
+<div class="collapse navbar-collapse" id="navbarSupportedContent">
+  <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+    <li class="nav-item">
+      <a class="nav-link btn-formation btn-hover-effect" href="/demandeformation">
+        <span class="btn-formation-content d-flex align-items-center">
+          <i class="fas fa-graduation-cap me-2"></i> Demande de Formation
+        </span>
+      </a>
+    </li>
+  </ul>
+</div>
     </div>
 </nav>
 
@@ -71,7 +71,7 @@
 </section>
 
 <section class="container mb-5" *ngIf="formations">
-  <h2 class="section-title fw-bold mb-4">Nos formations par type</h2>
+  <h2 class="section-title fw-bold mb-4">Nos formations </h2>
 
   <!-- Inter-entreprise -->
   <div class="mb-5">
@@ -81,8 +81,15 @@
         <div class="card border-0 shadow-sm p-4 h-100">
           <span class="badge bg-primary mb-2">{{ f.theme }}</span>
           <h5 class="fw-bold">{{ f.titre }}</h5>
-          <p class="text-muted">{{ f.description }}</p>
           <span class="fw-bold text-dark">Prix : {{ f.proposerPrix }} TND</span>
+
+          <!-- Lire la suite -->
+          <button class="btn btn-outline-primary btn-sm mt-3"
+                  data-bs-toggle="modal"
+                  data-bs-target="#formationDetailsModal"
+                  (click)="openFormationDetails(f)">
+            <i class="fas fa-info-circle me-1"></i> Lire la suite
+          </button>
         </div>
       </div>
     </div>
@@ -108,8 +115,15 @@
         <div class="card border-0 shadow-sm p-4 h-100">
           <span class="badge bg-success mb-2">{{ f.theme }}</span>
           <h5 class="fw-bold">{{ f.titre }}</h5>
-          <p class="text-muted">{{ f.description }}</p>
           <span class="fw-bold text-dark">Prix : {{ f.proposerPrix }} TND</span>
+
+          <!-- Lire la suite -->
+          <button class="btn btn-outline-success btn-sm mt-3"
+                  data-bs-toggle="modal"
+                  data-bs-target="#formationDetailsModal"
+                  (click)="openFormationDetails(f)">
+            <i class="fas fa-info-circle me-1"></i> Lire la suite
+          </button>
         </div>
       </div>
     </div>
@@ -135,8 +149,15 @@
         <div class="card border-0 shadow-sm p-4 h-100">
           <span class="badge bg-warning mb-2 text-dark">{{ f.theme }}</span>
           <h5 class="fw-bold">{{ f.titre }}</h5>
-          <p class="text-muted">{{ f.description }}</p>
           <span class="fw-bold text-dark">Prix : {{ f.proposerPrix }} TND</span>
+
+          <!-- Lire la suite -->
+          <button class="btn btn-outline-warning btn-sm mt-3"
+                  data-bs-toggle="modal"
+                  data-bs-target="#formationDetailsModal"
+                  (click)="openFormationDetails(f)">
+            <i class="fas fa-info-circle me-1"></i> Lire la suite
+          </button>
         </div>
       </div>
     </div>
@@ -153,8 +174,26 @@
       </div>
     </ng-template>
   </div>
-</section>
 
+  <!-- Modale Détails Formation -->
+  <div class="modal fade" id="formationDetailsModal" tabindex="-1" aria-labelledby="formationDetailsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header bg-primary text-white">
+          <h5 class="modal-title" id="formationDetailsModalLabel">{{ selectedFormation?.titre }}</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Fermer"></button>
+        </div>
+        <div class="modal-body">
+          <p><strong>Description :</strong></p>
+          <p>{{ selectedFormation?.description }}</p>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 <!-- Call to Action - Version améliorée -->
 <section class="text-white py-5 mb-5 position-relative overflow-hidden" style="background: linear-gradient(to right, #3a7bd5, #00d2ff);">
   <div class="position-absolute top-0 end-0 w-100 h-100">

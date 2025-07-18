@@ -31,8 +31,7 @@ import { MatOptionModule } from '@angular/material/core';
 export class ViewDemandeFormation implements OnInit {
 
   formations: Formations[] = [];
-  formationsOriginal: Formations[] = []; // Pour les filtres
-
+  formationsOriginal: Formations[] = []; 
   selectedFormation: Formations | null = null;
 
 searchQuery: string = '';
@@ -102,7 +101,6 @@ resetFilters(): void {
       this.selectedFormation.participants = Number(this.selectedFormation.participants);
       this.selectedFormation.proposerPrix = Number(this.selectedFormation.proposerPrix);
 
-      console.log("📦 Corps envoyé :", this.selectedFormation);
 
       this.formationService.updateFormation(
         this.selectedFormation.id,

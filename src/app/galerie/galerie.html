@@ -31,10 +31,21 @@
 <section class="gallery-section py-5 mt-5" id="gallery">
   <div class="container text-center">
     <h2 class="section-title display-6 fw-bold mb-4">📸 Galerie de nos réalisations</h2>
+<div class="row justify-content-center mb-4">
+  <div class="col-md-6">
+    <input
+      type="text"
+      class="form-control"
+      placeholder="🔍 Rechercher par titre ou client..."
+      [(ngModel)]="searchTerm"
+    />
+  </div>
+</div>
 
     <div *ngIf="galeries.length > 0; else noProjects">
       <div class="row">
-        <div *ngFor="let g of galeries" class="col-md-4 col-lg-3 mb-4">
+        <div *ngFor="let g of filteredGaleries()"
+ class="col-md-4 col-lg-3 mb-4">
           <div class="gallery-item position-relative overflow-hidden rounded shadow-sm">
             <img [src]="g.imageUrl" [alt]="g.title" class="w-100 h-100 object-fit-cover rounded">
             <div class="gallery-overlay position-absolute top-0 start-0 w-100 h-100 bg-dark bg-opacity-75 text-light d-flex flex-column justify-content-center align-items-center opacity-0 hover-opacity-100 transition">

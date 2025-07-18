@@ -25,15 +25,30 @@ export class Galerie implements OnInit {
   currentYear: number = new Date().getFullYear();
 
   galeries: Galeries[] = [];
+  searchTerm: string = '';
+
 
   constructor(private galerieService: GalerieService , private cdRef: ChangeDetectorRef) {}
 
 ngOnInit(): void {
   this.galerieService.getAll().subscribe(data => {
-    console.log(data);
     this.galeries = data;
 
     this.cdRef.detectChanges(); 
   });
 }
+filteredGaleries() {
+  if (!this.searchTerm) return this.galeries;
+
+  const lowerSearch = this.searchTerm.toLowerCase();
+  return this.galeries.filter(g =>
+    g.title.toLowerCase().includes(lowerSearch) ||
+    g.client.toLowerCase().includes(lowerSearch)
+  );
+}
+
+
+
+
+
 }

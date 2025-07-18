@@ -47,7 +47,6 @@ ngOnInit(): void {
     const user: AuthResponse | null = this.authService.getUser();
     if (user && user.prenom && user.nom) {
       this.adminName = `${user.prenom} ${user.nom}`;
-      console.log('NOM/PRENOM RÉCUPÉRÉS :', this.adminName);
     } else {
       this.adminName = 'Admin';
     }
@@ -58,8 +57,7 @@ ngOnInit(): void {
 
     setInterval(() => {
       this.loadNotifications();
-      this.loadAllNotifications();
-    }, 2000); 
+    } , 10000 ); 
   }
 }
 loadAllNotifications(): void {

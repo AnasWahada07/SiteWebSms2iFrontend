@@ -4,4 +4,6 @@ export interface FormationsParTypeDTO {
   interEntreprise: FormationModel[];
   intraEntreprise: FormationModel[];
   universitaire: FormationModel[];
+
+
 }

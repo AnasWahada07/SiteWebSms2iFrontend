@@ -14,4 +14,6 @@ export interface Formations {
   proposerPrix?: number;
 
   statut?: string;
+
+
 }

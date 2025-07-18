@@ -359,14 +359,23 @@
                 <i class="fas fa-university fa-3x text-univ"></i>
               </div>
               <h5 class="card-title">{{ sujet.titre }}</h5>
-              <p class="card-text">{{ sujet.description }}</p>
-              <div class="d-flex justify-content-between align-items-center mb-3">
-                <div class="price-tag">
-                  <span class="badge bg-warning text-dark">
-                    Prix Encadrement: {{ sujet.prixEncadrement }} TND
-                  </span>
-                </div>
+
+
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <span class="badge bg-warning text-dark">
+                  Prix Encadrement: {{ sujet.prixEncadrement }} TND
+                </span>
               </div>
+
+              <!-- Bouton lire la suite -->
+              <button class="btn btn-outline-primary btn-sm mb-2"
+                      data-bs-toggle="modal"
+                      data-bs-target="#detailsModal"
+                      (click)="openDetails(sujet)">
+                <i class="fas fa-info-circle me-1"></i> Lire la suite
+              </button>
+
+              <!-- Bouton s'inscrire -->
               <button class="btn btn-univ mt-auto"
                       data-bs-toggle="modal"
                       data-bs-target="#inscriptionModal"
@@ -381,7 +390,7 @@
     </div>
 
     <!-- Informatique Industrielle -->
-    <div class="category-section" *ngIf="informatiqueIndustrielle && informatiqueIndustrielle.length > 0; else noSujetsIndus">
+    <div  class="category-section" *ngIf="informatiqueIndustrielle && informatiqueIndustrielle.length > 0; else noSujetsIndus">
       <h3 class="category-title mb-4">
         <i class="fas fa-industry me-2"></i>Informatique Industrielle
       </h3>
@@ -393,14 +402,23 @@
                 <i class="fas fa-robot fa-3x text-univ"></i>
               </div>
               <h5 class="card-title">{{ sujet.titre }}</h5>
-              <p class="card-text">{{ sujet.description }}</p>
-              <div class="d-flex justify-content-between align-items-center mb-3">
-                <div class="price-tag">
-                  <span class="badge bg-warning text-dark">
-                    Prix Encadrement : {{ sujet.prixEncadrement }} TND
-                  </span>
-                </div>
+
+
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <span class="badge bg-warning text-dark">
+                  Prix Encadrement : {{ sujet.prixEncadrement }} TND
+                </span>
               </div>
+
+              <!-- Bouton lire la suite -->
+              <button class="btn btn-outline-primary btn-sm mb-2"
+                      data-bs-toggle="modal"
+                      data-bs-target="#detailsModal"
+                      (click)="openDetails(sujet)">
+                <i class="fas fa-info-circle me-1"></i> Lire la suite
+              </button>
+
+              <!-- Bouton s'inscrire -->
               <button class="btn btn-univ mt-auto"
                       data-bs-toggle="modal"
                       data-bs-target="#inscriptionModal"
@@ -414,13 +432,12 @@
       </div>
     </div>
 
-    <!-- Messages d'absence de données -->
+    <!-- Aucune donnée -->
     <ng-template #noSujetsInfo>
       <div class="no-data-container info">
         <i class="fas fa-laptop-code no-data-icon"></i>
         <h3 class="no-data-title">Aucun sujet disponible</h3>
         <p class="no-data-text">Aucun sujet d'Informatique n'est disponible pour le moment.</p>
-        <p class="no-data-hint">Vérifiez ultérieurement ou proposez un sujet</p>
       </div>
     </ng-template>
 
@@ -429,9 +446,29 @@
         <i class="fas fa-robot no-data-icon"></i>
         <h3 class="no-data-title">Aucun sujet disponible</h3>
         <p class="no-data-text">Aucun sujet d'Informatique Industrielle n'est disponible actuellement.</p>
-        <p class="no-data-hint">Vérifiez ultérieurement ou proposez un sujet</p>
       </div>
     </ng-template>
+
+    <!-- Modale détails sujet -->
+    <div class="modal fade" id="detailsModal" tabindex="-1" aria-labelledby="detailsModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header bg-primary text-white">
+            <h5 class="modal-title" id="detailsModalLabel">{{ selectedSujet?.titre }}</h5>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Fermer"></button>
+          </div>
+          <div class="modal-body">
+            <p><strong>Description  :</strong></p>
+            <p>{{ selectedSujet?.description }}</p>
+
+          </div>
+          <div class="modal-footer d-flex justify-content-between">
+            <button class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+           
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -663,11 +700,9 @@
 
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-          <button type="submit" class="btn btn-primary" [disabled]="maquetteForm.invalid || loading">
-            <i *ngIf="!loading" class="fas fa-paper-plane me-1"></i>
-            <span *ngIf="loading" class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span>
-            {{ loading ? 'Envoi en cours...' : 'Envoyer la proposition' }}
-          </button>
+<button type="submit" class="btn btn-primary" [disabled]="maquetteForm.invalid">
+  <i class="fas fa-paper-plane me-1"></i> Envoyer la proposition
+</button>
         </div>
       </form>
     </div>

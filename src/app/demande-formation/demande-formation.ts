@@ -15,8 +15,6 @@ import { CommonModule } from '@angular/common';
         CommonModule
 
 
-
-
   ],
   templateUrl: './demande-formation.html',
   styleUrl: './demande-formation.css'

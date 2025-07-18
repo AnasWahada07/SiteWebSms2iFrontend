@@ -22,6 +22,9 @@ export class Formation implements OnInit {
 
   formations!: FormationsParTypeDTO ;
 
+    selectedFormation: any = null;
+
+
   constructor(private formationService: FormationService , private cdRef: ChangeDetectorRef) {}
 
   ngOnInit(): void {
@@ -31,6 +34,10 @@ export class Formation implements OnInit {
       error: err => console.error('Erreur chargement formations', err)
       
     });
+  }
+
+    openFormationDetails(formation: any): void {
+    this.selectedFormation = formation;
   }
 }
 

@@ -36,14 +36,23 @@ export class ViewFormation implements OnInit {
     });
   }
 
-  delete(id: number): void {
+delete(id: number): void {
+  const confirmDelete = window.confirm('Êtes-vous sûr de vouloir supprimer ce sujet ?');
+
+  if (confirmDelete) {
     this.service.deleteSujet(id).subscribe(() => {
       this.sujets = this.sujets.filter(s => s.id !== id);
+
       if (this.selectedSujet?.id === id) {
         this.selectedSujet = null;
       }
+
+      alert('Sujet supprimé avec succès.');
+    }, error => {
+      console.error('Erreur lors de la suppression:', error);
     });
   }
+}
 
   selectSujet(sujet: SujetPFE): void {
     this.selectedSujet = { ...sujet };

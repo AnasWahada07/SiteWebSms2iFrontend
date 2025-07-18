@@ -49,9 +49,9 @@
                     Télécharger
                   </a>
                 </td>
-                <td>{{ m.dateSoumission | date:'short' }}</td>
+                <td>{{ m.dateSoumission | date:'EEEE d MMMM y' }}</td>
                 <td>
-                  <button class="btn btn-sm btn-danger" (click)="supprimer(m.id)">🗑 Supprimer</button>
+<button class="btn btn-sm btn-danger" (click)="supprimerProposition(m.id)">🗑 Supprimer</button>
                 </td>
               </tr>
             </tbody>
@@ -91,9 +91,10 @@
                 <td>{{ d.nomComplet }}</td>
                 <td>{{ d.email }}</td>
                 <td>{{ d.descriptionBesoin }}</td>
-                <td>{{ d.dateSouhaitee | date:'short' }}</td>
+                <td>{{ d.dateSouhaitee | date:'EEEE d MMMM y' }}</td>
                 <td>
-                  <button class="btn btn-sm btn-danger" (click)="delete(d.id)">🗑 Supprimer</button>
+                  <button class="btn btn-sm btn-danger" (click)="supprimerDemande(d.id)">🗑 Supprimer</button>
+
                 </td>
               </tr>
             </tbody>
