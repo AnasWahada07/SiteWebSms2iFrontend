@@ -27,6 +27,9 @@ export class ViewGalerie implements OnInit {
   selectedGalerieId?: number;
   showForm: boolean = false;
 
+        currentYear: number = new Date().getFullYear();
+
+
 searchQuery: string = '';
 galeriesOriginal: Galeries[] = []; // pour garder toutes les galeries sans filtrage
 

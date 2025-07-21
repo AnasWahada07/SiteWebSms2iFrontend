@@ -15,5 +15,9 @@ export interface Formations {
 
   statut?: string;
 
+  duree: string;
+  certificat: string;
+  technologie: string;
+
 
 }

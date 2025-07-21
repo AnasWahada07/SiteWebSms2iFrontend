@@ -30,6 +30,8 @@ export class ViewProjet implements OnInit {
   searchQuery: string = '';
 projetsOriginal: any[] = []; 
 
+      currentYear: number = new Date().getFullYear();
+
 
   selectedProjet?: any;
   selectedEditImageFile?: File;

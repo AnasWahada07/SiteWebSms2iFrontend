@@ -1,84 +1,87 @@
-<div class="login-container p-5 rounded-4 shadow-lg bg-white" style="max-width: 500px; margin: 50px auto; border-top: 4px solid #0056b3;">
-  
-<div class="login-logo text-center mb-4">
-  <div class="logo-container">
-    <img src="assets/sms.jpg" alt="Logo SMS2I" class="logo-img">
-  </div>
-
-  <h2 class="app-title">SMS2I</h2>
-  <p class="slogan">Le service comme il se doit</p>
+<div class="auth-wrapper container-fluid min-vh-100 d-flex align-items-center justify-content-center bg-light px-3">
+  <div class="row shadow-lg rounded-4 overflow-hidden bg-white" style="max-width: 960px; width: 100%;">
+    
+    <!-- 🧩 Section gauche : Texte marketing -->
+<div class="col-md-6 p-5 bg-white d-flex flex-column justify-content-center">
+  <h2 class="section-title">
+    Le Service<br><span class="text-danger">Comme il se doit</span>
+  </h2>
 </div>
 
-  <div class="login-header text-center mb-4">
-    <h1 class="h3 fw-bold text-dark mb-2"><i class="fas fa-sign-in-alt me-2"></i>Connexion</h1>
-    <p class="text-muted small">Accédez à votre espace personnel</p>
-  </div>
-
-  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-    <!-- Email -->
-    <div class="mb-4">
-      <div class="input-group input-group-lg">
-        <span class="input-group-text bg-light border-end-0"><i class="fas fa-envelope text-primary"></i></span>
-        <input type="email" formControlName="email" class="form-control border-start-0 ps-1" placeholder="Adresse email" style="height: 50px;">
+    <!-- ✅ Section droite : Formulaire Login (inchangé sauf encadré dans .col-md-6) -->
+    <div class="col-md-6 p-5 bg-white">
+      <div class="login-logo text-center mb-4">
+        <div class="logo-container">
+          <img src="assets/sms.jpg" alt="Logo SMS2I" class="logo-img" style="width: 48px; border-radius: 6px;">
+        </div>
+        <h2 class="app-title">SMS2I</h2>
       </div>
-    </div>
 
-    <!-- Mot de passe -->
-    <div class="mb-3">
-      <div class="input-group input-group-lg position-relative">
-        <span class="input-group-text bg-light border-end-0"><i class="fas fa-lock text-primary"></i></span>
-        <input [type]="showPassword ? 'text' : 'password'" formControlName="password" class="form-control border-start-0 ps-1" placeholder="Mot de passe" style="height: 50px;">
-        <button type="button" class="btn btn-link position-absolute end-0 top-50 translate-middle-y pe-3 text-decoration-none" (click)="togglePassword()">
-          <i [ngClass]="showPassword ? 'fa fa-eye' : 'fa fa-eye-slash'" class="text-secondary"></i>
+      <div class="login-header text-center mb-4">
+        <h1 class="h3 fw-bold text-dark mb-2"><i class="fas fa-sign-in-alt me-2"></i>Connexion</h1>
+        <p class="text-muted small">Accédez à votre espace personnel</p>
+      </div>
+
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <!-- Email -->
+        <div class="mb-4">
+          <div class="input-group input-group-lg">
+            <span class="input-group-text bg-light border-end-0"><i class="fas fa-envelope text-primary"></i></span>
+            <input type="email" formControlName="email" class="form-control border-start-0 ps-1" placeholder="Adresse email" style="height: 50px;">
+          </div>
+        </div>
+
+        <!-- Mot de passe -->
+        <div class="mb-3">
+          <div class="input-group input-group-lg position-relative">
+            <span class="input-group-text bg-light border-end-0"><i class="fas fa-lock text-primary"></i></span>
+            <input [type]="showPassword ? 'text' : 'password'" formControlName="password" class="form-control border-start-0 ps-1" placeholder="Mot de passe" style="height: 50px;">
+            <button type="button" class="btn btn-link position-absolute end-0 top-50 translate-middle-y pe-3 text-decoration-none" (click)="togglePassword()">
+              <i [ngClass]="showPassword ? 'fa fa-eye' : 'fa fa-eye-slash'" class="text-secondary"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Options -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="remember" formControlName="rememberMe" (change)="onRememberMeChange()" style="cursor: pointer;">
+            <label class="form-check-label small" for="remember">Se souvenir de moi</label>
+          </div>
+          <button type="button" class="btn btn-link text-primary small fw-bold p-0" (click)="onForgetPassword()" style="text-decoration: none;">
+            Mot de passe oublié ?
+          </button>
+        </div>
+
+        <!-- Connexion -->
+        <button type="submit" [disabled]="loginForm.invalid || isSubmitting"
+                class="btn btn-primary w-100 mb-3 py-2 fw-bold rounded-pill shadow-sm hover-effect">
+          <i class="fas fa-sign-in-alt me-2"></i>Se connecter
         </button>
-      </div>
-    </div>
 
-    <!-- Options -->
-    <div class="d-flex justify-content-between align-items-center mb-4">
-      <div class="form-check">
-        <input class="form-check-input"
-               type="checkbox"
-               id="remember"
-               formControlName="rememberMe"
-               (change)="onRememberMeChange()"
-               style="cursor: pointer;">
-        <label class="form-check-label small" for="remember">Se souvenir de moi</label>
-      </div>
-      <button type="button" class="btn btn-link text-primary small fw-bold p-0" (click)="onForgetPassword()" style="text-decoration: none;">
-        Mot de passe oublié ?
-      </button>
-    </div>
+        <!-- Inscription -->
+        <div class="text-center mt-4 pt-3 border-top">
+          <p class="text-muted small mb-0">Pas encore de compte ?
+            <a href="signup" class="fw-bold text-decoration-none text-primary">S'inscrire</a>
+          </p>
+        </div>
 
-    <!-- Connexion -->
-    <button type="submit" [disabled]="loginForm.invalid || isSubmitting"
-            class="btn btn-primary w-100 mb-3 py-2 fw-bold rounded-pill shadow-sm hover-effect">
-      <i class="fas fa-sign-in-alt me-2"></i>Se connecter
-    </button>
 
-    <!-- Inscription -->
-    <div class="text-center mt-4 pt-3 border-top">
-      <p class="text-muted small mb-0">Pas encore de compte ?
-        <a href="signup" class="fw-bold text-decoration-none text-primary">S'inscrire</a>
-      </p>
-    </div>
-  </form>
-</div>
+      </form>
 
-<!-- ✅ Toast Bootstrap -->
-<div
-  class="toast align-items-center text-white bg-success border-0 position-fixed bottom-0 end-0 m-4"
-  role="alert"
-  aria-live="assertive"
-  aria-atomic="true"
-  id="rememberToast"
-  style="z-index: 9999; display: none;"
->
-  <div class="d-flex">
-    <div class="toast-body">
-      ✅ Votre email a été enregistré !
+      
     </div>
-    <button type="button" class="btn-close btn-close-white me-2 m-auto" aria-label="Close"
-            onclick="document.getElementById('rememberToast').style.display='none'"></button>
+    
   </div>
+  
 </div>
+
+
+<footer class="text-center py-3 bg-light border-top mt-4">
+  <div class="small text-muted">
+    &copy; {{ currentYear || '2025' }} <strong class="text-dark">SMS2I</strong> — Tous droits réservés.
+  </div>
+  <div class="small">
+    Conçu <i class="bi bi-heart-fill text-danger mx-1"></i> par l’équipe <span class="text-primary fw-semibold">SMS2I</span>
+  </div>
+</footer>

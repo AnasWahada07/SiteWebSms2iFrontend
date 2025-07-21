@@ -26,6 +26,9 @@ export class SignUp {
   message: string = '';
   success: boolean = false;
 
+      currentYear: number = new Date().getFullYear();
+
+
   constructor(private fb: FormBuilder, private http: HttpClient) {
     this.registerForm = this.fb.group({
       nom: ['', Validators.required],

@@ -20,6 +20,9 @@ filteredInscriptions: InscriptionFormation[] = [];
 searchText: string = '';
 selectedEtat: string = '';
 
+      currentYear: number = new Date().getFullYear();
+
+
   constructor(private inscriptionService: FormationService , private cdRef: ChangeDetectorRef) {}
 
   ngOnInit(): void {

@@ -8,7 +8,11 @@ import { Component } from '@angular/core';
 })
 export class Service {
 
-    currentYear: number = new Date().getFullYear();
+  currentYear: number = new Date().getFullYear();
+  startYear: number = 2008; 
+  experienceYears: number = this.currentYear - this.startYear;
+
+    
 
 
 }

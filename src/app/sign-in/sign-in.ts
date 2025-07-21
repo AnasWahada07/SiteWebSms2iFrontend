@@ -19,6 +19,9 @@ export class SignIn {
   showPassword = false;
   isSubmitting = false;
 
+    currentYear: number = new Date().getFullYear();
+
+
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,

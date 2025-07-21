@@ -919,3 +919,32 @@ blockquote {
     transform: translateY(0);
   }
 }
+
+@media (max-width: 768px) {
+  .fs-2 {
+    font-size: 1.6rem !important;
+  }
+  .fs-5 {
+    font-size: 1rem !important;
+  }
+}
+.sidebar {
+  width: 240px;
+  min-height: 100vh;
+  position: fixed;
+  left: 0;
+  top: 0;
+  transition: transform 0.3s ease-in-out;
+  z-index: 1040;
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    transform: translateX(-100%);
+  }
+
+  .sidebar.active {
+    transform: translateX(0);
+    box-shadow: 2px 0 10px rgba(0,0,0,0.2);
+  }
+}

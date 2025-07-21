@@ -1,6 +1,10 @@
 <div class="admin-dashboard">
+
+
   <!-- Header -->
   <header class="dashboard-header">
+
+
     <div class="header-left">
       <button class="menu-toggle" aria-label="Menu">
         <span class="bar"></span>
@@ -135,10 +139,6 @@
         </li>
 
 
-
-
-
-
       </ul>
     </nav>
   </aside>
@@ -153,19 +153,30 @@
       <p class="welcome-message">
         Nous sommes ravis de vous revoir. Votre journée commence sous les meilleurs auspices !
       </p>
-<p class="date-info">
-  <i class="bi bi-calendar-day-fill calendar-icon"></i>
-  Aujourd'hui, nous sommes le <strong>{{ currentDate | date:'fullDate' }}</strong>
-</p>
+<div class="d-inline-block bg-light rounded shadow-sm p-3">
+  <p class="mb-1 text-muted">
+    <i class="bi bi-calendar-day-fill calendar-icon text-primary me-1"></i>
+    Aujourd'hui, nous sommes le <strong>{{ currentDate | date:'fullDate' }}</strong>
+  </p>
+  <p class="mb-0 text-muted">
+    <i class="bi bi-moon-stars-fill text-primary me-1"></i>
+    Hejri : 
+    <strong class="text-dark">
+      🕋 {{ hijriDateFormatted }}
+    </strong>
+  </p>
+</div>
+
     </div>
-    <div class="welcome-illustration">
-      <svg viewBox="0 0 500 300">
-        <path d="M50,150 Q150,50 250,150 T450,150" fill="none" stroke="#4e73df" stroke-width="3"/>
-        <circle cx="50" cy="150" r="8" fill="#4e73df"/>
-        <circle cx="250" cy="150" r="8" fill="#4e73df"/>
-        <circle cx="450" cy="150" r="8" fill="#4e73df"/>
-      </svg>
+
+<div class="d-flex flex-column flex-md-row gap-3 align-items-center bg-white shadow-sm p-4 rounded-4 mb-4 border-start border-5 border-primary">
+  <div class="d-flex align-items-center gap-3">
+    <i class="bi bi-clock-fill text-primary fs-1"></i>
+    <div>
+      <div class="text-muted fw-semibold">Heure actuelle en Tunisie</div>
+      <div class="text-primary fw-bold fs-2">{{ currentTime }}</div>
     </div>
+  </div>
   </div>
 </div>
     <!-- Quick Stats -->
@@ -313,4 +324,13 @@
     </div>
   </div>
 </div>
+
+<footer class="text-center py-3 bg-light border-top mt-4">
+  <div class="small text-muted">
+    &copy; {{ currentYear || '2025' }} <strong class="text-dark">SMS2I</strong> — Tous droits réservés.
+  </div>
+  <div class="small">
+    Conçu <i class="bi bi-heart-fill text-danger mx-1"></i> par l’équipe <span class="text-primary fw-semibold">SMS2I</span>
+  </div>
+</footer>
 

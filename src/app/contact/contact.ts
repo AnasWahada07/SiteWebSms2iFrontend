@@ -19,6 +19,9 @@ export class Contacts implements OnInit {
   searchQuery: string = '';
   contactsOriginal: Contact[] = []; 
 
+        currentYear: number = new Date().getFullYear();
+
+
 
   constructor(private contactService: ContactService, private fb: FormBuilder , private cdRef: ChangeDetectorRef) {}
 

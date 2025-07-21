@@ -23,8 +23,9 @@ import { CommonModule } from '@angular/common';
 export class ViewInscription implements OnInit {
 
   searchQuery: string = '';
-  inscriptionsOriginal: InscriptionPFE[] = []; // pour garder toutes les inscriptions sans filtrage
+  inscriptionsOriginal: InscriptionPFE[] = []; 
 
+        currentYear: number = new Date().getFullYear();
 
 
   inscriptions: InscriptionPFE[] = [];

@@ -19,6 +19,8 @@ export interface SujetPFE {
   fileName?: string;
   fileUrl?: string;
   nombreInscription?: number;
+  profil: string;
+  technologie: string;
 }
 
 @Injectable({ providedIn: 'root' })

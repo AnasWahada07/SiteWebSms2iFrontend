@@ -34,6 +34,9 @@ export class ViewDemandeFormation implements OnInit {
   formationsOriginal: Formations[] = []; 
   selectedFormation: Formations | null = null;
 
+        currentYear: number = new Date().getFullYear();
+
+
 searchQuery: string = '';
 
   displayedColumns: string[] = ['id', 'titre', 'formationType', 'theme', 'participants', 'statut', 'actions'];

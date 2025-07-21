@@ -18,6 +18,9 @@ export class ViewFormation implements OnInit {
   searchQuery: string = '';
   sujetsOriginal: SujetPFE[] = []; 
 
+        currentYear: number = new Date().getFullYear();
+
+
   statutOptions = ['CONFIRMEE', 'EN_ATTENTE', 'REJETEE'];
 
   constructor(private service: ViewFormationService , private cdRef: ChangeDetectorRef) {}

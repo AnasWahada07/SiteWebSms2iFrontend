@@ -10,4 +10,7 @@ export interface FormationModel {
   description: string;
   participants: string;
   proposerPrix: number;
+  duree: string;
+  certificat: string;
+  technologie: string;
 }

@@ -273,23 +273,63 @@
             </div>
           </div>
 
-          <div class="mb-3">
-            <label for="pfeDescription" class="form-label">Description</label>
-            <textarea
-              class="form-control"
-              id="pfeDescription"
-              name="description"
-              [(ngModel)]="sujet.description"
-              #description="ngModel"
-              rows="5"
-              required
-              minlength="10"
-            ></textarea>
-            <div *ngIf="(description.touched || pfeForm.submitted) && description.invalid" class="text-danger">
-              <small *ngIf="description.errors?.['required']">La description est requise.</small>
-              <small *ngIf="description.errors?.['minlength']">Minimum 10 caractères requis.</small>
-            </div>
-          </div>
+          <!-- ...description -->
+<div class="mb-3">
+  <label for="pfeDescription" class="form-label">Description</label>
+  <textarea
+    class="form-control"
+    id="pfeDescription"
+    name="description"
+    [(ngModel)]="sujet.description"
+    #description="ngModel"
+    rows="5"
+    required
+    minlength="10"
+  ></textarea>
+  <div *ngIf="(description.touched || pfeForm.submitted) && description.invalid" class="text-danger">
+    <small *ngIf="description.errors?.['required']">La description est requise.</small>
+    <small *ngIf="description.errors?.['minlength']">Minimum 10 caractères requis.</small>
+  </div>
+</div>
+
+<!-- ✅ Champ Profil -->
+<div class="mb-3">
+  <label for="pfeProfil" class="form-label">Profil recherché</label>
+  <input
+    type="text"
+    class="form-control"
+    id="pfeProfil"
+    name="profil"
+    [(ngModel)]="sujet.profil"
+    #profil="ngModel"
+    required
+    minlength="2"
+  />
+  <div *ngIf="(profil.touched || pfeForm.submitted) && profil.invalid" class="text-danger">
+    <small *ngIf="profil.errors?.['required']">Le profil est requis.</small>
+    <small *ngIf="profil.errors?.['minlength']">Minimum 2 caractères requis.</small>
+  </div>
+</div>
+
+<!-- ✅ Champ Technologie -->
+<div class="mb-3">
+  <label for="pfeTechnologie" class="form-label">Technologie utilisée</label>
+  <input
+    type="text"
+    class="form-control"
+    id="pfeTechnologie"
+    name="technologie"
+    [(ngModel)]="sujet.technologie"
+    #technologie="ngModel"
+    required
+    minlength="2"
+  />
+  <div *ngIf="(technologie.touched || pfeForm.submitted) && technologie.invalid" class="text-danger">
+    <small *ngIf="technologie.errors?.['required']">La technologie est requise.</small>
+    <small *ngIf="technologie.errors?.['minlength']">Minimum 2 caractères requis.</small>
+  </div>
+</div>
+
 
           <div class="mb-3">
             <label for="pfeType" class="form-label">Type de sujet PFE</label>
@@ -450,25 +490,51 @@
     </ng-template>
 
     <!-- Modale détails sujet -->
-    <div class="modal fade" id="detailsModal" tabindex="-1" aria-labelledby="detailsModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-lg modal-dialog-centered">
-        <div class="modal-content">
-          <div class="modal-header bg-primary text-white">
-            <h5 class="modal-title" id="detailsModalLabel">{{ selectedSujet?.titre }}</h5>
-            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Fermer"></button>
-          </div>
-          <div class="modal-body">
-            <p><strong>Description  :</strong></p>
-            <p>{{ selectedSujet?.description }}</p>
+<div class="modal fade" id="detailsModal" tabindex="-1" aria-labelledby="detailsModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content shadow-lg rounded-3">
 
-          </div>
-          <div class="modal-footer d-flex justify-content-between">
-            <button class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
-           
-          </div>
-        </div>
+      <div class="modal-header bg-primary text-white">
+        <h5 class="modal-title d-flex align-items-center" id="detailsModalLabel">
+          <i class="fas fa-file-alt me-2"></i>{{ selectedSujet?.titre }}
+        </h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Fermer"></button>
       </div>
+
+      <div class="modal-body px-4 py-3">
+
+        <div class="mb-4">
+          <h6 class="text-uppercase fw-bold text-secondary">
+            <i class="fas fa-align-left me-2 text-primary"></i>Description :
+          </h6>
+          <p class="ps-3 border-start border-2 border-primary">{{ selectedSujet?.description }}</p>
+        </div>
+
+        <div class="mb-4">
+          <h6 class="text-uppercase fw-bold text-secondary">
+            <i class="fas fa-user-graduate me-2 text-primary"></i>Profil recherché :
+          </h6>
+          <span class="badge bg-info text-dark px-3 py-2 fs-6">{{ selectedSujet?.profil }}</span>
+        </div>
+
+        <div>
+          <h6 class="text-uppercase fw-bold text-secondary">
+            <i class="fas fa-cogs me-2 text-primary"></i>Technologie utilisée :
+          </h6>
+          <span class="badge bg-success text-white px-3 py-2 fs-6">{{ selectedSujet?.technologie }}</span>
+        </div>
+
+      </div>
+
+      <div class="modal-footer bg-light d-flex justify-content-between">
+        <button class="btn btn-secondary" data-bs-dismiss="modal">
+          <i class="fas fa-times me-1"></i>Fermer
+        </button>
+      </div>
+
     </div>
+  </div>
+</div>
   </div>
 </section>
 
@@ -836,7 +902,7 @@
         <h6 class="text-uppercase fw-bold mb-3">Contact</h6>
         <p><i class="fas fa-map-marker-alt me-2"></i>Rue 14 janvier (GP1), Imm Neodeme 1ere Etage, Messadine 4013, Sousse</p>
         <p><i class="fas fa-phone me-2"></i>+216 73 284 160</p>
-        <p><i class="fas fa-envelope me-2"></i>contact.sms2i.tn</p>
+        <p><i class="fas fa-envelope me-2"></i>contact&#64;sms2i.tn</p>
       </div>
     </div>
 

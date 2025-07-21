@@ -38,7 +38,11 @@ export class DemandeFormation implements OnInit {
       theme: ['', Validators.required],
       description: ['', Validators.required],
       proposerPrix: [''],
-      participants: ['']
+      participants: [''],
+        technologie: ['', Validators.required],
+  duree: ['', Validators.required],
+  certificat: ['', Validators.required]
+
     });
   }
 

@@ -1,28 +1,105 @@
+/* === FOND DE LA PAGE === */
+body {
+  background-color: #5588bb;
+  font-family: 'Segoe UI', sans-serif;
+  margin: 0;
+}
+
+/* === CONTAINER PRINCIPAL === */
+.signup-container {
+  border-top: 5px solid #0d6efd;
+  background: linear-gradient(135deg, #437ab1 0%, #8d809e 100%);
+  border-radius: 1.5rem;
+  transition: all 0.3s ease;
+}
+
+/* === EFFET SURVOL CONTAINER === */
+.signup-container:hover {
+  box-shadow: 0 12px 35px rgba(13, 110, 253, 0.15) !important;
+}
+
+/* === TITRE PRINCIPAL === */
+.signup-container h1 {
+  font-size: 2.2rem;
+  font-weight: 700;
+}
+
+/* === INPUTS FLOATING === */
+.form-floating > .form-control {
+  border-width: 2px;
+  border-color: #cfe2ff;
+  transition: all 0.3s ease;
+  border-radius: 0.75rem;
+}
+
+/* === FOCUS INPUT === */
+.form-floating > .form-control:focus {
+  border-color: #0d6efd;
+  box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+}
+
+/* === LABEL FLOTTANT === */
+.form-floating > label {
+  color: #6c757d;
+  font-size: 0.9rem;
+}
+
+/* === BOUTONS VOIR MOT DE PASSE === */
+button.btn-link {
+  color: #6c757d;
+  font-size: 1.1rem;
+}
+
+button.btn-link:hover {
+  color: #0d6efd;
+  text-decoration: none;
+}
+
+/* === BOUTON SOUMETTRE === */
+.btn-primary {
+  background-color: #0d6efd;
+  border: none;
+  transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+  background-color: #0b5ed7;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 20px rgba(13, 110, 253, 0.3);
+}
+
+/* === ICÔNE D’INSCRIPTION === */
+.icon-container {
+  box-shadow: 0 4px 12px rgba(13, 110, 253, 0.3);
+}
+
+/* === ALERTES === */
+.alert {
+  border-radius: 0.75rem;
+  font-size: 0.95rem;
+}
+
+/* === LIEN DE CONNEXION === */
+a.text-primary {
+  transition: color 0.2s;
+}
+
+a.text-primary:hover {
+  color: #084298;
+  text-decoration: underline;
+}
+
+/* === RESPONSIVE ADAPTÉ === */
+@media (max-width: 576px) {
   .signup-container {
-    border-top: 5px solid #0d6efd;
-    transition: all 0.3s ease;
-  }
-  
-  .signup-container:hover {
-    box-shadow: 0 10px 30px rgba(13, 110, 253, 0.2) !important;
-  }
-  
-  .form-control {
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
-  }
-  
-  
-  .form-control:focus {
-    border-color: #0d6efd;
-    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+    padding: 2rem 1rem;
   }
 
-  
-  .btn-primary {
-    transition: all 0.3s ease;
+  .signup-container h1 {
+    font-size: 1.7rem;
   }
-  
-  .btn-primary:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(13, 110, 253, 0.3) !important;
+
+  .form-floating > label {
+    font-size: 0.85rem;
   }
+}

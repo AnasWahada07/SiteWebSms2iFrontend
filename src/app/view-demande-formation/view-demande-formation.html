@@ -21,54 +21,75 @@
 
   <div class="table-responsive mb-5">
     <table class="table table-bordered table-hover align-middle text-center">
-      <thead class="table-light">
-        <tr>
-          <th>Nom</th>
-          <th>Prénom</th>
-          <th>Email</th>
-          <th>Téléphone</th>
-          <th>Titre</th>
-          <th>Description</th>
-          <th>Type</th>
-          <th>Thème</th>
-          <th>Participants</th>
-          <th>Prix (TND)</th>
-          <th>Statut</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let formation of formations">
-          <td>{{ formation.nom }}</td>
-          <td>{{ formation.prenom }}</td>
-          <td>{{ formation.email }}</td>
-          <td>{{ formation.telephone }}</td>
-          <td>{{ formation.titre }}</td>
-          <td>{{ formation.description }}</td>
-          <td>{{ formation.formationType }}</td>
-          <td>{{ formation.theme }}</td>
-          <td>{{ formation.participants }}</td>
-          <td>{{ formation.proposerPrix }}</td>
-          <td>
-            <span class="badge"
-              [ngClass]="{
-                'bg-success': formation.statut === 'CONFIRMEE',
-                'bg-warning text-dark': formation.statut === 'EN_ATTENTE',
-                'bg-danger': formation.statut === 'REJETEE'
-              }">
-              {{ formation.statut }}
-            </span>
-          </td>
-          <td>
-            <button class="btn btn-outline-primary btn-sm me-1" (click)="selectFormation(formation)">
-              <i class="bi bi-pencil-fill"></i>
-            </button>
-            <button class="btn btn-outline-danger btn-sm" (click)="deleteFormation(formation.id)">
-              <i class="bi bi-trash-fill"></i>
-            </button>
-          </td>
-        </tr>
-      </tbody>
+<thead class="table-light">
+  <tr>
+    <th>Nom</th>
+    <th>Prénom</th>
+    <th>Email</th>
+    <th>Téléphone</th>
+    <th>Titre</th>
+    <th>Description</th>
+    <th>Type</th>
+    <th>Thème</th>
+    <th>Participants</th>
+    <th>Prix (TND)</th>
+    <th>Durée</th> <!-- ✅ ajouté -->
+    <th>Certificat</th> <!-- ✅ ajouté -->
+    <th>Technologies</th> <!-- ✅ ajouté -->
+    <th>Statut</th>
+    <th>Actions</th>
+  </tr>
+</thead>
+<tbody>
+  <tr *ngFor="let formation of formations">
+    <td>{{ formation.nom }}</td>
+    <td>{{ formation.prenom }}</td>
+    <td>{{ formation.email }}</td>
+    <td>{{ formation.telephone }}</td>
+    <td>{{ formation.titre }}</td>
+    <td>{{ formation.description }}</td>
+    <td>{{ formation.formationType }}</td>
+    <td>{{ formation.theme }}</td>
+    <td>{{ formation.participants }}</td>
+    <td>{{ formation.proposerPrix }}</td>
+
+    <td>{{ formation.duree }}</td>
+    <td>
+      <span
+        class="badge"
+        [ngClass]="{
+          'bg-success': formation.certificat === 'oui',
+          'bg-danger': formation.certificat === 'non'
+        }"
+      >
+        {{ formation.certificat === 'oui' ? 'Oui' : 'Non' }}
+      </span>
+    </td>
+    <td>{{ formation.technologie }}</td>
+
+    <!-- Statut -->
+    <td>
+      <span class="badge"
+        [ngClass]="{
+          'bg-success': formation.statut === 'CONFIRMEE',
+          'bg-warning text-dark': formation.statut === 'EN_ATTENTE',
+          'bg-danger': formation.statut === 'REJETEE'
+        }">
+        {{ formation.statut }}
+      </span>
+    </td>
+
+    <!-- Actions -->
+    <td>
+      <button class="btn btn-outline-primary btn-sm me-1" (click)="selectFormation(formation)">
+        <i class="bi bi-pencil-fill"></i>
+      </button>
+      <button class="btn btn-outline-danger btn-sm" (click)="deleteFormation(formation.id)">
+        <i class="bi bi-trash-fill"></i>
+      </button>
+    </td>
+  </tr>
+</tbody>
     </table>
   </div>
 
@@ -135,3 +156,13 @@
     </form>
   </div>
 </div>
+
+
+<footer class="text-center py-3 bg-light border-top mt-4">
+  <div class="small text-muted">
+    &copy; {{ currentYear || '2025' }} <strong class="text-dark">SMS2I</strong> — Tous droits réservés.
+  </div>
+  <div class="small">
+    Conçu <i class="bi bi-heart-fill text-danger mx-1"></i> par l’équipe <span class="text-primary fw-semibold">SMS2I</span>
+  </div>
+</footer>

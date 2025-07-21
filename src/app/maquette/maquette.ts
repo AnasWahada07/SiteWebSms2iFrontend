@@ -16,6 +16,8 @@ import { DemandeMaquette } from '../Class/DemandeMaquette';
 export class Maquette implements OnInit {
   maquettes: PropositionMaquette[] = [];
   demandes: DemandeMaquette[] = [];
+        currentYear: number = new Date().getFullYear();
+
 
   constructor(private maquetteService: MaquetteService, private cdRef: ChangeDetectorRef) {}
 

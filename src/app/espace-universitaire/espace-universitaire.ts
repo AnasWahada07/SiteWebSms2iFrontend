@@ -57,7 +57,9 @@ export class EspaceUniversitaire implements OnInit {
     email: '',
     description: '',
     type: '',
-    titre: ''
+    titre: '',
+    profil: '',
+    technologie: ''
   };
 
   constructor(
@@ -243,7 +245,7 @@ export class EspaceUniversitaire implements OnInit {
   }
 
   resetForm(): void {
-    this.sujet = { nom: '', prenom: '', email: '', description: '', type: '', titre: '' };
+    this.sujet = { nom: '', prenom: '', email: '', description: '', type: '', titre: ''  , profil: '', technologie: '' };
     this.selectedFile = null;
     const fileInput = document.getElementById('pfeFile') as HTMLInputElement;
     if (fileInput) fileInput.value = '';

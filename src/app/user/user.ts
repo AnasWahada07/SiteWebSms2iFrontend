@@ -43,6 +43,8 @@ export class User implements OnInit, OnDestroy {
   selectedUser: UserModel | null = null;
   isLoading = false;
 
+        currentYear: number = new Date().getFullYear();
+
   private destroy$ = new Subject<void>(); 
 
   // Font Awesome icons
