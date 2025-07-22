@@ -19,5 +19,11 @@ export interface Formations {
   certificat: string;
   technologie: string;
 
+  formateur : string
+
+  nombreInscription?: number;
+
+  
+
 
 }

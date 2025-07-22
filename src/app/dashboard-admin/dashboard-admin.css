@@ -948,3 +948,14 @@ blockquote {
     box-shadow: 2px 0 10px rgba(0,0,0,0.2);
   }
 }
+
+.red-blink {
+  animation: blink 1s infinite;
+  color: red !important;
+  border-color: red !important;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}

@@ -169,15 +169,17 @@
 
     </div>
 
-<div class="d-flex flex-column flex-md-row gap-3 align-items-center bg-white shadow-sm p-4 rounded-4 mb-4 border-start border-5 border-primary">
+<div [ngClass]="{'red-blink border-danger': isTimeOver}" class="d-flex flex-column flex-md-row gap-3 align-items-center bg-white shadow-sm p-4 rounded-4 mb-4 border-start border-5 border-primary">
   <div class="d-flex align-items-center gap-3">
-    <i class="bi bi-clock-fill text-primary fs-1"></i>
+    <i [ngClass]="isTimeOver ? 'text-danger' : 'text-primary'" class="bi bi-clock-fill fs-1"></i>
     <div>
       <div class="text-muted fw-semibold">Heure actuelle en Tunisie</div>
-      <div class="text-primary fw-bold fs-2">{{ currentTime }}</div>
+      <div [ngClass]="isTimeOver ? 'text-danger' : 'text-primary'" class="fw-bold fs-2">
+        {{ isTimeOver ? 'Temps terminé, au revoir à demain' : currentTime }}
+      </div>
     </div>
   </div>
-  </div>
+</div>
 </div>
     <!-- Quick Stats -->
     <div class="quick-stats">
@@ -187,7 +189,7 @@
         </div>
         <div class="stat-content">
           <h3>Votre impact aujourd'hui</h3>
-          <p>Chaque action que vous entreprenez fait une différence pour nos utilisateurs.</p>
+          <p>Vos actions quotidiennes contribuent à bâtir un service plus Fiable et plus Humain</p>
         </div>
       </div>
 

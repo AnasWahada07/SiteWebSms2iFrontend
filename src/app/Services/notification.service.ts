@@ -14,7 +14,7 @@ export interface Notification {
 export class NotificationService {
   private baseUrl = 'http://192.168.1.54:8082/api/notifications';
   private weatherApiKey = 'd4018802d6ad0ae758708a18a30c201b'; 
-  private city = 'Tunis'; 
+  private city = 'Msaken'; 
 
   constructor(private http: HttpClient) {}
 

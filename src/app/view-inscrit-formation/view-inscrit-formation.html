@@ -19,7 +19,11 @@
           <option value="EN_ATTENTE_DE_PAIEMENT">⏳ En attente</option>
         </select>
       </div>
-      <div class="col-md-3 text-end">
+      <div class="col-md-3 d-flex justify-content-end gap-2">
+        <button class="btn btn-outline-primary btn-sm shadow-sm"
+                (click)="openGroupedModal()">
+          <i class="bi bi-layers"></i> Par formation
+        </button>
         <button class="btn btn-outline-danger btn-sm shadow-sm"
                 (click)="resetFilters()">
           <i class="bi bi-x-circle me-1"></i> Réinitialiser
@@ -58,22 +62,22 @@
               <td class="text-muted">{{ insc.email }}</td>
               <td>{{ insc.telephone || '-' }}</td>
               <td class="text-primary">{{ insc.formation.titre }}</td>
-<td>
-  <span class="badge d-inline-flex align-items-center gap-1 px-3 py-2 fs-6 rounded-pill"
-        [ngClass]="{
-          'bg-success': insc.etat === 'PAIEMENT_CONFIRME',
-          'bg-warning text-dark': insc.etat === 'EN_ATTENTE_DE_PAIEMENT'
-        }">
-    <i class="bi"
-       [ngClass]="{
-         'bi-check-circle-fill': insc.etat === 'PAIEMENT_CONFIRME',
-         'bi-clock-fill': insc.etat === 'EN_ATTENTE_DE_PAIEMENT'
-       }"></i>
-    <span>
-      {{ insc.etat === 'PAIEMENT_CONFIRME' ? 'Paiement confirmé' : 'En attente de paiement' }}
-    </span>
-  </span>
-</td>
+              <td>
+                <span class="badge d-inline-flex align-items-center gap-1 px-3 py-2 fs-6 rounded-pill"
+                      [ngClass]="{
+                        'bg-success': insc.etat === 'PAIEMENT_CONFIRME',
+                        'bg-warning text-dark': insc.etat === 'EN_ATTENTE_DE_PAIEMENT'
+                      }">
+                  <i class="bi"
+                     [ngClass]="{
+                       'bi-check-circle-fill': insc.etat === 'PAIEMENT_CONFIRME',
+                       'bi-clock-fill': insc.etat === 'EN_ATTENTE_DE_PAIEMENT'
+                     }"></i>
+                  <span>
+                    {{ insc.etat === 'PAIEMENT_CONFIRME' ? 'Paiement confirmé' : 'En attente de paiement' }}
+                  </span>
+                </span>
+              </td>
               <td>
                 <button class="btn btn-sm btn-outline-danger shadow-sm d-flex align-items-center justify-content-center gap-2"
                         (click)="deleteInscription(insc.id)">
@@ -89,6 +93,72 @@
   </div>
 </div>
 
+<!-- Modal regroupé par formation -->
+<div class="modal fade" id="groupedModal" tabindex="-1" aria-labelledby="groupedModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl modal-dialog-scrollable">
+    <div class="modal-content border-0 shadow rounded-4">
+      <div class="modal-header bg-primary text-white rounded-top">
+        <h5 class="modal-title">
+          <i class="bi bi-collection me-2"></i> Inscriptions regroupées par formation
+        </h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <div class="modal-body bg-light rounded-bottom">
+        <div *ngFor="let group of groupedInscriptions | keyvalue" class="mb-5 p-3 bg-white shadow-sm rounded-3 border">
+
+          <!-- En-tête formation -->
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <h5 class="text-primary mb-0 fw-bold">
+              📘 {{ group.key }} <span class="text-muted fs-6">({{ group.value.length }} inscrit(s))</span>
+            </h5>
+            <button class="btn btn-sm btn-outline-primary" (click)="downloadPdf(group.key, group.value)">
+              <i class="bi bi-file-earmark-arrow-down me-1"></i> Télécharger PDF
+            </button>
+          </div>
+
+          <!-- Table des inscrits -->
+          <div class="table-responsive">
+            <table class="table table-bordered table-hover align-middle mb-0">
+              <thead class="table-light text-center">
+                <tr>
+                  <th>#</th>
+                  <th>Nom complet</th>
+                  <th>Email</th>
+                  <th>Téléphone</th>
+                  <th>État</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let insc of group.value; let i = index" class="text-center">
+                  <td>{{ i + 1 }}</td>
+                  <td class="fw-semibold text-start">{{ insc.prenom }} {{ insc.nom }}</td>
+                  <td class="text-muted text-start">{{ insc.email }}</td>
+                  <td>{{ insc.telephone || '-' }}</td>
+                  <td>
+                    <span class="badge rounded-pill px-3 py-2 fs-6 d-inline-flex align-items-center gap-1"
+                          [ngClass]="{
+                            'bg-success': insc.etat === 'PAIEMENT_CONFIRME',
+                            'bg-warning text-dark': insc.etat === 'EN_ATTENTE_DE_PAIEMENT'
+                          }">
+                      <i class="bi"
+                         [ngClass]="{
+                           'bi-check-circle-fill': insc.etat === 'PAIEMENT_CONFIRME',
+                           'bi-clock-fill': insc.etat === 'EN_ATTENTE_DE_PAIEMENT'
+                         }"></i>
+                      {{ insc.etat === 'PAIEMENT_CONFIRME' ? 'Confirmé' : 'En attente' }}
+                    </span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
 <footer class="text-center py-3 bg-light border-top mt-4">
   <div class="small text-muted">

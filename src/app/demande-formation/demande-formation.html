@@ -100,6 +100,19 @@
               <div class="invalid-feedback">Veuillez indiquer le titre de la formation.</div>
             </div>
 
+<!-- Formateur -->
+<div class="mb-4">
+  <label for="formateur" class="form-label fw-bold">Formateur <span class="text-danger">*</span></label>
+  <input type="text"
+         class="form-control form-control-lg"
+         id="formateur"
+         placeholder="Nom du formateur ou À définir"
+         formControlName="formateur"
+         [class.is-invalid]="isInvalid('formateur')">
+  <div class="invalid-feedback">Veuillez indiquer le nom du formateur.</div>
+</div>
+
+
             <div class="mb-4">
               <label for="theme" class="form-label fw-bold">Thème de la formation <span class="text-danger">*</span></label>
               <select class="form-select form-select-lg" id="theme" formControlName="theme" [class.is-invalid]="isInvalid('theme')">

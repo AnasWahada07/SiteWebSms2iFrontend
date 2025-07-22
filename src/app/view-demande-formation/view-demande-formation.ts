@@ -39,7 +39,7 @@ export class ViewDemandeFormation implements OnInit {
 
 searchQuery: string = '';
 
-  displayedColumns: string[] = ['id', 'titre', 'formationType', 'theme', 'participants', 'statut', 'actions'];
+  displayedColumns: string[] = ['titre', 'formationType', 'theme', 'participants', 'statut', 'actions'];
   statutOptions: string[] = ['CONFIRMEE', 'EN_ATTENTE', 'REJETEE'];
 
   constructor(

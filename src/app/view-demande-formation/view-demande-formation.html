@@ -33,9 +33,11 @@
     <th>Thème</th>
     <th>Participants</th>
     <th>Prix (TND)</th>
-    <th>Durée</th> <!-- ✅ ajouté -->
-    <th>Certificat</th> <!-- ✅ ajouté -->
-    <th>Technologies</th> <!-- ✅ ajouté -->
+    <th>Durée</th> 
+    <th>Certificat</th>
+    <th>Formateur</th>
+    <th>Technologies</th> 
+    <th>Nombre Des Inscriptions</th>
     <th>Statut</th>
     <th>Actions</th>
   </tr>
@@ -65,7 +67,10 @@
         {{ formation.certificat === 'oui' ? 'Oui' : 'Non' }}
       </span>
     </td>
+    <td>{{formation.formateur}}</td>
     <td>{{ formation.technologie }}</td>
+
+    <td>{{formation.nombreInscription}}</td>
 
     <!-- Statut -->
     <td>
@@ -118,6 +123,13 @@
           <label class="form-label">Titre</label>
           <input class="form-control" [(ngModel)]="selectedFormation.titre" name="titre" required>
         </div>
+        <!-- Formateur -->
+<div class="col-md-6"> <label class="form-label">Formateur</label> <input class="form-control"
+         [(ngModel)]="selectedFormation.formateur"
+         name="formateur"
+         required>
+</div>
+
         <div class="col-md-6">
           <label class="form-label">Type</label>
           <input class="form-control" [(ngModel)]="selectedFormation.formationType" name="formationType" required>

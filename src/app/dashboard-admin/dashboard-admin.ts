@@ -34,6 +34,11 @@ export class DashboardAdmin implements OnInit {
 
       currentYear: number = new Date().getFullYear();
 
+      isTimeOver: boolean = false;
+      private hasTriggeredTimeout = false; 
+
+
+
 
   constructor(
     private router: Router,
@@ -78,7 +83,19 @@ updateCurrentTime(): void {
     hour12: false
   });
 
-  this.cdr.detectChanges(); 
+  // Vérifier si c’est exactement l’heure cible
+  if (this.currentTime === '15:00:00' && !this.hasTriggeredTimeout) {
+    this.isTimeOver = true;
+    this.hasTriggeredTimeout = true;
+
+    setTimeout(() => {
+      this.isTimeOver = false;
+      this.hasTriggeredTimeout = false;
+      this.cdr.detectChanges(); 
+    }, 10000);
+  }
+
+  this.cdr.detectChanges();
 }
 
   updateCurrentDate(): void {

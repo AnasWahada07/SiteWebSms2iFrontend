@@ -25,6 +25,7 @@ export class DemandeFormation implements OnInit {
   successMessage = '';
   errorMessage = '';
 
+
   constructor(private fb: FormBuilder, private formationService: FormationService) {}
 
   ngOnInit(): void {
@@ -41,7 +42,8 @@ export class DemandeFormation implements OnInit {
       participants: [''],
         technologie: ['', Validators.required],
   duree: ['', Validators.required],
-  certificat: ['', Validators.required]
+  certificat: ['', Validators.required],
+  formateur : ['', Validators.required]
 
     });
   }
