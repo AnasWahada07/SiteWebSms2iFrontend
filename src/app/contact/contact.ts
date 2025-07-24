@@ -73,26 +73,34 @@ export class Contacts implements OnInit {
     this.contacts = [...this.contactsOriginal];
   }
 
-  deleteContact(contact: Contact): void {
-    Swal.fire({
-      title: 'Supprimer le contact ?',
-      text: 'Cette action est irréversible.',
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonText: 'Oui, supprimer',
-      cancelButtonText: 'Annuler'
-    }).then((result) => {
-      if (result.isConfirmed) {
-        this.contactService.deleteContact(contact.id!).subscribe({
-          next: () => {
-            this.contacts = this.contacts.filter(c => c.id !== contact.id);
-            Swal.fire('Supprimé', 'Le contact a été supprimé avec succès.', 'success');
-          },
-          error: () => {
-            Swal.fire('Erreur', 'Une erreur est survenue lors de la suppression.', 'error');
-          }
-        });
-      }
-    });
-  }
+deleteContact(contact: Contact): void {
+  Swal.fire({
+    title: 'Supprimer le contact ?',
+    text: 'Cette action est irréversible.',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonText: 'Oui, supprimer',
+    cancelButtonText: 'Annuler'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      this.contactService.deleteContact(contact.id!).subscribe({
+        next: () => {
+          this.contacts = this.contacts.filter(c => c.id !== contact.id);
+          this.cdRef.detectChanges(); 
+
+          Swal.fire({
+            icon: 'success',
+            title: '✅ Supprimé',
+            text: 'Le contact a été supprimé avec succès.',
+            timer: 1500,
+            showConfirmButton: false
+          });
+        },
+        error: () => {
+          Swal.fire('❌ Erreur', 'Une erreur est survenue lors de la suppression.', 'error');
+        }
+      });
+    }
+  });
+}
 }

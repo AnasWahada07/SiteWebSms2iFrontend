@@ -79,31 +79,44 @@ export class ViewInscritFormation {
     this.filteredInscriptions = [...this.inscriptionsOriginal];
   }
 
-  deleteInscription(id?: number): void {
-    if (!id) return;
+deleteInscription(id?: number): void {
+  if (!id) return;
 
-    Swal.fire({
-      title: 'Supprimer l\'inscription ?',
-      text: 'Cette action est irréversible.',
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonText: 'Oui, supprimer',
-      cancelButtonText: 'Annuler'
-    }).then(result => {
-      if (result.isConfirmed) {
-        this.inscriptionService.delete(id).subscribe({
-          next: () => {
-            this.inscriptionsOriginal = this.inscriptionsOriginal.filter(insc => insc.id !== id);
-            this.applyFilters();
-            Swal.fire('Supprimée', 'Inscription supprimée avec succès.', 'success');
-          },
-          error: () => {
-            Swal.fire('Erreur', 'La suppression a échoué.', 'error');
-          }
-        });
-      }
-    });
-  }
+  Swal.fire({
+    title: 'Supprimer l\'inscription ?',
+    text: 'Cette action est irréversible.',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonText: 'Oui, supprimer',
+    cancelButtonText: 'Annuler'
+  }).then(result => {
+    if (result.isConfirmed) {
+      this.inscriptionService.delete(id).subscribe({
+        next: () => {
+          // ❌ Supprimer du tableau original (brut)
+          this.inscriptionsOriginal = this.inscriptionsOriginal.filter(insc => insc.id !== id);
+
+          // ✅ Recalculer les inscriptions visibles selon filtres actuels
+          this.applyFilters();
+
+          // ✅ Forcer le rafraîchissement de l'UI
+          this.cdRef.detectChanges();
+
+          Swal.fire({
+            icon: 'success',
+            title: '✅ Supprimée',
+            text: 'Inscription supprimée avec succès.',
+            timer: 1500,
+            showConfirmButton: false
+          });
+        },
+        error: () => {
+          Swal.fire('❌ Erreur', 'La suppression a échoué.', 'error');
+        }
+      });
+    }
+  });
+}
 
   openEditModal(inscription: InscriptionFormation): void {
     this.selectedInscription = { ...inscription }; // clone

@@ -42,7 +42,6 @@ export class User implements OnInit, OnDestroy {
   users: UserModel[] = [];
   selectedUser: UserModel | null = null;
   isLoading = false;
-
   currentYear: number = new Date().getFullYear();
   private destroy$ = new Subject<void>();
 
@@ -81,7 +80,7 @@ export class User implements OnInit, OnDestroy {
         next: (users) => {
           this.users = users;
           this.isLoading = false;
-          this.cdRef.detectChanges();
+          this.cdRef.detectChanges(); // Force update
         },
         error: (err) => {
           this.isLoading = false;
@@ -91,35 +90,49 @@ export class User implements OnInit, OnDestroy {
       });
   }
 
-deleteUser(id: number): void {
-  Swal.fire({
-    title: 'Confirmer la suppression ?',
-    text: 'Cet utilisateur sera supprimé définitivement.',
-    icon: 'warning',
-    showCancelButton: true,
-    confirmButtonText: 'Oui, supprimer',
-    cancelButtonText: 'Annuler'
-  }).then((result) => {
-    if (result.isConfirmed) {
-      this.isLoading = true;
+  deleteUser(id: number): void {
+    Swal.fire({
+      title: 'Confirmer la suppression ?',
+      text: 'Cet utilisateur sera supprimé définitivement.',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Oui, supprimer',
+      cancelButtonText: 'Annuler'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.isLoading = true;
 
-      this.http.delete(`http://192.168.1.54:8082/api/users/${id}`, { responseType: 'text' })
-        .pipe(takeUntil(this.destroy$))
-        .subscribe({
-          next: (responseText) => {
-            this.users = this.users.filter(user => user.id !== id);
-            this.isLoading = false;
-            Swal.fire('✅ Supprimé', responseText || 'Utilisateur supprimé avec succès.', 'success');
-          },
-          error: (err) => {
-            this.isLoading = false;
-            Swal.fire('❌ Erreur', 'Échec de la suppression de l\'utilisateur.', 'error');
-            console.error('Erreur de suppression :', err);
-          }
-        });
-    }
-  });
-}
+        this.http.delete(`http://192.168.1.54:8082/api/users/${id}`, { responseType: 'text' })
+          .pipe(takeUntil(this.destroy$))
+          .subscribe({
+            next: (message: string) => {
+              this.users = this.users.filter(user => user.id !== id);
+              this.cdRef.detectChanges(); // ✅ Mise à jour immédiate
+              this.isLoading = false;
+              this.selectedUser = null;
+
+              Swal.fire({
+                icon: 'success',
+                title: '✅ Supprimé',
+                text: message || 'Utilisateur supprimé avec succès.',
+                timer: 1500,
+                showConfirmButton: false
+              });
+            },
+            error: (error) => {
+              this.isLoading = false;
+              console.error('Erreur de suppression :', error);
+
+              Swal.fire({
+                icon: 'error',
+                title: '❌ Erreur',
+                text: 'Échec de la suppression de l\'utilisateur.',
+              });
+            }
+          });
+      }
+    });
+  }
 
   updateUser(user: UserModel): void {
     this.selectedUser = { ...user };
