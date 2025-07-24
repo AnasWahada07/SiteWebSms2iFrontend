@@ -4,19 +4,16 @@ import { ProjetService } from '../Services/Projet.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-view-projet',
   imports: [
-
-        ReactiveFormsModule,
-        HttpClientModule ,
-        FormsModule ,
-        CommonModule
-
-
-
-
+    ReactiveFormsModule,
+    HttpClientModule,
+    FormsModule,
+    CommonModule
   ],
   templateUrl: './view-projet.html',
   styleUrl: './view-projet.css'
@@ -28,28 +25,40 @@ export class ViewProjet implements OnInit {
   previewUrl: string | ArrayBuffer | null = null;
 
   searchQuery: string = '';
-projetsOriginal: any[] = []; 
+  projetsOriginal: any[] = [];
 
-      currentYear: number = new Date().getFullYear();
-
+  currentYear: number = new Date().getFullYear();
 
   selectedProjet?: any;
   selectedEditImageFile?: File;
   editPreviewUrl: string | ArrayBuffer | null = null;
 
-  constructor(private projetService: ProjetService , private cdRef: ChangeDetectorRef) {}
+  constructor(
+    private projetService: ProjetService,
+    private cdRef: ChangeDetectorRef,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.loadProjets();
   }
 
-loadProjets(): void {
-  this.projetService.getAllProjets().subscribe(data => {
-    this.projets = data;
-    this.cdRef.detectChanges(); 
-    this.projetsOriginal = [...this.projets]; 
-  });
-}
+  goToDashboard(): void {
+    this.router.navigate(['/Admin']);
+  }
+
+  loadProjets(): void {
+    this.projetService.getAllProjets().subscribe({
+      next: (data) => {
+        this.projets = data;
+        this.cdRef.detectChanges();
+        this.projetsOriginal = [...this.projets];
+      },
+      error: () => {
+        Swal.fire('Erreur', 'Erreur de chargement des projets', 'error');
+      }
+    });
+  }
 
   onFileSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
@@ -72,11 +81,17 @@ loadProjets(): void {
       formData.append('image', this.selectedImageFile);
     }
 
-    this.projetService.createProjetWithImage(formData).subscribe(() => {
-      this.newProjet = {};
-      this.previewUrl = null;
-      this.selectedImageFile = undefined;
-      this.loadProjets();
+    this.projetService.createProjetWithImage(formData).subscribe({
+      next: () => {
+        this.newProjet = {};
+        this.previewUrl = null;
+        this.selectedImageFile = undefined;
+        this.loadProjets();
+        Swal.fire('Succès', 'Projet ajouté avec succès', 'success');
+      },
+      error: () => {
+        Swal.fire('Erreur', 'Échec de l\'ajout du projet', 'error');
+      }
     });
   }
 
@@ -109,30 +124,54 @@ loadProjets(): void {
       formData.append('image', this.selectedEditImageFile);
     }
 
-    this.projetService.updateProjetWithImage(this.selectedProjet.id, formData).subscribe(() => {
-      this.selectedProjet = undefined;
-      this.editPreviewUrl = null;
-      this.selectedEditImageFile = undefined;
-      this.loadProjets();
+    this.projetService.updateProjetWithImage(this.selectedProjet.id, formData).subscribe({
+      next: () => {
+        this.selectedProjet = undefined;
+        this.editPreviewUrl = null;
+        this.selectedEditImageFile = undefined;
+        this.loadProjets();
+        Swal.fire('Succès', 'Projet mis à jour avec succès', 'success');
+      },
+      error: () => {
+        Swal.fire('Erreur', 'Échec de la mise à jour du projet', 'error');
+      }
     });
   }
-applyProjetFilter(): void {
-  const query = this.searchQuery.toLowerCase().trim();
 
-  this.projets = this.projetsOriginal.filter(projet =>
-    (projet.title && projet.title.toLowerCase().includes(query)) ||
-    (projet.client && projet.client.toLowerCase().includes(query))
-  );
-}
+  applyProjetFilter(): void {
+    const query = this.searchQuery.toLowerCase().trim();
 
-resetProjetFilter(): void {
-  this.searchQuery = '';
-  this.projets = [...this.projetsOriginal];
-}
+    this.projets = this.projetsOriginal.filter(projet =>
+      (projet.title && projet.title.toLowerCase().includes(query)) ||
+      (projet.client && projet.client.toLowerCase().includes(query))
+    );
+  }
 
-
+  resetProjetFilter(): void {
+    this.searchQuery = '';
+    this.projets = [...this.projetsOriginal];
+  }
 
   deleteProjet(id: number): void {
-    this.projetService.deleteProjet(id).subscribe(() => this.loadProjets());
+    Swal.fire({
+      title: 'Confirmation',
+      text: 'Êtes-vous sûr de vouloir supprimer ce projet ?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Oui, supprimer',
+      cancelButtonText: 'Annuler'
+    }).then(result => {
+      if (result.isConfirmed) {
+        this.projetService.deleteProjet(id).subscribe({
+          next: () => {
+            this.loadProjets();
+            Swal.fire('Supprimé', 'Projet supprimé avec succès', 'success');
+          },
+          error: () => {
+            Swal.fire('Erreur', 'Erreur lors de la suppression', 'error');
+          }
+        });
+      }
+    });
   }
 }

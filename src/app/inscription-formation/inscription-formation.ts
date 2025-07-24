@@ -3,23 +3,16 @@ import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } 
 import { InscriptionService } from '../Services/Inscription.service';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-inscription-formation',
-  imports: [
-
-ReactiveFormsModule, 
-FormsModule,
- CommonModule,
- HttpClientModule
-
-  ],
+  standalone: true,
+  imports: [ReactiveFormsModule, FormsModule, CommonModule, HttpClientModule],
   templateUrl: './inscription-formation.html',
   styleUrl: './inscription-formation.css'
 })
 export class InscriptionFormation implements OnInit {
-
-
 
   form: FormGroup;
   types: string[] = [];
@@ -52,45 +45,48 @@ export class InscriptionFormation implements OnInit {
     }
   }
 
-  submits() {
-  if (this.form.invalid) {
-    this.form.markAllAsTouched();
-    return;
+  submit() {
+    if (this.form.invalid) {
+      this.form.markAllAsTouched();
+      Swal.fire({
+        icon: 'warning',
+        title: 'Formulaire incomplet',
+        text: 'Veuillez remplir tous les champs requis.',
+      });
+      return;
+    }
+
+    const values = this.form.value;
+    const payload = {
+      prenom: values.prenom,
+      nom: values.nom,
+      email: values.email,
+      telephone: values.telephone,
+      formation: { id: values.formationId },
+      objectif: values.objectif
+    };
+
+    this.inscriptionService.register(payload).subscribe({
+      next: () => {
+        Swal.fire({
+          icon: 'success',
+          title: 'Inscription réussie 🎉',
+          text: 'Votre demande a bien été envoyée.',
+        });
+        this.resetForm();
+      },
+      error: () => {
+        Swal.fire({
+          icon: 'error',
+          title: 'Erreur ❌',
+          text: "Une erreur s'est produite lors de l'inscription.",
+        });
+      }
+    });
   }
-  }
-
-
-submit() {
-  if (this.form.invalid) return;
-
-  const values = this.form.value;
-  const payload = {
-    prenom: values.prenom,
-    nom: values.nom,
-    email: values.email,
-    telephone: values.telephone,
-    formation: { id: values.formationId }
-  };
-
-  this.inscriptionService.register(payload).subscribe({
-    next: () => {
-      alert('✅ Inscription réussie');
-      this.form.reset();       
-      this.formations = [];    
-    },
-    error: () => alert('❌ Erreur lors de l\'inscription')
-  });
-}
 
   resetForm() {
-  this.form.reset();
-  this.formations = []; 
+    this.form.reset();
+    this.formations = [];
+  }
 }
-
-
-}
-
-
-
-
-

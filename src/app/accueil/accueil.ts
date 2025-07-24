@@ -6,42 +6,35 @@ import { HttpClientModule } from '@angular/common/http';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { ProjetService } from '../Services/Projet.service';
 import { Projet } from '../Class/Projet';
-import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
-
-
+import { DomSanitizer } from '@angular/platform-browser';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-accueil',
+  standalone: true,
   imports: [
-
-        ReactiveFormsModule,
-        HttpClientModule ,
-        CommonModule
-
-
+    ReactiveFormsModule,
+    HttpClientModule,
+    CommonModule
   ],
   templateUrl: './accueil.html',
-  styleUrl: './accueil.css'
+  styleUrls: ['./accueil.css']
 })
-export class Accueil implements OnInit  {
+export class Accueil implements OnInit {
 
   currentYear: number = new Date().getFullYear();
-
   isLoading: boolean = true;
-  
-
-
-    contactForm: FormGroup;
-  submitted = false;
-  successMessage = '';
-  errorMessage = '';
-
+  contactForm: FormGroup;
   projets: Projet[] = [];
 
-    constructor(private fb: FormBuilder, private contactService: ContactService , private projetService: ProjetService ,  private sanitizer: DomSanitizer , 
-          @Inject(PLATFORM_ID) private platformId: Object , private cdRef: ChangeDetectorRef
-
-    ) {
+  constructor(
+    private fb: FormBuilder,
+    private contactService: ContactService,
+    private projetService: ProjetService,
+    private sanitizer: DomSanitizer,
+    @Inject(PLATFORM_ID) private platformId: Object,
+    private cdRef: ChangeDetectorRef
+  ) {
     this.contactForm = this.fb.group({
       name: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
@@ -50,49 +43,40 @@ export class Accueil implements OnInit  {
       message: ['', Validators.required],
       consent: [false, Validators.requiredTrue]
     });
-  
   }
 
-ngOnInit(): void {
-  this.projetService.getAllProjets().subscribe({
-    next: (data) => {
-      this.projets = data;
-      this.isLoading = false;
+  ngOnInit(): void {
+    this.projetService.getAllProjets().subscribe({
+      next: (data) => {
+        this.projets = data;
+        this.isLoading = false;
+        this.cdRef.detectChanges();
+      },
+      error: (err) => {
+        console.error('Erreur de chargement', err);
+        this.isLoading = false;
+        this.cdRef.detectChanges();
+      }
+    });
+  }
 
-      this.cdRef.detectChanges(); // 🔁 force Angular à re-rendre le DOM
-    },
-    error: (err) => {
-      console.error('Erreur de chargement', err);
-      this.isLoading = false;
-      this.cdRef.detectChanges(); // même en cas d'erreur
+  onSubmit(): void {
+    if (this.contactForm.invalid) {
+      Swal.fire('Erreur', 'Veuillez corriger les erreurs du formulaire.', 'error');
+      return;
     }
-  });
-}
 
-
-
-
-
-
-onSubmit(): void {
-  if (this.contactForm.valid) {
     const contactData = this.contactForm.value;
 
     this.contactService.sendMessage(contactData).subscribe({
       next: (res) => {
-        this.successMessage = res;
-        this.errorMessage = '';
+        Swal.fire('✅ Message envoyé', 'Votre message a été transmis avec succès.', 'success');
         this.contactForm.reset();
       },
       error: (err) => {
         console.error('Erreur envoi :', err);
-        this.successMessage = '';
-        this.errorMessage = "❌ Une erreur est survenue lors de l'envoi du message.";
+        Swal.fire('❌ Erreur', 'Une erreur est survenue lors de l\'envoi du message.', 'error');
       }
     });
-  } else {
-    this.successMessage = '';
-    this.errorMessage = "Veuillez corriger les erreurs du formulaire.";
   }
-}
 }

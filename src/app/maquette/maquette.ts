@@ -5,6 +5,8 @@ import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { DemandeMaquette } from '../Class/DemandeMaquette';
+import { Router } from '@angular/router';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-maquette',
@@ -16,14 +18,21 @@ import { DemandeMaquette } from '../Class/DemandeMaquette';
 export class Maquette implements OnInit {
   maquettes: PropositionMaquette[] = [];
   demandes: DemandeMaquette[] = [];
-        currentYear: number = new Date().getFullYear();
+  currentYear: number = new Date().getFullYear();
 
-
-  constructor(private maquetteService: MaquetteService, private cdRef: ChangeDetectorRef) {}
+  constructor(
+    private maquetteService: MaquetteService,
+    private cdRef: ChangeDetectorRef,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.loadMaquettes();
     this.chargerDemandes();
+  }
+
+  goToDashboard(): void {
+    this.router.navigate(['/Admin']);
   }
 
   loadMaquettes(): void {
@@ -32,18 +41,35 @@ export class Maquette implements OnInit {
         this.maquettes = data;
         this.cdRef.detectChanges();
       },
-      error: (err) => console.error("Erreur récupération maquettes :", err)
+      error: (err) => {
+        console.error('Erreur récupération maquettes :', err);
+        Swal.fire('Erreur', 'Impossible de charger les maquettes.', 'error');
+      }
     });
   }
 
-supprimerProposition(id: number): void {
-  if (confirm('Voulez-vous vraiment supprimer cette proposition ?')) {
-    this.maquetteService.delete(id).subscribe(() => {
-      this.loadMaquettes();
+  supprimerProposition(id: number): void {
+    Swal.fire({
+      title: 'Supprimer cette proposition ?',
+      text: 'Cette action est irréversible.',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Oui, supprimer',
+      cancelButtonText: 'Annuler'
+    }).then(result => {
+      if (result.isConfirmed) {
+        this.maquetteService.delete(id).subscribe({
+          next: () => {
+            this.loadMaquettes();
+            Swal.fire('Supprimée', 'Proposition supprimée avec succès.', 'success');
+          },
+          error: () => {
+            Swal.fire('Erreur', 'Échec de la suppression.', 'error');
+          }
+        });
+      }
     });
   }
-}
-
 
   chargerDemandes(): void {
     this.maquetteService.getAlls().subscribe({
@@ -51,17 +77,33 @@ supprimerProposition(id: number): void {
         this.demandes = data;
         this.cdRef.detectChanges();
       },
-      error: err => console.error('Erreur chargement demandes :', err)
+      error: err => {
+        console.error('Erreur chargement demandes :', err);
+        Swal.fire('Erreur', 'Impossible de charger les demandes.', 'error');
+      }
     });
   }
 
-supprimerDemande(id: number): void {
-  if (confirm('Voulez-vous vraiment supprimer cette demande ?')) {
-    this.maquetteService.deletes(id).subscribe(() => {
-      this.chargerDemandes();
+  supprimerDemande(id: number): void {
+    Swal.fire({
+      title: 'Supprimer cette demande ?',
+      text: 'Cette action est irréversible.',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Oui, supprimer',
+      cancelButtonText: 'Annuler'
+    }).then(result => {
+      if (result.isConfirmed) {
+        this.maquetteService.deletes(id).subscribe({
+          next: () => {
+            this.chargerDemandes();
+            Swal.fire('Supprimée', 'Demande supprimée avec succès.', 'success');
+          },
+          error: () => {
+            Swal.fire('Erreur', 'Échec de la suppression.', 'error');
+          }
+        });
+      }
     });
   }
 }
-}
-
-

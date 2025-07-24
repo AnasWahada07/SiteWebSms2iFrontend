@@ -1,6 +1,6 @@
 /* Fond doux et conteneur centré */
 .container {
-  max-width: 1100px;
+  max-width: 2000px;
   background-color: #fefefe;
   border-radius: 12px;
   padding: 40px 30px;
@@ -125,4 +125,13 @@ input.form-control::placeholder {
 input.form-control::placeholder {
   font-style: italic;
   color: #adb5bd;
+}
+
+.table-primary {
+  background-color: #2e86c1 !important;
+  color: #fff !important;
+}
+
+th, td {
+  vertical-align: middle !important;
 }

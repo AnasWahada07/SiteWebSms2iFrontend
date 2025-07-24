@@ -30,7 +30,8 @@ export class ViewInscriptionService {
     return this.http.put<InscriptionPFE>(`${this.apiUrl}/${id}`, data);
   }
 
-  delete(id: number): Observable<any> {
-    return this.http.delete(`${this.apiUrl}/${id}`);
+  delete(id: number, options?: any): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/${id}` , options);
   }
+
 }

@@ -5,6 +5,8 @@ import { Galeries } from '../Class/Galeries';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-view-galerie',
@@ -27,14 +29,16 @@ export class ViewGalerie implements OnInit {
   selectedGalerieId?: number;
   showForm: boolean = false;
 
-        currentYear: number = new Date().getFullYear();
+  currentYear: number = new Date().getFullYear();
+  searchQuery: string = '';
+  galeriesOriginal: Galeries[] = [];
 
-
-searchQuery: string = '';
-galeriesOriginal: Galeries[] = []; // pour garder toutes les galeries sans filtrage
-
-
-  constructor(private galerieService: GalerieService, private fb: FormBuilder , private cdRef: ChangeDetectorRef) {
+  constructor(
+    private galerieService: GalerieService,
+    private fb: FormBuilder,
+    private cdRef: ChangeDetectorRef,
+    private router: Router
+  ) {
     this.galerieForm = this.fb.group({
       title: ['', Validators.required],
       description: ['', Validators.required],
@@ -46,17 +50,19 @@ galeriesOriginal: Galeries[] = []; // pour garder toutes les galeries sans filtr
     this.loadGaleries();
   }
 
+  goToDashboard(): void {
+    this.router.navigate(['/Admin']);
+  }
+
   loadGaleries(): void {
     this.galerieService.getAll().subscribe({
       next: (data) => {
         this.galeries = data;
         this.cdRef.detectChanges();
         this.galeriesOriginal = [...data];
-
-
       },
       error: (err) => {
-        console.error("❌ Erreur lors du chargement des galeries :", err);
+        Swal.fire('Erreur', 'Erreur de chargement des galeries', 'error');
       }
     });
   }
@@ -65,13 +71,9 @@ galeriesOriginal: Galeries[] = []; // pour garder toutes les galeries sans filtr
     const input = event.target as HTMLInputElement;
     if (input.files && input.files.length > 0) {
       this.selectedImage = input.files[0];
-
-      // Libérer l'ancienne URL si existante
       if (this.selectedImageUrl) {
         URL.revokeObjectURL(this.selectedImageUrl);
       }
-
-      // Générer une URL locale pour prévisualisation
       this.selectedImageUrl = URL.createObjectURL(this.selectedImage);
     }
   }
@@ -90,20 +92,20 @@ galeriesOriginal: Galeries[] = []; // pour garder toutes les galeries sans filtr
     if (this.updateMode && this.selectedGalerieId != null) {
       this.galerieService.updateGalerie(this.selectedGalerieId, formData).subscribe({
         next: () => {
-          alert('✅ Galerie mise à jour avec succès');
+          Swal.fire('Succès', 'Galerie mise à jour avec succès', 'success');
           this.resetForm();
           this.loadGaleries();
         },
-        error: () => alert("❌ Erreur lors de la mise à jour")
+        error: () => Swal.fire('Erreur', 'Échec de la mise à jour', 'error')
       });
     } else {
       this.galerieService.addGalerie(formData).subscribe({
         next: () => {
-          alert('✅ Galerie ajoutée avec succès');
+          Swal.fire('Succès', 'Galerie ajoutée avec succès', 'success');
           this.resetForm();
           this.loadGaleries();
         },
-        error: () => alert("❌ Erreur lors de l'ajout de la galerie")
+        error: () => Swal.fire('Erreur', 'Échec de l\'ajout de la galerie', 'error')
       });
     }
   }
@@ -117,23 +119,29 @@ galeriesOriginal: Galeries[] = []; // pour garder toutes les galeries sans filtr
       client: galerie.client
     });
     this.selectedImage = null;
-
-    // Affiche l'image existante (adapter le champ imageUrl selon ta donnée)
     this.selectedImageUrl = galerie.imageUrl || null;
-
     this.showForm = true;
   }
 
   onDelete(id: number): void {
-    if (confirm('🗑️ Supprimer cette galerie ?')) {
-      this.galerieService.deleteGalerie(id).subscribe({
-        next: () => {
-          this.loadGaleries();
-          alert('🧹 Galerie supprimée');
-        },
-        error: () => alert('❌ Erreur lors de la suppression')
-      });
-    }
+    Swal.fire({
+      title: 'Confirmation',
+      text: 'Voulez-vous vraiment supprimer cette galerie ?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Oui, supprimer',
+      cancelButtonText: 'Annuler'
+    }).then(result => {
+      if (result.isConfirmed) {
+        this.galerieService.deleteGalerie(id).subscribe({
+          next: () => {
+            this.loadGaleries();
+            Swal.fire('Supprimée', 'Galerie supprimée avec succès', 'success');
+          },
+          error: () => Swal.fire('Erreur', 'Échec de la suppression', 'error')
+        });
+      }
+    });
   }
 
   toggleFormVisibility(): void {
@@ -141,7 +149,6 @@ galeriesOriginal: Galeries[] = []; // pour garder toutes les galeries sans filtr
     if (!this.showForm && this.updateMode) {
       this.resetForm();
     }
-
   }
 
   applyFilter(): void {
@@ -162,12 +169,10 @@ galeriesOriginal: Galeries[] = []; // pour garder toutes les galeries sans filtr
     this.selectedGalerieId = undefined;
     this.galerieForm.reset();
     this.selectedImage = null;
-
     if (this.selectedImageUrl) {
       URL.revokeObjectURL(this.selectedImageUrl);
     }
     this.selectedImageUrl = null;
-
     this.showForm = false;
   }
 }

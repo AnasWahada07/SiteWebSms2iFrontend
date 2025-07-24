@@ -44,6 +44,11 @@ export class FormationService {
     return this.http.delete<void>(`${this.baseUrl}/${id}`);
   }
 
+update(id: number, data: InscriptionFormation): Observable<any> {
+  return this.http.put(`${this.baseUrl}/${id}`, data);
+}
+
+
 
 
 }

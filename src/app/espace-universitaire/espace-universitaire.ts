@@ -7,6 +7,7 @@ import { SujetPfeService } from '../Services/SujetPfe.service';
 import { InscriptionPFE } from '../Class/InscriptionPFE';
 import { InscriptionPFEService } from '../Services/InscriptionPFE.service';
 import { CommonModule } from '@angular/common';
+import Swal from 'sweetalert2';
 
 declare var bootstrap: any;
 
@@ -114,11 +115,11 @@ export class EspaceUniversitaire implements OnInit {
         bootstrap.Modal.getInstance(document.getElementById('demanderMaquetteModal')!)?.hide();
         this.cleanModalState();
         this.demandeMaquetteForm.reset();
-        this.showToast('toastSuccess');
+        Swal.fire('Succès', 'Demande envoyée avec succès.', 'success');
       },
       error: err => {
         console.error(err);
-        this.showToast('toastError');
+        Swal.fire('Erreur', 'Erreur lors de l\'envoi de la demande.', 'error');
       }
     });
   }
@@ -129,7 +130,7 @@ export class EspaceUniversitaire implements OnInit {
 
   onSubmitsMaquette(): void {
     if (!this.selectedFileMaquette) {
-      alert("Veuillez sélectionner un fichier.");
+      Swal.fire('Fichier requis', 'Veuillez sélectionner un fichier.', 'warning');
       return;
     }
     const formData = new FormData();
@@ -140,11 +141,11 @@ export class EspaceUniversitaire implements OnInit {
         this.resetMaquetteForm();
         bootstrap.Modal.getInstance(document.getElementById('proposerMaquetteModal')!)?.hide();
         this.cleanModalState();
-        this.showToast('toastSuccess');
+        Swal.fire('Succès', 'Proposition envoyée avec succès.', 'success');
       },
       error: err => {
         console.error(err);
-        this.showToast('toastError');
+        Swal.fire('Erreur', 'Erreur lors de l\'envoi de la maquette.', 'error');
       }
     });
   }
@@ -162,8 +163,7 @@ export class EspaceUniversitaire implements OnInit {
 
   onSubmit(): void {
     if (this.competenceForm.invalid || !this.selectedFile) {
-      this.errorMessage = "Veuillez remplir tous les champs requis et sélectionner un fichier.";
-      this.successMessage = "";
+      Swal.fire('Erreur', 'Veuillez remplir tous les champs requis et sélectionner un fichier.', 'error');
       return;
     }
     const formData = new FormData();
@@ -171,16 +171,12 @@ export class EspaceUniversitaire implements OnInit {
     formData.append('competence', new Blob([JSON.stringify(this.competenceForm.value)], { type: 'application/json' }));
     this.competenceService.addCompetence(formData).subscribe({
       next: () => {
-        this.successMessage = "Compétence envoyée avec succès.";
-        this.errorMessage = "";
         this.resetCompetenceForm();
-        this.showToast('toastSuccess');
+        Swal.fire('Succès', 'Compétence envoyée avec succès.', 'success');
       },
       error: err => {
         console.error(err);
-        this.errorMessage = "Erreur lors de l'envoi.";
-        this.successMessage = "";
-        this.showToast('toastError');
+        Swal.fire('Erreur', 'Erreur lors de l\'envoi de la compétence.', 'error');
       }
     });
   }
@@ -190,11 +186,6 @@ export class EspaceUniversitaire implements OnInit {
     this.selectedFile = null;
     const fileInput = document.getElementById('cvFileInput') as HTMLInputElement;
     if (fileInput) fileInput.value = '';
-  }
-
-  showToast(id: string): void {
-    const el = document.getElementById(id);
-    if (el) new bootstrap.Toast(el).show();
   }
 
   openModal(event: any): void {
@@ -208,15 +199,15 @@ export class EspaceUniversitaire implements OnInit {
     if (!this.selectedSujetId) return;
     this.inscriptionService.createInscription(this.selectedSujetId, this.formData).subscribe({
       next: () => {
-        alert('Inscription réussie ✅');
         bootstrap.Modal.getInstance(document.getElementById('inscriptionModal')!)?.hide();
         this.cleanModalState();
         this.formData = { nom: '', prenom: '', telephone: '', email: '', classe: '', specialite: '' };
         this.cdRef.detectChanges();
+        Swal.fire('Succès', 'Inscription réussie.', 'success');
       },
       error: err => {
-        alert("Erreur lors de l'inscription ❌");
         console.error(err);
+        Swal.fire('Erreur', 'Erreur lors de l\'inscription.', 'error');
       }
     });
   }
@@ -226,26 +217,27 @@ export class EspaceUniversitaire implements OnInit {
   }
 
   onSubmitpfe(): void {
-    if (!this.selectedFile) return;
+    if (!this.selectedFile) {
+      Swal.fire('Fichier requis', 'Veuillez sélectionner un fichier.', 'warning');
+      return;
+    }
     const formData = new FormData();
     formData.append('sujet', new Blob([JSON.stringify(this.sujet)], { type: 'application/json' }));
     formData.append('file', this.selectedFile);
     this.http.post('http://192.168.1.54:8082/api/sujets', formData).subscribe({
       next: () => {
-        alert('Sujet proposé avec succès !');
         this.resetForm();
-        this.showToast('toastSuccess');
+        Swal.fire('Succès', 'Sujet proposé avec succès.', 'success');
       },
       error: err => {
-        alert("Erreur lors de l'envoi");
         console.error(err);
-        this.showToast('toastError');
+        Swal.fire('Erreur', 'Erreur lors de l\'envoi du sujet.', 'error');
       }
     });
   }
 
   resetForm(): void {
-    this.sujet = { nom: '', prenom: '', email: '', description: '', type: '', titre: ''  , profil: '', technologie: '' };
+    this.sujet = { nom: '', prenom: '', email: '', description: '', type: '', titre: '', profil: '', technologie: '' };
     this.selectedFile = null;
     const fileInput = document.getElementById('pfeFile') as HTMLInputElement;
     if (fileInput) fileInput.value = '';
@@ -258,5 +250,10 @@ export class EspaceUniversitaire implements OnInit {
       document.body.classList.remove('modal-open');
       document.body.style.overflow = 'auto';
     }
+  }
+
+  showToast(id: string): void {
+    const el = document.getElementById(id);
+    if (el) new bootstrap.Toast(el).show();
   }
 }

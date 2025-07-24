@@ -7,6 +7,7 @@ import { NotificationService, Notification } from '../Services/notification.serv
 import { AuthService } from '../Services/ Auth.service';
 import { FormsModule } from '@angular/forms';
 import HijriDate from 'hijri-date/lib/safe';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-dashboard-admin',
@@ -32,13 +33,9 @@ export class DashboardAdmin implements OnInit {
   unseenCount: number = 0;
   showDropdown: boolean = false;
 
-      currentYear: number = new Date().getFullYear();
-
-      isTimeOver: boolean = false;
-      private hasTriggeredTimeout = false; 
-
-
-
+  currentYear: number = new Date().getFullYear();
+  isTimeOver: boolean = false;
+  private hasTriggeredTimeout = false;
 
   constructor(
     private router: Router,
@@ -58,45 +55,44 @@ export class DashboardAdmin implements OnInit {
       this.updateCurrentTime();
       this.updateCurrentDate();
 
-setInterval(() => {
-  this.updateCurrentTime();
-  this.updateCurrentDate();
-}, 1000);
+      setInterval(() => {
+        this.updateCurrentTime();
+        this.updateCurrentDate();
+      }, 1000);
 
-      this.loadNotifications();
       this.loadAllNotifications();
+      this.loadNotifications();
       this.loadWeather();
 
       setInterval(() => {
-        this.loadNotifications();
+        this.loadNotifications(); // mise à jour périodique
       }, 10000);
     }
   }
 
-updateCurrentTime(): void {
-  const now = new Date();
-  this.currentTime = now.toLocaleTimeString('fr-FR', {
-    timeZone: 'Africa/Tunis',
-    hour: '2-digit',
-    minute: '2-digit',
-    second: '2-digit',
-    hour12: false
-  });
+  updateCurrentTime(): void {
+    const now = new Date();
+    this.currentTime = now.toLocaleTimeString('fr-FR', {
+      timeZone: 'Africa/Tunis',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+      hour12: false
+    });
 
-  // Vérifier si c’est exactement l’heure cible
-  if (this.currentTime === '15:00:00' && !this.hasTriggeredTimeout) {
-    this.isTimeOver = true;
-    this.hasTriggeredTimeout = true;
+    if (this.currentTime === '15:00:00' && !this.hasTriggeredTimeout) {
+      this.isTimeOver = true;
+      this.hasTriggeredTimeout = true;
 
-    setTimeout(() => {
-      this.isTimeOver = false;
-      this.hasTriggeredTimeout = false;
-      this.cdr.detectChanges(); 
-    }, 10000);
+      setTimeout(() => {
+        this.isTimeOver = false;
+        this.hasTriggeredTimeout = false;
+        this.cdr.detectChanges();
+      }, 30000);
+    }
+
+    this.cdr.detectChanges();
   }
-
-  this.cdr.detectChanges();
-}
 
   updateCurrentDate(): void {
     const options: Intl.DateTimeFormatOptions = {
@@ -108,9 +104,9 @@ updateCurrentTime(): void {
     };
     this.currentDateFormatted = new Date().toLocaleDateString('fr-FR', options);
 
-    const hijri = new HijriDate(); 
+    const hijri = new HijriDate();
     const hijriDay = hijri.getDate();
-    const hijriMonth = hijri.getMonth(); 
+    const hijriMonth = hijri.getMonth();
     const hijriYear = hijri.getFullYear();
 
     const hijriMonths = [
@@ -125,9 +121,10 @@ updateCurrentTime(): void {
   loadAllNotifications(): void {
     this.notificationService.getAllNotifications().subscribe((data) => {
       this.notificationsOriginal = data;
-      this.allNotifications = [...this.notificationsOriginal].sort((a, b) =>
-        new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+      this.allNotifications = [...this.notificationsOriginal].sort(
+        (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
       );
+      this.cdr.detectChanges();
     });
   }
 
@@ -140,19 +137,68 @@ updateCurrentTime(): void {
   }
 
   markNotificationAsSeen(notification: Notification): void {
-    this.notificationService.markAsSeen(notification.id).subscribe(() => {
-      this.loadNotifications();
-      this.showDropdown = false;
+    if (!notification?.id || notification.seen) return;
+
+    this.notificationService.markAsSeen(notification.id).subscribe({
+      next: () => {
+        notification.seen = true;
+        this.unseenCount = this.notifications.filter(n => !n.seen).length;
+
+        // Mise à jour dans allNotifications
+        const index = this.allNotifications.findIndex(n => n.id === notification.id);
+        if (index !== -1) this.allNotifications[index].seen = true;
+
+        // Mise à jour dans notificationsOriginal
+        const indexOrig = this.notificationsOriginal.findIndex(n => n.id === notification.id);
+        if (indexOrig !== -1) this.notificationsOriginal[indexOrig].seen = true;
+
+        this.cdr.detectChanges();
+
+        Swal.fire({
+          icon: 'success',
+          title: 'Notification lue',
+          text: 'La notification a été traitée avec succès.',
+          timer: 1500,
+          showConfirmButton: false
+        });
+      },
+      error: () => {
+        Swal.fire({
+          icon: 'error',
+          title: 'Erreur',
+          text: 'Impossible de marquer la notification comme lue.'
+        });
+      }
     });
   }
 
   deleteNotification(notification: Notification): void {
-    if (confirm('Êtes-vous sûr de vouloir supprimer cette notification ?')) {
-      this.notificationService.deleteNotification(notification.id).subscribe(() => {
-        this.loadAllNotifications();
-        this.loadNotifications();
-      });
-    }
+    Swal.fire({
+      title: 'Supprimer cette notification ?',
+      text: 'Cette action est irréversible.',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Oui, supprimer',
+      cancelButtonText: 'Annuler'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.notificationService.deleteNotification(notification.id).subscribe({
+          next: () => {
+            this.allNotifications = this.allNotifications.filter(n => n.id !== notification.id);
+            this.notifications = this.notifications.filter(n => n.id !== notification.id);
+            this.notificationsOriginal = this.notificationsOriginal.filter(n => n.id !== notification.id);
+            this.unseenCount = this.notifications.filter(n => !n.seen).length;
+
+            this.cdr.detectChanges();
+
+            Swal.fire('🗑️ Supprimée', 'Notification supprimée avec succès.', 'success');
+          },
+          error: () => {
+            Swal.fire('❌ Erreur', 'Échec de la suppression de la notification.', 'error');
+          }
+        });
+      }
+    });
   }
 
   filterNotifications(): void {
@@ -164,7 +210,7 @@ updateCurrentTime(): void {
 
   resetNotifFilter(): void {
     this.searchNotifType = '';
-    this.allNotifications = [...this.notificationsOriginal];
+    this.loadAllNotifications(); 
   }
 
   loadWeather(): void {
@@ -176,6 +222,7 @@ updateCurrentTime(): void {
       error: err => {
         console.error('❌ Erreur météo :', err);
         this.weatherText = 'Erreur de chargement météo';
+        Swal.fire('🌧️ Météo indisponible', 'Impossible de charger les données météo.', 'error');
       }
     });
   }

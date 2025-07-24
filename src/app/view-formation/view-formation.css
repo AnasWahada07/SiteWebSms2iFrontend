@@ -1,6 +1,6 @@
-/* === Conteneur global === */
+/* === CONTENEUR GLOBAL === */
 .container {
-  max-width: 1200px;
+  max-width: 2000px;
   background-color: #ffffff;
   border-radius: 16px;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
@@ -8,7 +8,14 @@
   margin: 40px auto;
 }
 
-/* === Titre principal === */
+/* Responsive padding */
+@media (max-width: 768px) {
+  .container {
+    padding: 20px;
+  }
+}
+
+/* === TITRES === */
 h2 {
   font-size: 28px;
   font-weight: 700;
@@ -16,7 +23,7 @@ h2 {
   margin-bottom: 30px;
 }
 
-/* === Tableau Bootstrap amélioré === */
+/* === TABLEAU BOOTSTRAP AMÉLIORÉ === */
 .table th,
 .table td {
   vertical-align: middle;
@@ -35,12 +42,23 @@ h2 {
   color: #2d3436;
 }
 
-.table tbody tr:hover {
-  background-color: #f1f4f8;
-  transition: background-color 0.2s ease-in-out;
+.table tbody tr {
+  transition: background-color 0.25s ease;
 }
 
-/* === Boutons d'action === */
+.table tbody tr:hover {
+  background-color: #f1f4f8;
+}
+
+/* === BADGES STATUT === */
+.badge {
+  font-size: 13px;
+  padding: 6px 12px;
+  border-radius: 30px;
+  font-weight: 500;
+}
+
+/* === BOUTONS D'ACTION === */
 button {
   font-size: 13px;
   font-weight: 600;
@@ -53,7 +71,26 @@ button:hover {
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
 }
 
-/* === Formulaire de modification === */
+button i {
+  margin-right: 4px;
+  font-size: 14px;
+  vertical-align: middle;
+}
+
+/* === LIEN DE TÉLÉCHARGEMENT === */
+a.btn-outline-primary {
+  font-weight: 500;
+  font-size: 13px;
+  padding: 6px 10px;
+  border-radius: 6px;
+}
+
+a.btn-outline-primary:hover {
+  background-color: #3498db;
+  color: #fff;
+}
+
+/* === FORMULAIRE DE MODIFICATION === */
 .card-header {
   font-size: 18px;
   font-weight: 600;
@@ -89,20 +126,8 @@ textarea {
   min-height: 100px;
 }
 
-/* === Section boutons formulaire === */
-.d-flex.gap-3 button {
+/* === SECTION DES BOUTONS DE FORMULAIRE === */
+.d-flex.gap-3 button,
+.d-flex.gap-2 button {
   min-width: 120px;
-}
-
-/* === Icône lien téléchargement === */
-a.btn-outline-primary {
-  font-weight: 500;
-  font-size: 13px;
-  padding: 6px 10px;
-  border-radius: 6px;
-}
-
-a.btn-outline-primary:hover {
-  background-color: #3498db;
-  color: #fff;
 }

@@ -10,6 +10,8 @@ import { MatCardModule } from '@angular/material/card';
 import { FormsModule } from '@angular/forms'; 
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatOptionModule } from '@angular/material/core';
+import { Router } from '@angular/router';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-view-demande-formation',
@@ -33,22 +35,24 @@ export class ViewDemandeFormation implements OnInit {
   formations: Formations[] = [];
   formationsOriginal: Formations[] = []; 
   selectedFormation: Formations | null = null;
-
-        currentYear: number = new Date().getFullYear();
-
-
-searchQuery: string = '';
+  currentYear: number = new Date().getFullYear();
+  searchQuery: string = '';
 
   displayedColumns: string[] = ['titre', 'formationType', 'theme', 'participants', 'statut', 'actions'];
   statutOptions: string[] = ['CONFIRMEE', 'EN_ATTENTE', 'REJETEE'];
 
   constructor(
     private formationService: FormationService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
     this.fetchFormations();
+  }
+
+  goToDashboard(): void {
+    this.router.navigate(['/Admin']); 
   }
 
   fetchFormations(): void {
@@ -58,37 +62,49 @@ searchQuery: string = '';
         this.formations = [...this.formationsOriginal];
       },
       complete: () => this.cdr.detectChanges(),
-      error: (err) => console.error('❌ Erreur lors du chargement des formations :', err)
+      error: () => {
+        Swal.fire('Erreur', 'Impossible de charger les formations.', 'error');
+      }
     });
   }
 
-applyFilters(): void {
-  const query = this.searchQuery.toLowerCase().trim();
+  applyFilters(): void {
+    const query = this.searchQuery.toLowerCase().trim();
+    this.formations = this.formationsOriginal.filter(formation =>
+      formation.titre?.toLowerCase().includes(query) ||
+      formation.formationType?.toLowerCase().includes(query) ||
+      formation.theme?.toLowerCase().includes(query)
+    );
+  }
 
-  this.formations = this.formationsOriginal.filter(formation =>
-    formation.titre?.toLowerCase().includes(query) ||
-    formation.formationType?.toLowerCase().includes(query) ||
-    formation.theme?.toLowerCase().includes(query)
-  );
-}
-
-resetFilters(): void {
-  this.searchQuery = '';
-  this.applyFilters();
-}
+  resetFilters(): void {
+    this.searchQuery = '';
+    this.applyFilters();
+  }
 
   deleteFormation(id: number | undefined): void {
-    if (id === undefined) {
-      console.warn('⚠️ ID de formation introuvable.');
-      return;
-    }
+    if (!id) return;
 
-    if (confirm('❗ Êtes-vous sûr de vouloir supprimer cette formation ?')) {
-      this.formationService.deleteFormation(id).subscribe({
-        next: () => this.fetchFormations(),
-        error: (err) => console.error('❌ Erreur lors de la suppression :', err)
-      });
-    }
+    Swal.fire({
+      title: 'Supprimer cette formation ?',
+      text: 'Cette action est irréversible.',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Oui, supprimer',
+      cancelButtonText: 'Annuler'
+    }).then(result => {
+      if (result.isConfirmed) {
+        this.formationService.deleteFormation(id).subscribe({
+          next: () => {
+            this.fetchFormations();
+            Swal.fire('Supprimée', 'Formation supprimée avec succès.', 'success');
+          },
+          error: () => {
+            Swal.fire('Erreur', 'Impossible de supprimer la formation.', 'error');
+          }
+        });
+      }
+    });
   }
 
   selectFormation(formation: Formations): void {
@@ -104,23 +120,21 @@ resetFilters(): void {
       this.selectedFormation.participants = Number(this.selectedFormation.participants);
       this.selectedFormation.proposerPrix = Number(this.selectedFormation.proposerPrix);
 
-
       this.formationService.updateFormation(
         this.selectedFormation.id,
         this.selectedFormation
       ).subscribe({
-        next: (res) => {
-          console.log("✅ Formation mise à jour avec succès", res);
+        next: () => {
           this.selectedFormation = null;
           this.fetchFormations();
+          Swal.fire('Succès', 'Formation mise à jour avec succès.', 'success');
         },
-        error: (err) => {
-          console.error("❌ Erreur lors de la mise à jour :", err);
-          alert("Erreur lors de la mise à jour.");
+        error: () => {
+          Swal.fire('Erreur', 'Échec de la mise à jour de la formation.', 'error');
         }
       });
     } else {
-      alert("ID formation invalide !");
+      Swal.fire('Erreur', 'ID formation invalide.', 'error');
     }
-  }
+  }  
 }

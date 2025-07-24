@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import {
   faSyncAlt,
@@ -15,6 +16,7 @@ import {
   faExclamationCircle
 } from '@fortawesome/free-solid-svg-icons';
 import { Subject, takeUntil } from 'rxjs';
+import Swal from 'sweetalert2';
 
 interface UserModel {
   id: number;
@@ -38,16 +40,12 @@ interface UserModel {
 })
 export class User implements OnInit, OnDestroy {
   users: UserModel[] = [];
-  errorMessage = '';
-  successMessage = '';
   selectedUser: UserModel | null = null;
   isLoading = false;
 
-        currentYear: number = new Date().getFullYear();
+  currentYear: number = new Date().getFullYear();
+  private destroy$ = new Subject<void>();
 
-  private destroy$ = new Subject<void>(); 
-
-  // Font Awesome icons
   icons = {
     refresh: faSyncAlt,
     edit: faEdit,
@@ -60,7 +58,11 @@ export class User implements OnInit, OnDestroy {
     error: faExclamationCircle
   };
 
-  constructor(private http: HttpClient ,   private cdRef: ChangeDetectorRef) {}
+  constructor(
+    private http: HttpClient,
+    private cdRef: ChangeDetectorRef,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.loadUsers();
@@ -79,39 +81,45 @@ export class User implements OnInit, OnDestroy {
         next: (users) => {
           this.users = users;
           this.isLoading = false;
-           this.cdRef.detectChanges();
+          this.cdRef.detectChanges();
         },
         error: (err) => {
-          this.errorMessage = 'Échec du chargement des utilisateurs';
+          this.isLoading = false;
+          Swal.fire('Erreur', 'Échec du chargement des utilisateurs', 'error');
           console.error('❌ Erreur de chargement:', err);
-          this.isLoading = false;
-          setTimeout(() => this.errorMessage = '', 3000);
         }
       });
   }
 
-  deleteUser(id: number): void {
-    const confirmDelete = confirm('Êtes-vous sûr de vouloir supprimer cet utilisateur ?');
-    if (!confirmDelete) return;
+deleteUser(id: number): void {
+  Swal.fire({
+    title: 'Confirmer la suppression ?',
+    text: 'Cet utilisateur sera supprimé définitivement.',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonText: 'Oui, supprimer',
+    cancelButtonText: 'Annuler'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      this.isLoading = true;
 
-    this.isLoading = true;
-    this.http.delete(`http://192.168.1.54:8082/api/users/${id}`)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe({
-        next: () => {
-          this.users = this.users.filter(user => user.id !== id);
-          this.successMessage = 'Utilisateur supprimé avec succès !';
-          this.isLoading = false;
-          setTimeout(() => this.successMessage = '', 3000);
-        },
-        error: (err) => {
-          this.errorMessage = 'Échec de la suppression de l\'utilisateur';
-          console.error('❌ Erreur lors de la suppression :', err);
-          this.isLoading = false;
-          setTimeout(() => this.errorMessage = '', 3000);
-        }
-      });
-  }
+      this.http.delete(`http://192.168.1.54:8082/api/users/${id}`, { responseType: 'text' })
+        .pipe(takeUntil(this.destroy$))
+        .subscribe({
+          next: (responseText) => {
+            this.users = this.users.filter(user => user.id !== id);
+            this.isLoading = false;
+            Swal.fire('✅ Supprimé', responseText || 'Utilisateur supprimé avec succès.', 'success');
+          },
+          error: (err) => {
+            this.isLoading = false;
+            Swal.fire('❌ Erreur', 'Échec de la suppression de l\'utilisateur.', 'error');
+            console.error('Erreur de suppression :', err);
+          }
+        });
+    }
+  });
+}
 
   updateUser(user: UserModel): void {
     this.selectedUser = { ...user };
@@ -129,16 +137,14 @@ export class User implements OnInit, OnDestroy {
           if (index !== -1) {
             this.users[index] = { ...updatedUser };
           }
-          this.successMessage = 'Utilisateur mis à jour avec succès !';
           this.selectedUser = null;
           this.isLoading = false;
-          setTimeout(() => this.successMessage = '', 3000);
+          Swal.fire('✅ Mise à jour', 'Utilisateur mis à jour avec succès.', 'success');
         },
         error: (err) => {
-          this.errorMessage = 'Échec de la mise à jour de l\'utilisateur';
-          console.error('❌ Erreur backend :', err);
           this.isLoading = false;
-          setTimeout(() => this.errorMessage = '', 3000);
+          Swal.fire('Erreur', 'Échec de la mise à jour de l\'utilisateur.', 'error');
+          console.error('❌ Erreur backend :', err);
         }
       });
   }
@@ -147,9 +153,12 @@ export class User implements OnInit, OnDestroy {
     this.selectedUser = null;
   }
 
+  goToDashboard(): void {
+    this.router.navigate(['/Admin']);
+  }
+
   refreshUsers(): void {
     this.loadUsers();
-    this.successMessage = 'Liste actualisée avec succès';
-    setTimeout(() => this.successMessage = '', 2000);
+    Swal.fire('Actualisé', 'Liste actualisée avec succès.', 'success');
   }
 }

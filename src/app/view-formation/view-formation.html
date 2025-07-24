@@ -1,7 +1,7 @@
 <div class="container my-5">
 
   <!-- 🔍 Barre de recherche -->
-  <div class="row mb-4">
+  <div class="row mb-4 align-items-center">
     <div class="col-md-8">
       <input
         type="text"
@@ -17,22 +17,30 @@
     </div>
   </div>
 
+  <!-- 🔙 Bouton retour -->
+  <div class="d-flex justify-content-end mb-3">
+    <button class="btn btn-outline-primary btn-sm shadow-sm" (click)="goToDashboard()">
+      <i class="bi bi-arrow-left me-1"></i> Retour au Dashboard
+    </button>
+  </div>
+
+  <!-- 🔵 Titre -->
   <h2 class="text-center mb-4 fw-bold text-primary">📋 Liste des Sujets PFE</h2>
 
   <!-- 🧾 Tableau -->
   <div class="table-responsive">
-    <table class="table table-bordered table-hover align-middle">
-      <thead class="table-light text-center">
+    <table class="table table-striped table-hover table-bordered align-middle text-center small">
+      <thead class="table-light text-uppercase text-primary">
         <tr>
           <th>Nom</th>
           <th>Prénom</th>
           <th>Titre</th>
           <th>Description</th>
-          <th>Profil Recherché</th> <!-- ✅ Ajout -->
-          <th>Technologie et Compétence</th> <!-- ✅ Ajout -->
+          <th>Profil Recherché</th>
+          <th>Technologies</th>
           <th>Prix Encadrement (TND)</th>
           <th>Type</th>
-          <th>Nombre Inscriptions</th>
+          <th>Inscriptions</th>
           <th>Fichier</th>
           <th>Statut</th>
           <th>Actions</th>
@@ -44,20 +52,37 @@
           <td>{{ sujet.prenom }}</td>
           <td>{{ sujet.titre }}</td>
           <td>{{ sujet.description }}</td>
-          <td>{{ sujet.profil }}</td> <!-- ✅ Ajout -->
-          <td>{{ sujet.technologie }}</td> <!-- ✅ Ajout -->
+          <td>{{ sujet.profil }}</td>
+          <td>{{ sujet.technologie }}</td>
           <td>{{ sujet.prixEncadrement }}</td>
           <td>{{ sujet.type }}</td>
-          <td class="text-center">{{ sujet.nombreInscription }}</td>
-          <td class="text-center">
-            <a *ngIf="sujet.fileName" class="btn btn-sm btn-outline-primary" [href]="getFileUrl(sujet.fileName)" target="_blank" download>
-              📄 Télécharger
+          <td>{{ sujet.nombreInscription }}</td>
+          <td>
+            <a *ngIf="sujet.fileName"
+               class="btn btn-sm btn-outline-primary d-inline-flex align-items-center gap-1"
+               [href]="getFileUrl(sujet.fileName)"
+               target="_blank"
+               download>
+              <i class="bi bi-download"></i> Fichier
             </a>
           </td>
-          <td>{{ sujet.statut }}</td>
-          <td class="text-center">
-            <button class="btn btn-warning btn-sm me-1" (click)="selectSujet(sujet)">📝 Modifier</button>
-            <button class="btn btn-danger btn-sm" (click)="delete(sujet.id)">🗑 Supprimer</button>
+          <td>
+            <span class="badge rounded-pill px-3 py-2"
+                  [ngClass]="{
+                    'bg-success': sujet.statut === 'CONFIRMEE',
+                    'bg-warning text-dark': sujet.statut === 'EN_ATTENTE',
+                    'bg-danger': sujet.statut === 'REJETEE'
+                  }">
+              {{ sujet.statut }}
+            </span>
+          </td>
+          <td>
+            <button class="btn btn-sm btn-warning me-1 d-inline-flex align-items-center gap-1" (click)="selectSujet(sujet)">
+              <i class="bi bi-pencil-square"></i> Modifier
+            </button>
+            <button class="btn btn-sm btn-danger d-inline-flex align-items-center gap-1" (click)="delete(sujet.id)">
+              <i class="bi bi-trash"></i> Supprimer
+            </button>
           </td>
         </tr>
       </tbody>
@@ -65,72 +90,70 @@
   </div>
 
   <!-- 📝 Formulaire de modification -->
-  <div *ngIf="selectedSujet" class="card shadow mt-5">
+  <div *ngIf="selectedSujet" class="card shadow-sm border-0 mt-5">
     <div class="card-header bg-primary text-white fw-bold text-center">
       Modifier le Sujet
     </div>
     <div class="card-body">
-      <form (ngSubmit)="updateSelectedSujet()">
-        <div class="row g-3">
-          <div class="col-md-6">
-            <label class="form-label">Nom</label>
-            <input class="form-control" [(ngModel)]="selectedSujet.nom" name="nom" required />
-          </div>
-          <div class="col-md-6">
-            <label class="form-label">Prénom</label>
-            <input class="form-control" [(ngModel)]="selectedSujet.prenom" name="prenom" required />
-          </div>
-          <div class="col-12">
-            <label class="form-label">Titre</label>
-            <input class="form-control" [(ngModel)]="selectedSujet.titre" name="titre" />
-          </div>
-          <div class="col-12">
-            <label class="form-label">Description</label>
-            <textarea class="form-control" [(ngModel)]="selectedSujet.description" name="description" rows="3"></textarea>
-          </div>
-
-          <!-- ✅ Nouveau champ Profil -->
-          <div class="col-md-6">
-            <label class="form-label">Profil recherché</label>
-            <input class="form-control" [(ngModel)]="selectedSujet.profil" name="profil" />
-          </div>
-
-          <!-- ✅ Nouveau champ Technologie -->
-          <div class="col-md-6">
-            <label class="form-label">Technologie utilisée</label>
-            <input class="form-control" [(ngModel)]="selectedSujet.technologie" name="technologie" />
-          </div>
-
-          <div class="col-md-6">
-            <label class="form-label">Type</label>
-            <input class="form-control" [(ngModel)]="selectedSujet.type" name="type" />
-          </div>
-          <div class="col-md-6">
-            <label class="form-label">Statut</label>
-            <select class="form-select" [(ngModel)]="selectedSujet.statut" name="statut">
-              <option *ngFor="let statut of statutOptions" [value]="statut">{{ statut }}</option>
-            </select>
-          </div>
-          <div class="col-md-6">
-            <label class="form-label">Prix Encadrement</label>
-            <input class="form-control" type="text" [(ngModel)]="selectedSujet.prixEncadrement" name="prixEncadrement" />
-          </div>
-          <div class="col-md-6">
-            <label class="form-label">Nombre d’inscriptions</label>
-            <input class="form-control" type="number" [(ngModel)]="selectedSujet.nombreInscription" name="nombreInscription" />
-          </div>
+      <form (ngSubmit)="updateSelectedSujet()" class="row g-3">
+        <div class="col-md-6">
+          <label class="form-label">Nom</label>
+          <input class="form-control" [(ngModel)]="selectedSujet.nom" name="nom" required />
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Prénom</label>
+          <input class="form-control" [(ngModel)]="selectedSujet.prenom" name="prenom" required />
+        </div>
+        <div class="col-12">
+          <label class="form-label">Titre</label>
+          <input class="form-control" [(ngModel)]="selectedSujet.titre" name="titre" />
+        </div>
+        <div class="col-12">
+          <label class="form-label">Description</label>
+          <textarea class="form-control" [(ngModel)]="selectedSujet.description" name="description" rows="3"></textarea>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Profil recherché</label>
+          <input class="form-control" [(ngModel)]="selectedSujet.profil" name="profil" />
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Technologie utilisée</label>
+          <input class="form-control" [(ngModel)]="selectedSujet.technologie" name="technologie" />
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Type</label>
+          <input class="form-control" [(ngModel)]="selectedSujet.type" name="type" />
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Statut</label>
+          <select class="form-select" [(ngModel)]="selectedSujet.statut" name="statut">
+            <option *ngFor="let statut of statutOptions" [value]="statut">{{ statut }}</option>
+          </select>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Prix Encadrement</label>
+          <input class="form-control" type="text" [(ngModel)]="selectedSujet.prixEncadrement" name="prixEncadrement" />
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Nombre d’inscriptions</label>
+          <input class="form-control" type="number" [(ngModel)]="selectedSujet.nombreInscription" name="nombreInscription" />
         </div>
 
-        <div class="d-flex justify-content-end mt-4 gap-3">
-          <button type="submit" class="btn btn-success">✅ Enregistrer</button>
-          <button type="button" class="btn btn-secondary" (click)="cancelEdit()">❌ Annuler</button>
+        <div class="col-12 d-flex justify-content-end gap-2 mt-3">
+          <button type="submit" class="btn btn-success">
+            <i class="bi bi-check-circle me-1"></i> Enregistrer
+          </button>
+          <button type="button" class="btn btn-secondary" (click)="cancelEdit()">
+            <i class="bi bi-x-circle me-1"></i> Annuler
+          </button>
         </div>
       </form>
     </div>
   </div>
 </div>
 
-<footer class="text-center py-3 bg-light border-top mt-4">
+<!-- ✅ Footer -->
+<footer class="text-center py-3 bg-light border-top mt-5">
   <div class="small text-muted">
     &copy; {{ currentYear || '2025' }} <strong class="text-dark">SMS2I</strong> — Tous droits réservés.
   </div>

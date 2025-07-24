@@ -7,5 +7,5 @@ export interface InscriptionFormation {
   email: string;
   telephone?: string;
   etat?: string;
-  formation: Formations;
+  formation?: Formations; 
 }

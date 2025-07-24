@@ -14,9 +14,17 @@ body {
 
 
 .hero-section {
-  padding: 100px 0;
-  background: linear-gradient(to right, #0056b3, #007bff);
-  color: white;
+  background: linear-gradient(to right, #0062E6, #33AEFF); /* bleu universitaire */
+  background-size: cover;
+  background-position: center;
+  min-height: 50vh;
+  display: flex;
+  align-items: center;
+}
+
+.hero-section h1,
+.hero-section p {
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 .hero-title {
   font-size: 3rem;

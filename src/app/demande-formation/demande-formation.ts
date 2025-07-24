@@ -4,27 +4,18 @@ import { FormationService } from '../Services/Formation.service';
 import { Formation } from '../formation/formation';
 import { HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
-
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-demande-formation',
-  imports: [
-
-            ReactiveFormsModule,
-        HttpClientModule ,
-        CommonModule
-
-
-  ],
+  standalone: true,
+  imports: [ReactiveFormsModule, HttpClientModule, CommonModule],
   templateUrl: './demande-formation.html',
   styleUrl: './demande-formation.css'
 })
 export class DemandeFormation implements OnInit {
 
   formationForm!: FormGroup;
-  successMessage = '';
-  errorMessage = '';
-
 
   constructor(private fb: FormBuilder, private formationService: FormationService) {}
 
@@ -40,11 +31,10 @@ export class DemandeFormation implements OnInit {
       description: ['', Validators.required],
       proposerPrix: [''],
       participants: [''],
-        technologie: ['', Validators.required],
-  duree: ['', Validators.required],
-  certificat: ['', Validators.required],
-  formateur : ['', Validators.required]
-
+      technologie: ['', Validators.required],
+      duree: ['', Validators.required],
+      certificat: ['', Validators.required],
+      formateur: ['', Validators.required]
     });
   }
 
@@ -56,19 +46,32 @@ export class DemandeFormation implements OnInit {
   onSubmit(): void {
     if (this.formationForm.valid) {
       const formationData: Formation = this.formationForm.value;
+
       this.formationService.submitFormation(formationData).subscribe({
         next: () => {
-          this.successMessage = 'Votre demande a été envoyée avec succès.';
-          this.errorMessage = '';
+          Swal.fire({
+            icon: 'success',
+            title: 'Demande envoyée ✅',
+            text: 'Votre demande a été envoyée avec succès !',
+          });
           this.formationForm.reset();
         },
         error: () => {
-          this.errorMessage = "Une erreur s'est produite lors de l'envoi de la demande.";
-          this.successMessage = '';
+          Swal.fire({
+            icon: 'error',
+            title: 'Erreur ❌',
+            text: "Une erreur s'est produite lors de l'envoi de la demande.",
+          });
         }
       });
+
     } else {
       this.formationForm.markAllAsTouched();
+      Swal.fire({
+        icon: 'warning',
+        title: 'Formulaire incomplet',
+        text: 'Veuillez remplir tous les champs obligatoires.',
+      });
     }
   }
 }
