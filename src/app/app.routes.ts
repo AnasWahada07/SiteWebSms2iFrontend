@@ -36,9 +36,8 @@ export const routes: Routes = [
   { path: 'inscriptionformation', component: InscriptionFormation },
   { path: 'espaceuniversitaire', component: EspaceUniversitaire },
   { path: 'password', component: ResetPassword },
-      { path: 'contact', component: Contacts  },
-            { path: 'maquettes', component: Maquette  },
-            { path: 'viewformationinscrit', component: ViewInscritFormation },
+  { path: 'maquettes', component: Maquette  },
+  { path: 'viewformationinscrit', component: ViewInscritFormation },
 
 
 

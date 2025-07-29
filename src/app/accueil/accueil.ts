@@ -26,6 +26,8 @@ export class Accueil implements OnInit {
   isLoading: boolean = true;
   contactForm: FormGroup;
   projets: Projet[] = [];
+isNavbarCollapsed: boolean = true;
+
 
   constructor(
     private fb: FormBuilder,
@@ -45,20 +47,38 @@ export class Accueil implements OnInit {
     });
   }
 
-  ngOnInit(): void {
-    this.projetService.getAllProjets().subscribe({
-      next: (data) => {
-        this.projets = data;
-        this.isLoading = false;
-        this.cdRef.detectChanges();
-      },
-      error: (err) => {
-        console.error('Erreur de chargement', err);
-        this.isLoading = false;
-        this.cdRef.detectChanges();
+ngOnInit(): void {
+  this.projetService.getAllProjets().subscribe({
+    next: (data) => {
+      this.projets = data;
+      this.isLoading = false;
+      this.cdRef.detectChanges();
+    },
+    error: (err) => {
+      this.isLoading = false;
+      this.cdRef.detectChanges();
+
+      console.error('Erreur de chargement des projets', err);
+
+      if (err.status === 401) {
+        // rien : géré par l’intercepteur
+        return;
       }
-    });
-  }
+
+      Swal.fire({
+        icon: 'error',
+        title: 'Erreur de chargement',
+        text: `Impossible de récupérer les projets (${err.status || 'inconnu'})`,
+        confirmButtonText: 'OK'
+      });
+    }
+  });
+}
+
+toggleSidebar(): void {
+  this.isNavbarCollapsed = !this.isNavbarCollapsed;
+}
+
 
   onSubmit(): void {
     if (this.contactForm.invalid) {

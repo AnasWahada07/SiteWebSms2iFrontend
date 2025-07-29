@@ -24,6 +24,8 @@ export class EspaceUniversitaire implements OnInit {
   successMessage: string = '';
   errorMessage: string = '';
   selectedCompetence: string = '';
+  isNavbarCollapsed: boolean = true;
+
 
   form = {
     nom: '',
@@ -251,6 +253,11 @@ export class EspaceUniversitaire implements OnInit {
       document.body.style.overflow = 'auto';
     }
   }
+
+  toggleSidebar(): void {
+  this.isNavbarCollapsed = !this.isNavbarCollapsed;
+}
+
 
   showToast(id: string): void {
     const el = document.getElementById(id);

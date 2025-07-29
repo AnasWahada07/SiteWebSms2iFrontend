@@ -14,7 +14,6 @@
   --shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
   --transition: all 0.3s ease;
 }
-
 * {
   margin: 0;
   padding: 0;
@@ -31,7 +30,7 @@ body {
 /* Admin Dashboard Layout */
 .admin-dashboard {
   display: grid;
-  grid-template-columns: 240px 1fr;
+  grid-template-columns: 300px 1fr;
   grid-template-rows: 70px 1fr;
   grid-template-areas:
     "sidebar header"
@@ -228,6 +227,7 @@ body {
   position: relative;
   z-index: 20;
   box-shadow: 4px 0 20px rgba(0, 0, 0, 0.1);
+  width: 300px;
 }
 
 .dashboard-sidebar nav ul {
@@ -624,7 +624,7 @@ body {
 }
 
 /* Responsive Design */
-@media (max-width: 992px) {
+@media (max-width: 700px) {
   .admin-dashboard {
     grid-template-columns: 1fr;
     grid-template-rows: 70px 1fr;
@@ -836,14 +836,17 @@ body {
   .dashboard-sidebar {
     position: fixed;
     top: 0;
-    left: -240px;
+    left: -300px; /* cache la sidebar complètement */
+    width: 300px; /* définit la nouvelle largeur */
     height: 100%;
     z-index: 999;
+    transition: left 0.3s ease; /* optionnel : pour une animation fluide */
   }
 
-  .dashboard-sidebar.open {
-    left: 0;
+  .dashboard-sidebar.active {
+    left: 0; /* affiche la sidebar */
   }
+
 
   .dashboard-main {
     margin-left: 0;
@@ -958,4 +961,192 @@ blockquote {
 @keyframes blink {
   0%, 100% { opacity: 1; }
   50% { opacity: 0; }
+}
+
+/* Sidebar responsive fix */
+@media (max-width: 768px) {
+  .dashboard-sidebar {
+    position: fixed;
+    top: 70px;
+    left: -240px;
+    width: 240px;
+    height: calc(100vh - 70px);
+    z-index: 1000;
+    transition: left 0.3s ease-in-out;
+    box-shadow: 4px 0 10px rgba(0, 0, 0, 0.1);
+  }
+
+  .dashboard-sidebar.active {
+    left: 0;
+  }
+
+  .admin-dashboard {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "header"
+      "main";
+  }
+
+  .dashboard-main {
+    margin-left: 0 !important;
+    width: 100%;
+    padding: 1rem;
+  }
+
+  .menu-toggle {
+    display: block;
+  }
+
+  .sidebar-overlay {
+    display: none;
+  }
+
+  .dashboard-sidebar.active + .sidebar-overlay {
+    display: block;
+    position: fixed;
+    top: 70px;
+    left: 0;
+    width: 100%;
+    height: calc(100vh - 70px);
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 999;
+  }
+}
+
+.dashboard-sidebar {
+  position: fixed;
+  top: 0;
+  left: -300px;
+  width: 300px;
+  height: 100vh;
+  background-color: #fff;
+  z-index: 999;
+  overflow-y: auto;
+  transition: left 0.3s ease;
+  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.15);
+}
+
+
+.dashboard-sidebar.active {
+  left: 0;
+}
+
+@media (min-width: 769px) {
+  .dashboard-sidebar {
+    position: relative;
+    left: 0;
+    width: 300px;
+    height: auto;
+    box-shadow: none;
+  }
+
+  .dashboard-sidebar.active {
+    left: 0;
+  }
+
+/* Overlay derrière la sidebar */
+.sidebar-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(247, 246, 246, 0.5);
+  z-index: 998;
+}
+
+/* Grand écran : sidebar toujours visible */
+@media (min-width: 769px) {
+  .dashboard-sidebar {
+    position: relative;
+    left: 0;
+    height: auto;
+    width: 300px;
+    box-shadow: none;
+  }
+
+.dashboard-sidebar {
+  background-color: #ffffff; /* blanc opaque */
+}
+
+/* Comportement par défaut : sidebar masquée */
+.dashboard-sidebar {
+  position: fixed;
+  top: 0;
+  left: -300px;
+  width: 300px;
+  height: 100%;
+  background: white;
+  transition: left 0.3s ease-in-out;
+  z-index: 1000;
+}
+
+
+/* Quand la classe .active est ajoutée, on l'affiche */
+.dashboard-sidebar.active {
+  left: 0;
+}
+
+/* Overlay derrière la sidebar */
+.sidebar-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(0,0,0,0.5);
+}
+
+/* Ne pas casser l'affichage sur desktop */
+@media (min-width: 769px) {
+  .dashboard-sidebar {
+    position: relative;
+    left: 0;
+    width: 300px;
+    height: auto;
+    box-shadow: none;
+  }
+
+  .dashboard-sidebar.active {
+    left: 0;
+  }
+
+  .sidebar-overlay {
+    display: none;
+  }
+}
+
+
+.menu-toggle {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 24px;
+  width: 30px;
+}
+
+.menu-toggle .bar {
+  height: 3px;
+  width: 100%;
+  background-color: #e01414;
+  border-radius: 2px;
+}
+
+.sidebar-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+}
+
+
+
+}
 }

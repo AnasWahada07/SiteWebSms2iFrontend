@@ -26,6 +26,8 @@ export class Galerie implements OnInit {
 
   galeries: Galeries[] = [];
   searchTerm: string = '';
+  isNavbarCollapsed: boolean = true;
+
 
 
   constructor(private galerieService: GalerieService , private cdRef: ChangeDetectorRef) {}
@@ -46,6 +48,11 @@ filteredGaleries() {
     g.client.toLowerCase().includes(lowerSearch)
   );
 }
+
+toggleSidebar(): void {
+  this.isNavbarCollapsed = !this.isNavbarCollapsed;
+}
+
 
 
 

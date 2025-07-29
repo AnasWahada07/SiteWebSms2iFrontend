@@ -24,7 +24,7 @@ export class DashboardAdmin implements OnInit {
   currentTime: string = '';
   weatherText = 'Chargement...';
   weatherIconUrl: string = '';
-  sidebarOpen = false;
+isSidebarOpen = false;
 
   searchNotifType: string = '';
   notificationsOriginal: Notification[] = [];
@@ -227,9 +227,18 @@ export class DashboardAdmin implements OnInit {
     });
   }
 
-  toggleSidebar(): void {
-    this.sidebarOpen = !this.sidebarOpen;
+toggleSidebar(): void {
+  if (window.innerWidth < 768) {
+    // Mobile: toggle
+    this.isSidebarOpen = !this.isSidebarOpen;
+  } else {
+    // Desktop: ouvrir uniquement
+    this.isSidebarOpen = true;
   }
+  console.log('toggleSidebar →', this.isSidebarOpen);
+}
+
+
 
   logout(): void {
     if (isPlatformBrowser(this.platformId)) {

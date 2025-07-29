@@ -4,10 +4,15 @@
     <a class="navbar-brand fw-bold" href="/acceuil" aria-label="Accueil SMS2!">
       <i class="fas fa-cogs me-1"></i> <span>SMS</span>2<span>!</span>
     </a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
+
+    <!-- Toggle button -->
+    <button class="navbar-toggler" type="button" (click)="toggleSidebar()" aria-label="Toggle navigation">
+      <span *ngIf="isNavbarCollapsed" class="navbar-toggler-icon"></span>
+      <i *ngIf="!isNavbarCollapsed" class="bi bi-x-lg fs-3 text-white"></i>
     </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
+
+    <!-- Navbar links -->
+    <div class="collapse navbar-collapse" [ngClass]="{ 'show': !isNavbarCollapsed }" id="navbarNav">
       <ul class="navbar-nav ms-auto align-items-center gap-2">
         <li class="nav-item"><a class="nav-link" href="/acceuil">Accueil</a></li>
         <li class="nav-item"><a class="nav-link" href="/service">Services</a></li>
@@ -18,7 +23,6 @@
           <a href="/signin" class="btn btn-outline-light btn-sm">Se connecter</a>
           <a href="/signup" class="btn btn-light text-dark btn-sm">S'inscrire</a>
         </li>
-        <!-- 🔁 Google Translate intégré -->
         <li class="nav-item">
           <div id="google_translate_element"></div>
         </li>
@@ -52,11 +56,14 @@
                         <h1 class="hero-title">WELCOME TO <span>SMS2!</span></h1>
                         <p class="hero-subtitle">SMS2! offre des services complets d'automatisation et de maintenance pour optimiser vos processus industriels.</p>
                         <div class="d-flex gap-3">
-<a href="#" 
-   class="btn btn-contact" 
-   data-bs-toggle="modal" 
+<a href="#"
+   class="btn btn-primary d-inline-flex align-items-center gap-2 px-3 py-2 shadow-sm contact-btn"
+   role="button"
+   aria-label="Ouvrir le formulaire de contact"
+   data-bs-toggle="modal"
    data-bs-target="#contactModal">
-   📩 Contactez-nous
+  <i class="bi bi-envelope-fill"></i>
+  <span>Contactez-nous</span>
 </a>
                         </div>
                     </div>
@@ -472,14 +479,16 @@
 </div>
 
 <script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const modalEl = document.getElementById('histoireModal');
+document.addEventListener('DOMContentLoaded', () => {
+  const modalEl = document.getElementById('histoireModal');
+  if (modalEl) {
     modalEl.addEventListener('hidden.bs.modal', () => {
       if (document.activeElement) {
-        document.activeElement.blur(); // ⬅️ enlève le focus
+        document.activeElement.blur(); // Safe blur
       }
     });
-  });
+  }
+});
 </script>
 <!-- Footer -->
 <footer class="bg-dark text-light pt-5 pb-4 mt-5 shadow-lg">
