@@ -6,7 +6,7 @@ import { Contact } from '../Class/Contact';
 
 @Injectable({ providedIn: 'root' })
 export class ContactService {
-    private apiUrl = 'http://192.168.1.54:8082/api/contact';
+    private apiUrl = 'https://192.168.1.54:3350/api/contact';
 
   constructor(private http: HttpClient) {}
 

@@ -58,19 +58,19 @@ ngOnInit(): void {
       this.isLoading = false;
       this.cdRef.detectChanges();
 
-      console.error('Erreur de chargement des projets', err);
+     // console.error('Erreur de chargement des projets', err);
 
       if (err.status === 401) {
         // rien : géré par l’intercepteur
         return;
       }
 
-      Swal.fire({
-        icon: 'error',
-        title: 'Erreur de chargement',
-        text: `Impossible de récupérer les projets (${err.status || 'inconnu'})`,
-        confirmButtonText: 'OK'
-      });
+      // Swal.fire({
+      //   icon: 'error',
+      //   title: 'Erreur de chargement',
+      //   text: `Impossible de récupérer les projets (${err.status || 'inconnu'})`,
+      //   confirmButtonText: 'OK'
+      // });
     }
   });
 }

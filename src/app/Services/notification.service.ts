@@ -12,7 +12,7 @@ export interface Notification {
 
 @Injectable({ providedIn: 'root' })
 export class NotificationService {
-  private baseUrl = 'http://192.168.1.54:8082/api/notifications';
+  private baseUrl = 'https://192.168.1.54:3350/api/notifications';
   private weatherApiKey = 'd4018802d6ad0ae758708a18a30c201b'; 
   private city = 'Msaken'; 
 

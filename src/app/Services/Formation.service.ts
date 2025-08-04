@@ -10,9 +10,9 @@ import { InscriptionFormation } from '../Class/InscriptionFormation';
   providedIn: 'root'
 })
 export class FormationService {
-  private apiUrl = 'http://192.168.1.54:8082/api/formations';
-  private baseUrl= 'http://192.168.1.54:8082/api/inscriptions/formation';
-  private urlParType = 'http://192.168.1.54:8082/api/formations/confirmetype';
+  private apiUrl = 'https://192.168.1.54:3350/api/formations';
+  private baseUrl= 'https://192.168.1.54:3350/api/inscriptions/formation';
+  private urlParType = 'https://192.168.1.54:3350/api/formations/confirmetype';
 
   constructor(private http: HttpClient) {}
 

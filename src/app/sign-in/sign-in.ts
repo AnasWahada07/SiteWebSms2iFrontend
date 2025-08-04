@@ -6,7 +6,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../Services/ Auth.service';
 import { AuthResponse } from '../Class/AuthResponse';
-import Swal from 'sweetalert2'; // ✅ Import SweetAlert2
+import Swal from 'sweetalert2'; 
 
 @Component({
   selector: 'app-sign-in',

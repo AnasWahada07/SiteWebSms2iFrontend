@@ -132,7 +132,7 @@ ngOnInit(): void {
       password: formData.password,
     };
 
-    this.http.post('http://192.168.1.54:8082/api/users/register', userData).subscribe({
+    this.http.post('https://192.168.1.54:3350/api/users/register', userData).subscribe({
       next: () => {
         Swal.fire({
           icon: 'success',

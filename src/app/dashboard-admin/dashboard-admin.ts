@@ -70,30 +70,18 @@ isSidebarOpen = false;
     }
   }
 
-  updateCurrentTime(): void {
-    const now = new Date();
-    this.currentTime = now.toLocaleTimeString('fr-FR', {
-      timeZone: 'Africa/Tunis',
-      hour: '2-digit',
-      minute: '2-digit',
-      second: '2-digit',
-      hour12: false
-    });
+updateCurrentTime(): void {
+  const now = new Date();
+  this.currentTime = now.toLocaleTimeString('fr-FR', {
+    timeZone: 'Africa/Tunis',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+    hour12: false
+  });
 
-    if (this.currentTime === '15:00:00' && !this.hasTriggeredTimeout) {
-      this.isTimeOver = true;
-      this.hasTriggeredTimeout = true;
-
-      setTimeout(() => {
-        this.isTimeOver = false;
-        this.hasTriggeredTimeout = false;
-        this.cdr.detectChanges();
-      }, 30000);
-    }
-
-    this.cdr.detectChanges();
-  }
-
+  this.cdr.detectChanges();
+}
   updateCurrentDate(): void {
     const options: Intl.DateTimeFormatOptions = {
       weekday: 'long',

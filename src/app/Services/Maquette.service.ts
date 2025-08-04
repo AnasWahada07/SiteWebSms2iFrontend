@@ -9,8 +9,8 @@ import { DemandeMaquette } from '../Class/DemandeMaquette';
 })
 export class MaquetteService {
 
-  private apiUrl = 'http://192.168.1.54:8082/api/maquettes'; 
-  private apiUrls = 'http://192.168.1.54:8082/api/demandes';
+  private apiUrl = 'https://192.168.1.54:3350/api/maquettes'; 
+  private apiUrls = 'https://192.168.1.54:3350/api/demandes';
 
   constructor(private http: HttpClient) {}
 

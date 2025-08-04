@@ -9,7 +9,7 @@ import { User } from '../Class/User';
 })
 
 export class UserService {
-  private apiUrl = 'http://192.168.1.54:8082/api/users';
+  private apiUrl = 'https://192.168.1.54:3350/api/users';
 
   constructor(private http: HttpClient) { }
 

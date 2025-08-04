@@ -25,7 +25,7 @@ export interface SujetPFE {
 
 @Injectable({ providedIn: 'root' })
 export class ViewFormationService {
-  private apiUrl = 'http://192.168.1.54:8082/api/sujets';
+  private apiUrl = 'https://192.168.1.54:3350/api/sujets';
 
   constructor(private http: HttpClient) {}
 

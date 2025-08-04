@@ -6,7 +6,7 @@ import { AuthResponse } from '../Class/AuthResponse';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  private baseUrl = 'http://192.168.1.54:8082/api/auth';
+  private baseUrl = 'https://192.168.1.54:3350/api/auth';
   private readonly STORAGE_KEY = 'currentUser';
 
   constructor(
