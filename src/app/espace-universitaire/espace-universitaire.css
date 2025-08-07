@@ -11,29 +11,20 @@ body {
   color: #333;
 }
 
-.navbar {
-  background-color: var(--univ-blue);
-  box-shadow: 0 4px 12px var(--univ-shadow);
-}
 
-.navbar-brand {
-  font-weight: 600;
-  font-size: 1.5rem;
-  color: white !important;
-}
-
-.nav-link {
-  color: rgb(67, 16, 207) !important;
-  transition: 0.3s;
-}
-.nav-link:hover {
-  color: #ffc107 !important;
-}
 
 .hero-section {
-  padding: 100px 0;
-  background: linear-gradient(to right, #0056b3, #007bff);
-  color: white;
+  background: linear-gradient(to right, #0062E6, #33AEFF); /* bleu universitaire */
+  background-size: cover;
+  background-position: center;
+  min-height: 50vh;
+  display: flex;
+  align-items: center;
+}
+
+.hero-section h1,
+.hero-section p {
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 .hero-title {
   font-size: 3rem;
@@ -528,3 +519,24 @@ footer a.social-icon:hover {
         border: none;
         box-shadow: 0 5px 20px rgba(0,0,0,0.1);
     }
+
+    /* Lire la suite - Style moderne */
+.btn-link {
+  font-weight: 500;
+  text-decoration: none;
+  font-size: 0.95rem;
+  transition: color 0.3s;
+}
+
+.btn-link:hover {
+  text-decoration: underline;
+  color: #0d6efd;
+}
+
+.transition-icon {
+  transition: transform 0.3s ease;
+}
+
+.btn-link:hover .transition-icon {
+  transform: translateX(4px);
+}

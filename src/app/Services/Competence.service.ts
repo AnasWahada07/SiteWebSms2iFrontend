@@ -7,14 +7,13 @@ import { Competence } from '../Class/Competence';
   providedIn: 'root'
 })
 export class CompetenceService {
-  private apiUrl = 'http://localhost:8080/api/competences'; // adapte si nécessaire
+  private apiUrl = 'https://192.168.1.54:3350/api/competences'; 
 
   constructor(private http: HttpClient) {}
 
-  addCompetence(formData: FormData) {
-    return this.http.post(this.apiUrl, formData);
+  addCompetence(formData: FormData): Observable<Competence> {
+    return this.http.post<Competence>(this.apiUrl, formData);
   }
-
   getAllCompetences() {
     return this.http.get(this.apiUrl);
   }

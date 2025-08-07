@@ -4,7 +4,7 @@
 
       <!-- Header -->
       <div class="form-header bg-primary text-white p-4">
-        <h2 class="mb-0"><i class="fas fa-graduation-cap me-2"></i>Demande de Formation Professionnelle</h2>
+        <h2 class="mb-0"><i class="fas fa-graduation-cap me-2"></i>Demande de Formation </h2>
         <p class="mt-2 opacity-75">Remplissez ce formulaire pour nous faire part de vos besoins</p>
       </div>
 
@@ -73,8 +73,8 @@
               </div>
 
               <div class="form-check card-radio mb-3">
-                <input class="form-check-input" type="radio" id="etudiant" value="etudiant" formControlName="formationType">
-                <label class="form-check-label card p-3" for="etudiant">
+                <input class="form-check-input" type="radio" id="universitaire" value="universitaire" formControlName="formationType">
+                <label class="form-check-label card p-3" for="universitaire">
                   <span class="h5 d-block mb-2"><i class="fas fa-university me-2 text-primary"></i> Universitaire</span>
                   <span class="d-block text-muted">Formation pour étudiants</span>
                 </label>
@@ -100,6 +100,19 @@
               <div class="invalid-feedback">Veuillez indiquer le titre de la formation.</div>
             </div>
 
+<!-- Formateur -->
+<div class="mb-4">
+  <label for="formateur" class="form-label fw-bold">Formateur <span class="text-danger">*</span></label>
+  <input type="text"
+         class="form-control form-control-lg"
+         id="formateur"
+         placeholder="Nom du formateur ou À définir"
+         formControlName="formateur"
+         [class.is-invalid]="isInvalid('formateur')">
+  <div class="invalid-feedback">Veuillez indiquer le nom du formateur.</div>
+</div>
+
+
             <div class="mb-4">
               <label for="theme" class="form-label fw-bold">Thème de la formation <span class="text-danger">*</span></label>
               <select class="form-select form-select-lg" id="theme" formControlName="theme" [class.is-invalid]="isInvalid('theme')">
@@ -117,22 +130,83 @@
               <div class="invalid-feedback">Veuillez décrire vos besoins.</div>
             </div>
 
+            <!-- Technologies -->
+<div class="mb-4">
+  <label for="technologie" class="form-label fw-bold">Technologies utilisées <span class="text-danger">*</span></label>
+  <input type="text"
+         class="form-control form-control-lg"
+         id="technologie"
+         placeholder="Ex: Angular, Spring Boot"
+         formControlName="technologie"
+         [class.is-invalid]="isInvalid('technologie')">
+  <div class="invalid-feedback">Veuillez indiquer les technologies utilisées.</div>
+</div>
+
+<!-- Durée -->
+<div class="mb-4">
+  <label for="duree" class="form-label fw-bold">Durée estimée de la formation <span class="text-danger">*</span></label>
+  <input type="text"
+         class="form-control form-control-lg"
+         id="duree"
+         placeholder="Ex: 3 jours, 20 heures"
+         formControlName="duree"
+         [class.is-invalid]="isInvalid('duree')">
+  <div class="invalid-feedback">Veuillez indiquer la durée de la formation.</div>
+</div>
+
+<!-- Certificat -->
+<div class="mb-4">
+  <label class="form-label fw-bold d-block mb-2">
+    <i class="fas fa-certificate text-primary me-2"></i>
+    Certificat délivré à la fin ? <span class="text-danger">*</span>
+  </label>
+
+  <div class="d-flex gap-4 flex-wrap">
+    <div class="form-check form-check-inline">
+      <input class="form-check-input"
+             type="radio"
+             id="certificatOui"
+             value="oui"
+             formControlName="certificat">
+      <label class="form-check-label" for="certificatOui">
+        <i class="fas fa-check-circle text-success me-1"></i> Oui, un certificat sera délivré
+      </label>
+    </div>
+
+    <div class="form-check form-check-inline">
+      <input class="form-check-input"
+             type="radio"
+             id="certificatNon"
+             value="non"
+             formControlName="certificat">
+      <label class="form-check-label" for="certificatNon">
+        <i class="fas fa-times-circle text-danger me-1"></i> Non, aucun certificat
+      </label>
+    </div>
+  </div>
+
+  <div class="invalid-feedback d-block mt-2" *ngIf="isInvalid('certificat')">
+    <i class="fas fa-exclamation-circle me-1"></i> Veuillez indiquer si un certificat est délivré.
+  </div>
+</div>
+
+
             <div class="mb-4">
               <label for="proposerPrix" class="form-label fw-bold">Proposer un prix (en TND)</label>
               <input type="number" class="form-control form-control-lg" id="proposerPrix" placeholder="Ex : 500" formControlName="proposerPrix">
               <div class="form-text">Optionnel : vous pouvez suggérer un budget.</div>
             </div>
 
-            <div class="mb-3">
-              <label for="participants" class="form-label fw-bold">Nombre approximatif de participants</label>
-              <select class="form-select form-select-lg" id="participants" formControlName="participants">
-                <option value="">Sélectionnez...</option>
-                <option value="1-5">1-5 personnes</option>
-                <option value="6-10">6-10 personnes</option>
-                <option value="11-20">11-20 personnes</option>
-                <option value="20+">Plus de 20 personnes</option>
-              </select>
-            </div>
+<div class="mb-3">
+  <label for="participants" class="form-label fw-bold">Nombre approximatif de participants</label>
+  <input
+    type="text"
+    class="form-control form-control-lg"
+    id="participants"
+    placeholder="Ex: 10 personnes"
+    formControlName="participants"
+  />
+</div>
           </div>
 
           <!-- Submit -->
@@ -142,9 +216,6 @@
             </button>
           </div>
 
-          <!-- Messages -->
-          <div *ngIf="successMessage" class="alert alert-success mt-3">{{ successMessage }}</div>
-          <div *ngIf="errorMessage" class="alert alert-danger mt-3">{{ errorMessage }}</div>
         </form>
       </div>
     </div>

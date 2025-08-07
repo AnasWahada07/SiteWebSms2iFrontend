@@ -1,145 +1,124 @@
-/* -------- Global -------- */
-body {
-  background-color: #f4f6f9;
-  font-family: 'Inter', 'Segoe UI', sans-serif;
-  margin: 0;
-  padding: 0;
-}
-
+/* === CONTENEUR GLOBAL === */
 .container {
-  max-width: 1200px;
-  margin: 40px auto;
+  max-width: 2000px;
   background-color: #ffffff;
   border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
   padding: 40px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.06);
+  margin: 40px auto;
 }
 
-/* -------- Titre -------- */
+/* Responsive padding */
+@media (max-width: 768px) {
+  .container {
+    padding: 20px;
+  }
+}
+
+/* === TITRES === */
 h2 {
   font-size: 28px;
-  font-weight: 600;
+  font-weight: 700;
   color: #2c3e50;
-  text-align: center;
   margin-bottom: 30px;
 }
 
-/* -------- Tableau -------- */
-table {
-  width: 100%;
-  border-collapse: collapse;
-  border-radius: 12px;
-  overflow: hidden;
-  background-color: #ffffff;
+/* === TABLEAU BOOTSTRAP AMÉLIORÉ === */
+.table th,
+.table td {
+  vertical-align: middle;
 }
 
-thead {
-  background-color: #f0f2f5;
-}
-
-th {
-  text-align: left;
-  padding: 16px 12px;
-  font-size: 14px;
-  font-weight: 600;
-  color: #34495e;
+.table th {
   text-transform: uppercase;
-  border-bottom: 1px solid #e6e6e6;
+  font-size: 13px;
+  letter-spacing: 0.5px;
+  background-color: #f8f9fa;
+  color: #2d3436;
 }
 
-td {
-  padding: 14px 12px;
+.table td {
   font-size: 14px;
   color: #2d3436;
-  border-bottom: 1px solid #f2f2f2;
 }
 
-tr:hover {
-  background-color: #f9fbfd;
+.table tbody tr {
+  transition: background-color 0.25s ease;
 }
 
-a {
-  color: #2980b9;
-  font-weight: 500;
-  text-decoration: none;
+.table tbody tr:hover {
+  background-color: #f1f4f8;
 }
 
-a:hover {
-  text-decoration: underline;
-}
-
-/* -------- Boutons -------- */
-button {
-  padding: 8px 12px;
+/* === BADGES STATUT === */
+.badge {
   font-size: 13px;
-  border: none;
+  padding: 6px 12px;
+  border-radius: 30px;
+  font-weight: 500;
+}
+
+/* === BOUTONS D'ACTION === */
+button {
+  font-size: 13px;
+  font-weight: 600;
   border-radius: 6px;
-  cursor: pointer;
-  margin-right: 5px;
-  transition: all 0.2s ease-in-out;
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease;
 }
 
 button:hover {
-  opacity: 0.95;
   transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
 }
 
-button:first-child {
-  background-color: #f1c40f;
-  color: #000;
+button i {
+  margin-right: 4px;
+  font-size: 14px;
+  vertical-align: middle;
 }
 
-button:nth-child(2) {
-  background-color: #e74c3c;
+/* === LIEN DE TÉLÉCHARGEMENT === */
+a.btn-outline-primary {
+  font-weight: 500;
+  font-size: 13px;
+  padding: 6px 10px;
+  border-radius: 6px;
+}
+
+a.btn-outline-primary:hover {
+  background-color: #3498db;
   color: #fff;
 }
 
-/* -------- Formulaire -------- */
-.form-container {
-  background-color: #fafafa;
-  padding: 30px;
-  margin-top: 50px;
-  border: 1px solid #e0e0e0;
-  border-radius: 16px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-  max-width: 700px;
-  margin-left: auto;
-  margin-right: auto;
+/* === FORMULAIRE DE MODIFICATION === */
+.card-header {
+  font-size: 18px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
-.form-container h3 {
-  text-align: center;
-  font-size: 22px;
-  color: #2c3e50;
-  margin-bottom: 25px;
-}
-
-.form-container label {
-  display: block;
-  font-weight: 500;
-  margin-bottom: 6px;
+.card-body label {
+  font-weight: 600;
+  font-size: 14px;
+  margin-bottom: 4px;
   color: #34495e;
 }
 
-.form-container input,
-.form-container select,
-.form-container textarea {
-  width: 100%;
-  padding: 12px;
-  margin-bottom: 18px;
+.card-body input,
+.card-body select,
+.card-body textarea {
   font-size: 14px;
-  border: 1px solid #dcdde1;
   border-radius: 8px;
-  background-color: #fff;
-  transition: border 0.3s ease;
+  transition: border 0.3s ease, box-shadow 0.3s ease;
 }
 
-.form-container input:focus,
-.form-container textarea:focus,
-.form-container select:focus {
+.card-body input:focus,
+.card-body select:focus,
+.card-body textarea:focus {
   border-color: #3498db;
+  box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
   outline: none;
-  box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.15);
 }
 
 textarea {
@@ -147,29 +126,8 @@ textarea {
   min-height: 100px;
 }
 
-/* -------- Boutons formulaire -------- */
-.form-buttons {
-  display: flex;
-  gap: 12px;
-  margin-top: 20px;
-}
-
-.form-buttons button {
-  flex: 1;
-  font-size: 15px;
-  padding: 10px 0;
-  border-radius: 6px;
-  border: none;
-}
-
-button[type="submit"] {
-  background-color: #2ecc71;
-  color: white;
-  font-weight: 600;
-}
-
-button[type="button"] {
-  background-color: #95a5a6;
-  color: white;
-  font-weight: 600;
+/* === SECTION DES BOUTONS DE FORMULAIRE === */
+.d-flex.gap-3 button,
+.d-flex.gap-2 button {
+  min-width: 120px;
 }

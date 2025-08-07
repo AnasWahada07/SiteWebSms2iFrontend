@@ -1,4 +1,4 @@
-interface User {
+export interface User {
   id: number;  // Changé de 'id?' à 'id' si toujours présent
   nom: string;
   prenom: string;

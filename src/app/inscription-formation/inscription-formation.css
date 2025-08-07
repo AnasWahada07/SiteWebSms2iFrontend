@@ -1,204 +1,136 @@
-    /* Styles améliorés */
+/* Style général */
+.container.py-5 {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #333;
+}
+
+.registration-card {
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+    padding: 2.5rem;
+    margin: 0 auto;
+    max-width: 900px;
+    transition: all 0.3s ease;
+}
+
+.registration-card:hover {
+    box-shadow: 0 10px 35px rgba(0, 0, 0, 0.15);
+}
+
+/* Titres des sections */
+.form-section-title {
+    color: #2c3e50;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 2px solid #f1f1f1;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.form-section-title i {
+    color: #3498db;
+}
+
+/* Champs de formulaire */
+.form-control, .form-select {
+    height: 45px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 0.5rem 1rem;
+    font-size: 0.95rem;
+    transition: all 0.2s ease;
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: #3498db;
+    box-shadow: 0 0 0 0.25rem rgba(52, 152, 219, 0.1);
+}
+
+textarea.form-control {
+    min-height: 100px;
+    resize: vertical;
+}
+
+/* Étiquettes */
+label {
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    display: block;
+    color: #2c3e50;
+}
+
+/* Messages d'erreur */
+.invalid-feedback {
+    font-size: 0.85rem;
+    margin-top: 0.25rem;
+}
+
+.is-invalid {
+    border-color: #e74c3c !important;
+}
+
+.is-invalid:focus {
+    box-shadow: 0 0 0 0.25rem rgba(231, 76, 60, 0.1);
+}
+
+/* Bouton de soumission */
+.btn-register {
+    background: linear-gradient(135deg, #3498db, #2c3e50);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 24px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+    margin-top: 1.5rem;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-register:hover {
+    background: linear-gradient(135deg, #2980b9, #1a252f);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.btn-register:disabled {
+    background: #95a5a6;
+    transform: none;
+    cursor: not-allowed;
+}
+
+.btn-register i {
+    font-size: 1.1rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
     .registration-card {
-        background: white;
-        border-radius: 12px;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-        overflow: hidden;
-        max-width: 900px;
-        margin: 0 auto;
-    }
-    
-    .registration-header {
-        background: linear-gradient(135deg, #3a7bd5, #00d2ff);
-        color: white;
-        padding: 2rem;
-        text-align: center;
-    }
-    
-    .registration-header h2 {
-        font-weight: 700;
-        margin-bottom: 0.5rem;
-    }
-    
-    .registration-body {
-        padding: 2rem;
-    }
-    
-    .form-section {
-        transition: all 0.3s ease;
-    }
-    
-    .section-animate {
-        animation: fadeInUp 0.5s;
-    }
-    
-    @keyframes fadeInUp {
-        from {
-            opacity: 0;
-            transform: translateY(20px);
-        }
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
+        padding: 1.5rem;
     }
     
     .form-section-title {
-        color: #3a7bd5;
-        border-bottom: 2px solid #f0f0f0;
-        padding-bottom: 0.75rem;
-        margin-bottom: 1.5rem;
-        font-weight: 600;
+        font-size: 1.2rem;
     }
-    
-    .form-label {
-        font-weight: 500;
-        margin-bottom: 0.5rem;
-    }
-    
-    .required {
-        color: #dc3545;
-    }
-    
-    .select-formation {
-        position: relative;
-    }
-    
-    .select-formation i {
-        position: absolute;
-        right: 15px;
-        top: 50%;
-        transform: translateY(-50%);
-        color: #6c757d;
-        pointer-events: none;
-    }
-    
-    .payment-methods {
-        display: flex;
-        gap: 10px;
-        margin-bottom: 1rem;
-    }
-    
-    .payment-method {
-        flex: 1;
-        border: 2px solid #dee2e6;
-        border-radius: 8px;
-        padding: 1rem;
-        text-align: center;
-        cursor: pointer;
-        transition: all 0.2s;
-    }
-    
-    .payment-method:hover {
-        border-color: #adb5bd;
-    }
-    
-    .payment-method.active {
-        border-color: #3a7bd5;
-        background-color: #f8f9fa;
-    }
-    
-    .payment-method i {
-        font-size: 1.75rem;
-        margin-bottom: 0.5rem;
-        color: #495057;
-    }
-    
-    .payment-method.active i {
-        color: #3a7bd5;
-    }
-    
-    .secure-payment {
-        background: #f8f9fa;
-        padding: 0.75rem;
-        border-radius: 6px;
-        text-align: center;
-        color: #6c757d;
-    }
-    
-    .secure-payment i {
-        color: #28a745;
-        margin-right: 5px;
-    }
-    
-    .btn-register {
-        background: linear-gradient(135deg, #3a7bd5, #00d2ff);
-        color: white;
-        border: none;
-        padding: 0.75rem;
-        font-weight: 600;
-        transition: all 0.3s;
-    }
-    
-    .btn-register:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 5px 15px rgba(58, 123, 213, 0.3);
-    }
-    
-    .btn-next, .btn-prev {
-        padding: 0.5rem 1.5rem;
-        font-weight: 500;
-    }
-    
-    .btn-next {
-        background-color: #3a7bd5;
-        color: white;
-    }
-    
-    .btn-prev {
-        background-color: #f8f9fa;
-        color: #495057;
-    }
-    
-    .summary-card {
-        background: #f8f9fa;
-        border-radius: 8px;
-        padding: 1.5rem;
-        margin-bottom: 1.5rem;
-    }
-    
-    .summary-card h5 {
-        color: #3a7bd5;
-        margin-bottom: 1rem;
-        font-weight: 600;
-    }
-    
-    .summary-item {
-        display: flex;
-        justify-content: space-between;
-        margin-bottom: 0.5rem;
-    }
-    
-    .summary-item.total {
-        border-top: 1px solid #dee2e6;
-        padding-top: 0.75rem;
-        margin-top: 0.75rem;
-        font-weight: 600;
-        font-size: 1.1rem;
-    }
-    
-    .success-icon {
-        font-size: 4rem;
-        color: #28a745;
-    }
-    
-    /* Accessibilité */
-    .payment-method:focus {
-        outline: 2px solid #3a7bd5;
-        outline-offset: 2px;
-    }
-    
-    /* Responsive */
-    @media (max-width: 768px) {
-        .payment-methods {
-            flex-direction: column;
-        }
-        
-        .registration-header {
-            padding: 1.5rem;
-        }
-        
-        .registration-body {
-            padding: 1.5rem;
-        }
-    }
+}
+
+/* Animation */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.form-section {
+    animation: fadeIn 0.5s ease forwards;
+}
+
+.form-section:nth-child(2) {
+    animation-delay: 0.1s;
+}

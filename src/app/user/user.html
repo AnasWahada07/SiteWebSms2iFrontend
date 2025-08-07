@@ -1,26 +1,23 @@
 <div class="user-management-container">
   <!-- Header Section -->
-  <div class="header-section">
-    <h2 class="page-title">
+<div class="header-section d-flex justify-content-between align-items-center flex-wrap mb-3">
+  <div>
+    <h2 class="page-title mb-2 mb-md-0">
       <i class="fas fa-users-cog me-2"></i>Gestion des Utilisateurs
     </h2>
-    <div class="header-actions">
-      <button class="btn btn-refresh" (click)="refreshUsers()">
-        <i class="fas fa-sync-alt"></i> Actualiser
-      </button>
-    </div>
   </div>
 
-  <!-- Alert Messages -->
-  <div *ngIf="successMessage" class="alert alert-success animated fadeIn">
-    <i class="fas fa-check-circle me-2"></i>{{ successMessage }}
-    <button type="button" class="btn-close" (click)="successMessage = ''"></button>
-  </div>
+  <div class="d-flex gap-2">
+    <button class="btn btn-outline-secondary" (click)="goToDashboard()">
+      <i class="fas fa-arrow-left me-2"></i> Retour au Dashboard
+    </button>
 
-  <div *ngIf="errorMessage" class="alert alert-danger animated fadeIn">
-    <i class="fas fa-exclamation-circle me-2"></i>{{ errorMessage }}
-    <button type="button" class="btn-close" (click)="errorMessage = ''"></button>
+    <button class="btn btn-refresh btn-primary" (click)="refreshUsers()">
+      <i class="fas fa-sync-alt me-2"></i> Actualiser
+    </button>
   </div>
+</div>
+
 
   <!-- User List Table -->
   <div class="card table-card animated fadeInUp" *ngIf="users.length > 0">
@@ -132,3 +129,11 @@
   </div>
 </div>
 
+<footer class="text-center py-3 bg-light border-top mt-4">
+  <div class="small text-muted">
+    &copy; {{ currentYear || '2025' }} <strong class="text-dark">SMS2I</strong> — Tous droits réservés.
+  </div>
+  <div class="small">
+    Conçu <i class="bi bi-heart-fill text-danger mx-1"></i> par l’équipe <span class="text-primary fw-semibold">SMS2I</span>
+  </div>
+</footer>

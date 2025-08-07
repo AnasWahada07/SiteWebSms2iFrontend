@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CompetenceService } from '../Services/Competence.service';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { SujetPFE } from '../Class/SujetPFE';
@@ -7,16 +7,25 @@ import { SujetPfeService } from '../Services/SujetPfe.service';
 import { InscriptionPFE } from '../Class/InscriptionPFE';
 import { InscriptionPFEService } from '../Services/InscriptionPFE.service';
 import { CommonModule } from '@angular/common';
+import Swal from 'sweetalert2';
 
 declare var bootstrap: any;
 
 @Component({
   selector: 'app-espace-universitaire',
+  standalone: true,
   imports: [ReactiveFormsModule, FormsModule, CommonModule, HttpClientModule],
   templateUrl: './espace-universitaire.html',
   styleUrls: ['./espace-universitaire.css']
 })
 export class EspaceUniversitaire implements OnInit {
+
+  currentYear: number = new Date().getFullYear();
+  successMessage: string = '';
+  errorMessage: string = '';
+  selectedCompetence: string = '';
+  isNavbarCollapsed: boolean = true;
+
 
   form = {
     nom: '',
@@ -26,13 +35,14 @@ export class EspaceUniversitaire implements OnInit {
     telephone: ''
   };
   selectedFileMaquette: File | null = null;
-  loading = false;
+  selectedFile: File | null = null;
 
-  // 🟣 Nouveau formulaire pour Demande de Maquette (textuel)
   demandeMaquetteForm!: FormGroup;
+  competenceForm: FormGroup;
 
-  // 🔶 Autres données
   selectedSujetId: number = 0;
+  selectedSujet: SujetPFE | null = null;
+
   formData: InscriptionPFE = {
     nom: '',
     prenom: '',
@@ -41,7 +51,6 @@ export class EspaceUniversitaire implements OnInit {
     classe: '',
     specialite: ''
   };
-
   sujetsInfo: SujetPFE[] = [];
   informatiqueIndustrielle: SujetPFE[] = [];
 
@@ -51,30 +60,28 @@ export class EspaceUniversitaire implements OnInit {
     email: '',
     description: '',
     type: '',
-    titre: ''
+    titre: '',
+    profil: '',
+    technologie: ''
   };
-
-  competenceForm: FormGroup;
-  selectedFile: File | null = null;
 
   constructor(
     private fb: FormBuilder,
     private competenceService: CompetenceService,
     private http: HttpClient,
-    private SujetPfeService: SujetPfeService,
-    private inscriptionService: InscriptionPFEService
+    private sujetPfeService: SujetPfeService,
+    private inscriptionService: InscriptionPFEService,
+    private cdRef: ChangeDetectorRef
   ) {
-    setTimeout(() => this.loadSujets(), 0);
-
     this.competenceForm = this.fb.group({
       nom: ['', Validators.required],
       prenom: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       adresse: ['', Validators.required],
-      telephone: ['', Validators.required],
+      telephone: ['', [Validators.required, Validators.pattern('^[0-9]{8,15}$')]],
       specialite: ['', Validators.required],
-      competence: ['', Validators.required],
-      experience: ['', Validators.required],
+      competence: ['', [Validators.required, Validators.minLength(10)]],
+      experience: ['', [Validators.required, Validators.minLength(10)]],
     });
 
     this.demandeMaquetteForm = this.fb.group({
@@ -90,109 +97,97 @@ export class EspaceUniversitaire implements OnInit {
     this.loadSujets();
   }
 
+  loadSujets(): void {
+    this.sujetPfeService.getSujetsConfirmesGroupes().subscribe(data => {
+      this.sujetsInfo = data.informatique;
+      this.informatiqueIndustrielle = data.informatiqueIndustrielle;
+      this.cdRef.detectChanges();
+    });
+  }
+
+  openDetails(sujet: SujetPFE): void {
+    this.selectedSujet = sujet;
+  }
+
   onSubmitDemandeMaquette(): void {
     if (this.demandeMaquetteForm.invalid) return;
-
     const data = this.demandeMaquetteForm.value;
-
-    this.http.post('http://localhost:8080/api/demandes', data).subscribe({
+    this.http.post('https://192.168.1.54:3350/api/demandes', data).subscribe({
       next: () => {
-        const modal = bootstrap.Modal.getInstance(document.getElementById('demanderMaquetteModal')!);
-        modal?.hide();
+        bootstrap.Modal.getInstance(document.getElementById('demanderMaquetteModal')!)?.hide();
+        this.cleanModalState();
         this.demandeMaquetteForm.reset();
-
-        const toastEl = document.getElementById('toastSuccess');
-        if (toastEl) new bootstrap.Toast(toastEl).show();
+        Swal.fire('Succès', 'Demande envoyée avec succès.', 'success');
       },
-      error: (err) => {
+      error: err => {
         console.error(err);
-        const toastErr = document.getElementById('toastError');
-        if (toastErr) new bootstrap.Toast(toastErr).show();
+        Swal.fire('Erreur', 'Erreur lors de l\'envoi de la demande.', 'error');
       }
     });
   }
 
-  // ✅ Envoi proposition maquette avec fichier
-  onFileSelectedMaquette(event: Event): void {
-    const target = event.target as HTMLInputElement;
-    if (target.files && target.files.length > 0) {
-      this.selectedFileMaquette = target.files[0];
-    }
+  onFileSelectedMaquette(event: any): void {
+    this.selectedFileMaquette = event.target.files[0] || null;
   }
 
   onSubmitsMaquette(): void {
     if (!this.selectedFileMaquette) {
-      alert("Veuillez sélectionner un fichier.");
+      Swal.fire('Fichier requis', 'Veuillez sélectionner un fichier.', 'warning');
       return;
     }
-
-    this.loading = true;
-
     const formData = new FormData();
-    formData.append('nom', this.form.nom);
-    formData.append('prenom', this.form.prenom);
-    formData.append('telephone', this.form.telephone);
-    formData.append('email', this.form.email);
-    formData.append('description', this.form.description);
-    formData.append('fichier', this.selectedFileMaquette);
-
-    this.http.post('http://localhost:8080/api/maquettes', formData).subscribe({
+    formData.append('maquette', new Blob([JSON.stringify(this.form)], { type: 'application/json' }));
+    formData.append('file', this.selectedFileMaquette);
+    this.http.post('https://192.168.1.54:3350/api/maquettes', formData).subscribe({
       next: () => {
-        this.loading = false;
         this.resetMaquetteForm();
-        const modal = bootstrap.Modal.getInstance(document.getElementById('proposerMaquetteModal')!);
-        modal?.hide();
-        const toastEl = document.getElementById('toastSuccess');
-        if (toastEl) new bootstrap.Toast(toastEl).show();
+        bootstrap.Modal.getInstance(document.getElementById('proposerMaquetteModal')!)?.hide();
+        this.cleanModalState();
+        Swal.fire('Succès', 'Proposition envoyée avec succès.', 'success');
       },
-      error: (err) => {
-        this.loading = false;
+      error: err => {
         console.error(err);
-        const toastErr = document.getElementById('toastError');
-        if (toastErr) new bootstrap.Toast(toastErr).show();
+        Swal.fire('Erreur', 'Erreur lors de l\'envoi de la maquette.', 'error');
       }
     });
   }
 
   resetMaquetteForm(): void {
-    this.form = {
-      nom: '',
-      prenom: '',
-      email: '',
-      description: '',
-      telephone: ''
-    };
+    this.form = { nom: '', prenom: '', email: '', description: '', telephone: '' };
     this.selectedFileMaquette = null;
     const fileInput = document.getElementById('maqFichier') as HTMLInputElement;
     if (fileInput) fileInput.value = '';
   }
 
-  onFileChange(event: any) {
-    this.selectedFile = event.target.files[0];
+  onFileChange(event: any): void {
+    this.selectedFile = event.target.files[0] || null;
   }
 
-  onSubmit() {
-    if (!this.selectedFile) {
-      alert('Veuillez joindre un fichier.');
+  onSubmit(): void {
+    if (this.competenceForm.invalid || !this.selectedFile) {
+      Swal.fire('Erreur', 'Veuillez remplir tous les champs requis et sélectionner un fichier.', 'error');
       return;
     }
-
     const formData = new FormData();
     formData.append('cv', this.selectedFile);
-
-    const competencePayload = this.competenceForm.value;
-    formData.append('competence', new Blob([JSON.stringify(competencePayload)], { type: 'application/json' }));
-
+    formData.append('competence', new Blob([JSON.stringify(this.competenceForm.value)], { type: 'application/json' }));
     this.competenceService.addCompetence(formData).subscribe({
       next: () => {
-        alert('Compétence envoyée avec succès');
-        this.competenceForm.reset();
+        this.resetCompetenceForm();
+        Swal.fire('Succès', 'Compétence envoyée avec succès.', 'success');
       },
-      error: (err) => {
+      error: err => {
         console.error(err);
-        alert("Erreur lors de l'envoi");
+        Swal.fire('Erreur', 'Erreur lors de l\'envoi de la compétence.', 'error');
       }
     });
+  }
+
+  resetCompetenceForm(): void {
+    this.competenceForm.reset();
+    this.selectedFile = null;
+    const fileInput = document.getElementById('cvFileInput') as HTMLInputElement;
+    if (fileInput) fileInput.value = '';
   }
 
   openModal(event: any): void {
@@ -204,63 +199,68 @@ export class EspaceUniversitaire implements OnInit {
 
   submitInscription(): void {
     if (!this.selectedSujetId) return;
-
     this.inscriptionService.createInscription(this.selectedSujetId, this.formData).subscribe({
       next: () => {
-        alert('Inscription réussie ✅');
-        const modal = document.getElementById('inscriptionModal')!;
-        const modalInstance = bootstrap.Modal.getInstance(modal);
-        modalInstance?.hide();
+        bootstrap.Modal.getInstance(document.getElementById('inscriptionModal')!)?.hide();
+        this.cleanModalState();
         this.formData = { nom: '', prenom: '', telephone: '', email: '', classe: '', specialite: '' };
+        this.cdRef.detectChanges();
+        Swal.fire('Succès', 'Inscription réussie.', 'success');
       },
       error: err => {
-        alert('Erreur lors de l\'inscription ❌');
         console.error(err);
+        Swal.fire('Erreur', 'Erreur lors de l\'inscription.', 'error');
       }
     });
   }
 
-  onFileChangepfe(event: Event): void {
-    const input = event.target as HTMLInputElement;
-    this.selectedFile = input.files?.[0] || null;
+  onFileChangepfe(event: any): void {
+    this.selectedFile = event.target.files[0] || null;
   }
 
   onSubmitpfe(): void {
-    if (!this.selectedFile) return;
-
+    if (!this.selectedFile) {
+      Swal.fire('Fichier requis', 'Veuillez sélectionner un fichier.', 'warning');
+      return;
+    }
     const formData = new FormData();
     formData.append('sujet', new Blob([JSON.stringify(this.sujet)], { type: 'application/json' }));
     formData.append('file', this.selectedFile);
-
-    this.http.post('http://localhost:8080/api/sujets', formData).subscribe({
+    this.http.post('https://192.168.1.54:3350/api/sujets', formData).subscribe({
       next: () => {
-        alert('Sujet proposé avec succès !');
         this.resetForm();
+        Swal.fire('Succès', 'Sujet proposé avec succès.', 'success');
       },
-      error: (err) => {
-        alert('Erreur lors de l’envoi');
+      error: err => {
         console.error(err);
-      },
-    });
-  }
-
-  loadSujets(): void {
-    this.SujetPfeService.getSujetsConfirmesGroupes().subscribe(data => {
-      this.sujetsInfo = data.informatique;
-      this.informatiqueIndustrielle = data.informatiqueIndustrielle;
+        Swal.fire('Erreur', 'Erreur lors de l\'envoi du sujet.', 'error');
+      }
     });
   }
 
   resetForm(): void {
-    this.sujet = {
-      nom: '',
-      prenom: '',
-      email: '',
-      description: '',
-      type: '',
-      titre: ''
-    };
+    this.sujet = { nom: '', prenom: '', email: '', description: '', type: '', titre: '', profil: '', technologie: '' };
     this.selectedFile = null;
-    (document.getElementById('pfeFile') as HTMLInputElement).value = '';
+    const fileInput = document.getElementById('pfeFile') as HTMLInputElement;
+    if (fileInput) fileInput.value = '';
+  }
+
+  cleanModalState(): void {
+    const backdrop = document.querySelector('.modal-backdrop');
+    if (backdrop && backdrop.parentNode) backdrop.parentNode.removeChild(backdrop);
+    if (document.body.classList.contains('modal-open')) {
+      document.body.classList.remove('modal-open');
+      document.body.style.overflow = 'auto';
+    }
+  }
+
+  toggleSidebar(): void {
+  this.isNavbarCollapsed = !this.isNavbarCollapsed;
+}
+
+
+  showToast(id: string): void {
+    const el = document.getElementById(id);
+    if (el) new bootstrap.Toast(el).show();
   }
 }

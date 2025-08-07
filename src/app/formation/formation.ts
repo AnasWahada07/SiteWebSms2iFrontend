@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormationService } from '../Services/Formation.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -18,15 +18,26 @@ import { FormationsParTypeDTO } from '../Class/FormationsParTypeDTO';
 })
 export class Formation implements OnInit {
 
+  currentYear: number = new Date().getFullYear();
+
   formations!: FormationsParTypeDTO ;
 
-  constructor(private formationService: FormationService) {}
+    selectedFormation: any = null;
+
+
+  constructor(private formationService: FormationService , private cdRef: ChangeDetectorRef) {}
 
   ngOnInit(): void {
     this.formationService.getFormationsParType().subscribe({
       next: data => this.formations = data,
+      complete: () => this.cdRef.detectChanges(),
       error: err => console.error('Erreur chargement formations', err)
+      
     });
+  }
+
+    openFormationDetails(formation: any): void {
+    this.selectedFormation = formation;
   }
 }
 

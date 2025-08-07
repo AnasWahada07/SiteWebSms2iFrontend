@@ -1,36 +1,48 @@
-    <!-- Navigation -->
-    <nav >
-        <div class="container">
-            <a class="navbar-brand" href="#"><i class="fas fa-university me-2"></i>SMS2i</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="#enseignant"><i class="fas fa-chalkboard-teacher me-1"></i> Enseignants</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#pfe"><i class="fas fa-graduation-cap me-1"></i> Projets PFE</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#maquette"><i class="fas fa-puzzle-piece me-1"></i> Maquettes</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#evenements"><i class="fas fa-calendar-alt me-1"></i> Événements</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm fixed-top">
+  <div class="container">
+    <a class="navbar-brand fw-bold" href="/acceuil" aria-label="Accueil SMS2!">
+      <i class="fas fa-cogs me-1"></i> <span>SMS</span>2<span>!</span>
+    </a>
+
+    <!-- Toggle button -->
+    <button class="navbar-toggler" type="button" (click)="toggleSidebar()" aria-label="Toggle navigation">
+      <span *ngIf="isNavbarCollapsed" class="navbar-toggler-icon"></span>
+      <i *ngIf="!isNavbarCollapsed" class="bi bi-x-lg fs-3 text-white"></i>
+    </button>
+
+    <!-- Navbar links -->
+    <div class="collapse navbar-collapse" [ngClass]="{ 'show': !isNavbarCollapsed }" id="navbarNav">
+      <ul class="navbar-nav ms-auto align-items-center gap-2">
+        <li class="nav-item"><a class="nav-link" href="/acceuil">Accueil</a></li>
+        <li class="nav-item"><a class="nav-link" href="/service">Services</a></li>
+        <li class="nav-item"><a class="nav-link" href="/galerie">Galerie</a></li>
+        <li class="nav-item"><a class="nav-link" href="/espaceuniversitaire">Espace Universitaire</a></li>
+        <li class="nav-item"><a class="nav-link" href="/formation">Formation</a></li>
+        <li class="d-flex gap-2 ms-3">
+          <a href="/signin" class="btn btn-outline-light btn-sm">Se connecter</a>
+          <a href="/signup" class="btn btn-light text-dark btn-sm">S'inscrire</a>
+        </li>
+        <li class="nav-item">
+          <div id="google_translate_element"></div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
 
     <!-- Hero Section -->
-    <section class="hero-section">
-        <div class="container text-center">
-            <h1 class="hero-title">Espace Universitaire</h1>
-            <p class="hero-subtitle">Plateforme collaborative pour enseignants et étudiants</p>
-        </div>
-    </section>
+<section class="hero-section py-5 bg-gradient bg-primary text-white">
+  <div class="container text-center">
+    <h1 class="display-4 fw-bold mb-3 animate__animated animate__fadeInDown">
+      🎓 Espace Universitaire
+    </h1>
+    <p class="lead mb-4 animate__animated animate__fadeInUp">
+      Un espace collaboratif moderne pour les enseignants et étudiants
+    </p>
+  </div>
+</section>
 
     <!-- Espace Enseignant -->
     <section id="enseignant" class="py-5">
@@ -39,7 +51,7 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="card card-space">
-                        <img src="https://images.unsplash.com/photo-1588072432836-e10032774350?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" class="card-img-top" alt="Déposer Compétence">
+                        <img src="assets/competence.jpg" class="card-img-top" alt="Déposer Compétence">
                         <div class="card-body">
                             <h5 class="card-title"><i class="fas fa-plus-circle me-2 text-primary"></i>Déposer votre compétence</h5>
                             <p class="card-text">Partagez vos compétences avec la communauté universitaire.</p>
@@ -51,7 +63,7 @@
                 </div>
                 <div class="col-md-6">
                     <div class="card card-space">
-                        <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" class="card-img-top" alt="Proposer Sujet PFE">
+                        <img src="assets/pfe.png" class="card-img-top" alt="Proposer Sujet PFE">
                         <div class="card-body">
                             <h5 class="card-title"><i class="fas fa-lightbulb me-2 text-primary"></i>Proposer un sujet PFE</h5>
                             <p class="card-text">Soumettez des sujets pour les projets de fin d'études.</p>
@@ -78,57 +90,100 @@
         </div>
 
         <div class="modal-body">
+          <div *ngIf="successMessage" class="alert alert-success">
+            {{ successMessage }}
+          </div>
+          <div *ngIf="errorMessage" class="alert alert-danger">
+            {{ errorMessage }}
+          </div>
+
           <div class="row mb-3">
             <div class="col-md-6">
               <label>Nom</label>
-              <input type="text" class="form-control" formControlName="nom" required />
+              <input type="text" class="form-control" formControlName="nom" />
+              <div class="text-danger mt-1" *ngIf="competenceForm.get('nom')?.touched && competenceForm.get('nom')?.invalid">
+                Le nom est requis.
+              </div>
             </div>
+
             <div class="col-md-6">
               <label>Prénom</label>
-              <input type="text" class="form-control" formControlName="prenom" required />
+              <input type="text" class="form-control" formControlName="prenom" />
+              <div class="text-danger mt-1" *ngIf="competenceForm.get('prenom')?.touched && competenceForm.get('prenom')?.invalid">
+                Le prénom est requis.
+              </div>
             </div>
           </div>
 
           <div class="mb-3">
             <label>Email</label>
-            <input type="email" class="form-control" formControlName="email" required />
+            <input type="email" class="form-control" formControlName="email" />
+            <div class="text-danger mt-1" *ngIf="competenceForm.get('email')?.touched && competenceForm.get('email')?.invalid">
+              <span *ngIf="competenceForm.get('email')?.errors?.['required']">L'email est requis.</span>
+              <span *ngIf="competenceForm.get('email')?.errors?.['email']">Format d'email invalide.</span>
+            </div>
           </div>
 
           <div class="mb-3">
             <label>Adresse</label>
-            <input type="text" class="form-control" formControlName="adresse" required />
+            <input type="text" class="form-control" formControlName="adresse" />
+            <div class="text-danger mt-1" *ngIf="competenceForm.get('adresse')?.touched && competenceForm.get('adresse')?.invalid">
+              L'adresse est requise.
+            </div>
           </div>
 
           <div class="mb-3">
             <label>Téléphone</label>
-            <input type="tel" class="form-control" formControlName="telephone" required />
+            <input type="tel" class="form-control" formControlName="telephone" />
+            <div class="text-danger mt-1" *ngIf="competenceForm.get('telephone')?.touched && competenceForm.get('telephone')?.invalid">
+              <span *ngIf="competenceForm.get('telephone')?.errors?.['required']">Le téléphone est requis.</span>
+              <span *ngIf="competenceForm.get('telephone')?.errors?.['pattern']">Numéro invalide (8 à 15 chiffres).</span>
+            </div>
           </div>
 
           <div class="mb-3">
             <label>Spécialité</label>
-            <input type="text" class="form-control" formControlName="specialite" required />
+            <input type="text" class="form-control" formControlName="specialite" />
+            <div class="text-danger mt-1" *ngIf="competenceForm.get('specialite')?.touched && competenceForm.get('specialite')?.invalid">
+              La spécialité est requise.
+            </div>
           </div>
 
           <div class="mb-3">
             <label>Compétence</label>
-            <textarea class="form-control" formControlName="competence" required></textarea>
+            <textarea class="form-control" formControlName="competence"></textarea>
+            <div class="text-danger mt-1" *ngIf="competenceForm.get('competence')?.touched && competenceForm.get('competence')?.invalid">
+              <span *ngIf="competenceForm.get('competence')?.errors?.['required']">Ce champ est requis.</span>
+              <span *ngIf="competenceForm.get('competence')?.errors?.['minlength']">Minimum 10 caractères.</span>
+            </div>
           </div>
 
           <div class="mb-3">
             <label>Expérience</label>
-            <textarea class="form-control" formControlName="experience" required></textarea>
+            <textarea class="form-control" formControlName="experience"></textarea>
+            <div class="text-danger mt-1" *ngIf="competenceForm.get('experience')?.touched && competenceForm.get('experience')?.invalid">
+              <span *ngIf="competenceForm.get('experience')?.errors?.['required']">Ce champ est requis.</span>
+              <span *ngIf="competenceForm.get('experience')?.errors?.['minlength']">Minimum 10 caractères.</span>
+            </div>
           </div>
 
           <div class="mb-3">
             <label>Pièce jointe (CV)</label>
-            <input type="file" class="form-control" (change)="onFileChange($event)" accept=".pdf,.doc,.docx" required />
+            <input 
+              type="file" 
+              id="cvFileInput"
+              class="form-control" 
+              (change)="onFileChange($event)" 
+              accept=".pdf,.doc,.docx" 
+            />
             <small class="text-muted">Formats acceptés : PDF, DOC, DOCX</small>
           </div>
         </div>
 
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
-          <button type="submit" class="btn btn-univ" [disabled]="competenceForm.invalid">
+          <!-- ✅ plus de [disabled] -->
+          <button type="submit" class="btn btn-univ">
             <i class="fas fa-check me-1"></i> Soumettre
           </button>
         </div>
@@ -136,6 +191,7 @@
     </div>
   </div>
 </div>
+
 <!-- Modal Proposer Sujet PFE -->
 <form #pfeForm="ngForm" (ngSubmit)="onSubmitpfe()" enctype="multipart/form-data">
   <div class="modal fade" id="proposerSujetModal" tabindex="-1" aria-labelledby="proposerSujetModalLabel" aria-hidden="true">
@@ -150,53 +206,178 @@
         </div>
 
         <div class="modal-body">
+
           <div class="row mb-3">
             <div class="col-md-6">
               <label for="pfeNom" class="form-label">Nom</label>
-              <input type="text" class="form-control" id="pfeNom" name="nom" [(ngModel)]="sujet.nom" required />
+              <input
+                type="text"
+                class="form-control"
+                id="pfeNom"
+                name="nom"
+                [(ngModel)]="sujet.nom"
+                #nom="ngModel"
+                required
+                minlength="2"
+              />
+              <div *ngIf="(nom.touched || pfeForm.submitted) && nom.invalid" class="text-danger">
+                <small *ngIf="nom.errors?.['required']">Le nom est requis.</small>
+                <small *ngIf="nom.errors?.['minlength']">Minimum 2 caractères requis.</small>
+              </div>
             </div>
+
             <div class="col-md-6">
               <label for="pfePrenom" class="form-label">Prénom</label>
-              <input type="text" class="form-control" id="pfePrenom" name="prenom" [(ngModel)]="sujet.prenom" required />
+              <input
+                type="text"
+                class="form-control"
+                id="pfePrenom"
+                name="prenom"
+                [(ngModel)]="sujet.prenom"
+                #prenom="ngModel"
+                required
+                minlength="2"
+              />
+              <div *ngIf="(prenom.touched || pfeForm.submitted) && prenom.invalid" class="text-danger">
+                <small *ngIf="prenom.errors?.['required']">Le prénom est requis.</small>
+                <small *ngIf="prenom.errors?.['minlength']">Minimum 2 caractères requis.</small>
+              </div>
             </div>
           </div>
 
           <div class="mb-3">
             <label for="pfeEmail" class="form-label">Email</label>
-            <input type="email" class="form-control" id="pfeEmail" name="email" [(ngModel)]="sujet.email" required />
-          </div>
-
-                    <div class="mb-3">
-              <label for="pfeTitre" class="form-label">Titre</label>
-              <input type="text" class="form-control" id="pfeTitre" name="titre" [(ngModel)]="sujet.titre" required />
+            <input
+              type="email"
+              class="form-control"
+              id="pfeEmail"
+              name="email"
+              [(ngModel)]="sujet.email"
+              #email="ngModel"
+              required
+              email
+            />
+            <div *ngIf="(email.touched || pfeForm.submitted) && email.invalid" class="text-danger">
+              <small *ngIf="email.errors?.['required']">L’email est requis.</small>
+              <small *ngIf="email.errors?.['email']">Format email invalide.</small>
             </div>
-
+          </div>
 
           <div class="mb-3">
-            <label for="pfeDescription" class="form-label">Description</label>
-            <textarea class="form-control" id="pfeDescription" name="description" [(ngModel)]="sujet.description" rows="5" required></textarea>
+            <label for="pfeTitre" class="form-label">Titre</label>
+            <input
+              type="text"
+              class="form-control"
+              id="pfeTitre"
+              name="titre"
+              [(ngModel)]="sujet.titre"
+              #titre="ngModel"
+              required
+              minlength="5"
+            />
+            <div *ngIf="(titre.touched || pfeForm.submitted) && titre.invalid" class="text-danger">
+              <small *ngIf="titre.errors?.['required']">Le titre est requis.</small>
+              <small *ngIf="titre.errors?.['minlength']">Minimum 5 caractères requis.</small>
+            </div>
           </div>
 
-          <!-- 🆕 Champ Type Sujet -->
+          <!-- ...description -->
+<div class="mb-3">
+  <label for="pfeDescription" class="form-label">Description</label>
+  <textarea
+    class="form-control"
+    id="pfeDescription"
+    name="description"
+    [(ngModel)]="sujet.description"
+    #description="ngModel"
+    rows="5"
+    required
+    minlength="10"
+  ></textarea>
+  <div *ngIf="(description.touched || pfeForm.submitted) && description.invalid" class="text-danger">
+    <small *ngIf="description.errors?.['required']">La description est requise.</small>
+    <small *ngIf="description.errors?.['minlength']">Minimum 10 caractères requis.</small>
+  </div>
+</div>
+
+<!-- ✅ Champ Profil -->
+<div class="mb-3">
+  <label for="pfeProfil" class="form-label">Profil recherché</label>
+  <input
+    type="text"
+    class="form-control"
+    id="pfeProfil"
+    name="profil"
+    [(ngModel)]="sujet.profil"
+    #profil="ngModel"
+    required
+    minlength="2"
+  />
+  <div *ngIf="(profil.touched || pfeForm.submitted) && profil.invalid" class="text-danger">
+    <small *ngIf="profil.errors?.['required']">Le profil est requis.</small>
+    <small *ngIf="profil.errors?.['minlength']">Minimum 2 caractères requis.</small>
+  </div>
+</div>
+
+<!-- ✅ Champ Technologie -->
+<div class="mb-3">
+  <label for="pfeTechnologie" class="form-label">Technologie utilisée</label>
+  <input
+    type="text"
+    class="form-control"
+    id="pfeTechnologie"
+    name="technologie"
+    [(ngModel)]="sujet.technologie"
+    #technologie="ngModel"
+    required
+    minlength="2"
+  />
+  <div *ngIf="(technologie.touched || pfeForm.submitted) && technologie.invalid" class="text-danger">
+    <small *ngIf="technologie.errors?.['required']">La technologie est requise.</small>
+    <small *ngIf="technologie.errors?.['minlength']">Minimum 2 caractères requis.</small>
+  </div>
+</div>
+
+
           <div class="mb-3">
             <label for="pfeType" class="form-label">Type de sujet PFE</label>
-            <select class="form-select" id="pfeType" name="typeSujet" [(ngModel)]="sujet.type" required>
+            <select
+              class="form-select"
+              id="pfeType"
+              name="typeSujet"
+              [(ngModel)]="sujet.type"
+              #typeSujet="ngModel"
+              required
+            >
               <option value="" disabled selected hidden>-- Sélectionnez un type --</option>
               <option value="Informatique">Informatique</option>
               <option value="Informatique Industrielle">Informatique Industrielle</option>
             </select>
+            <div *ngIf="(typeSujet.touched || pfeForm.submitted) && typeSujet.invalid" class="text-danger">
+              <small>Veuillez sélectionner un type de sujet.</small>
+            </div>
           </div>
 
           <div class="mb-3">
             <label for="pfeFile" class="form-label">Pièce jointe</label>
-            <input type="file" class="form-control" id="pfeFile" (change)="onFileChangepfe($event)" accept=".pdf,.doc,.docx" required />
+            <input
+              type="file"
+              class="form-control"
+              id="pfeFile"
+              (change)="onFileChangepfe($event)"
+              accept=".pdf,.doc,.docx"
+              required
+            />
             <small class="text-muted">Formats acceptés : .pdf, .doc, .docx</small>
+            <div *ngIf="pfeForm.submitted && !selectedFile" class="text-danger mt-1">
+              <small>Veuillez sélectionner un fichier valide.</small>
+            </div>
           </div>
         </div>
 
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
-          <button type="submit" class="btn btn-primary" [disabled]="pfeForm.invalid">
+          <button type="submit" class="btn btn-primary" [disabled]="pfeForm.invalid || !selectedFile">
             <i class="fas fa-check me-1"></i> Proposer
           </button>
         </div>
@@ -205,7 +386,6 @@
     </div>
   </div>
 </form>
-<!-- Espace Projet Fin d'Étude -->
 <!-- section PFE -->
 <section id="pfe" class="py-5 bg-light-blue">
   <div class="container">
@@ -227,14 +407,23 @@
                 <i class="fas fa-university fa-3x text-univ"></i>
               </div>
               <h5 class="card-title">{{ sujet.titre }}</h5>
-              <p class="card-text">{{ sujet.description }}</p>
-              <div class="d-flex justify-content-between align-items-center mb-3">
-                <div class="price-tag">
-                  <span class="badge bg-warning text-dark">
-                    Prix Encadrement: {{ sujet.prixEncadrement }} TND
-                  </span>
-                </div>
+
+
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <span class="badge bg-warning text-dark">
+                  Prix Encadrement: {{ sujet.prixEncadrement }} TND
+                </span>
               </div>
+
+              <!-- Bouton lire la suite -->
+              <button class="btn btn-outline-primary btn-sm mb-2"
+                      data-bs-toggle="modal"
+                      data-bs-target="#detailsModal"
+                      (click)="openDetails(sujet)">
+                <i class="fas fa-info-circle me-1"></i> Lire la suite
+              </button>
+
+              <!-- Bouton s'inscrire -->
               <button class="btn btn-univ mt-auto"
                       data-bs-toggle="modal"
                       data-bs-target="#inscriptionModal"
@@ -249,7 +438,7 @@
     </div>
 
     <!-- Informatique Industrielle -->
-    <div class="category-section" *ngIf="informatiqueIndustrielle && informatiqueIndustrielle.length > 0; else noSujetsIndus">
+    <div  class="category-section" *ngIf="informatiqueIndustrielle && informatiqueIndustrielle.length > 0; else noSujetsIndus">
       <h3 class="category-title mb-4">
         <i class="fas fa-industry me-2"></i>Informatique Industrielle
       </h3>
@@ -261,14 +450,23 @@
                 <i class="fas fa-robot fa-3x text-univ"></i>
               </div>
               <h5 class="card-title">{{ sujet.titre }}</h5>
-              <p class="card-text">{{ sujet.description }}</p>
-              <div class="d-flex justify-content-between align-items-center mb-3">
-                <div class="price-tag">
-                  <span class="badge bg-warning text-dark">
-                    Prix Encadrement : {{ sujet.prixEncadrement }} TND
-                  </span>
-                </div>
+
+
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <span class="badge bg-warning text-dark">
+                  Prix Encadrement : {{ sujet.prixEncadrement }} TND
+                </span>
               </div>
+
+              <!-- Bouton lire la suite -->
+              <button class="btn btn-outline-primary btn-sm mb-2"
+                      data-bs-toggle="modal"
+                      data-bs-target="#detailsModal"
+                      (click)="openDetails(sujet)">
+                <i class="fas fa-info-circle me-1"></i> Lire la suite
+              </button>
+
+              <!-- Bouton s'inscrire -->
               <button class="btn btn-univ mt-auto"
                       data-bs-toggle="modal"
                       data-bs-target="#inscriptionModal"
@@ -282,13 +480,12 @@
       </div>
     </div>
 
-    <!-- Messages d'absence de données -->
+    <!-- Aucune donnée -->
     <ng-template #noSujetsInfo>
       <div class="no-data-container info">
         <i class="fas fa-laptop-code no-data-icon"></i>
         <h3 class="no-data-title">Aucun sujet disponible</h3>
         <p class="no-data-text">Aucun sujet d'Informatique n'est disponible pour le moment.</p>
-        <p class="no-data-hint">Vérifiez ultérieurement ou proposez un sujet</p>
       </div>
     </ng-template>
 
@@ -297,67 +494,146 @@
         <i class="fas fa-robot no-data-icon"></i>
         <h3 class="no-data-title">Aucun sujet disponible</h3>
         <p class="no-data-text">Aucun sujet d'Informatique Industrielle n'est disponible actuellement.</p>
-        <p class="no-data-hint">Vérifiez ultérieurement ou proposez un sujet</p>
       </div>
     </ng-template>
+
+    <!-- Modale détails sujet -->
+<div class="modal fade" id="detailsModal" tabindex="-1" aria-labelledby="detailsModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content shadow-lg rounded-3">
+
+      <div class="modal-header bg-primary text-white">
+        <h5 class="modal-title d-flex align-items-center" id="detailsModalLabel">
+          <i class="fas fa-file-alt me-2"></i>{{ selectedSujet?.titre }}
+        </h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Fermer"></button>
+      </div>
+
+      <div class="modal-body px-4 py-3">
+
+        <div class="mb-4">
+          <h6 class="text-uppercase fw-bold text-secondary">
+            <i class="fas fa-align-left me-2 text-primary"></i>Description :
+          </h6>
+          <p class="ps-3 border-start border-2 border-primary">{{ selectedSujet?.description }}</p>
+        </div>
+
+        <div class="mb-4">
+          <h6 class="text-uppercase fw-bold text-secondary">
+            <i class="fas fa-user-graduate me-2 text-primary"></i>Profil recherché :
+          </h6>
+          <span class="badge bg-info text-dark px-3 py-2 fs-6">{{ selectedSujet?.profil }}</span>
+        </div>
+
+        <div>
+          <h6 class="text-uppercase fw-bold text-secondary">
+            <i class="fas fa-cogs me-2 text-primary"></i>Technologie utilisée :
+          </h6>
+          <span class="badge bg-success text-white px-3 py-2 fs-6">{{ selectedSujet?.technologie }}</span>
+        </div>
+
+      </div>
+
+      <div class="modal-footer bg-light d-flex justify-content-between">
+        <button class="btn btn-secondary" data-bs-dismiss="modal">
+          <i class="fas fa-times me-1"></i>Fermer
+        </button>
+      </div>
+
+    </div>
+  </div>
+</div>
   </div>
 </section>
 
 <!-- Modal d'inscription -->
-<div class="modal fade" id="inscriptionModal" tabindex="-1" aria-labelledby="inscriptionModalLabel" aria-hidden="true"
-     (shown.bs.modal)="openModal($event)">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header bg-univ text-white">
-        <h5 class="modal-title" id="inscriptionModalLabel">Inscription au PFE</h5>
-        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <form id="formInscriptionPFE">
+<form #inscriptionForm="ngForm" (ngSubmit)="submitInscription()" id="formInscriptionPFE">
+  <div class="modal fade" id="inscriptionModal" tabindex="-1" aria-labelledby="inscriptionModalLabel" aria-hidden="true"
+       (shown.bs.modal)="openModal($event)">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header bg-univ text-white">
+          <h5 class="modal-title" id="inscriptionModalLabel">Inscription au PFE</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+
+        <div class="modal-body">
           <input type="hidden" id="projetSelectionne">
           <input type="hidden" id="projetId">
 
           <div class="mb-3">
             <label for="nom" class="form-label">Nom</label>
-            <input type="text" class="form-control" id="nom" name="nom" [(ngModel)]="formData.nom" required>
+            <input type="text" class="form-control" id="nom" name="nom" [(ngModel)]="formData.nom" #nom="ngModel" required>
+            <div *ngIf="(nom.touched || inscriptionForm.submitted) && nom.invalid" class="text-danger">
+              <small>Le nom est requis.</small>
+            </div>
           </div>
+
           <div class="mb-3">
             <label for="prenom" class="form-label">Prénom</label>
-            <input type="text" class="form-control" id="prenom" name="prenom" [(ngModel)]="formData.prenom" required>
+            <input type="text" class="form-control" id="prenom" name="prenom" [(ngModel)]="formData.prenom" #prenom="ngModel" required>
+            <div *ngIf="(prenom.touched || inscriptionForm.submitted) && prenom.invalid" class="text-danger">
+              <small>Le prénom est requis.</small>
+            </div>
           </div>
+
           <div class="mb-3">
             <label for="telephone" class="form-label">Téléphone</label>
-            <input type="tel" class="form-control" id="telephone" name="telephone" [(ngModel)]="formData.telephone" required>
+            <input type="tel" class="form-control" id="telephone" name="telephone"
+                   [(ngModel)]="formData.telephone" #telephone="ngModel"
+                   required pattern="^[0-9]{8,15}$">
+            <div *ngIf="(telephone.touched || inscriptionForm.submitted) && telephone.invalid" class="text-danger">
+              <small *ngIf="telephone.errors?.['required']">Le numéro est requis.</small>
+              <small *ngIf="telephone.errors?.['pattern']">Numéro invalide (8 à 15 chiffres).</small>
+            </div>
           </div>
+
           <div class="mb-3">
             <label for="email" class="form-label">Email</label>
-            <input type="email" class="form-control" id="email" name="email" [(ngModel)]="formData.email" required>
+            <input type="email" class="form-control" id="email" name="email"
+                   [(ngModel)]="formData.email" #email="ngModel"
+                   required email
+                   [pattern]="'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$'">
+            <div *ngIf="(email.touched || inscriptionForm.submitted) && email.invalid" class="text-danger">
+              <small *ngIf="email.errors?.['required']">L’email est requis.</small>
+              <small *ngIf="email.errors?.['email']">Format d’email invalide.</small>
+              <small *ngIf="email.errors?.['pattern']">Veuillez entrer un email valide </small>
+            </div>
           </div>
+
           <div class="mb-3">
             <label for="classe" class="form-label">Classe</label>
-            <input type="text" class="form-control" id="classe" name="classe" [(ngModel)]="formData.classe" required>
+            <input type="text" class="form-control" id="classe" name="classe" [(ngModel)]="formData.classe" #classe="ngModel" required>
+            <div *ngIf="(classe.touched || inscriptionForm.submitted) && classe.invalid" class="text-danger">
+              <small>La classe est requise.</small>
+            </div>
           </div>
+
           <div class="mb-3">
             <label for="specialite" class="form-label">Spécialité</label>
-            <input type="text" class="form-control" id="specialite" name="specialite" [(ngModel)]="formData.specialite" required>
+            <input type="text" class="form-control" id="specialite" name="specialite" [(ngModel)]="formData.specialite" #specialite="ngModel" required>
+            <div *ngIf="(specialite.touched || inscriptionForm.submitted) && specialite.invalid" class="text-danger">
+              <small>La spécialité est requise.</small>
+            </div>
           </div>
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-        <button type="button" class="btn btn-univ" (click)="submitInscription()">Confirmer</button>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+          <button type="submit" class="btn btn-univ" [disabled]="inscriptionForm.invalid">
+            Confirmer
+          </button>
+        </div>
       </div>
     </div>
   </div>
-</div>
+</form>
 
 
 <script>
-    // JavaScript pour gérer le modal
     document.addEventListener('DOMContentLoaded', function() {
         var inscriptionModal = document.getElementById('inscriptionModal');
         
-        // Lorsque le modal s'affiche, mettre à jour le projet sélectionné
         inscriptionModal.addEventListener('show.bs.modal', function (event) {
             var button = event.relatedTarget; // Bouton qui a déclenché le modal
             var projet = button.getAttribute('data-projet');
@@ -365,7 +641,6 @@
             document.getElementById('inscriptionModalLabel').textContent = 'Inscription - ' + projet;
         });
         
-        // Gestion du bouton de confirmation
         document.getElementById('btnConfirmerInscription').addEventListener('click', function() {
             // Ici vous pouvez ajouter le code pour traiter le formulaire
             alert('Inscription envoyée avec succès!');
@@ -431,37 +706,66 @@
 
       <form (ngSubmit)="onSubmitsMaquette()" #maquetteForm="ngForm" enctype="multipart/form-data">
         <div class="modal-body p-4">
-          <div class="row mb-3">
+          <div class="row">
             <div class="col-md-6 mb-3">
               <label for="maqNom" class="form-label">Nom</label>
-              <input type="text" class="form-control" id="maqNom" name="nom" [(ngModel)]="form.nom" required>
+              <input type="text" class="form-control" id="maqNom" name="nom" [(ngModel)]="form.nom" #nom="ngModel" required>
+              <div *ngIf="(nom.touched || maquetteForm.submitted) && nom.invalid" class="text-danger">
+                <small>Le nom est requis.</small>
+              </div>
             </div>
             <div class="col-md-6 mb-3">
               <label for="maqPrenom" class="form-label">Prénom</label>
-              <input type="text" class="form-control" id="maqPrenom" name="prenom" [(ngModel)]="form.prenom" required>
+              <input type="text" class="form-control" id="maqPrenom" name="prenom" [(ngModel)]="form.prenom" #prenom="ngModel" required>
+              <div *ngIf="(prenom.touched || maquetteForm.submitted) && prenom.invalid" class="text-danger">
+                <small>Le prénom est requis.</small>
+              </div>
             </div>
           </div>
 
           <div class="mb-3">
             <label for="maqtelephone" class="form-label">Téléphone</label>
-            <input type="tel" class="form-control" id="maqtelephone" name="telephone" [(ngModel)]="form.telephone" required>
+            <input type="tel" class="form-control" id="maqtelephone" name="telephone"
+                   [(ngModel)]="form.telephone" #telephone="ngModel"
+                   required pattern="^[0-9]{8,15}$">
+            <div *ngIf="(telephone.touched || maquetteForm.submitted) && telephone.invalid" class="text-danger">
+              <small *ngIf="telephone.errors?.['required']">Le téléphone est requis.</small>
+              <small *ngIf="telephone.errors?.['pattern']">Le numéro doit contenir entre 8 et 15 chiffres.</small>
+            </div>
           </div>
 
           <div class="mb-3">
             <label for="maqEmail" class="form-label">Email</label>
-            <input type="email" class="form-control" id="maqEmail" name="email" [(ngModel)]="form.email" required>
+            <input type="email" class="form-control" id="maqEmail" name="email"
+                   [(ngModel)]="form.email" #email="ngModel"
+                   required email
+                   [pattern]="'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$'">
+            <div *ngIf="(email.touched || maquetteForm.submitted) && email.invalid" class="text-danger">
+              <small *ngIf="email.errors?.['required']">L’email est requis.</small>
+              <small *ngIf="email.errors?.['email']">Format d’email invalide.</small>
+              <small *ngIf="email.errors?.['pattern']">Veuillez saisir un email valide .</small>
+            </div>
           </div>
 
           <div class="mb-3">
             <label for="maqDescription" class="form-label">Description de la maquette</label>
-            <textarea class="form-control" id="maqDescription" name="description" [(ngModel)]="form.description" rows="4" required></textarea>
+            <textarea class="form-control" id="maqDescription" name="description"
+                      [(ngModel)]="form.description" #description="ngModel"
+                      rows="4" required></textarea>
+            <div *ngIf="(description.touched || maquetteForm.submitted) && description.invalid" class="text-danger">
+              <small>La description est requise.</small>
+            </div>
           </div>
 
           <div class="mb-3">
             <label for="maqFichier" class="form-label">Fichier de la maquette (PDF, ZIP, etc.)</label>
-            <input class="form-control" type="file" id="maqFichier" (change)="onFileSelectedMaquette($event)" required accept=".pdf,.zip,.doc,.docx">
+            <input class="form-control" type="file" id="maqFichier"
+                   (change)="onFileSelectedMaquette($event)" accept=".pdf,.zip,.doc,.docx" required>
+            <div *ngIf="maquetteForm.submitted && !selectedFileMaquette" class="text-danger mt-1">
+              <small>Veuillez sélectionner un fichier à joindre.</small>
+            </div>
 
-            <!-- Aperçu fichier -->
+            <!-- Aperçu du fichier -->
             <div *ngIf="selectedFileMaquette" class="mt-2 text-muted small">
               <i class="fas fa-file me-1"></i> {{ selectedFileMaquette.name }}
             </div>
@@ -470,11 +774,9 @@
 
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-          <button type="submit" class="btn btn-primary" [disabled]="maquetteForm.invalid || loading">
-            <i *ngIf="!loading" class="fas fa-paper-plane me-1"></i>
-            <span *ngIf="loading" class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span>
-            {{ loading ? 'Envoi en cours...' : 'Envoyer la proposition' }}
-          </button>
+<button type="submit" class="btn btn-primary" [disabled]="maquetteForm.invalid">
+  <i class="fas fa-paper-plane me-1"></i> Envoyer la proposition
+</button>
         </div>
       </form>
     </div>
@@ -518,26 +820,42 @@
         </div>
 
         <div class="modal-body p-4">
+
+          <!-- Nom complet -->
           <div class="mb-3">
             <label for="demNomComplet" class="form-label">Nom complet</label>
-            <input type="text" id="demNomComplet" class="form-control" formControlName="nomComplet" required />
+            <input type="text" id="demNomComplet" class="form-control" formControlName="nomComplet" />
+            <div *ngIf="demandeMaquetteForm.get('nomComplet')?.touched && demandeMaquetteForm.get('nomComplet')?.invalid" class="text-danger">
+              <small *ngIf="demandeMaquetteForm.get('nomComplet')?.errors?.['required']">Le nom complet est requis.</small>
+            </div>
           </div>
 
+          <!-- Email -->
           <div class="mb-3">
             <label for="demEmail" class="form-label">Email</label>
-            <input type="email" id="demEmail" class="form-control" formControlName="email" required />
+            <input type="email" id="demEmail" class="form-control" formControlName="email" />
+            <div *ngIf="demandeMaquetteForm.get('email')?.touched && demandeMaquetteForm.get('email')?.invalid" class="text-danger">
+              <small *ngIf="demandeMaquetteForm.get('email')?.errors?.['required']">L’email est requis.</small>
+              <small *ngIf="demandeMaquetteForm.get('email')?.errors?.['email']">Format d’email invalide.</small>
+            </div>
           </div>
 
+          <!-- Institution -->
           <div class="mb-3">
             <label for="demInstitution" class="form-label">Institution/Établissement</label>
             <input type="text" id="demInstitution" class="form-control" formControlName="institution" />
           </div>
 
+          <!-- Description -->
           <div class="mb-3">
             <label for="demDescription" class="form-label">Description de votre besoin</label>
-            <textarea class="form-control" id="demDescription" formControlName="descriptionBesoin" rows="4" required></textarea>
+            <textarea class="form-control" id="demDescription" formControlName="descriptionBesoin" rows="4"></textarea>
+            <div *ngIf="demandeMaquetteForm.get('descriptionBesoin')?.touched && demandeMaquetteForm.get('descriptionBesoin')?.invalid" class="text-danger">
+              <small *ngIf="demandeMaquetteForm.get('descriptionBesoin')?.errors?.['required']">La description est requise.</small>
+            </div>
           </div>
 
+          <!-- Date souhaitée -->
           <div class="mb-3">
             <label for="demDate" class="form-label">Date souhaitée de réception</label>
             <input type="date" id="demDate" class="form-control" formControlName="dateSouhaitee" />
@@ -556,68 +874,52 @@
 </div>
 
     
-    <!-- Modal Inscription Événement -->
-    <div class="modal fade" id="inscriptionEventModal" tabindex="-1" aria-labelledby="inscriptionEventModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="inscriptionEventModalLabel"><i class="fas fa-user-plus me-2"></i>Inscription à l'événement</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form>
-                        <div class="row mb-3">
-                            <div class="col-md-6">
-                                <label for="eventNom" class="form-label">Nom</label>
-                                <input type="text" class="form-control" id="eventNom" required>
-                            </div>
-                            <div class="col-md-6">
-                                <label for="eventPrenom" class="form-label">Prénom</label>
-                                <input type="text" class="form-control" id="eventPrenom" required>
-                            </div>
-                        </div>
-                        <div class="mb-3">
-                            <label for="eventTelephone" class="form-label">Téléphone</label>
-                            <input type="tel" class="form-control" id="eventTelephone" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="eventEmail" class="form-label">Email</label>
-                            <input type="email" class="form-control" id="eventEmail" required>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
-                    <button type="button" class="btn btn-univ"><i class="fas fa-check me-1"></i> S'inscrire</button>
-                </div>
-            </div>
+
+<!-- Footer -->
+<footer class="bg-dark text-light pt-5 pb-4 mt-5 shadow-lg">
+  <div class="container">
+    <div class="row">
+
+      <!-- Logo et description -->
+      <div class="col-md-4 mb-4">
+        <h5 class="fw-bold text-uppercase mb-3"><i class="fas fa-cogs me-2"></i>SMS2I</h5>
+        <p>
+          SMS2I est votre partenaire de confiance dans l'automatisation industrielle, la formation technique, et les services de maintenance sur mesure.
+        </p>
+        <div class="d-flex gap-2">
+          <a href="https://www.facebook.com/people/SMS2i/100067593331912/" class="text-light fs-5"><i class="fab fa-facebook-f"></i></a>
+          <a href="https://fr.linkedin.com/company/sms2i" class="text-light fs-5"><i class="fab fa-linkedin-in"></i></a>
+          <a href="#" class="text-light fs-5"><i class="fab fa-youtube"></i></a>
         </div>
+      </div>
+
+      <!-- Liens rapides -->
+      <div class="col-md-4 mb-4">
+        <h6 class="text-uppercase fw-bold mb-3">Navigation</h6>
+        <ul class="list-unstyled">
+          <li><a href="/acceuil" class="text-light text-decoration-none">Accueil</a></li>
+          <li><a href="/service" class="text-light text-decoration-none">Services</a></li>
+          <li><a href="/galerie" class="text-light text-decoration-none">Galerie</a></li>
+          <li><a href="/formation" class="text-light text-decoration-none">Formations</a></li>
+        </ul>
+      </div>
+
+      <!-- Contact rapide -->
+      <div class="col-md-4 mb-4">
+        <h6 class="text-uppercase fw-bold mb-3">Contact</h6>
+        <p><i class="fas fa-map-marker-alt me-2"></i>Rue 14 janvier (GP1), Imm Neodeme 1ere Etage, Messadine 4013, Sousse</p>
+        <p><i class="fas fa-phone me-2"></i>+216 73 284 160</p>
+        <p><i class="fas fa-envelope me-2"></i>contact&#64;sms2i.com.tn</p>
+      </div>
     </div>
 
-    <!-- Footer -->
-    <footer class="text-center">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-4 mb-4 mb-md-0">
-                    <h5><i class="fas fa-university me-2"></i>Université Excellence</h5>
-                    <p>Excellence en éducation et recherche</p>
-                </div>
-                <div class="col-md-4 mb-4 mb-md-0">
-                    <h5><i class="fas fa-envelope me-2"></i>Contact</h5>
-                    <p>contact.universite-excellence.edu<br>+1 234-567-8900</p>
-                </div>
-                <div class="col-md-4">
-                    <h5><i class="fas fa-share-alt me-2"></i>Réseaux sociaux</h5>
-                    <a href="#" class="social-icon me-3"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#" class="social-icon me-3"><i class="fab fa-twitter"></i></a>
-                    <a href="#" class="social-icon me-3"><i class="fab fa-linkedin-in"></i></a>
-                    <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
-                </div>
-            </div>
-            <hr class="my-4 bg-light">
-            <p class="mb-0">&copy; 2023 Université Excellence. Tous droits réservés.</p>
-        </div>
-    </footer>
+    <hr class="border-top border-light">
+
+    <div class="text-center small">
+      &copy; {{ currentYear || '2025' }} SMS2I. Tous droits réservés.
+    </div>
+  </div>
+</footer>
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>

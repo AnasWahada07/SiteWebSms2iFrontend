@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { GalerieService } from '../Services/Galerie.service';
 import { Galeries } from '../Class/Galeries';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -22,13 +22,40 @@ import { HttpClientModule } from '@angular/common/http';
 })
 export class Galerie implements OnInit {
 
+  currentYear: number = new Date().getFullYear();
+
   galeries: Galeries[] = [];
+  searchTerm: string = '';
+  isNavbarCollapsed: boolean = true;
 
-  constructor(private galerieService: GalerieService) {}
 
-  ngOnInit(): void {
-    this.galerieService.getAll().subscribe(data => {
-      this.galeries = data;
-    });
-  }
+
+  constructor(private galerieService: GalerieService , private cdRef: ChangeDetectorRef) {}
+
+ngOnInit(): void {
+  this.galerieService.getAll().subscribe(data => {
+    this.galeries = data;
+
+    this.cdRef.detectChanges(); 
+  });
+}
+filteredGaleries() {
+  if (!this.searchTerm) return this.galeries;
+
+  const lowerSearch = this.searchTerm.toLowerCase();
+  return this.galeries.filter(g =>
+    g.title.toLowerCase().includes(lowerSearch) ||
+    g.client.toLowerCase().includes(lowerSearch)
+  );
+}
+
+toggleSidebar(): void {
+  this.isNavbarCollapsed = !this.isNavbarCollapsed;
+}
+
+
+
+
+
+
 }

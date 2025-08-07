@@ -167,3 +167,21 @@
   margin-right: 6px;
   color: #0ea5e9;
 }
+
+.status-tag {
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  padding: 0.3rem 0.6rem;
+  border-radius: 0.4rem;
+}
+
+.is-pending {
+  background-color: #fff3cd;
+  color: #856404;
+}
+
+.is-confirmed {
+  background-color: #d4edda;
+  color: #155724;
+}

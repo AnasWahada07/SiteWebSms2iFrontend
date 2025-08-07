@@ -5,11 +5,12 @@
         <i class="fas fa-user-plus text-white fs-3"></i>
       </div>
       <h1 class="fw-bold text-primary mb-2">Créer un compte</h1>
-      <p class="text-muted mb-0">Rejoignez notre plateforme et découvrez un monde de possibilités</p>
     </div>
 
     <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
       <div class="row g-4">
+
+        <!-- Nom -->
         <div class="col-md-6">
           <div class="form-floating">
             <input type="text" class="form-control border-2 border-primary-subtle" id="nom" placeholder=" " formControlName="nom" />
@@ -17,6 +18,7 @@
           </div>
         </div>
 
+        <!-- Prénom -->
         <div class="col-md-6">
           <div class="form-floating">
             <input type="text" class="form-control border-2 border-primary-subtle" id="prenom" placeholder=" " formControlName="prenom" />
@@ -24,6 +26,7 @@
           </div>
         </div>
 
+        <!-- Téléphone -->
         <div class="col-md-6">
           <div class="form-floating">
             <input type="tel" class="form-control border-2 border-primary-subtle" id="telephone" placeholder=" " formControlName="telephone" />
@@ -31,6 +34,7 @@
           </div>
         </div>
 
+        <!-- Email -->
         <div class="col-md-6">
           <div class="form-floating">
             <input type="email" class="form-control border-2 border-primary-subtle" id="email" placeholder=" " formControlName="email" />
@@ -38,6 +42,7 @@
           </div>
         </div>
 
+        <!-- Organisme -->
         <div class="col-12">
           <div class="form-floating">
             <input type="text" class="form-control border-2 border-primary-subtle" id="organisme" placeholder=" " formControlName="organisme" />
@@ -45,6 +50,7 @@
           </div>
         </div>
 
+        <!-- Adresse -->
         <div class="col-12">
           <div class="form-floating">
             <textarea class="form-control border-2 border-primary-subtle" id="adresse" placeholder=" " style="height: 100px" formControlName="adresse"></textarea>
@@ -52,38 +58,80 @@
           </div>
         </div>
 
+        <!-- Mot de passe -->
         <div class="col-md-6">
           <div class="form-floating position-relative">
-            <input type="password" class="form-control border-2 border-primary-subtle" id="password" placeholder=" " formControlName="password" />
+            <input type="password" class="form-control border-2 border-primary-subtle"
+                   id="password" placeholder=" "
+                   formControlName="password"
+                   (input)="checkPasswordStrength()" />
             <label for="password" class="text-muted">Mot de passe</label>
-            <button type="button" class="btn btn-link position-absolute end-0 top-50 translate-middle-y pe-3 text-decoration-none" (click)="togglePassword('password')">
+            <button type="button" class="btn btn-link position-absolute end-0 top-50 translate-middle-y pe-3 text-decoration-none"
+                    (click)="togglePassword('password')">
               <i class="far fa-eye"></i>
             </button>
           </div>
-        </div>
 
-        <div class="col-md-6">
-          <div class="form-floating position-relative">
-            <input type="password" class="form-control border-2 border-primary-subtle" id="confirmPassword" placeholder=" " formControlName="confirmPassword" />
-            <label for="confirmPassword" class="text-muted">Confirmer mot de passe</label>
-            <button type="button" class="btn btn-link position-absolute end-0 top-50 translate-middle-y pe-3 text-decoration-none" (click)="togglePassword('confirmPassword')">
-              <i class="far fa-eye"></i>
-            </button>
+          <!-- Indicateur de force -->
+          <div *ngIf="registerForm.get('password')?.value" class="mt-2">
+            <div class="progress" style="height: 8px;">
+              <div class="progress-bar {{ passwordStrengthColor }}" role="progressbar"
+                   [style.width.%]="passwordStrength"
+                   [attr.aria-valuenow]="passwordStrength"
+                   aria-valuemin="0" aria-valuemax="100"
+                   style="transition: width 0.4s ease;">
+              </div>
+            </div>
+            <small class="fw-semibold d-block mt-1 text-muted">
+              Force du mot de passe :
+              <span [ngClass]="{
+                'text-danger': passwordStrengthLabel === 'Faible',
+                'text-warning': passwordStrengthLabel === 'Moyen',
+                'text-success': passwordStrengthLabel === 'Fort'
+              }">{{ passwordStrengthLabel }}</span>
+            </small>
           </div>
+
+          <!-- Règles de complexité -->
+          <div *ngIf="registerForm.get('password')?.touched && registerForm.get('password')?.errors?.['passwordComplexity']" class="text-danger small mt-2 ps-1">
+  Le mot de passe doit contenir :
+  <ul class="mb-0 ps-3">
+    <li *ngIf="!registerForm.get('password')?.errors?.['passwordComplexity']?.['hasUpperCase']">• une lettre majuscule</li>
+    <li *ngIf="!registerForm.get('password')?.errors?.['passwordComplexity']?.['hasLowerCase']">• une lettre minuscule</li>
+    <li *ngIf="!registerForm.get('password')?.errors?.['passwordComplexity']?.['hasDigit']">• un chiffre</li>
+    <li *ngIf="!registerForm.get('password')?.errors?.['passwordComplexity']?.['hasSpecialChar']">• un caractère spécial</li>
+    <li *ngIf="!registerForm.get('password')?.errors?.['passwordComplexity']?.['isValidLength']">• au moins 8 caractères</li>
+  </ul>
+</div>
+
         </div>
 
+        <!-- Confirmation mot de passe -->
+       <div class="col-md-6">
+  <div class="form-floating position-relative">
+    <input type="password" class="form-control border-2 border-primary-subtle"
+           id="confirmPassword" placeholder=" "
+           formControlName="confirmPassword" />
+    <label for="confirmPassword" class="text-muted">Confirmer mot de passe</label>
+    <button type="button" class="btn btn-link position-absolute end-0 top-50 translate-middle-y pe-3 text-decoration-none"
+            (click)="togglePassword('confirmPassword')">
+      <i class="far fa-eye"></i>
+    </button>
+  </div>
+
+  <!-- ✅ Correction ici -->
+  <div *ngIf="registerForm.errors?.['passwordsMismatch'] && registerForm.get('confirmPassword')?.touched"
+       class="text-danger small mt-2 ps-1">
+    Les mots de passe ne correspondent pas.
+  </div>
+</div>
+
+        <!-- Bouton d'envoi -->
         <div class="col-12 mt-4">
-          <button type="submit" class="btn btn-primary w-100 py-3 fw-bold rounded-pill bg-gradient shadow-sm">
+          <button type="submit" class="btn btn-primary w-100 py-3 fw-bold rounded-pill bg-gradient shadow-sm"
+                  [disabled]="registerForm.invalid">
             S'inscrire <i class="fas fa-arrow-right ms-2"></i>
           </button>
-        </div>
-      </div>
-
-      <!-- Message -->
-      <div class="col-12 text-center mt-4">
-        <div class="alert alert-dismissible fade show" [ngClass]="{'alert-success': success, 'alert-danger': !success}" *ngIf="message">
-          {{ message }}
-          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
       </div>
 
@@ -99,6 +147,14 @@
   </div>
 </div>
 
+<footer class="text-center py-3 bg-light border-top mt-4">
+  <div class="small text-muted">
+    &copy; {{ currentYear || '2025' }} <strong class="text-dark">SMS2I</strong> — Tous droits réservés.
+  </div>
+  <div class="small">
+    Conçu <i class="bi bi-heart-fill text-danger mx-1"></i> par l’équipe <span class="text-primary fw-semibold">SMS2I</span>
+  </div>
+</footer>
 
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

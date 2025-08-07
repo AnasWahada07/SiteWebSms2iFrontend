@@ -4,49 +4,43 @@
     <a class="navbar-brand fw-bold" href="/acceuil" aria-label="Accueil SMS2!">
       <i class="fas fa-cogs me-1"></i> <span>SMS</span>2<span>!</span>
     </a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
+
+    <!-- Toggle button -->
+    <button class="navbar-toggler" type="button" (click)="toggleSidebar()" aria-label="Toggle navigation">
+      <span *ngIf="isNavbarCollapsed" class="navbar-toggler-icon"></span>
+      <i *ngIf="!isNavbarCollapsed" class="bi bi-x-lg fs-3 text-white"></i>
     </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
+
+    <!-- Navbar links -->
+    <div class="collapse navbar-collapse" [ngClass]="{ 'show': !isNavbarCollapsed }" id="navbarNav">
       <ul class="navbar-nav ms-auto align-items-center gap-2">
         <li class="nav-item"><a class="nav-link" href="/acceuil">Accueil</a></li>
         <li class="nav-item"><a class="nav-link" href="/service">Services</a></li>
         <li class="nav-item"><a class="nav-link" href="/galerie">Galerie</a></li>
         <li class="nav-item"><a class="nav-link" href="/espaceuniversitaire">Espace Universitaire</a></li>
         <li class="nav-item"><a class="nav-link" href="/formation">Formation</a></li>
-        <li class="nav-item"><a class="nav-link" href="#testimonials">Références</a></li>
-        <li class="nav-item"><a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#contactModal">Contact</a></li>
         <li class="d-flex gap-2 ms-3">
           <a href="/signin" class="btn btn-outline-light btn-sm">Se connecter</a>
           <a href="/signup" class="btn btn-light text-dark btn-sm">S'inscrire</a>
         </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="langDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Langue</a>
-          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="langDropdown">
-            <li><a class="dropdown-item" href="#" onclick="setLanguage('fr')">Français</a></li>
-            <li><a class="dropdown-item" href="#" onclick="setLanguage('en')">English</a></li>
-            <li><a class="dropdown-item" href="#" onclick="setLanguage('ar')">العربية</a></li>
-          </ul>
-        </li>
         <li class="nav-item">
+          <div id="google_translate_element"></div>
         </li>
       </ul>
     </div>
   </div>
 </nav>
-
 <!-- Script for Dark Mode and Language Switch -->
-<script>
-  function setLanguage(lang) {
-    const elements = document.querySelectorAll('[data-i18n]');
-    fetch(`/assets/i18n/${lang}.json`).then(res => res.json()).then(data => {
-      elements.forEach(el => {
-        const key = el.getAttribute('data-i18n');
-        if (data[key]) el.innerText = data[key];
-      });
-    });
+<script type="text/javascript">
+  function googleTranslateElementInit() {
+    new google.translate.TranslateElement({
+      pageLanguage: 'fr',
+      includedLanguages: 'fr,en,ar',
+      layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+    }, 'google_translate_element');
   }
 </script>
+<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
     <!-- Hero Section -->
     <section class="hero-section" id="home">
         <div class="floating-elements">
@@ -62,7 +56,15 @@
                         <h1 class="hero-title">WELCOME TO <span>SMS2!</span></h1>
                         <p class="hero-subtitle">SMS2! offre des services complets d'automatisation et de maintenance pour optimiser vos processus industriels.</p>
                         <div class="d-flex gap-3">
-                            <a href="#" class="btn btn-hero btn-hero-primary" data-bs-toggle="modal" data-bs-target="#contactModal">Contactez-nous</a>
+<a href="#"
+   class="btn btn-primary d-inline-flex align-items-center gap-2 px-3 py-2 shadow-sm contact-btn"
+   role="button"
+   aria-label="Ouvrir le formulaire de contact"
+   data-bs-toggle="modal"
+   data-bs-target="#contactModal">
+  <i class="bi bi-envelope-fill"></i>
+  <span>Contactez-nous</span>
+</a>
                         </div>
                     </div>
                 </div>
@@ -148,43 +150,47 @@
         </div>
     </section>
 
-    <!-- About Section -->
-    <section class="about-section py-5" id="about">
-        <div class="container">
-            <div class="text-center mb-5 animate__animated animate__fadeIn">
-                <h2 class="section-title">À propos de <span>SMS2I</span></h2>
-                <p class="section-subtitle">
-                    Votre partenaire de confiance pour l'automatisation et la maintenance industrielle
-                </p>
-            </div>
-            <div class="row align-items-center g-4">
-                <div class="col-lg-6 animate__animated animate__fadeInLeft">
-                    <img
-                        src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
-                        alt="À propos de SMS2I"
-                        class="img-fluid rounded shadow-sm"
-                    >
-                </div>
-                <div class="col-lg-6 animate__animated animate__fadeInRight">
-                    <div class="about-content">
-                        <p>
-                            <strong>SMS2I</strong> (Services et Maintenance des Systèmes Informatiques et Industriels) a vu le jour en mai 2008,
-                            portée par l'expertise de plusieurs enseignants universitaires. Depuis, nous nous engageons à fournir
-                            des solutions sur mesure pour optimiser vos processus industriels.
-                        </p>
-                        <p>
-                            Basés à la zone industrielle de Messaadine (Immeuble Néodeme, Sousse), nous sommes reconnus pour
-                            notre rigueur, la qualité de nos interventions et notre capacité à innover en partenariat avec
-                            les plus grands (Siemens, Endress+Hauser, etc.).
-                        </p>
-                        <a href="#" class="btn btn-primary mt-3">
-                            Notre histoire <i class="fas fa-arrow-right ms-1"></i>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+<!-- About Section -->
+<section class="about-section py-5" id="about">
+  <div class="container">
+    <div class="text-center mb-5 animate__animated animate__fadeIn">
+      <h2 class="section-title">À propos de <span>SMS2I</span></h2>
+      <p class="section-subtitle">
+        Votre partenaire de confiance pour l'automatisation et la maintenance industrielle
+      </p>
+    </div>
+    <div class="row align-items-center g-4">
+      <!-- Carte Google à gauche -->
+      <div class="col-lg-6 animate__animated animate__fadeInLeft">
+<div class="ratio ratio-4x3 rounded shadow-sm">
+  <iframe
+    src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d1343.6404891536794!2d10.561611!3d35.728208!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sfr!2stn!4v1700000000000!5m2!1sfr!2stn"
+    width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"
+    referrerpolicy="no-referrer-when-downgrade"
+  ></iframe>
+</div>
+      </div>
+
+      <!-- Texte à droite -->
+      <div class="col-lg-6 animate__animated animate__fadeInRight">
+        <div class="about-content">
+          <p>
+            <strong>SMS2I</strong> (Services et Maintenance des Systèmes Informatiques et Industriels) a vu le jour en mai 2008,
+            portée par l'expertise de plusieurs enseignants universitaires. Depuis, nous nous engageons à fournir
+            des solutions sur mesure pour optimiser vos processus industriels.
+          </p>
+          <p>
+            Basés à la zone industrielle de Messaadine (Immeuble Néodeme, Sousse), nous sommes reconnus pour
+            notre rigueur, la qualité de nos interventions et notre capacité à innover en partenariat avec
+            les plus grands (Siemens, Endress+Hauser, etc.).
+          </p>
+<button class="btn btn-story mt-3" data-bs-toggle="modal" data-bs-target="#histoireModal">
+  📖 Notre histoire <i class="fas fa-arrow-right ms-2"></i>
+</button>        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
     <!-- Features Section -->
     <section class="features-section py-5 bg-light" id="features">
@@ -271,20 +277,30 @@
 
         <div class="modal-body">
           <div class="row g-3">
+            <!-- Nom -->
             <div class="col-md-6">
               <div class="form-floating">
                 <input type="text" class="form-control" id="contact-name" formControlName="name" placeholder="Votre nom">
                 <label for="contact-name">Votre nom *</label>
               </div>
+              <div *ngIf="contactForm.get('name')?.invalid && contactForm.get('name')?.touched" class="text-danger mt-1">
+                Le nom est requis.
+              </div>
             </div>
 
+            <!-- Email -->
             <div class="col-md-6">
               <div class="form-floating">
                 <input type="email" class="form-control" id="contact-email" formControlName="email" placeholder="Votre email">
                 <label for="contact-email">Votre email *</label>
               </div>
+              <div *ngIf="contactForm.get('email')?.invalid && contactForm.get('email')?.touched" class="text-danger mt-1">
+                <div *ngIf="contactForm.get('email')?.errors?.['required']">L'email est requis.</div>
+                <div *ngIf="contactForm.get('email')?.errors?.['email']">Format d'email invalide.</div>
+              </div>
             </div>
 
+            <!-- Téléphone -->
             <div class="col-md-6">
               <div class="form-floating">
                 <input type="tel" class="form-control" id="contact-phone" formControlName="phone" placeholder="Votre téléphone">
@@ -292,26 +308,35 @@
               </div>
             </div>
 
+            <!-- Sujet -->
             <div class="col-md-6">
               <div class="form-floating">
                 <select class="form-select" id="contact-subject" formControlName="subject">
                   <option value="" disabled selected>Sélectionnez un sujet</option>
-                  <option value="devis">Demande de devis</option>
-                  <option value="support">Support technique</option>
-                  <option value="formation">Information sur les formations</option>
-                  <option value="autre">Autre demande</option>
+                    <option value="Demande de devis">Demande de devis</option>
+                    <option value="Support technique">Support technique</option>
+                    <option value="Information sur les formations">Information sur les formations</option>
+                    <option value="Autre demande">Autre demande</option>
                 </select>
-                <label for="contact-subject">Sujet</label>
+                <label for="contact-subject">Sujet *</label>
+              </div>
+              <div *ngIf="contactForm.get('subject')?.invalid && contactForm.get('subject')?.touched" class="text-danger mt-1">
+                Le sujet est requis.
               </div>
             </div>
 
+            <!-- Message -->
             <div class="col-12">
               <div class="form-floating">
                 <textarea class="form-control" id="contact-message" formControlName="message" style="height: 150px" placeholder="Votre message"></textarea>
                 <label for="contact-message">Votre message *</label>
               </div>
+              <div *ngIf="contactForm.get('message')?.invalid && contactForm.get('message')?.touched" class="text-danger mt-1">
+                Le message est requis.
+              </div>
             </div>
 
+            <!-- Consentement -->
             <div class="col-12">
               <div class="form-check">
                 <input class="form-check-input" type="checkbox" id="contact-consent" formControlName="consent">
@@ -319,20 +344,14 @@
                   J'autorise SMS2I à utiliser mes informations pour répondre à ma demande.
                 </label>
               </div>
+              <div *ngIf="contactForm.get('consent')?.invalid && contactForm.get('consent')?.touched" class="text-danger mt-1">
+                Vous devez accepter la politique de confidentialité.
+              </div>
             </div>
 
-            <div class="col-12">
-              <div *ngIf="successMessage" class="alert alert-success mt-3">
-                {{ successMessage }}
-              </div>
-              <div *ngIf="errorMessage" class="alert alert-danger mt-3">
-                {{ errorMessage }}
-              </div>
-            </div>
           </div>
-        </div>
-
-        <div class="modal-footer">
+        </div> 
+                <div class="modal-footer">
           <button type="submit" class="btn btn-primary" [disabled]="contactForm.invalid">
             <i class="fas fa-paper-plane me-2"></i>Envoyer le message
           </button>
@@ -367,7 +386,7 @@
 <section class="gallery-section py-5" id="gallery">
   <div class="container">
     <div class="text-center mb-5 animate__animated animate__fadeIn">
-      <h2 class="section-title">Galerie de nos Projets</h2>
+      <h2 class="section-title">Nos Projets</h2>
       <p class="section-subtitle">Découvrez nos réalisations industrielles</p>
     </div>
 
@@ -422,3 +441,101 @@
     </ng-container>
   </div>
 </section>
+
+<!-- Modal Notre Histoire -->
+<div class="modal fade" id="histoireModal" tabindex="-1" aria-labelledby="histoireModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header bg-primary text-white">
+        <h5 class="modal-title" id="histoireModalLabel">Notre Histoire – Groupe SMS2I</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Fermer"></button>
+      </div>
+
+      <div class="modal-body">
+        <p><strong>SMS2I</strong>, acronyme de <em>Services et Maintenance des Systèmes Informatiques et Industriels</em>, a été fondée en mai 2008 par un groupe d’enseignants universitaires passionnés. Leur ambition : offrir aux entreprises tunisiennes des solutions fiables en automatisation, supervision et maintenance industrielle.</p>
+
+        <p>Implantée à la zone industrielle de Messaadine (Immeuble Néodeme – Sousse), l’entreprise a su se distinguer par son sérieux, la qualité de ses interventions et sa capacité à innover, en s’appuyant sur des compétences pluridisciplinaires (électricité, électronique, mécanique, automatisme, informatique industrielle).</p>
+
+        <p>En 2010, SMS2I devient intégrateur officiel de <strong>SIEMENS SA</strong> et aspire à obtenir prochainement le statut de <em>Solution Partner</em> dans le domaine de l’automatisme industriel.</p>
+
+        <p>Grâce à cette reconnaissance, la société a su nouer des partenariats avec de grands acteurs internationaux tels que <strong>PCM France</strong> (pompes et systèmes de dosage) ou encore <strong>IPI Italie</strong> (machines de conditionnement pour le lait et les jus).</p>
+
+        <p>Pour répondre à une demande croissante à l’échelle internationale, les fondateurs ont structuré leur vision en créant un véritable <strong>Groupe SMS2I</strong>, composé de plusieurs entités complémentaires, opérant localement et à l’international.</p>
+
+        <hr class="my-4">
+
+        <div class="text-center">
+          <h6 class="mb-3 text-uppercase fw-bold">Architecture du Groupe SMS2I</h6>
+          <img src="assets/sms2iimage.png" 
+               alt="Architecture du Groupe SMS2I" 
+               class="img-fluid rounded shadow-sm border" 
+               style="max-height: 75vh; object-fit: contain;">
+          <small class="d-block text-muted mt-2 fst-italic">Structure des entités locales et internationales</small>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const modalEl = document.getElementById('histoireModal');
+  if (modalEl) {
+    modalEl.addEventListener('hidden.bs.modal', () => {
+      if (document.activeElement) {
+        document.activeElement.blur(); // Safe blur
+      }
+    });
+  }
+});
+</script>
+<!-- Footer -->
+<footer class="bg-dark text-light pt-5 pb-4 mt-5 shadow-lg">
+  <div class="container">
+    <div class="row">
+
+      <!-- Logo et description -->
+      <div class="col-md-4 mb-4">
+        <h5 class="fw-bold text-uppercase mb-3"><i class="fas fa-cogs me-2"></i>SMS2I</h5>
+        <p>
+          SMS2I est votre partenaire de confiance dans l'automatisation industrielle, la formation technique, et les services de maintenance sur mesure.
+        </p>
+        <div class="d-flex gap-2">
+          <a href="https://www.facebook.com/people/SMS2i/100067593331912/" class="text-light fs-5"><i class="fab fa-facebook-f"></i></a>
+          <a href="https://fr.linkedin.com/company/sms2i" class="text-light fs-5"><i class="fab fa-linkedin-in"></i></a>
+          <a href="#" class="text-light fs-5"><i class="fab fa-youtube"></i></a>
+        </div>
+      </div>
+
+      <!-- Liens rapides -->
+      <div class="col-md-4 mb-4">
+        <h6 class="text-uppercase fw-bold mb-3">Navigation</h6>
+        <ul class="list-unstyled">
+          <li><a href="/acceuil" class="text-light text-decoration-none">Accueil</a></li>
+          <li><a href="/service" class="text-light text-decoration-none">Services</a></li>
+          <li><a href="/galerie" class="text-light text-decoration-none">Galerie</a></li>
+          <li><a href="/formation" class="text-light text-decoration-none">Formations</a></li>
+        </ul>
+      </div>
+
+      <!-- Contact rapide -->
+      <div class="col-md-4 mb-4">
+        <h6 class="text-uppercase fw-bold mb-3">Contact</h6>
+        <p><i class="fas fa-map-marker-alt me-2"></i>Rue 14 janvier (GP1), Imm Neodeme 1ere Etage, Messadine 4013, Sousse</p>
+        <p><i class="fas fa-phone me-2"></i>+216 73 284 160</p>
+        <p><i class="fas fa-envelope me-2"></i>contact&#64;sms2i.com.tn</p>
+      </div>
+    </div>
+
+    <hr class="border-top border-light">
+
+    <div class="text-center small">
+      &copy; {{ currentYear || '2025' }} SMS2I. Tous droits réservés.
+    </div>
+  </div>
+</footer>
+

@@ -1,0 +1,166 @@
+.card {
+  border-radius: 16px;
+  border: 1px solid #dee2e6;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.05);
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+  background-color: #ffffff;
+}
+
+.card:hover {
+  box-shadow: 0 12px 20px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+}
+
+.badge {
+  font-size: 0.85rem;
+  padding: 0.4rem 0.75rem;
+  border-radius: 50rem;
+  text-transform: uppercase;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  transition: all 0.2s ease-in-out;
+}
+
+.badge.bg-success {
+  background-color: #198754 !important;
+  color: #fff;
+}
+
+.badge.bg-warning {
+  background-color: #ffc107 !important;
+  color: #212529;
+}
+
+.badge.bg-danger {
+  background-color: #dc3545 !important;
+  color: #fff;
+}
+
+.btn-success {
+  background-color: #28a745;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 20px;
+  font-weight: 600;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.btn-success:hover {
+  background-color: #218838;
+  transform: translateY(-1px);
+}
+
+.btn-secondary {
+  background-color: #6c757d;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 20px;
+  font-weight: 600;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.btn-secondary:hover {
+  background-color: #5a6268;
+  transform: translateY(-1px);
+}
+
+.table {
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.table thead {
+  background-color: #f8f9fa;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.table tbody tr:nth-child(odd) {
+  background-color: #f9f9f9;
+}
+
+.table tbody tr:nth-child(even) {
+  background-color: #ffffff;
+}
+
+.table tbody tr:hover {
+  background-color: #eef6ff;
+  transition: background-color 0.3s ease;
+}
+
+.table td,
+.table th {
+  vertical-align: middle;
+  text-align: center;
+  padding: 12px;
+}
+.btn-outline-primary,
+.btn-outline-danger {
+  border-radius: 6px;
+  font-size: 0.9rem;
+  padding: 6px 10px;
+  transition: all 0.2s ease-in-out;
+}
+
+.btn-outline-primary:hover {
+  background-color: #0d6efd;
+  color: #fff;
+}
+
+.btn-outline-danger:hover {
+  background-color: #dc3545;
+  color: #fff;
+}
+.bi {
+  transition: transform 0.2s ease;
+}
+.btn:hover .bi {
+  transform: scale(1.2);
+}
+/* Assure que le tableau s'étire à 100% */
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+}
+
+/* Force le tableau à s’adapter sans overflow */
+.table {
+  width: 100% !important;
+  table-layout: auto;
+  min-width: 100%;
+  border-collapse: collapse;
+}
+
+/* Container plein écran */
+.formations-container {
+  padding: 2rem;
+  max-width: 100%;
+}
+
+/* Empêche les colonnes actions d’être trop larges */
+.table td.actions-cell,
+.table th.actions-cell {
+  white-space: nowrap;
+  width: 1%;
+}
+
+/* Empêche les colonnes email / titre d’élargir trop */
+.table td.email-cell,
+.table td.number-cell {
+  word-break: break-word;
+  max-width: 200px;
+}
+
+/* Centrage du titre */
+.page-title {
+  text-align: center;
+  font-weight: 700;
+  font-size: 1.8rem;
+  color: #0d6efd;
+}
+@media (max-width: 768px) {
+  .row.mb-3.align-items-center > .col-md-4,
+  .row.mb-3.align-items-center > .col-md-8 {
+    margin-top: 10px;
+  }
+}

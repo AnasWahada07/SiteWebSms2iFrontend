@@ -1,0 +1,94 @@
+<div class="container mt-5">
+
+  <div class="contact-management-container">
+      <div class="row mb-3">
+  <div class="col-md-8">
+    <input
+      type="text"
+      class="form-control shadow-sm"
+      placeholder="🔍 Rechercher par nom, email ou sujet"
+      [(ngModel)]="searchQuery"
+      (ngModelChange)="applyContactFilter()" />
+  </div>
+  <div class="col-md-4 text-end">
+    <button class="btn btn-outline-secondary btn-sm shadow-sm" (click)="resetContactFilter()">
+      <i class="fas fa-times-circle me-1"></i> Réinitialiser Recherche
+    </button>
+  </div>
+
+<div class="d-flex justify-content-end mb-3">
+  <button class="btn btn-outline-primary btn-sm shadow-sm" (click)="goToDashboard()">
+    <i class="bi bi-arrow-left me-1"></i> Retour au Dashboard
+  </button>
+</div>
+
+</div>
+
+
+    <!-- En-tête -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <h2 class="page-title text-dark fw-bold">
+        <i class="fas fa-address-book me-2 text-primary"></i>Gestion des Contacts
+      </h2>
+      <div class="contact-count-badge">
+        <span class="badge bg-gradient bg-primary px-3 py-2 fs-6">
+          {{ contacts.length }} contacts
+        </span>
+      </div>
+    </div>
+
+    <!-- Tableau -->
+    <div class="card shadow border-0">
+      <div class="card-body p-0">
+        <div class="table-responsive">
+          <table class="table table-hover align-middle mb-0">
+            <thead class="table-primary text-dark fw-semibold">
+              <tr>
+                <th class="ps-4">Nom</th>
+                <th>Email</th>
+                <th>Sujet</th>
+                <th>Message</th>
+                <th class="text-end pe-4">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let contact of contacts" class="contact-row border-bottom">
+                <td class="ps-4 fw-semibold text-capitalize">{{ contact.name }}</td>
+                <td>
+                  <a href="mailto:{{ contact.email }}" class="text-decoration-none text-dark">
+                    <i class="fas fa-envelope me-1 text-muted"></i>{{ contact.email }}
+                  </a>
+                </td>
+                <td>
+<span class="badge-subject">{{ contact.subject }}</span>
+                </td>
+                <td>
+                  <p class="contact-message mb-0" [title]="contact.message">{{ contact.message }}</p>
+
+                </td>
+                <td class="text-end pe-4">
+                  <button class="btn btn-sm btn-outline-danger" (click)="deleteContact(contact)">
+                    <i class="fas fa-trash-alt me-1"></i> Supprimer
+                  </button>
+                </td>
+              </tr>
+              <tr *ngIf="contacts.length === 0">
+                <td colspan="5" class="text-center py-4 text-muted">Aucun contact disponible.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<footer class="text-center py-3 bg-light border-top mt-4">
+  <div class="small text-muted">
+    &copy; {{ currentYear || '2025' }} <strong class="text-dark">SMS2I</strong> — Tous droits réservés.
+  </div>
+  <div class="small">
+    Conçu <i class="bi bi-heart-fill text-danger mx-1"></i> par l’équipe <span class="text-primary fw-semibold">SMS2I</span>
+  </div>
+</footer>

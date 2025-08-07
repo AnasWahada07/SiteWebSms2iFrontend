@@ -1,0 +1,129 @@
+<div class="container mt-5">
+  <h2 class="text-center mb-4">Gestion des Maquettes</h2>
+
+  <div class="d-flex justify-content-end mb-4">
+  <button class="btn btn-outline-primary btn-sm shadow-sm" (click)="goToDashboard()">
+    <i class="bi bi-arrow-left me-1"></i> Retour au Dashboard
+  </button>
+</div>
+
+
+<div class="d-flex justify-content-center gap-4 mt-4 flex-wrap">
+  <button class="btn btn-outline-primary px-5 py-3 fs-5 fw-semibold shadow-sm"
+          style="min-width: 280px;"
+          data-bs-toggle="modal"
+          data-bs-target="#propositionModal">
+    📐 Voir Les Propositions Maquettes
+  </button>
+
+  <button class="btn btn-outline-success px-5 py-3 fs-5 fw-semibold shadow-sm"
+          style="min-width: 280px;"
+          data-bs-toggle="modal"
+          data-bs-target="#demandeModal">
+    ✉️ Voir Les Demandes Maquettes
+  </button>
+</div>
+
+  <!-- ==================== MODAL : Propositions ==================== -->
+  <div class="modal fade" id="propositionModal" tabindex="-1" aria-labelledby="propositionLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header bg-primary text-white">
+          <h5 class="modal-title" id="propositionLabel">Liste des Propositions de Maquette</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <table *ngIf="maquettes && maquettes.length > 0" class="table table-striped table-hover">
+            <thead class="table-light">
+              <tr>
+                <th>Nom Complet</th>
+                <th>Email</th>
+                <th>Téléphone</th>
+                <th>Description</th>
+                <th>Fichier</th>
+                <th>Date soumission</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let m of maquettes">
+                <td>{{ m.prenom }} {{ m.nom }}</td>
+                <td>{{ m.email }}</td>
+                <td>{{ m.telephone }}</td>
+                <td>{{ m.description }}</td>
+                <td>
+                  <a *ngIf="m.fichierUrl" [href]="m.fichierUrl" class="btn btn-sm btn-outline-primary" download>
+                    Télécharger
+                  </a>
+                </td>
+                <td>{{ m.dateSoumission | date:'EEEE d MMMM y' }}</td>
+                <td>
+<button class="btn btn-sm btn-danger" (click)="supprimerProposition(m.id)">🗑 Supprimer</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <div *ngIf="maquettes && maquettes.length === 0" class="alert alert-info text-center">
+            Aucune proposition disponible.
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== MODAL : Demandes ==================== -->
+  <div class="modal fade" id="demandeModal" tabindex="-1" aria-labelledby="demandeLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header bg-success text-white">
+          <h5 class="modal-title" id="demandeLabel">Liste des Demandes de Maquette</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <table *ngIf="demandes && demandes.length > 0" class="table table-striped table-hover">
+            <thead class="table-light">
+              <tr>
+                <th>Nom</th>
+                <th>Email</th>
+                <th>Description</th>
+                <th>Date souhaitée Pour réception maquette</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let d of demandes">
+                <td>{{ d.nomComplet }}</td>
+                <td>{{ d.email }}</td>
+                <td>{{ d.descriptionBesoin }}</td>
+                <td>{{ d.dateSouhaitee | date:'EEEE d MMMM y' }}</td>
+                <td>
+                  <button class="btn btn-sm btn-danger" (click)="supprimerDemande(d.id)">🗑 Supprimer</button>
+
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <div *ngIf="demandes && demandes.length === 0" class="alert alert-info text-center">
+            Aucune demande disponible.
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<footer class="text-center py-3 bg-light border-top mt-4">
+  <div class="small text-muted">
+    &copy; {{ currentYear || '2025' }} <strong class="text-dark">SMS2I</strong> — Tous droits réservés.
+  </div>
+  <div class="small">
+    Conçu <i class="bi bi-heart-fill text-danger mx-1"></i> par l’équipe <span class="text-primary fw-semibold">SMS2I</span>
+  </div>
+</footer>

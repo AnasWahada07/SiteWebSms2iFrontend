@@ -1,0 +1,131 @@
+/* Container principal */
+.contact-management-container {
+  max-width: 5000px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f8f9fa;
+  border-radius: 10px;
+}
+
+/* Titre de la page */
+.page-title {
+  color: #2c3e50;
+  font-weight: 700;
+  font-size: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Badge de nombre de contacts */
+.contact-count-badge .badge {
+  font-size: 1rem;
+  padding: 8px 12px;
+  border-radius: 20px;
+  background: linear-gradient(135deg, #0d6efd, #4c8bfd);
+}
+
+/* Table responsive avec coins arrondis */
+.table-responsive {
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+/* Ligne de tableau survolée */
+.table-hover tbody tr:hover {
+  background-color: rgba(13, 110, 253, 0.07);
+  cursor: pointer;
+}
+
+/* Ligne individuelle avec effet */
+.contact-row:hover {
+  transition: background-color 0.2s ease;
+}
+
+/* Cellule message : troncature sur 2 lignes */
+.contact-message {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 300px;
+}
+
+/* Badge pour sujet */
+.badge-subject {
+  background-color: #e9ecef;
+  color: #495057;
+  font-size: 0.85rem;
+  padding: 5px 10px;
+  border-radius: 12px;
+  border: 1px solid #ced4da;
+}
+
+/* Effet d’apparition du formulaire (si conservé) */
+.edit-form-container {
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Boutons stylisés */
+.btn-outline-primary {
+  border-color: #0d6efd;
+  color: #0d6efd;
+}
+
+.btn-outline-primary:hover {
+  background-color: #0d6efd;
+  color: white;
+}
+
+.btn-outline-danger {
+  border-color: #dc3545;
+  color: #dc3545;
+}
+
+.btn-outline-danger:hover {
+  background-color: #dc3545;
+  color: white;
+}
+
+/* Carte globale */
+.card {
+  border: none;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+/* Header de carte */
+.card-header {
+  border-radius: 12px 12px 0 0 !important;
+  background-color: #f1f3f5;
+}
+
+/* Champs de formulaire (si conservés) */
+.form-control {
+  border-radius: 8px;
+  padding: 10px 15px;
+  border: 1px solid #dee2e6;
+}
+
+.form-control:focus {
+  border-color: #86b7fe;
+  box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+}
+
+/* Classe utilitaire de troncature simple */
+.truncate {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

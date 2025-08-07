@@ -1,0 +1,342 @@
+<div class="admin-dashboard">
+
+
+  <!-- Header -->
+  <header class="dashboard-header">
+
+
+<div class="header-left">
+<button class="btn btn-outline-primary d-md-none" type="button" aria-label="Ouvrir le menu" (click)="toggleSidebar()">
+  <i class="bi bi-list" style="font-size: 1.5rem;"></i>
+    <span class="bar"></span>
+    <span class="bar"></span>
+    <span class="bar"></span>
+  </button>
+  <h1>SMS2I</h1>
+</div>
+    <div class="header-right">
+<div class="notif-icon" style="position: relative;" (click)="showDropdown = !showDropdown">
+<span class="badge" *ngIf="unseenCount > 0">{{ unseenCount }}</span>
+  <svg viewBox="0 0 24 24" style="cursor: pointer;">
+    <path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5S10.5 3.17 10.5 4v.68C7.64 5.36 6 7.93 6 11v5l-2 2v1h16v-1l-2-2z"/>
+  </svg>
+
+  <!-- Menu déroulant -->
+  <div *ngIf="showDropdown" class="notif-dropdown">
+    <div *ngIf="notifications.length > 0; else noNotif">
+      <div *ngFor="let notif of notifications" (click)="markNotificationAsSeen(notif)" class="notif-item">
+        <span class="notif-message">{{ notif.message }}</span>
+        <span class="notif-date">{{ notif.createdAt | date:'short' }}</span>
+      </div>
+    </div>
+    <ng-template #noNotif>
+      <div class="notif-item">Aucune nouvelle notification</div>
+    </ng-template>
+  </div>
+</div>
+      <div class="user-profile">
+<div class="admin-info">
+  <svg class="admin-icon" width="20" height="20" viewBox="0 0 24 24">
+    <path fill="currentColor"
+      d="M12,4A4,4 0 1,1 8,8A4,4 0 0,1 12,4M12,14C15.87,14 20,15.79 20,18V20H4V18C4,15.79 8.13,14 12,14Z" />
+  </svg>
+  <span class="username">{{ adminName }}</span>
+</div>
+        <button (click)="logout()" class="logout-btn" title="Déconnexion">
+          <svg viewBox="0 0 24 24" width="20" height="20">
+            <path d="M16 13v-2H7V8l-5 4 5 4v-3h9zm3-10H5c-1.1 0-2 .9-2 2v4h2V5h14v14H5v-4H3v4c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Sidebar -->
+<aside class="dashboard-sidebar" [class.active]="isSidebarOpen">
+    <nav>
+      <ul>
+<li class="active">
+  <a href="Admin" style="display: flex; align-items: center; padding: 10px 15px;" >
+    <img src="assets/sms.jpg" alt="SMS2I Logo" width="32" height="32" style="margin-right: 12px; border-radius: 6px;" />
+    <span style="font-weight: 600; font-size: 1.1rem; color: #2c3e50;">SMS2I</span>
+  </a>
+</li>
+
+        <li>
+          <a href="/gestionuser"  (click)="toggleSidebar()">
+            <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+            <span>Utilisateurs</span>
+          </a>
+        </li>
+        <li>
+          <a href="/viewprojet" (click)="toggleSidebar()">
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-diagram-3-fill" viewBox="0 0 16 16">
+  <path fill-rule="evenodd" d="M6 3.5A1.5 1.5 0 0 1 7.5 2h1A1.5 1.5 0 0 1 10 3.5v1A1.5 1.5 0 0 1 8.5 6v1H14a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-1 0V8h-5v.5a.5.5 0 0 1-1 0V8h-5v.5a.5.5 0 0 1-1 0v-1A.5.5 0 0 1 2 7h5.5V6A1.5 1.5 0 0 1 6 4.5zm-6 8A1.5 1.5 0 0 1 1.5 10h1A1.5 1.5 0 0 1 4 11.5v1A1.5 1.5 0 0 1 2.5 14h-1A1.5 1.5 0 0 1 0 12.5zm6 0A1.5 1.5 0 0 1 7.5 10h1a1.5 1.5 0 0 1 1.5 1.5v1A1.5 1.5 0 0 1 8.5 14h-1A1.5 1.5 0 0 1 6 12.5zm6 0a1.5 1.5 0 0 1 1.5-1.5h1a1.5 1.5 0 0 1 1.5 1.5v1a1.5 1.5 0 0 1-1.5 1.5h-1a1.5 1.5 0 0 1-1.5-1.5z"/>
+</svg>   <span>Gestion des Projets</span>
+          </a>
+        </li>
+        <li>
+          <a href="viewgalerie" (click)="toggleSidebar()">
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-images" viewBox="0 0 16 16">
+  <path d="M4.502 9a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3"/>
+  <path d="M14.002 13a2 2 0 0 1-2 2h-10a2 2 0 0 1-2-2V5A2 2 0 0 1 2 3a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v8a2 2 0 0 1-1.998 2M14 2H4a1 1 0 0 0-1 1h9.002a2 2 0 0 1 2 2v7A1 1 0 0 0 15 11V3a1 1 0 0 0-1-1M2.002 4a1 1 0 0 0-1 1v8l2.646-2.354a.5.5 0 0 1 .63-.062l2.66 1.773 3.71-3.71a.5.5 0 0 1 .577-.094l1.777 1.947V5a1 1 0 0 0-1-1z"/>
+</svg>            <span>Gestion Galerie</span>
+          </a>
+        </li>
+        <li>
+          <a href="viewformation" (click)="toggleSidebar()">
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-mortarboard-fill" viewBox="0 0 16 16">
+  <path d="M8.211 2.047a.5.5 0 0 0-.422 0l-7.5 3.5a.5.5 0 0 0 .025.917l7.5 3a.5.5 0 0 0 .372 0L14 7.14V13a1 1 0 0 0-1 1v2h3v-2a1 1 0 0 0-1-1V6.739l.686-.275a.5.5 0 0 0 .025-.917z"/>
+  <path d="M4.176 9.032a.5.5 0 0 0-.656.327l-.5 1.7a.5.5 0 0 0 .294.605l4.5 1.8a.5.5 0 0 0 .372 0l4.5-1.8a.5.5 0 0 0 .294-.605l-.5-1.7a.5.5 0 0 0-.656-.327L8 10.466z"/>
+</svg>            <span>Les Demandes PFE</span>
+          </a>
+        </li>
+        <li>
+          <a href="viewinscription" (click)="toggleSidebar()">
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-patch-check-fill" viewBox="0 0 16 16">
+  <path d="M10.067.87a2.89 2.89 0 0 0-4.134 0l-.622.638-.89-.011a2.89 2.89 0 0 0-2.924 2.924l.01.89-.636.622a2.89 2.89 0 0 0 0 4.134l.637.622-.011.89a2.89 2.89 0 0 0 2.924 2.924l.89-.01.622.636a2.89 2.89 0 0 0 4.134 0l.622-.637.89.011a2.89 2.89 0 0 0 2.924-2.924l-.01-.89.636-.622a2.89 2.89 0 0 0 0-4.134l-.637-.622.011-.89a2.89 2.89 0 0 0-2.924-2.924l-.89.01zm.287 5.984-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7 8.793l2.646-2.647a.5.5 0 0 1 .708.708"/>
+</svg>            <span>Les Inscriptions PFE</span>
+          </a>
+        </li>
+                <li>
+          <a href="contact" (click)="toggleSidebar()" >
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-menu-up" viewBox="0 0 16 16">
+  <path d="M7.646 15.854a.5.5 0 0 0 .708 0L10.207 14H14a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2H2a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h3.793zM1 9V6h14v3zm14 1v2a1 1 0 0 1-1 1h-3.793a1 1 0 0 0-.707.293l-1.5 1.5-1.5-1.5A1 1 0 0 0 5.793 13H2a1 1 0 0 1-1-1v-2zm0-5H1V3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1zM2 11.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 0-1h-8a.5.5 0 0 0-.5.5m0-4a.5.5 0 0 0 .5.5h11a.5.5 0 0 0 0-1h-11a.5.5 0 0 0-.5.5m0-4a.5.5 0 0 0 .5.5h6a.5.5 0 0 0 0-1h-6a.5.5 0 0 0-.5.5"/>
+</svg> <span>Gestion des Contacts</span>
+          </a>
+        </li>
+
+                        <li>
+          <a href="maquettes" (click)="toggleSidebar()" >
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cpu-fill" viewBox="0 0 16 16">
+  <path d="M6.5 6a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5z"/>
+  <path d="M5.5.5a.5.5 0 0 0-1 0V2A2.5 2.5 0 0 0 2 4.5H.5a.5.5 0 0 0 0 1H2v1H.5a.5.5 0 0 0 0 1H2v1H.5a.5.5 0 0 0 0 1H2v1H.5a.5.5 0 0 0 0 1H2A2.5 2.5 0 0 0 4.5 14v1.5a.5.5 0 0 0 1 0V14h1v1.5a.5.5 0 0 0 1 0V14h1v1.5a.5.5 0 0 0 1 0V14h1v1.5a.5.5 0 0 0 1 0V14a2.5 2.5 0 0 0 2.5-2.5h1.5a.5.5 0 0 0 0-1H14v-1h1.5a.5.5 0 0 0 0-1H14v-1h1.5a.5.5 0 0 0 0-1H14v-1h1.5a.5.5 0 0 0 0-1H14A2.5 2.5 0 0 0 11.5 2V.5a.5.5 0 0 0-1 0V2h-1V.5a.5.5 0 0 0-1 0V2h-1V.5a.5.5 0 0 0-1 0V2h-1zm1 4.5h3A1.5 1.5 0 0 1 11 6.5v3A1.5 1.5 0 0 1 9.5 11h-3A1.5 1.5 0 0 1 5 9.5v-3A1.5 1.5 0 0 1 6.5 5"/>
+</svg> <span>Gestion des Maquettes</span>
+
+
+
+          </a>
+        </li>
+
+                        <li>
+          <a href="viewdemandeformation" (click)="toggleSidebar()">
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bank" viewBox="0 0 16 16">
+  <path d="m8 0 6.61 3h.89a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.5.5H15v7a.5.5 0 0 1 .485.38l.5 2a.498.498 0 0 1-.485.62H.5a.498.498 0 0 1-.485-.62l.5-2A.5.5 0 0 1 1 13V6H.5a.5.5 0 0 1-.5-.5v-2A.5.5 0 0 1 .5 3h.89zM3.777 3h8.447L8 1zM2 6v7h1V6zm2 0v7h2.5V6zm3.5 0v7h1V6zm2 0v7H12V6zM13 6v7h1V6zm2-1V4H1v1zm-.39 9H1.39l-.25 1h13.72z"/>
+</svg><span>Liste Des Formations</span>
+
+          </a>
+        </li>
+
+                                <li>
+          <a href="viewformationinscrit" (click)="toggleSidebar()" >
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-clipboard-check-fill" viewBox="0 0 16 16">
+  <path d="M6.5 0A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0zm3 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5z"/>
+  <path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1A2.5 2.5 0 0 1 9.5 5h-3A2.5 2.5 0 0 1 4 2.5zm6.854 7.354-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 0 1 .708-.708L7.5 10.793l2.646-2.647a.5.5 0 0 1 .708.708"/>
+</svg><span>Les Inscriptions Formations</span>
+
+
+
+          </a>
+        </li>
+
+
+      </ul>
+    </nav>
+  </aside>
+
+<div  *ngIf="isSidebarOpen" (click)="toggleSidebar()"></div>
+
+
+  <!-- Main Content -->
+  <main class="dashboard-main">
+    <!-- Welcome Section -->
+<div class="welcome-section">
+  <div class="welcome-card">
+    <div class="welcome-content">
+      <h2>Bonjour, {{ adminName }}! <span class="welcome-emoji">👋</span></h2>
+      <p class="welcome-message">
+        Nous sommes ravis de vous revoir. Votre journée commence sous les meilleurs auspices !
+      </p>
+<div class="d-inline-block bg-light rounded shadow-sm p-3">
+  <p class="mb-1 text-muted">
+    <i class="bi bi-calendar-day-fill calendar-icon text-primary me-1"></i>
+    Aujourd'hui, nous sommes le <strong>{{ currentDate | date:'fullDate' }}</strong>
+  </p>
+  <p class="mb-0 text-muted">
+    <i class="bi bi-moon-stars-fill text-primary me-1"></i>
+    Hejri : 
+    <strong class="text-dark">
+      🕋 {{ hijriDateFormatted }}
+    </strong>
+  </p>
+</div>
+
+    </div>
+
+<div [ngClass]="{'red-blink border-danger': isTimeOver}" class="d-flex flex-column flex-md-row gap-3 align-items-center bg-white shadow-sm p-4 rounded-4 mb-4 border-start border-5 border-primary">
+  <div class="d-flex align-items-center gap-3">
+    <i [ngClass]="isTimeOver ? 'text-danger' : 'text-primary'" class="bi bi-clock-fill fs-1"></i>
+    <div>
+      <div class="text-muted fw-semibold">Heure actuelle en Tunisie</div>
+      <div [ngClass]="isTimeOver ? 'text-danger' : 'text-primary'" class="fw-bold fs-2">
+        {{ isTimeOver ? 'Temps terminé, au revoir à demain' : currentTime }}
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+    <!-- Quick Stats -->
+    <div class="quick-stats">
+      <div class="stat-card motivation-card">
+        <div class="stat-icon">
+          <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+        </div>
+        <div class="stat-content">
+          <h3>Votre impact aujourd'hui</h3>
+          <p>Vos actions quotidiennes contribuent à bâtir un service plus Fiable et plus Humain</p>
+        </div>
+      </div>
+
+<div class="stat-card weather-card">
+  <div class="stat-icon">
+    <ng-container *ngIf="weatherIconUrl; else fallbackIcon">
+      <img [src]="weatherIconUrl" alt="Icône météo" class="weather-icon" />
+    </ng-container>
+    <ng-template #fallbackIcon>
+      <svg viewBox="0 0 24 24" class="weather-icon" fill="#4e73df">
+        <path
+          d="M6 14l3 3v5h6v-5l3-3V9H6v5zm2-3h8v2.17l-3 3V20h-2v-3.83l-3-3V11zm3-9h2v3h-2zM3.502 5.874L4.916 4.46l2.122 2.12-1.414 1.415zm13.458.708l2.123-2.12 1.413 1.416-2.123 2.12z"
+        />
+      </svg>
+    </ng-template>
+  </div>
+  <div class="stat-content">
+    <h3 class="weather-title">🌤 Météo du jour</h3>
+    <p class="weather-desc">{{ weatherText }}</p>
+  </div>
+</div>
+    </div>
+
+    <!-- Personalized Content -->
+    <div class="personalized-content">
+      <div class="content-card quote-card">
+        <div class="card-header">
+          <h3>Citation inspirante</h3>
+        </div>
+<div class="card-body text-center p-4">
+  <blockquote class="blockquote mb-0">
+    <p class="fs-5 fst-italic text-dark">
+      "إِنَّ اللَّهَ يُحِبُّ إِذَا عَمِلَ أَحَدُكُمْ عَمَلًا أَنْ يُتْقِنَهُ"
+    </p>
+<footer class="blockquote-footer mt-3 text-muted fst-italic">
+   حديث نبوي شريف 
+</footer>
+  </blockquote>
+</div>      </div>
+
+      <div class="content-card tips-card">
+        <div class="card-header">
+          <h3>Conseil du jour</h3>
+        </div>
+        <div class="card-body">
+          <p>Prenez 5 minutes pour planifier votre journée - cela peut vous faire gagner des heures de travail.</p>
+          <div class="tip-actions">
+          </div>
+        </div>
+      </div>
+    </div>
+
+<!-- Notifications -->
+<div class="recent-activity mt-4">
+  <div class="card shadow-sm border-0">
+    <div class="card-header bg-white border-bottom d-flex justify-content-between align-items-center">
+      <h4 class="mb-0 fw-bold text-primary">
+        <i class="bi bi-bell-fill me-2 text-warning"></i> Les Notifications
+      </h4>
+    </div>
+
+    <div class="card-body">
+      <div *ngIf="allNotifications.length > 0; else noActivity">
+<div class="row align-items-center mb-4 g-2">
+  <div class="col-md-8">
+    <div class="position-relative">
+      <input
+        type="text"
+        class="form-control search-input ps-5"
+        placeholder=" Rechercher par type de notification"
+        [(ngModel)]="searchNotifType"
+        (ngModelChange)="filterNotifications()" />
+      <i class="bi bi-search position-absolute search-icon"></i>
+    </div>
+  </div>
+  <div class="col-md-4 text-md-end text-center">
+    <button class="btn btn-outline-danger btn-sm px-4 shadow-sm" (click)="resetNotifFilter()">
+      <i class="bi bi-x-circle me-1"></i> Réinitialiser Recherche
+    </button>
+  </div>
+</div>
+
+        <div
+          class="activity-item d-flex align-items-start justify-content-between py-3 border-bottom"
+          *ngFor="let notif of allNotifications"
+          [ngClass]="{ 'unseen': !notif.seen }"
+        >
+          <!-- Avatar + contenu -->
+          <div class="d-flex align-items-start">
+            <div
+              class="activity-avatar rounded-circle me-3 d-flex justify-content-center align-items-center"
+              [ngStyle]="{
+                backgroundColor: notif.seen ? '#dee2e6' : '#4e73df',
+                color: notif.seen ? '#495057' : '#fff'
+              }"
+              style="width: 40px; height: 40px; font-size: 18px;"
+            >
+              <i class="bi bi-bell-fill"></i>
+            </div>
+
+            <div class="activity-content">
+              <div class="activity-meta mb-1">
+                <span class="fw-bold text-dark">{{ notif.type | titlecase }}</span>
+                <span class="text-muted ms-2 small">{{ notif.createdAt | date: 'short' }}</span>
+                <i
+                  *ngIf="notif.seen"
+                  class="bi bi-check-circle-fill ms-2"
+                  style="color: #63E6BE;"
+                  title="Déjà vue"
+                ></i>
+              </div>
+              <p
+                class="mb-0"
+                [ngClass]="{ 'fw-bold': !notif.seen, 'text-muted': notif.seen }"
+              >
+                {{ notif.message }}
+              </p>
+            </div>
+          </div>
+
+          <!-- Bouton de suppression -->
+          <button class="btn-delete-notif" (click)="deleteNotification(notif)" title="Supprimer">
+            <i class="bi bi-trash-fill text-danger"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Aucun résultat -->
+      <ng-template #noActivity>
+        <p class="text-muted text-center py-4">
+          Aucune Notification pour le moment.
+        </p>
+      </ng-template>
+    </div>
+  </div>
+</div>
+
+<footer class="text-center py-3 bg-light border-top mt-4">
+  <div class="small text-muted">
+    &copy; {{ currentYear || '2025' }} <strong class="text-dark">SMS2I</strong> — Tous droits réservés.
+  </div>
+  <div class="small">
+    Conçu <i class="bi bi-heart-fill text-danger mx-1"></i> par l’équipe <span class="text-primary fw-semibold">SMS2I</span>
+  </div>
+</footer>
+

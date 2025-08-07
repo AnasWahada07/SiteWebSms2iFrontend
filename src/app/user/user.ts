@@ -1,19 +1,22 @@
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { 
-  faSyncAlt, 
-  faEdit, 
-  faTrashAlt, 
-  faTimes, 
+import {
+  faSyncAlt,
+  faEdit,
+  faTrashAlt,
+  faTimes,
   faSave,
   faUsersCog,
   faUserSlash,
   faCheckCircle,
   faExclamationCircle
 } from '@fortawesome/free-solid-svg-icons';
+import { Subject, takeUntil } from 'rxjs';
+import Swal from 'sweetalert2';
 
 interface UserModel {
   id: number;
@@ -35,14 +38,13 @@ interface UserModel {
   templateUrl: './user.html',
   styleUrls: ['./user.css']
 })
-export class User implements OnInit {
+export class User implements OnInit, OnDestroy {
   users: UserModel[] = [];
-  errorMessage = '';
-  successMessage = '';
   selectedUser: UserModel | null = null;
   isLoading = false;
+  currentYear: number = new Date().getFullYear();
+  private destroy$ = new Subject<void>();
 
-  // Font Awesome icons
   icons = {
     refresh: faSyncAlt,
     edit: faEdit,
@@ -55,49 +57,81 @@ export class User implements OnInit {
     error: faExclamationCircle
   };
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private cdRef: ChangeDetectorRef,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.loadUsers();
   }
 
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
   loadUsers(): void {
     this.isLoading = true;
-    this.http.get<UserModel[]>('http://localhost:8080/api/users/getalluser')
+    this.http.get<UserModel[]>('https://192.168.1.54:3350/api/users/getalluser')
+      .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (users) => {
           this.users = users;
           this.isLoading = false;
+          this.cdRef.detectChanges(); // Force update
         },
         error: (err) => {
-          this.errorMessage = 'Échec du chargement des utilisateurs';
-          console.error('❌ Erreur de chargement:', err);
           this.isLoading = false;
-          setTimeout(() => this.errorMessage = '', 3000);
+          Swal.fire('Erreur', 'Échec du chargement des utilisateurs', 'error');
+          console.error('❌ Erreur de chargement:', err);
         }
       });
   }
 
   deleteUser(id: number): void {
-    const confirmDelete = confirm('Êtes-vous sûr de vouloir supprimer cet utilisateur ?');
-    if (!confirmDelete) return;
+    Swal.fire({
+      title: 'Confirmer la suppression ?',
+      text: 'Cet utilisateur sera supprimé définitivement.',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Oui, supprimer',
+      cancelButtonText: 'Annuler'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.isLoading = true;
 
-    this.isLoading = true;
-    this.http.delete(`http://localhost:8080/api/users/${id}`)
-      .subscribe({
-        next: () => {
-          this.users = this.users.filter(user => user.id !== id);
-          this.successMessage = 'Utilisateur supprimé avec succès !';
-          this.isLoading = false;
-          setTimeout(() => this.successMessage = '', 3000);
-        },
-        error: (err) => {
-          this.errorMessage = 'Échec de la suppression de l\'utilisateur';
-          console.error('❌ Erreur lors de la suppression :', err);
-          this.isLoading = false;
-          setTimeout(() => this.errorMessage = '', 3000);
-        }
-      });
+        this.http.delete(`https://192.168.1.54:3350/api/users/${id}`, { responseType: 'text' })
+          .pipe(takeUntil(this.destroy$))
+          .subscribe({
+            next: (message: string) => {
+              this.users = this.users.filter(user => user.id !== id);
+              this.cdRef.detectChanges(); // ✅ Mise à jour immédiate
+              this.isLoading = false;
+              this.selectedUser = null;
+
+              Swal.fire({
+                icon: 'success',
+                title: '✅ Supprimé',
+                text: message || 'Utilisateur supprimé avec succès.',
+                timer: 1500,
+                showConfirmButton: false
+              });
+            },
+            error: (error) => {
+              this.isLoading = false;
+              console.error('Erreur de suppression :', error);
+
+              Swal.fire({
+                icon: 'error',
+                title: '❌ Erreur',
+                text: 'Échec de la suppression de l\'utilisateur.',
+              });
+            }
+          });
+      }
+    });
   }
 
   updateUser(user: UserModel): void {
@@ -108,23 +142,22 @@ export class User implements OnInit {
     if (!updatedUser) return;
 
     this.isLoading = true;
-    this.http.put(`http://localhost:8080/api/users/${updatedUser.id}`, updatedUser)
+    this.http.put(`https://192.168.1.54:3350/api/users/${updatedUser.id}`, updatedUser)
+      .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: () => {
           const index = this.users.findIndex(u => u.id === updatedUser.id);
           if (index !== -1) {
             this.users[index] = { ...updatedUser };
           }
-          this.successMessage = 'Utilisateur mis à jour avec succès !';
           this.selectedUser = null;
           this.isLoading = false;
-          setTimeout(() => this.successMessage = '', 3000);
+          Swal.fire('✅ Mise à jour', 'Utilisateur mis à jour avec succès.', 'success');
         },
         error: (err) => {
-          this.errorMessage = 'Échec de la mise à jour de l\'utilisateur';
-          console.error('❌ Erreur backend :', err);
           this.isLoading = false;
-          setTimeout(() => this.errorMessage = '', 3000);
+          Swal.fire('Erreur', 'Échec de la mise à jour de l\'utilisateur.', 'error');
+          console.error('❌ Erreur backend :', err);
         }
       });
   }
@@ -133,9 +166,12 @@ export class User implements OnInit {
     this.selectedUser = null;
   }
 
+  goToDashboard(): void {
+    this.router.navigate(['/Admin']);
+  }
+
   refreshUsers(): void {
     this.loadUsers();
-    this.successMessage = 'Liste actualisée avec succès';
-    setTimeout(() => this.successMessage = '', 2000);
+    Swal.fire('Actualisé', 'Liste actualisée avec succès.', 'success');
   }
 }

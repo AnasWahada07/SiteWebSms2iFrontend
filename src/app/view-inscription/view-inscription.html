@@ -1,4 +1,30 @@
 <div class="inscription-dashboard">
+
+
+  <div class="row mb-4">
+  <div class="col-md-8">
+    <input
+      type="text"
+      class="form-control shadow-sm"
+      placeholder="🔍 Rechercher par nom, prénom, classe ou sujet"
+      [(ngModel)]="searchQuery"
+      (ngModelChange)="applyFilter()" />
+  </div>
+  <div class="col-md-4 text-end">
+    <button class="btn btn-outline-secondary btn-sm shadow-sm" (click)="resetFilter()">
+      <i class="fas fa-times-circle me-1"></i> Réinitialiser
+    </button>
+  </div>
+
+<div class="d-flex justify-content-end mb-3">
+  <button class="btn btn-outline-primary btn-sm shadow-sm" (click)="goToDashboard()">
+    <i class="bi bi-arrow-left me-1"></i> Retour au Dashboard
+  </button>
+</div>
+
+
+</div>
+
   <h2 class="dashboard-title">
     <i class="fas fa-user-graduate"></i> Gestion des Inscriptions
   </h2>
@@ -67,16 +93,25 @@
             <td class="column-class">{{ i.classe }}</td>
             <td class="column-specialty">{{ i.specialite }}</td>
             <td class="column-subject">{{ i.sujetTitre }}</td>
-            <td class="column-status">
-              <span class="status-tag" 
-                    [class.is-pending]="i.etat === 'CONTACTEZ_ADMINISTRATION_DE_SMS2I_POUR_EFFECTUER_LE_PAIEMENT'" 
-                    [class.is-confirmed]="i.etat === 'PAIEMENT_CONFIRMÉ_AVEC_SUCCÈS'">
-                <i class="status-icon" [class.fa-clock]="i.etat === 'CONTACTEZ_ADMINISTRATION_DE_SMS2I_POUR_EFFECTUER_LE_PAIEMENT'"
-                              [class.fa-check-circle]="i.etat === 'PAIEMENT_CONFIRMÉ_AVEC_SUCCÈS'"></i>
-                {{ i.etat === 'CONTACTEZ_ADMINISTRATION_DE_SMS2I_POUR_EFFECTUER_LE_PAIEMENT' ? 'En attente de Paiement' : 'Paiement Confirme ' }}
-              </span>
-            </td>
-            <td class="column-actions">
+<td class="column-status">
+  <span class="status-tag"
+        [ngClass]="{
+          'is-pending': i.etat === 'CONTACTEZ_ADMINISTRATION_DE_SMS2I_POUR_EFFECTUER_LE_PAIEMENT',
+          'is-confirmed': i.etat === 'PAIEMENT_CONFIRMÉ_AVEC_SUCCÈS'
+        }">
+
+    <i class="status-icon me-1"
+       [ngClass]="{
+         'bi-clock-fill': i.etat === 'CONTACTEZ_ADMINISTRATION_DE_SMS2I_POUR_EFFECTUER_LE_PAIEMENT',
+         'fas fa-check-circle text-success': i.etat === 'PAIEMENT_CONFIRMÉ_AVEC_SUCCÈS'
+       }">
+    </i>
+
+    {{ i.etat === 'CONTACTEZ_ADMINISTRATION_DE_SMS2I_POUR_EFFECTUER_LE_PAIEMENT'
+        ? 'En attente de paiement'
+        : 'Paiement confirmé' }}
+  </span>
+</td>            <td class="column-actions">
               <div class="action-group">
                 <button class="action-btn edit-btn" (click)="editInscription(i)" title="Modifier">
                   <i class="fas fa-edit"></i>
@@ -99,3 +134,11 @@
   </div>
 </div>
 
+<footer class="text-center py-3 bg-light border-top mt-4">
+  <div class="small text-muted">
+    &copy; {{ currentYear || '2025' }} <strong class="text-dark">SMS2I</strong> — Tous droits réservés.
+  </div>
+  <div class="small">
+    Conçu <i class="bi bi-heart-fill text-danger mx-1"></i> par l’équipe <span class="text-primary fw-semibold">SMS2I</span>
+  </div>
+</footer>

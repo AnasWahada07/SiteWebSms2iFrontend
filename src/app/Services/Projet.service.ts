@@ -8,15 +8,16 @@ import { Projet } from '../Class/Projet';
 })
 export class ProjetService {
 
-  private apiUrl = 'http://localhost:8080/api/projets';
+  private apiUrl = 'https://192.168.1.54:3350/api/projets';
+private getAllUrl = `${this.apiUrl}/getallprojets`;
 
   constructor(private http: HttpClient) {}
 
   /**
-   * Récupérer tous les projets
+   * Récupérer tous les projets (aucun header nécessaire)
    */
   getAllProjets(): Observable<Projet[]> {
-    return this.http.get<Projet[]>(this.apiUrl);
+    return this.http.get<Projet[]>(this.getAllUrl);
   }
 
   /**
@@ -27,7 +28,7 @@ export class ProjetService {
   }
 
   /**
-   * Modifier un projet avec nouvelle image ou non
+   * Modifier un projet avec une nouvelle image ou non
    */
   updateProjetWithImage(id: number, formData: FormData): Observable<Projet> {
     return this.http.put<Projet>(`${this.apiUrl}/upload/${id}`, formData);

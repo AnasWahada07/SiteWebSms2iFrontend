@@ -18,7 +18,7 @@ export interface InscriptionPFE {
   providedIn: 'root'
 })
 export class ViewInscriptionService {
-  private apiUrl = 'http://localhost:8080/api/inscriptions';
+  private apiUrl = 'https://192.168.1.54:3350/api/inscriptions';
 
   constructor(private http: HttpClient) {}
 
@@ -30,7 +30,8 @@ export class ViewInscriptionService {
     return this.http.put<InscriptionPFE>(`${this.apiUrl}/${id}`, data);
   }
 
-  delete(id: number): Observable<any> {
-    return this.http.delete(`${this.apiUrl}/${id}`);
+  delete(id: number, options?: any): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/${id}` , options);
   }
+
 }

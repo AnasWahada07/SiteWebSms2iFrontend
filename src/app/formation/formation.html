@@ -1,32 +1,45 @@
-<!-- Navigation - Version améliorée -->
-<nav class="navbar navbar-expand-lg navbar-light bg-white sticky-top shadow-sm">
-    <div class="container">
-        <a class="navbar-brand fw-bold text-primary" href="/formation">
-            <i class="fas fa-graduation-cap me-2"></i>SMS2I
-        </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link btn-formation btn-hover-effect" href="/demandeformation">
-                        <span class="btn-formation-content d-flex align-items-center">
-                            <i class="fas fa-graduation-cap me-2"></i>Demande de Formation
-                        </span>
-                    </a>
-                </li>
-            </ul>
-        </div>
+<nav class="navbar navbar-expand-lg navbar-light bg-white sticky-top shadow-sm py-3">
+  <div class="container d-flex align-items-center justify-content-between">
+
+    <!-- Bouton Accueil avec marge droite -->
+    <a href="/acceuil" class="btn btn-outline-primary rounded-pill me-4">
+      <i class="fas fa-arrow-left me-2"></i> Accueil
+    </a>
+
+    <!-- Logo / Marque -->
+    <a class="navbar-brand fw-bold text-primary" href="/formation">
+      <i class="fas fa-graduation-cap me-2"></i>SMS2I
+    </a>
+
+    <!-- Toggler pour mobile -->
+    <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- Liens collapsibles -->
+    <div class="collapse navbar-collapse mt-3 mt-lg-0" id="navbarSupportedContent">
+      <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link btn-formation btn-hover-effect" href="/demandeformation">
+            <span class="btn-formation-content d-flex align-items-center">
+              <i class="fas fa-graduation-cap me-2"></i> Demande de Formation
+            </span>
+          </a>
+        </li>
+      </ul>
     </div>
+  </div>
 </nav>
 
-<!-- Hero Section - Version améliorée -->
+
+
+
+
+ <!-- Hero Section - Version améliorée -->
 <section class="hero-section bg-gradient-primary text-white py-5 mb-5">
     <div class="container py-5 text-center">
         <h1 class="hero-title display-4 fw-bold mb-4">Développez vos compétences avec SMS2I</h1>
-        <p class="lead mb-4">Formations professionnelles adaptées à vos besoins industriels</p>
+        <p class="lead mb-4">Formations professionnelles adaptées à vos besoins</p>
         <div class="hero-search mx-auto" style="max-width: 500px;">
         </div>
     </div>
@@ -44,7 +57,6 @@
         </div>
         <h5 class="fw-bold">Automatisme industriel</h5>
         <p class="text-muted small">Siemens, Schneider, Rockwell</p>
-        <a href="#" class="stretched-link"></a>
       </div>
     </div>
     <div class="col-md-4 col-6">
@@ -54,7 +66,6 @@
         </div>
         <h5 class="fw-bold">Mécanique</h5>
         <p class="text-muted small">Conception, Fabrication</p>
-        <a href="#" class="stretched-link"></a>
       </div>
     </div>
     <div class="col-md-4 col-6">
@@ -64,14 +75,13 @@
         </div>
         <h5 class="fw-bold">Informatique</h5>
         <p class="text-muted small">Développement, Bureautique, Réseaux</p>
-        <a href="#" class="stretched-link"></a>
       </div>
     </div>
   </div>
 </section>
 
 <section class="container mb-5" *ngIf="formations">
-  <h2 class="section-title fw-bold mb-4">Nos formations par type</h2>
+  <h2 class="section-title fw-bold mb-4">Nos formations </h2>
 
   <!-- Inter-entreprise -->
   <div class="mb-5">
@@ -81,8 +91,15 @@
         <div class="card border-0 shadow-sm p-4 h-100">
           <span class="badge bg-primary mb-2">{{ f.theme }}</span>
           <h5 class="fw-bold">{{ f.titre }}</h5>
-          <p class="text-muted">{{ f.description }}</p>
           <span class="fw-bold text-dark">Prix : {{ f.proposerPrix }} TND</span>
+
+          <!-- Lire la suite -->
+          <button class="btn btn-outline-primary btn-sm mt-3"
+                  data-bs-toggle="modal"
+                  data-bs-target="#formationDetailsModal"
+                  (click)="openFormationDetails(f)">
+            <i class="fas fa-info-circle me-1"></i> Lire la suite
+          </button>
         </div>
       </div>
     </div>
@@ -108,8 +125,15 @@
         <div class="card border-0 shadow-sm p-4 h-100">
           <span class="badge bg-success mb-2">{{ f.theme }}</span>
           <h5 class="fw-bold">{{ f.titre }}</h5>
-          <p class="text-muted">{{ f.description }}</p>
           <span class="fw-bold text-dark">Prix : {{ f.proposerPrix }} TND</span>
+
+          <!-- Lire la suite -->
+          <button class="btn btn-outline-success btn-sm mt-3"
+                  data-bs-toggle="modal"
+                  data-bs-target="#formationDetailsModal"
+                  (click)="openFormationDetails(f)">
+            <i class="fas fa-info-circle me-1"></i> Lire la suite
+          </button>
         </div>
       </div>
     </div>
@@ -135,8 +159,15 @@
         <div class="card border-0 shadow-sm p-4 h-100">
           <span class="badge bg-warning mb-2 text-dark">{{ f.theme }}</span>
           <h5 class="fw-bold">{{ f.titre }}</h5>
-          <p class="text-muted">{{ f.description }}</p>
           <span class="fw-bold text-dark">Prix : {{ f.proposerPrix }} TND</span>
+
+          <!-- Lire la suite -->
+          <button class="btn btn-outline-warning btn-sm mt-3"
+                  data-bs-toggle="modal"
+                  data-bs-target="#formationDetailsModal"
+                  (click)="openFormationDetails(f)">
+            <i class="fas fa-info-circle me-1"></i> Lire la suite
+          </button>
         </div>
       </div>
     </div>
@@ -153,24 +184,139 @@
       </div>
     </ng-template>
   </div>
+
+  <!-- Modale Détails Formation -->
+<div class="modal fade" id="formationDetailsModal" tabindex="-1" aria-labelledby="formationDetailsModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+
+      <!-- Header -->
+      <div class="modal-header bg-primary text-white">
+        <h5 class="modal-title" id="formationDetailsModalLabel">
+          {{ selectedFormation?.titre }}
+        </h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Fermer"></button>
+      </div>
+
+      <!-- Body -->
+   <div class="modal-body">
+
+  <!-- Bloc Description -->
+  <div class="mb-4 p-3 bg-light rounded shadow-sm">
+    <h6 class="text-dark fw-bold mb-2">
+      <i class="fas fa-align-left text-primary me-2"></i>Description
+    </h6>
+    <p class="mb-0 text-muted">{{ selectedFormation?.description }}</p>
+  </div>
+
+  <!-- Bloc Durée -->
+  <div class="mb-4 p-3 bg-light rounded shadow-sm">
+    <h6 class="text-dark fw-bold mb-2">
+      <i class="fas fa-clock text-warning me-2"></i>Durée estimée
+    </h6>
+    <p class="mb-0 text-muted">{{ selectedFormation?.duree }}</p>
+  </div>
+
+  <!-- Bloc Certificat -->
+  <div class="mb-4 p-3 bg-light rounded shadow-sm">
+    <h6 class="text-dark fw-bold mb-2">
+      <i class="fas fa-certificate text-success me-2"></i>Certificat
+    </h6>
+    <p class="mb-0">
+      <span *ngIf="selectedFormation?.certificat === 'oui'" class="badge bg-success px-3 py-2">
+        ✔ Certificat délivré
+      </span>
+      <span *ngIf="selectedFormation?.certificat === 'non'" class="badge bg-danger px-3 py-2">
+        ✘ Aucun certificat
+      </span>
+    </p>
+  </div>
+
+  <!-- Bloc Technologies -->
+  <div class="mb-2 p-3 bg-light rounded shadow-sm">
+    <h6 class="text-dark fw-bold mb-2">
+      <i class="fas fa-laptop-code text-info me-2"></i>Technologies utilisées
+    </h6>
+    <p class="mb-0 text-muted">{{ selectedFormation?.technologie }}</p>
+  </div>
+
+</div>
+ 
+
+
+      <!-- Footer -->
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+      </div>
+      
+    </div>
+  </div>
+</div>
+</section>
+<!-- Call to Action - Version améliorée -->
+<section class="text-white py-5 mb-5 position-relative overflow-hidden" style="background: linear-gradient(to right, #3a7bd5, #00d2ff);">
+  <div class="position-absolute top-0 end-0 w-100 h-100">
+    <div class="cta-pattern"></div>
+  </div>
+  <div class="container py-4 position-relative">
+    <div class="row justify-content-center">
+      <div class="col-lg-8 text-center">
+        <h2 class="display-5 fw-bold mb-4">Prêt à développer vos compétences ?</h2>
+        <p class="lead mb-5">Rejoignez nos formations professionnelles et certifiantes pour booster votre carrière</p>
+        <div class="d-flex justify-content-center gap-3">
+          <a href="/inscriptionformation" class="btn btn-light btn-lg rounded-pill px-4 fw-bold">
+            <i class="fas fa-arrow-right me-2"></i>S'inscrire maintenant
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
 </section>
 
-<!-- Call to Action - Version améliorée -->
-<section class="bg-dark text-white py-5 mb-5 position-relative overflow-hidden">
-    <div class="position-absolute top-0 end-0 w-100 h-100">
-        <div class="cta-pattern"></div>
-    </div>
-    <div class="container py-4 position-relative">
-        <div class="row justify-content-center">
-            <div class="col-lg-8 text-center">
-                <h2 class="display-5 fw-bold mb-4">Prêt à développer vos compétences industrielles ?</h2>
-                <p class="lead mb-5">Rejoignez nos formations professionnelles et certifiantes pour booster votre carrière</p>
-                <div class="d-flex justify-content-center gap-3">
-                    <a href="/inscriptionformation" class="btn btn-light btn-lg rounded-pill px-4 fw-bold">
-                        <i class="fas fa-arrow-right me-2"></i>S'inscrire maintenant
-                    </a>
-                </div>
-            </div>
+<!-- Footer -->
+<footer class="bg-dark text-light pt-5 pb-4 mt-5 shadow-lg">
+  <div class="container">
+    <div class="row">
+
+      <!-- Logo et description -->
+      <div class="col-md-4 mb-4">
+        <h5 class="fw-bold text-uppercase mb-3"><i class="fas fa-cogs me-2"></i>SMS2I</h5>
+        <p>
+          SMS2I est votre partenaire de confiance dans l'automatisation industrielle, la formation technique, et les services de maintenance sur mesure.
+        </p>
+        <div class="d-flex gap-2">
+          <a href="https://www.facebook.com/people/SMS2i/100067593331912/" class="text-light fs-5"><i class="fab fa-facebook-f"></i></a>
+          <a href="https://fr.linkedin.com/company/sms2i" class="text-light fs-5"><i class="fab fa-linkedin-in"></i></a>
+          <a href="#" class="text-light fs-5"><i class="fab fa-youtube"></i></a>
         </div>
+      </div>
+
+      <!-- Liens rapides -->
+      <div class="col-md-4 mb-4">
+        <h6 class="text-uppercase fw-bold mb-3">Navigation</h6>
+        <ul class="list-unstyled">
+          <li><a href="/acceuil" class="text-light text-decoration-none">Accueil</a></li>
+          <li><a href="/service" class="text-light text-decoration-none">Services</a></li>
+          <li><a href="/galerie" class="text-light text-decoration-none">Galerie</a></li>
+          <li><a href="/formation" class="text-light text-decoration-none">Formations</a></li>
+        </ul>
+      </div>
+
+      <!-- Contact rapide -->
+      <div class="col-md-4 mb-4">
+        <h6 class="text-uppercase fw-bold mb-3">Contact</h6>
+        <p><i class="fas fa-map-marker-alt me-2"></i>Rue 14 janvier (GP1), Imm Neodeme 1ere Etage, Messadine 4013, Sousse</p>
+        <p><i class="fas fa-phone me-2"></i>+216 73 284 160</p>
+        <p><i class="fas fa-envelope me-2"></i>contact&#64;sms2i.com.tn</p>
+      </div>
     </div>
-</section>
+
+    <hr class="border-top border-light">
+
+    <div class="text-center small">
+      &copy; {{ currentYear || '2025' }} SMS2I. Tous droits réservés.
+    </div>
+  </div>
+</footer>
+
+

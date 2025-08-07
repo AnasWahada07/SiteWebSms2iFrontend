@@ -19,17 +19,20 @@ export interface SujetPFE {
   fileName?: string;
   fileUrl?: string;
   nombreInscription?: number;
+  profil: string;
+  technologie: string;
 }
 
 @Injectable({ providedIn: 'root' })
 export class ViewFormationService {
-  private apiUrl = 'http://localhost:8080/api/sujets';
+  private apiUrl = 'https://192.168.1.54:3350/api/sujets';
 
   constructor(private http: HttpClient) {}
 
   getAllSujets(): Observable<SujetPFE[]> {
     return this.http.get<SujetPFE[]>(`${this.apiUrl}/getallpfe`);
   }
+  
 
   deleteSujet(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
