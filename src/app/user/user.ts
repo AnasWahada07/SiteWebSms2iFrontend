@@ -74,7 +74,7 @@ export class User implements OnInit, OnDestroy {
 
   loadUsers(): void {
     this.isLoading = true;
-    this.http.get<UserModel[]>('https://192.168.1.54:3350/api/users/getalluser')
+    this.http.get<UserModel[]>('https://sitewebsms2ibackend-production.up.railway.app/api/users/getalluser')
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (users) => {
@@ -102,7 +102,7 @@ export class User implements OnInit, OnDestroy {
       if (result.isConfirmed) {
         this.isLoading = true;
 
-        this.http.delete(`https://192.168.1.54:3350/api/users/${id}`, { responseType: 'text' })
+        this.http.delete(`https://sitewebsms2ibackend-production.up.railway.app/api/users/${id}`, { responseType: 'text' })
           .pipe(takeUntil(this.destroy$))
           .subscribe({
             next: (message: string) => {
@@ -142,7 +142,7 @@ export class User implements OnInit, OnDestroy {
     if (!updatedUser) return;
 
     this.isLoading = true;
-    this.http.put(`https://192.168.1.54:3350/api/users/${updatedUser.id}`, updatedUser)
+    this.http.put(`https://sitewebsms2ibackend-production.up.railway.app/api/users/${updatedUser.id}`, updatedUser)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: () => {

@@ -18,7 +18,7 @@ export interface InscriptionPFE {
   providedIn: 'root'
 })
 export class ViewInscriptionService {
-  private apiUrl = 'https://192.168.1.54:3350/api/inscriptions';
+  private apiUrl = 'https://sitewebsms2ibackend-production.up.railway.app/api/inscriptions';
 
   constructor(private http: HttpClient) {}
 

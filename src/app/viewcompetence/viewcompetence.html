@@ -1,0 +1,60 @@
+<section class="container">
+  <h2>Liste des Compétences</h2>
+
+  <p *ngIf="error()" class="error">{{ error() }}</p>
+
+  <ng-container *ngIf="!loading(); else loadingTpl">
+    <table *ngIf="competences().length; else emptyTpl"
+           class="table table-striped table-hover table-bordered align-middle text-center small">
+      <thead class="table-light text-uppercase text-primary">
+        <tr>
+          <th>Nom</th>
+          <th>Prénom</th>
+          <th>Email</th>
+          <th>Adresse</th>
+          <th>Téléphone</th>
+          <th>Spécialité</th>
+          <th>Compétence</th>
+          <th>Expérience</th>
+          <th>CV</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let c of competences()">
+          <td>{{ c.nom }}</td>
+          <td>{{ c.prenom }}</td>
+          <td>{{ c.email }}</td>
+          <td>{{ c.adresse }}</td>
+          <td>{{ c.telephone }}</td>
+          <td>{{ c.specialite }}</td>
+          <td>{{ c.competence }}</td>
+          <td>{{ c.experience }}</td>
+          <td>
+            <a *ngIf="c.fileName"
+               class="btn btn-sm btn-outline-primary d-inline-flex align-items-center gap-1"
+               [href]="getFileUrl(c.fileName)"
+               target="_blank"
+               download>
+              <i class="bi bi-download"></i> Fichier
+            </a>
+          </td>
+          <td>
+            <button class="btn btn-sm btn-danger d-inline-flex align-items-center gap-1"
+                    (click)="deleteCompetence(c)">
+              <i class="bi bi-trash"></i> Supprimer
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </ng-container>
+
+  <ng-template #loadingTpl>
+    <p>Chargement...</p>
+  </ng-template>
+
+  <ng-template #emptyTpl>
+    <p>Aucune compétence trouvée.</p>
+  </ng-template>
+</section>

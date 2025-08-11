@@ -1,0 +1,16 @@
+.container {
+  padding: 16px;
+}
+
+.error {
+  color: #b00020;
+}
+
+table {
+  border: 1px solid #ccc;
+}
+
+th {
+  background: #f2f2f2;
+  text-align: left;
+}

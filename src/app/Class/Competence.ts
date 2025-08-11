@@ -1,4 +1,5 @@
 export interface Competence {
+  id?: number;            
   nom: string;
   prenom: string;
   email: string;
@@ -7,6 +8,8 @@ export interface Competence {
   specialite: string;
   competence: string;
   experience: string;
-  type: string;
+  fileName?: string;  
+
+
 
 }
