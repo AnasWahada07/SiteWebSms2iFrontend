@@ -73,3 +73,24 @@
 .btn-formation:hover i {
   transform: scale(1.2) rotate(-5deg);
 }
+
+#google_translate_element,
+.goog-te-gadget,
+.goog-te-gadget-simple,
+.goog-te-combo,
+.goog-te-gadget-icon {
+  display: none !important;
+}
+
+/* Cacher la bannière Google Translate */
+.goog-te-banner-frame.skiptranslate,
+.goog-te-banner-frame {
+  display: none !important;
+}
+body { top: 0 !important; }
+
+/* Cacher l’infobulle flottante Google */
+#goog-gt-tt,
+.VIpgJd-ZVi9od-ORHb-OEVmcd {
+  display: none !important;
+}

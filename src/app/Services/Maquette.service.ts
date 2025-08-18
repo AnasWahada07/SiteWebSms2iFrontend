@@ -9,8 +9,8 @@ import { DemandeMaquette } from '../Class/DemandeMaquette';
 })
 export class MaquetteService {
 
-  private apiUrl = 'https://192.168.1.54:3350/api/maquettes'; 
-  private apiUrls = 'https://192.168.1.54:3350/api/demandes';
+  private apiUrl = 'https://sitewebsms2ibackend-production.up.railway.app/api/maquettes'; 
+  private apiUrls = 'https://sitewebsms2ibackend-production.up.railway.app/api/demandes';
 
   constructor(private http: HttpClient) {}
 

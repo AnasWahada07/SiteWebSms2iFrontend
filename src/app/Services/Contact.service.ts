@@ -6,7 +6,7 @@ import { Contact } from '../Class/Contact';
 
 @Injectable({ providedIn: 'root' })
 export class ContactService {
-    private apiUrl = 'https://192.168.1.54:3350/api/contact';
+    private apiUrl = 'https://sitewebsms2ibackend-production.up.railway.app/api/contact';
 
   constructor(private http: HttpClient) {}
 

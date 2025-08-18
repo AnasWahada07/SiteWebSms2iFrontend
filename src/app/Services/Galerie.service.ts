@@ -7,7 +7,7 @@ import { Galeries } from '../Class/Galeries';
   providedIn: 'root'
 })
 export class GalerieService {
-  private apiUrl = 'https://192.168.1.54:3350/api/galeries';
+  private apiUrl = 'https://sitewebsms2ibackend-production.up.railway.app/api/galeries';
 
   constructor(private http: HttpClient) {}
 

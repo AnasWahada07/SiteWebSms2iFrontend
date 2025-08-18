@@ -8,7 +8,7 @@ import { Projet } from '../Class/Projet';
 })
 export class ProjetService {
 
-  private apiUrl = 'https://192.168.1.54:3350/api/projets';
+  private apiUrl = 'https://sitewebsms2ibackend-production.up.railway.app/api/projets';
 private getAllUrl = `${this.apiUrl}/getallprojets`;
 
   constructor(private http: HttpClient) {}

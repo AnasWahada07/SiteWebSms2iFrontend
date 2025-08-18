@@ -70,31 +70,33 @@ export class ViewProjet implements OnInit {
     }
   }
 
-  saveProjet(): void {
-    const formData = new FormData();
-    formData.append('title', this.newProjet.title);
-    formData.append('description', this.newProjet.description);
-    formData.append('duree', this.newProjet.duree);
-    formData.append('client', this.newProjet.client);
-    formData.append('technologie', this.newProjet.technologie);
-    if (this.selectedImageFile) {
-      formData.append('image', this.selectedImageFile);
+saveProjet(): void {
+  const fd = new FormData();
+  fd.append('title', this.newProjet.title ?? '');
+  fd.append('description', this.newProjet.description ?? '');
+  fd.append('duree', this.newProjet.duree ?? '');
+  fd.append('client', this.newProjet.client ?? '');
+  fd.append('technologie', this.newProjet.technologie ?? '');
+  if (this.selectedImageFile) fd.append('image', this.selectedImageFile);
+
+  this.projetService.createProjetWithImage(fd).subscribe({
+    next: (res) => {
+      this.newProjet = {};
+      this.previewUrl = null;
+      this.selectedImageFile = undefined;
+      this.loadProjets();
+      Swal.fire('Succès', 'Projet ajouté avec succès', 'success');
+    },
+    error: (err) => {
+      const msg =
+        (err?.headers?.get?.('X-Error')) ||
+        (err?.error?.message) ||
+        'Échec de l\'ajout du projet';
+      console.error('Upload error:', err);
+      Swal.fire('Erreur', msg, 'error');
     }
-
-    this.projetService.createProjetWithImage(formData).subscribe({
-      next: () => {
-        this.newProjet = {};
-        this.previewUrl = null;
-        this.selectedImageFile = undefined;
-        this.loadProjets();
-        Swal.fire('Succès', 'Projet ajouté avec succès', 'success');
-      },
-      error: () => {
-        Swal.fire('Erreur', 'Échec de l\'ajout du projet', 'error');
-      }
-    });
-  }
-
+  });
+}
   editProjet(projet: Projet): void {
     this.selectedProjet = { ...projet };
     this.editPreviewUrl = projet.imageUrl;

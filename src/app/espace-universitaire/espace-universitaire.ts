@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, Inject, PLATFORM_ID } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CompetenceService } from '../Services/Competence.service';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
@@ -6,7 +6,7 @@ import { SujetPFE } from '../Class/SujetPFE';
 import { SujetPfeService } from '../Services/SujetPfe.service';
 import { InscriptionPFE } from '../Class/InscriptionPFE';
 import { InscriptionPFEService } from '../Services/InscriptionPFE.service';
-import { CommonModule } from '@angular/common';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import Swal from 'sweetalert2';
 
 declare var bootstrap: any;
@@ -25,7 +25,6 @@ export class EspaceUniversitaire implements OnInit {
   errorMessage: string = '';
   selectedCompetence: string = '';
   isNavbarCollapsed: boolean = true;
-
 
   form = {
     nom: '',
@@ -71,7 +70,8 @@ export class EspaceUniversitaire implements OnInit {
     private http: HttpClient,
     private sujetPfeService: SujetPfeService,
     private inscriptionService: InscriptionPFEService,
-    private cdRef: ChangeDetectorRef
+    private cdRef: ChangeDetectorRef,
+    @Inject(PLATFORM_ID) private platformId: Object
   ) {
     this.competenceForm = this.fb.group({
       nom: ['', Validators.required],
@@ -95,6 +95,11 @@ export class EspaceUniversitaire implements OnInit {
 
   ngOnInit(): void {
     this.loadSujets();
+
+    // ➜ Charger Google Translate uniquement côté navigateur
+    if (isPlatformBrowser(this.platformId)) {
+      this.loadGoogleTranslate();
+    }
   }
 
   loadSujets(): void {
@@ -112,7 +117,7 @@ export class EspaceUniversitaire implements OnInit {
   onSubmitDemandeMaquette(): void {
     if (this.demandeMaquetteForm.invalid) return;
     const data = this.demandeMaquetteForm.value;
-    this.http.post('https://192.168.1.54:3350/api/demandes', data).subscribe({
+    this.http.post('https://sitewebsms2ibackend-production.up.railway.app/api/demandes', data).subscribe({
       next: () => {
         bootstrap.Modal.getInstance(document.getElementById('demanderMaquetteModal')!)?.hide();
         this.cleanModalState();
@@ -138,7 +143,7 @@ export class EspaceUniversitaire implements OnInit {
     const formData = new FormData();
     formData.append('maquette', new Blob([JSON.stringify(this.form)], { type: 'application/json' }));
     formData.append('file', this.selectedFileMaquette);
-    this.http.post('https://192.168.1.54:3350/api/maquettes', formData).subscribe({
+    this.http.post('https://sitewebsms2ibackend-production.up.railway.app/api/maquettes', formData).subscribe({
       next: () => {
         this.resetMaquetteForm();
         bootstrap.Modal.getInstance(document.getElementById('proposerMaquetteModal')!)?.hide();
@@ -226,7 +231,7 @@ export class EspaceUniversitaire implements OnInit {
     const formData = new FormData();
     formData.append('sujet', new Blob([JSON.stringify(this.sujet)], { type: 'application/json' }));
     formData.append('file', this.selectedFile);
-    this.http.post('https://192.168.1.54:3350/api/sujets', formData).subscribe({
+    this.http.post('https://sitewebsms2ibackend-production.up.railway.app/api/sujets', formData).subscribe({
       next: () => {
         this.resetForm();
         Swal.fire('Succès', 'Sujet proposé avec succès.', 'success');
@@ -255,12 +260,65 @@ export class EspaceUniversitaire implements OnInit {
   }
 
   toggleSidebar(): void {
-  this.isNavbarCollapsed = !this.isNavbarCollapsed;
-}
-
+    this.isNavbarCollapsed = !this.isNavbarCollapsed;
+  }
 
   showToast(id: string): void {
     const el = document.getElementById(id);
     if (el) new bootstrap.Toast(el).show();
+  }
+
+  /** ===================== Google Translate ===================== */
+  private initGoogleTranslate = () => {
+    const w = window as any;
+    if (w.google && w.google.translate) {
+      new w.google.translate.TranslateElement(
+        {
+          pageLanguage: 'fr',
+          includedLanguages: 'fr,en,es,ar,de',
+          layout: w.google.translate.TranslateElement.InlineLayout.SIMPLE
+        },
+        'google_translate_element'
+      );
+      this.hideGTranslateBar(); // optionnel : masque la barre bleue
+    }
+  };
+
+  private loadGoogleTranslate(): void {
+    const w = window as any;
+
+    // Déjà chargé ailleurs -> initialiser seulement
+    if (w.google && w.google.translate) {
+      this.initGoogleTranslate();
+      return;
+    }
+
+    // Callback globale appelée par Google
+    w.googleTranslateElementInit = this.initGoogleTranslate;
+
+    // Éviter les doublons
+    if (document.getElementById('google-translate-script')) return;
+
+    const script = document.createElement('script');
+    script.id = 'google-translate-script';
+    script.src = '//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
+    script.defer = true;
+    document.body.appendChild(script);
+  }
+
+  // (optionnel) cache la barre bleue "Google Traduction" en haut
+  private hideGTranslateBar(): void {
+    const bar = document.querySelector('iframe.goog-te-banner-frame') as HTMLElement | null;
+    if (bar) bar.style.display = 'none';
+    document.body.style.top = '0px';
+
+    const obs = new MutationObserver(() => {
+      const again = document.querySelector('iframe.goog-te-banner-frame') as HTMLElement | null;
+      if (again && again.style.display !== 'none') again.style.display = 'none';
+      if (document.body.style.top && document.body.style.top !== '0px') {
+        document.body.style.top = '0px';
+      }
+    });
+    obs.observe(document.documentElement, { childList: true, subtree: true });
   }
 }

@@ -25,7 +25,7 @@ export interface SujetPFE {
 
 @Injectable({ providedIn: 'root' })
 export class ViewFormationService {
-  private apiUrl = 'https://192.168.1.54:3350/api/sujets';
+  private apiUrl = 'https://sitewebsms2ibackend-production.up.railway.app/api/sujets';
 
   constructor(private http: HttpClient) {}
 

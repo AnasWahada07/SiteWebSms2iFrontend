@@ -1,159 +1,165 @@
-        .gallery-section {
-            padding: 80px 0;
-            background-color: #f9f9f9;
-        }
-        
-        .section-title {
-            font-size: 2.5rem;
-            color: #2c3e50;
-            margin-bottom: 50px;
-            font-weight: 700;
-            text-transform: uppercase;
-            position: relative;
-            display: inline-block;
-        }
-        
-        .section-title::after {
-            content: '';
-            position: absolute;
-            width: 60%;
-            height: 3px;
-            background: #3498db;
-            bottom: -10px;
-            left: 20%;
-        }
-        
-        .gallery-item {
-            position: relative;
-            margin-bottom: 30px;
-            overflow: hidden;
-            border-radius: 8px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            transition: all 0.3s ease;
-        }
-        
-        .gallery-item:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
-        }
-        
-        .gallery-item img {
-            width: 100%;
-            height: 250px;
-            object-fit: cover;
-            transition: transform 0.5s ease;
-        }
-        
-        .gallery-item:hover img {
-            transform: scale(1.1);
-        }
-        
-        .gallery-overlay {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
-            color: white;
-            padding: 20px;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-        
-        .gallery-item:hover .gallery-overlay {
-            opacity: 1;
-        }
-        
-        .gallery-overlay h5 {
-            font-size: 1.3rem;
-            margin-bottom: 5px;
-            transform: translateY(20px);
-            transition: transform 0.3s ease;
-        }
-        
-        .gallery-overlay p {
-            font-size: 0.9rem;
-            margin: 0;
-            transform: translateY(20px);
-            transition: transform 0.3s ease 0.1s;
-        }
-        
-        .gallery-item:hover .gallery-overlay h5,
-        .gallery-item:hover .gallery-overlay p {
-            transform: translateY(0);
-        }
+/* Espace sous la navbar fixe */
+.gallery-section { margin-top: 80px; }
 
-
-        
-.no-project-message {
-  border: 2px dashed #ccc;
-  border-radius: 12px;
-  padding: 2rem;
-  margin-top: 2rem;
-  background-color: #fafafa;
-}
-
-.gallery-item {
-  height: 220px;
-  position: relative;
+/* Cadre du slider */
+.slider-frame {
+  max-width: 1200px;            /* largeur du cadre */
+  background: #fff;             /* contour blanc autour du carousel */
+  border-radius: 14px;
+  box-shadow: 0 12px 28px rgba(0,0,0,.18);
+  padding: 8px;                 /* marge interne blanche */
   overflow: hidden;
-  border-radius: 8px;
+}
+.slider-frame .carousel {
+  border-radius: 10px;
+  overflow: hidden;
 }
 
-.gallery-item img {
-  object-fit: cover;
+/* Image affichée en entier (pas de rognage) */
+.slider-img {
   width: 100%;
-  height: 100%;
-  transition: transform 0.4s ease;
+  height: clamp(320px, 62vh, 680px); /* hauteur responsive */
+  object-fit: contain;               /* <-- essentiel */
+  background-color: #e9ecef;         /* bandes grises si ratio différent */
 }
 
-.gallery-item:hover img {
-  transform: scale(1.05);
+/* Légende style “verre” */
+.caption-glass {
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(70%, 760px);
+  background: rgba(33,37,41,.55);
+  border-radius: 12px;
+  padding: .75rem 1rem;
+  backdrop-filter: blur(2px);
 }
 
-.gallery-overlay {
-  transition: opacity 0.3s ease;
-}
-
-.gallery-item:hover .gallery-overlay {
-  opacity: 1 !important;
-}
-
-.footer-link {
-  color: #ccc;
-  text-decoration: none;
-  display: block;
-  padding: 4px 0;
-  transition: color 0.3s ease;
-}
-
-.footer-link:hover {
-  color: #fff;
-  text-decoration: underline;
-}
-
-.navbar-brand span {
-  font-weight: 700;
-  font-size: 20px;
-}
-
+/* Champs recherche */
 input.form-control {
   border-radius: 30px;
   padding: 12px 20px;
   font-size: 16px;
   border: 2px solid #ced4da;
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
-  box-shadow: 0 0 0 0 rgba(0, 123, 255, 0.25);
+  transition: border-color .3s, box-shadow .3s;
+  box-shadow: 0 0 0 0 rgba(0,123,255,.25);
 }
-
 input.form-control:focus {
   border-color: #0d6efd;
-  box-shadow: 0 0 5px rgba(13, 110, 253, 0.5);
+  box-shadow: 0 0 5px rgba(13,110,253,.5);
   outline: none;
 }
+input.form-control::placeholder { color: #888; font-style: italic; }
 
-/* Placeholder stylisé */
-input.form-control::placeholder {
-  color: #888;
-  font-style: italic;
+/* Footer links */
+.footer-link { color: #ccc; text-decoration: none; display: block; padding: 4px 0; transition: color .3s; }
+.footer-link:hover { color: #fff; text-decoration: underline; }
+
+/* Navbar : taille logo uniforme + items alignés */
+.navbar .navbar-brand {
+  font-weight: 800;
+  font-size: clamp(1.6rem, 1.2rem + 1.2vw, 2.2rem);
+  line-height: 1;
+  margin: 0; padding: 0;
+  color: #fff;
+  display: flex; align-items: center; gap: .5rem;
+}
+.navbar .navbar-brand span { font-size: inherit !important; line-height: inherit !important; font-weight: inherit; color: inherit; }
+.navbar .brand-icon { font-size: .9em; line-height: 1; transform: translateY(-1px); color: #fff; }
+.navbar-nav .nav-link, .navbar-nav .btn.nav-btn { height: 40px; display: flex; align-items: center; padding: 0 14px; font-size: .95rem; line-height: 1; }
+
+/* Soulignement au survol (optionnel) */
+.navbar .nav-link { font-weight: 500; margin: 0 10px; position: relative; }
+.navbar .nav-link::after {
+  content: ''; position: absolute; width: 0; height: 2px; bottom: 0; left: 0;
+  background-color: #0d6efd; transition: width .3s;
+}
+.navbar .nav-link:hover::after { width: 100%; }
+
+/* Message “aucun projet” */
+.no-project-message {
+  border: 2px dashed #ccc;
+  border-radius: 12px;
+  padding: 2rem;
+  margin-top: 3rem;
+  background-color: #fafafa;
+}
+
+.navbar {
+    background-color: var(--primary-color);
+    padding: 15px 0;
+    transition: all 0.3s;
+}
+
+.navbar-brand {
+    font-weight: 700;
+    font-size: 1.8rem;
+}
+
+.navbar-brand span {
+    color: var(--light-color);
+}
+
+.navbar-brand i {
+    color: var(--secondary-color);
+    margin-right: 10px;
+}
+
+.nav-link {
+    font-weight: 500;
+    margin: 0 10px;
+    position: relative;
+}
+
+.nav-link::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: 0;
+    left: 0;
+    background-color: var(--secondary-color);
+    transition: width 0.3s;
+}
+
+.nav-link:hover::after {
+    width: 100%;
+}
+
+/* Style du texte de la légende */
+.caption-glass {
+  background: rgba(0, 0, 0, 0.55);
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+}
+
+/* Sur mobile : réduire la taille du texte */
+@media (max-width: 576px) {
+  .caption-glass h5 {
+    font-size: 1rem;
+  }
+  .caption-glass p {
+    font-size: 0.85rem;
+  }
+}
+
+/* Cacher totalement le widget Google Translate (sélecteur + icône) */
+#google_translate_element,
+.goog-te-gadget,
+.goog-te-gadget-simple,
+.goog-te-combo,
+.goog-te-gadget-icon {
+  display: none !important;
+}
+
+/* Cacher la bannière bleue en haut */
+.goog-te-banner-frame.skiptranslate,
+.goog-te-banner-frame {
+  display: none !important;
+}
+body { top: 0 !important; }
+
+/* (optionnel) Cacher l’infobulle flottante Google */
+#goog-gt-tt,
+.VIpgJd-ZVi9od-ORHb-OEVmcd {
+  display: none !important;
 }

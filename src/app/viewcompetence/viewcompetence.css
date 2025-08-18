@@ -1,0 +1,136 @@
+/* ----- Conteneur ----- */
+.table-responsive {
+  background: var(--bs-body-bg);
+  border: 1px solid var(--bs-border-color);
+  border-radius: 1rem;
+  box-shadow: 0 6px 24px rgba(0,0,0,.06);
+  overflow: hidden;            /* arrondis propres */
+  max-height: 70vh;            /* ajuste la hauteur si besoin */
+  padding: 0;                  /* optionnel : pas de padding interne */
+}
+
+/* ----- Table ----- */
+.table.table-fixed {
+  table-layout: fixed;         /* respecte les <col> */
+  margin: 0;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.table thead th,
+.table tbody td {
+  vertical-align: middle;
+  padding: .65rem .8rem;
+}
+
+/* zébrage + hover doux */
+.table tbody tr:nth-child(odd) td {
+  background-color: color-mix(in srgb, var(--bs-primary-bg-subtle) 8%, transparent);
+}
+.table-hover tbody tr:hover td {
+  background-color: color-mix(in srgb, var(--bs-primary-bg-subtle) 24%, transparent);
+  transition: background-color .25s ease;
+}
+
+/* lignes / bordures fines et nettes */
+.table-bordered>:not(caption)>* {
+  border-width: 0;             /* reset pour maîtriser les bordures */
+}
+.table-bordered>:not(caption)>* > * {
+  border-right: 1px solid var(--bs-border-color);
+}
+.table-bordered tbody tr+tr td {
+  border-top: 1px dashed color-mix(in srgb, var(--bs-border-color) 70%, transparent);
+}
+
+/* ----- En-tête collant avec blur/verre dépoli ----- */
+.sticky-thead th {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background:
+    linear-gradient(180deg,
+      color-mix(in srgb, var(--bs-primary-bg-subtle) 35%, var(--bs-body-bg) 65%) 0%,
+      var(--bs-body-bg) 100%);
+  backdrop-filter: blur(6px);
+  border-bottom: 2px solid color-mix(in srgb, var(--bs-primary) 45%, var(--bs-border-color));
+  letter-spacing: .04em;
+  font-weight: 700;
+}
+
+/* ----- Troncature élégante + info-bulle ----- */
+.truncate {
+  display: inline-block;
+  max-width: 22ch;         /* largeur par défaut, ajustable */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  vertical-align: bottom;
+  cursor: help;
+}
+
+/* Ajustements par colonne (facultatif) */
+td:nth-child(3) .truncate { max-width: 28ch; } /* Email */
+td:nth-child(4) .truncate { max-width: 24ch; } /* Adresse */
+td:nth-child(7) .truncate { max-width: 22ch; } /* Compétence */
+td:nth-child(8) .truncate { max-width: 18ch; } /* Expérience */
+
+/* ----- Icônes et boutons ----- */
+.bi { opacity: .8; }
+
+/* bouton “Fichier” */
+a.btn.btn-outline-primary {
+  border-radius: .6rem;
+  padding-inline: .6rem .7rem;
+  border-color: color-mix(in srgb, var(--bs-primary) 65%, var(--bs-border-color));
+}
+a.btn.btn-outline-primary:hover {
+  background-color: var(--bs-primary);
+  color: #fff;
+}
+
+/* groupe d’actions */
+.btn-group .btn {
+  border-radius: .6rem !important;
+}
+.btn-outline-danger {
+  --bs-btn-color: var(--bs-danger);
+  --bs-btn-border-color: color-mix(in srgb, var(--bs-danger) 65%, var(--bs-border-color));
+  --bs-btn-hover-bg: var(--bs-danger);
+  --bs-btn-hover-border-color: var(--bs-danger);
+  --bs-btn-active-bg: var(--bs-danger);
+  --bs-btn-active-border-color: var(--bs-danger);
+  color: var(--bs-danger);
+}
+
+/* ----- Petites touches responsives ----- */
+@media (max-width: 420px) {
+  .table thead th,
+  .table tbody td { padding: .55rem .6rem; }
+  .truncate { max-width: 18ch; }
+}
+
+/* ----- Scrollbar discrète (WebKit) ----- */
+.table-responsive::-webkit-scrollbar {
+  height: 10px;
+  width: 10px;
+}
+.table-responsive::-webkit-scrollbar-thumb {
+  background: color-mix(in srgb, var(--bs-primary) 30%, var(--bs-border-color));
+  border-radius: 1rem;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+.table-responsive::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* ----- Mode sombre Bootstrap ----- */
+@media (prefers-color-scheme: dark) {
+  .table tbody tr:nth-child(odd) td {
+    background-color: color-mix(in srgb, var(--bs-primary-bg-subtle) 14%, transparent);
+  }
+  .table-hover tbody tr:hover td {
+    background-color: color-mix(in srgb, var(--bs-primary-bg-subtle) 32%, transparent);
+  }
+}

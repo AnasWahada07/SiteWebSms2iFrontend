@@ -1,6 +1,6 @@
 :root {
-  --univ-blue: #0056b3;
-  --univ-light: #1f78e4;
+  --univ-blue: #032d5a;
+  --univ-light: #053979;
   --univ-accent: #17a2b8;
   --univ-shadow: rgba(0, 0, 0, 0.1);
 }
@@ -14,7 +14,7 @@ body {
 
 
 .hero-section {
-  background: linear-gradient(to right, #0062E6, #33AEFF); /* bleu universitaire */
+  background: linear-gradient(to right, #063168, #0b4c77); 
   background-size: cover;
   background-position: center;
   min-height: 50vh;
@@ -540,3 +540,68 @@ footer a.social-icon:hover {
 .btn-link:hover .transition-icon {
   transform: translateX(4px);
 }
+
+.navbar {
+    background-color: var(--primary-color);
+    padding: 15px 0;
+    transition: all 0.3s;
+}
+
+.navbar-brand {
+    font-weight: 700;
+    font-size: 1.8rem;
+}
+
+.navbar-brand span {
+    color: var(--light-color);
+}
+
+.navbar-brand i {
+    color: var(--secondary-color);
+    margin-right: 10px;
+}
+
+.nav-link {
+    font-weight: 500;
+    margin: 0 10px;
+    position: relative;
+}
+
+.nav-link::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: 0;
+    left: 0;
+    background-color: var(--secondary-color);
+    transition: width 0.3s;
+}
+
+.nav-link:hover::after {
+    width: 100%;
+}
+
+/* Cacher complètement le sélecteur Google Translate */
+#google_translate_element,
+.goog-te-gadget,
+.goog-te-gadget-simple,
+.goog-te-combo,
+.goog-te-gadget-icon {
+  display: none !important;
+}
+
+/* Cacher la bannière Google Translate */
+.goog-te-banner-frame.skiptranslate,
+.goog-te-banner-frame {
+  display: none !important;
+}
+body { top: 0 !important; }
+
+/* Cacher l’infobulle flottante Google */
+#goog-gt-tt,
+.VIpgJd-ZVi9od-ORHb-OEVmcd {
+  display: none !important;
+}
+
+

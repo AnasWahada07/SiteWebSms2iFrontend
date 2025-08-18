@@ -1,16 +1,15 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm fixed-top">
   <div class="container">
-    <a class="navbar-brand fw-bold" href="/acceuil" aria-label="Accueil SMS2!">
-      <i class="fas fa-cogs me-1"></i> <span>SMS</span>2<span>!</span>
+    <a class="navbar-brand fw-bold d-flex align-items-center gap-2" href="/acceuil" aria-label="Accueil SMS2!">
+      <i class="fas fa-cogs brand-icon"></i>
+      <span class="brand-text"><span>SMS</span>2<span>!</span></span>
     </a>
 
-    <!-- Toggle button -->
     <button class="navbar-toggler" type="button" (click)="toggleSidebar()" aria-label="Toggle navigation">
       <span *ngIf="isNavbarCollapsed" class="navbar-toggler-icon"></span>
       <i *ngIf="!isNavbarCollapsed" class="bi bi-x-lg fs-3 text-white"></i>
     </button>
 
-    <!-- Navbar links -->
     <div class="collapse navbar-collapse" [ngClass]="{ 'show': !isNavbarCollapsed }" id="navbarNav">
       <ul class="navbar-nav ms-auto align-items-center gap-2">
         <li class="nav-item"><a class="nav-link" href="/acceuil">Accueil</a></li>
@@ -18,9 +17,11 @@
         <li class="nav-item"><a class="nav-link" href="/galerie">Galerie</a></li>
         <li class="nav-item"><a class="nav-link" href="/espaceuniversitaire">Espace Universitaire</a></li>
         <li class="nav-item"><a class="nav-link" href="/formation">Formation</a></li>
-        <li class="d-flex gap-2 ms-3">
-          <a href="/signin" class="btn btn-outline-light btn-sm">Se connecter</a>
-          <a href="/signup" class="btn btn-light text-dark btn-sm">S'inscrire</a>
+        <li class="nav-item">
+          <a href="/signin" class="btn btn-outline-light btn-sm nav-btn">Se connecter</a>
+        </li>
+        <li class="nav-item">
+          <a href="/signup" class="btn btn-light text-dark btn-sm nav-btn">S'inscrire</a>
         </li>
         <li class="nav-item">
           <div id="google_translate_element"></div>
@@ -30,35 +31,63 @@
   </div>
 </nav>
 
-
-<section class="gallery-section py-5 mt-5" id="gallery">
+<section class="gallery-section py-5" id="gallery">
   <div class="container text-center">
-    <h2 class="section-title display-6 fw-bold mb-4">📸 Galerie de nos réalisations</h2>
-<div class="row justify-content-center mb-4">
-  <div class="col-md-6">
-    <input
-      type="text"
-      class="form-control"
-      placeholder="🔍 Rechercher par titre ou client..."
-      [(ngModel)]="searchTerm"
-    />
-  </div>
-</div>
+    <h2 class="section-title display-6 fw-bold mb-4">📸 GALERIE DE NOS RÉALISATIONS</h2>
 
-    <div *ngIf="galeries.length > 0; else noProjects">
-      <div class="row">
-        <div *ngFor="let g of filteredGaleries()"
- class="col-md-4 col-lg-3 mb-4">
-          <div class="gallery-item position-relative overflow-hidden rounded shadow-sm">
-            <img [src]="g.imageUrl" [alt]="g.title" class="w-100 h-100 object-fit-cover rounded">
-            <div class="gallery-overlay position-absolute top-0 start-0 w-100 h-100 bg-dark bg-opacity-75 text-light d-flex flex-column justify-content-center align-items-center opacity-0 hover-opacity-100 transition">
-              <h5 class="fw-bold">{{ g.title }}</h5>
-              <p class="mb-0">Client : {{ g.client }}</p>
-            </div>
-          </div>
-        </div>
+    <!-- Recherche -->
+    <div class="row justify-content-center mb-4">
+      <div class="col-md-6">
+        <input
+          type="text"
+          class="form-control"
+          placeholder="🔍 Rechercher par titre ou client..."
+          [(ngModel)]="searchTerm"
+        />
       </div>
     </div>
+
+    <!-- Slider avec cadre -->
+    <ng-container *ngIf="filteredGaleries().length; else noProjects">
+      <div class="slider-frame mx-auto">
+        <div id="galerieCarousel"
+             class="carousel slide"
+             data-bs-ride="carousel"
+             data-bs-touch="true"
+             data-bs-interval="3500"
+             data-bs-pause="hover">
+
+          <div class="carousel-indicators">
+            <button *ngFor="let g of filteredGaleries(); let i = index"
+                    type="button"
+                    [attr.data-bs-target]="'#galerieCarousel'"
+                    [attr.data-bs-slide-to]="i"
+                    [class.active]="i === 0"
+                    [attr.aria-current]="i === 0 ? 'true' : null"
+                    [attr.aria-label]="'Slide ' + (i + 1)"></button>
+          </div>
+
+          <div class="carousel-inner">
+            <div *ngFor="let g of filteredGaleries(); let i = index"
+                 class="carousel-item"
+                 [class.active]="i === 0">
+              <img [src]="g.imageUrl" [alt]="g.title" class="d-block w-100 slider-img">
+              <div class="carousel-caption d-block caption-glass">
+               <h5 class="mb-1">{{ g.title }}</h5>
+               <p class="mb-0">Client : {{ g.client }}</p>
+               </div>
+            </div>
+          </div>
+
+          <button class="carousel-control-prev" type="button" data-bs-target="#galerieCarousel" data-bs-slide="prev" aria-label="Précédent">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#galerieCarousel" data-bs-slide="next" aria-label="Suivant">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          </button>
+        </div>
+      </div>
+    </ng-container>
 
     <ng-template #noProjects>
       <div class="no-project-message py-5">
@@ -68,11 +97,10 @@
     </ng-template>
   </div>
 </section>
-<!-- Footer -->
+
 <footer class="bg-dark text-light pt-5 pb-4 mt-5 shadow-lg">
   <div class="container">
     <div class="row gy-4">
-
       <div class="col-md-4">
         <h5 class="fw-bold text-uppercase mb-3"><i class="fas fa-cogs me-2"></i>SMS2I</h5>
         <p>SMS2I est votre partenaire de confiance dans l'automatisation industrielle, la formation technique et les services de maintenance sur mesure.</p>

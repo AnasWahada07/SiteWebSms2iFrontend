@@ -9,7 +9,7 @@ import { User } from '../Class/User';
 })
 
 export class UserService {
-  private apiUrl = 'https://192.168.1.54:3350/api/users';
+  private apiUrl = 'https://sitewebsms2ibackend-production.up.railway.app/api/users';
 
   constructor(private http: HttpClient) { }
 
