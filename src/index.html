@@ -25,11 +25,66 @@
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 
+<script>
+  // Empêche l’affichage auto de la barre + initialise le widget
+  function googleTranslateElementInit() {
+    new google.translate.TranslateElement(
+      { pageLanguage: 'fr', autoDisplay: false, includedLanguages: 'fr,en,es,ar,de',
+        layout: google.translate.TranslateElement.InlineLayout.SIMPLE },
+      'google_translate_element'
+    );
+  }
+
+  // Surveille le DOM pour masquer la barre si Google la ré-injecte
+  (function keepHidingGTT() {
+    function hide() {
+      var f = document.querySelector('iframe.goog-te-banner-frame');
+      if (f) f.style.display = 'none';
+      var s = document.querySelector('.goog-te-banner-frame');
+      if (s) s.style.display = 'none';
+      var cont = document.querySelector('body > .skiptranslate');
+      if (cont) cont.style.display = 'none';
+      document.body.style.top = '0px';
+    }
+    new MutationObserver(hide).observe(document.documentElement, {childList: true, subtree: true});
+    hide();
+  })();
+</script>
+<script>
+  // Empêche l’affichage auto de la barre + initialise le widget
+  function googleTranslateElementInit() {
+    new google.translate.TranslateElement(
+      { pageLanguage: 'fr', autoDisplay: false, includedLanguages: 'fr,en,es,ar,de',
+        layout: google.translate.TranslateElement.InlineLayout.SIMPLE },
+      'google_translate_element'
+    );
+  }
+
+
+  // Surveille le DOM pour masquer la barre si Google la ré-injecte
+  (function keepHidingGTT() {
+    function hide() {
+      var f = document.querySelector('iframe.goog-te-banner-frame');
+      if (f) f.style.display = 'none';
+      var s = document.querySelector('.goog-te-banner-frame');
+      if (s) s.style.display = 'none';
+      var cont = document.querySelector('body > .skiptranslate');
+      if (cont) cont.style.display = 'none';
+      document.body.style.top = '0px';
+    }
+    new MutationObserver(hide).observe(document.documentElement, {childList: true, subtree: true});
+    hide();
+  })();
+</script>
+
+
+
 <body class="mat-typography">
   <app-root></app-root>
 
   <!-- Bootstrap JS Bundle -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
 
   <!-- Safe Sidebar Toggle Script -->
   <script>

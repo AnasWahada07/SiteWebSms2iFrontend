@@ -58,6 +58,8 @@ export const routes: Routes = [
   { path: 'Admin', component: DashboardAdmin, canActivate: [adminGuard] },
     { path: 'contact', component: Contacts , canActivate: [adminGuard] },
         { path: 'viewdemandeformation', component: ViewDemandeFormation , canActivate: [adminGuard] },
+            { path: 'competences', component: Viewcompetence , canActivate: [adminGuard] },
+
 
 
 

@@ -1,6 +1,6 @@
     /* Custom CSS for enhanced design */
     .hero-section {
-        background: linear-gradient(135deg, #6e8efb, #a777e3);
+        background: linear-gradient(135deg, #0c3ee0, #711bda);
         color: white;
         padding: 5rem 0;
         position: relative;
@@ -156,3 +156,88 @@ footer i {
 footer i:hover {
   transform: scale(1.2);
 }
+
+.navbar {
+    background-color: var(--primary-color);
+    padding: 15px 0;
+    transition: all 0.3s;
+}
+
+.navbar-brand {
+    font-weight: 700;
+    font-size: 1.8rem;
+}
+
+.navbar-brand span {
+    color: var(--light-color);
+}
+
+.navbar-brand i {
+    color: var(--secondary-color);
+    margin-right: 10px;
+}
+
+.nav-link {
+    font-weight: 500;
+    margin: 0 10px;
+    position: relative;
+}
+
+.nav-link::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: 0;
+    left: 0;
+    background-color: var(--secondary-color);
+    transition: width 0.3s;
+}
+
+.nav-link:hover::after {
+    width: 100%;
+}
+
+/* 1) Cacher complètement le widget (sélecteur) */
+#google_translate_element,
+.goog-te-gadget,
+.goog-te-gadget-simple,
+.goog-te-combo,
+.goog-te-gadget-icon {
+  display: none !important;
+}
+
+/* 2) Cacher la bannière bleue en haut */
+.goog-te-banner-frame.skiptranslate,
+.goog-te-banner-frame {
+  display: none !important;
+}
+body { top: 0 !important; }
+
+/* 3) (Optionnel) Cacher l’infobulle flottante de Google */
+#goog-gt-tt,
+.VIpgJd-ZVi9od-ORHb-OEVmcd {
+  display: none !important;
+}
+
+
+/* Masquer la barre Google Translate */
+iframe.goog-te-banner-frame,
+.goog-te-banner-frame,
+.goog-te-banner-frame.skiptranslate,
+body > .skiptranslate {
+  display: none !important;
+  visibility: hidden !important;
+}
+html, body { margin-top: 0 !important; }
+body { top: 0 !important; }
+
+/* (optionnel) rendre le widget propre dans la navbar */
+#google_translate_element .goog-te-gadget { font-size: 0; }
+#google_translate_element .goog-te-gadget > span { display: none; }
+#google_translate_element .goog-te-gadget-simple {
+  background: transparent !important; border: 0 !important; padding: 0 !important;
+}
+#google_translate_element select { padding: 4px 8px; border-radius: 6px; }
+
+.notranslate { unicode-bidi: plaintext; }

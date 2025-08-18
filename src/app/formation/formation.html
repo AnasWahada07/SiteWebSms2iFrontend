@@ -18,13 +18,18 @@
 
     <!-- Liens collapsibles -->
     <div class="collapse navbar-collapse mt-3 mt-lg-0" id="navbarSupportedContent">
-      <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-        <li class="nav-item">
+      <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-lg-center">
+        <li class="nav-item me-lg-3">
           <a class="nav-link btn-formation btn-hover-effect" href="/demandeformation">
             <span class="btn-formation-content d-flex align-items-center">
               <i class="fas fa-graduation-cap me-2"></i> Proposer une Formation
             </span>
           </a>
+        </li>
+
+        <!-- ▼ Traduction -->
+        <li class="nav-item">
+          <div id="google_translate_element"></div>
         </li>
       </ul>
     </div>
@@ -33,16 +38,14 @@
 
 
 
-
-
- <!-- Hero Section - Version améliorée -->
+<!-- Hero Section - Version améliorée -->
 <section class="hero-section bg-gradient-primary text-white py-5 mb-5">
-    <div class="container py-5 text-center">
-        <h1 class="hero-title display-4 fw-bold mb-4">Développez vos compétences avec SMS2I</h1>
-        <p class="lead mb-4">Formations professionnelles adaptées à vos besoins</p>
-        <div class="hero-search mx-auto" style="max-width: 500px;">
-        </div>
+  <div class="container py-5 text-center">
+    <h1 class="hero-title display-4 fw-bold mb-4">Développez vos compétences avec SMS2I</h1>
+    <p class="lead mb-4">Formations professionnelles adaptées à vos besoins</p>
+    <div class="hero-search mx-auto" style="max-width: 500px;">
     </div>
+  </div>
 </section>
 
 <!-- Categories Section - Version améliorée -->
@@ -186,73 +189,70 @@
   </div>
 
   <!-- Modale Détails Formation -->
-<div class="modal fade" id="formationDetailsModal" tabindex="-1" aria-labelledby="formationDetailsModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg modal-dialog-centered">
-    <div class="modal-content">
+  <div class="modal fade" id="formationDetailsModal" tabindex="-1" aria-labelledby="formationDetailsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content">
 
-      <!-- Header -->
-      <div class="modal-header bg-primary text-white">
-        <h5 class="modal-title" id="formationDetailsModalLabel">
-          {{ selectedFormation?.titre }}
-        </h5>
-        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Fermer"></button>
+        <!-- Header -->
+        <div class="modal-header bg-primary text-white">
+          <h5 class="modal-title" id="formationDetailsModalLabel">
+            {{ selectedFormation?.titre }}
+          </h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Fermer"></button>
+        </div>
+
+        <!-- Body -->
+        <div class="modal-body">
+          <!-- Bloc Description -->
+          <div class="mb-4 p-3 bg-light rounded shadow-sm">
+            <h6 class="text-dark fw-bold mb-2">
+              <i class="fas fa-align-left text-primary me-2"></i>Description
+            </h6>
+            <p class="mb-0 text-muted">{{ selectedFormation?.description }}</p>
+          </div>
+
+          <!-- Bloc Durée -->
+          <div class="mb-4 p-3 bg-light rounded shadow-sm">
+            <h6 class="text-dark fw-bold mb-2">
+              <i class="fas fa-clock text-warning me-2"></i>Durée estimée
+            </h6>
+            <p class="mb-0 text-muted">{{ selectedFormation?.duree }}</p>
+          </div>
+
+          <!-- Bloc Certificat -->
+          <div class="mb-4 p-3 bg-light rounded shadow-sm">
+            <h6 class="text-dark fw-bold mb-2">
+              <i class="fas fa-certificate text-success me-2"></i>Certificat
+            </h6>
+            <p class="mb-0">
+              <span *ngIf="selectedFormation?.certificat === 'oui'" class="badge bg-success px-3 py-2">
+                ✔ Certificat délivré
+              </span>
+              <span *ngIf="selectedFormation?.certificat === 'non'" class="badge bg-danger px-3 py-2">
+                ✘ Aucun certificat
+              </span>
+            </p>
+          </div>
+
+          <!-- Bloc Technologies -->
+          <div class="mb-2 p-3 bg-light rounded shadow-sm">
+            <h6 class="text-dark fw-bold mb-2">
+              <i class="fas fa-laptop-code text-info me-2"></i>Technologies utilisées
+            </h6>
+            <p class="mb-0 text-muted">{{ selectedFormation?.technologie }}</p>
+          </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="modal-footer">
+          <button class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+        </div>
+
       </div>
-
-      <!-- Body -->
-   <div class="modal-body">
-
-  <!-- Bloc Description -->
-  <div class="mb-4 p-3 bg-light rounded shadow-sm">
-    <h6 class="text-dark fw-bold mb-2">
-      <i class="fas fa-align-left text-primary me-2"></i>Description
-    </h6>
-    <p class="mb-0 text-muted">{{ selectedFormation?.description }}</p>
-  </div>
-
-  <!-- Bloc Durée -->
-  <div class="mb-4 p-3 bg-light rounded shadow-sm">
-    <h6 class="text-dark fw-bold mb-2">
-      <i class="fas fa-clock text-warning me-2"></i>Durée estimée
-    </h6>
-    <p class="mb-0 text-muted">{{ selectedFormation?.duree }}</p>
-  </div>
-
-  <!-- Bloc Certificat -->
-  <div class="mb-4 p-3 bg-light rounded shadow-sm">
-    <h6 class="text-dark fw-bold mb-2">
-      <i class="fas fa-certificate text-success me-2"></i>Certificat
-    </h6>
-    <p class="mb-0">
-      <span *ngIf="selectedFormation?.certificat === 'oui'" class="badge bg-success px-3 py-2">
-        ✔ Certificat délivré
-      </span>
-      <span *ngIf="selectedFormation?.certificat === 'non'" class="badge bg-danger px-3 py-2">
-        ✘ Aucun certificat
-      </span>
-    </p>
-  </div>
-
-  <!-- Bloc Technologies -->
-  <div class="mb-2 p-3 bg-light rounded shadow-sm">
-    <h6 class="text-dark fw-bold mb-2">
-      <i class="fas fa-laptop-code text-info me-2"></i>Technologies utilisées
-    </h6>
-    <p class="mb-0 text-muted">{{ selectedFormation?.technologie }}</p>
-  </div>
-
-</div>
- 
-
-
-      <!-- Footer -->
-      <div class="modal-footer">
-        <button class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
-      </div>
-      
     </div>
   </div>
-</div>
 </section>
+
 <!-- Call to Action - Version améliorée -->
 <section class="text-white py-5 mb-5 position-relative overflow-hidden" style="background: linear-gradient(to right, #3a7bd5, #00d2ff);">
   <div class="position-absolute top-0 end-0 w-100 h-100">
@@ -318,5 +318,3 @@
     </div>
   </div>
 </footer>
-
-

@@ -1,39 +1,31 @@
-import { ChangeDetectorRef, Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
-import { ContactService } from '../Services/Contact.service';
 import { HttpClientModule } from '@angular/common/http';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { ContactService } from '../Services/Contact.service';
 import { ProjetService } from '../Services/Projet.service';
 import { Projet } from '../Class/Projet';
-import { DomSanitizer } from '@angular/platform-browser';
 import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-accueil',
   standalone: true,
-  imports: [
-    ReactiveFormsModule,
-    HttpClientModule,
-    CommonModule
-  ],
+  imports: [ReactiveFormsModule, HttpClientModule, CommonModule],
   templateUrl: './accueil.html',
   styleUrls: ['./accueil.css']
 })
-export class Accueil implements OnInit {
+export class Accueil implements OnInit , AfterViewInit {
 
   currentYear: number = new Date().getFullYear();
   isLoading: boolean = true;
   contactForm: FormGroup;
   projets: Projet[] = [];
-isNavbarCollapsed: boolean = true;
-
+  isNavbarCollapsed: boolean = true;
 
   constructor(
     private fb: FormBuilder,
     private contactService: ContactService,
     private projetService: ProjetService,
-    private sanitizer: DomSanitizer,
     @Inject(PLATFORM_ID) private platformId: Object,
     private cdRef: ChangeDetectorRef
   ) {
@@ -47,38 +39,48 @@ isNavbarCollapsed: boolean = true;
     });
   }
 
-ngOnInit(): void {
-  this.projetService.getAllProjets().subscribe({
-    next: (data) => {
-      this.projets = data;
-      this.isLoading = false;
-      this.cdRef.detectChanges();
-    },
-    error: (err) => {
-      this.isLoading = false;
-      this.cdRef.detectChanges();
-
-     // console.error('Erreur de chargement des projets', err);
-
-      if (err.status === 401) {
-        // rien : géré par l’intercepteur
-        return;
+    ngAfterViewInit(): void {
+    if (isPlatformBrowser(this.platformId)) {
+      const modalEl = document.getElementById('histoireModal');
+      if (modalEl) {
+        modalEl.addEventListener('hidden.bs.modal', () => {
+          const el = document.activeElement as HTMLElement | null; 
+          if (el && typeof el.blur === 'function') {
+            el.blur();
+          }
+        });
       }
-
-      // Swal.fire({
-      //   icon: 'error',
-      //   title: 'Erreur de chargement',
-      //   text: `Impossible de récupérer les projets (${err.status || 'inconnu'})`,
-      //   confirmButtonText: 'OK'
-      // });
     }
-  });
-}
+          this.hideBanner();
 
-toggleSidebar(): void {
-  this.isNavbarCollapsed = !this.isNavbarCollapsed;
-}
+  }
 
+
+
+
+  ngOnInit(): void {
+    // Charger les projets
+    this.projetService.getAllProjets().subscribe({
+      next: (data) => {
+        this.projets = data;
+        this.isLoading = false;
+        this.cdRef.detectChanges();
+      },
+      error: () => {
+        this.isLoading = false;
+        this.cdRef.detectChanges();
+      }
+    });
+
+    // Charger Google Translate uniquement côté navigateur
+    if (isPlatformBrowser(this.platformId)) {
+      this.loadGoogleTranslate();
+    }
+  }
+
+  toggleSidebar(): void {
+    this.isNavbarCollapsed = !this.isNavbarCollapsed;
+  }
 
   onSubmit(): void {
     if (this.contactForm.invalid) {
@@ -89,7 +91,7 @@ toggleSidebar(): void {
     const contactData = this.contactForm.value;
 
     this.contactService.sendMessage(contactData).subscribe({
-      next: (res) => {
+      next: () => {
         Swal.fire('✅ Message envoyé', 'Votre message a été transmis avec succès.', 'success');
         this.contactForm.reset();
       },
@@ -99,4 +101,56 @@ toggleSidebar(): void {
       }
     });
   }
+
+  /** --------- Google Translate --------- */
+  private initGoogleTranslate = () => {
+    const w = window as any;
+    if (w.google && w.google.translate) {
+      new w.google.translate.TranslateElement(
+        {
+          pageLanguage: 'fr',
+          includedLanguages: 'fr,en,es,ar,de',
+          layout: w.google.translate.TranslateElement.InlineLayout.SIMPLE
+        },
+        'google_translate_element'
+      );
+    }
+  };
+
+  private loadGoogleTranslate(): void {
+    const w = window as any;
+
+    // Si déjà chargé, on initialise directement
+    if (w.google && w.google.translate) {
+      this.initGoogleTranslate();
+      return;
+    }
+
+    // Callback global appelée par Google
+    w.googleTranslateElementInit = this.initGoogleTranslate;
+
+    // Éviter les doublons si on revient sur la page
+    if (document.getElementById('google-translate-script')) return;
+
+    const script = document.createElement('script');
+    script.id = 'google-translate-script';
+    script.src = '//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
+    script.defer = true;
+    document.body.appendChild(script);
+  }
+
+  private hideBanner(): void {
+    const bar = document.querySelector('iframe.goog-te-banner-frame') as HTMLElement | null;
+    if (bar) bar.style.display = 'none';
+    document.body.style.top = '0px';
+
+    const obs = new MutationObserver(() => {
+      const again = document.querySelector('iframe.goog-te-banner-frame') as HTMLElement | null;
+      if (again && again.style.display !== 'none') again.style.display = 'none';
+      if (document.body.style.top && document.body.style.top !== '0px') document.body.style.top = '0px';
+    });
+    obs.observe(document.documentElement, { childList: true, subtree: true });
+  }
+
+
 }

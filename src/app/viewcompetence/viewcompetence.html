@@ -1,60 +1,119 @@
-<section class="container">
-  <h2>Liste des Compétences</h2>
+<section class="container py-3">
+  <div class="card shadow-sm border-0">
+    <!-- Header -->
+    <div class="card-header bg-white border-0 d-flex flex-wrap align-items-center gap-2">
+      <h2 class="h5 mb-0 me-auto d-flex align-items-center gap-2">
+        <i class="bi bi-people-fill"></i>
+        Liste des Compétences
+        <span class="badge rounded-pill text-bg-primary">{{ competences().length }}</span>
+      </h2>
 
-  <p *ngIf="error()" class="error">{{ error() }}</p>
+<button type="button"
+        class="btn btn-outline-primary btn-sm d-inline-flex align-items-center gap-2"
+        (click)="goToDashboard()">
+  <i class="bi bi-arrow-left"></i> Retour au Dashboard
+</button>
 
-  <ng-container *ngIf="!loading(); else loadingTpl">
-    <table *ngIf="competences().length; else emptyTpl"
-           class="table table-striped table-hover table-bordered align-middle text-center small">
-      <thead class="table-light text-uppercase text-primary">
-        <tr>
-          <th>Nom</th>
-          <th>Prénom</th>
-          <th>Email</th>
-          <th>Adresse</th>
-          <th>Téléphone</th>
-          <th>Spécialité</th>
-          <th>Compétence</th>
-          <th>Expérience</th>
-          <th>CV</th>
-          <th>Action</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let c of competences()">
-          <td>{{ c.nom }}</td>
-          <td>{{ c.prenom }}</td>
-          <td>{{ c.email }}</td>
-          <td>{{ c.adresse }}</td>
-          <td>{{ c.telephone }}</td>
-          <td>{{ c.specialite }}</td>
-          <td>{{ c.competence }}</td>
-          <td>{{ c.experience }}</td>
-          <td>
-            <a *ngIf="c.fileName"
-               class="btn btn-sm btn-outline-primary d-inline-flex align-items-center gap-1"
-               [href]="getFileUrl(c.fileName)"
-               target="_blank"
-               download>
-              <i class="bi bi-download"></i> Fichier
-            </a>
-          </td>
-          <td>
-            <button class="btn btn-sm btn-danger d-inline-flex align-items-center gap-1"
-                    (click)="deleteCompetence(c)">
-              <i class="bi bi-trash"></i> Supprimer
-            </button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </ng-container>
 
-  <ng-template #loadingTpl>
-    <p>Chargement...</p>
-  </ng-template>
 
-  <ng-template #emptyTpl>
-    <p>Aucune compétence trouvée.</p>
-  </ng-template>
+      <button type="button"
+              class="btn btn-outline-secondary btn-sm d-inline-flex align-items-center gap-2"
+              (click)="loadCompetences()">
+        <i class="bi bi-arrow-clockwise"></i> Rafraîchir
+      </button>
+
+    </div>
+
+    <!-- Body -->
+    <div class="card-body pt-0">
+      <p *ngIf="error()" class="alert alert-danger py-2 px-3 mb-3">
+        <i class="bi bi-exclamation-triangle-fill me-2"></i>{{ error() }}
+      </p>
+
+      <!-- Loading -->
+      <div *ngIf="loading()" class="d-flex justify-content-center my-5">
+        <div class="spinner-border" role="status" aria-label="Chargement"></div>
+      </div>
+
+      <!-- Table -->
+      <div *ngIf="!loading()" class="table-responsive rounded-3 border">
+        <table *ngIf="competences().length; else emptyTpl"
+               class="table table-hover table-striped align-middle mb-0">
+          <thead class="table-light sticky-thead">
+            <tr class="text-uppercase small text-primary">
+              <th class="text-start">Nom</th>
+              <th class="text-start">Prénom</th>
+              <th class="text-start">Email</th>
+              <th class="text-start">Adresse</th>
+              <th>Téléphone</th>
+              <th class="text-start">Spécialité</th>
+              <th class="text-start">Compétence</th>
+              <th class="text-start">Expérience</th>
+              <th>CV</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let c of competences()">
+              <td class="text-start fw-medium">{{ c.nom }}</td>
+              <td class="text-start">{{ c.prenom }}</td>
+              <td class="text-start">
+                <a [href]="'mailto:'+c.email" class="link-body-emphasis text-decoration-none">
+                  <i class="bi bi-envelope-open me-1"></i>{{ c.email }}
+                </a>
+              </td>
+              <td class="text-start text-truncate maxw-240" title="{{ c.adresse }}">
+                {{ c.adresse }}
+              </td>
+              <td>
+                <a [href]="'tel:'+c.telephone" class="link-body-emphasis text-decoration-none">
+                  <i class="bi bi-telephone me-1"></i>{{ c.telephone }}
+                </a>
+              </td>
+              <td class="text-start text-truncate maxw-200" title="{{ c.specialite }}">
+                {{ c.specialite }}
+              </td>
+              <td class="text-start text-truncate-2 maxw-260" title="{{ c.competence }}">
+                {{ c.competence }}
+              </td>
+              <td class="text-start text-truncate-2 maxw-260" title="{{ c.experience }}">
+                {{ c.experience }}
+              </td>
+              <td>
+                <a *ngIf="c.fileName"
+                   class="btn btn-sm btn-outline-primary d-inline-flex align-items-center gap-1"
+                   [href]="getFileUrl(c.fileName)"
+                   target="_blank"
+                   download>
+                  <i class="bi bi-download"></i> Fichier
+                </a>
+              </td>
+              <td>
+                <button class="btn btn-sm btn-outline-danger d-inline-flex align-items-center gap-1"
+                        (click)="deleteCompetence(c)">
+                  <i class="bi bi-trash"></i> Supprimer
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Empty state -->
+      <ng-template #emptyTpl>
+        <div class="text-center py-5">
+          <div class="display-6 mb-2" aria-hidden="true">🗂️</div>
+          <p class="text-muted mb-0">Aucune compétence trouvée.</p>
+        </div>
+      </ng-template>
+    </div>
+  </div>
 </section>
+<footer class="text-center py-3 bg-light border-top mt-4">
+  <div class="small text-muted">
+    &copy; {{ currentYear || '2025' }} <strong class="text-dark">SMS2I</strong> — Tous droits réservés.
+  </div>
+  <div class="small">
+    Conçu <i class="bi bi-heart-fill text-danger mx-1"></i> par l’équipe <span class="text-primary fw-semibold">SMS2I</span>
+  </div>
+</footer>
