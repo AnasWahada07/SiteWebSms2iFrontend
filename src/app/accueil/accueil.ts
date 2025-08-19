@@ -51,8 +51,8 @@ export class Accueil implements OnInit, AfterViewInit {
   isNavbarCollapsed = true;
 
   // ====== AVIS / TÉMOIGNAGES ======
-  avis: Testimonial[] = [];     // affichage dans la section
-  avisForm: FormGroup;          // formulaire du modal
+  avis: Testimonial[] = [];
+  avisForm: FormGroup;
   selectedFile: File | null = null;
   imagePreview: string | null = null;
   saving = false;
@@ -80,7 +80,7 @@ export class Accueil implements OnInit, AfterViewInit {
       consent: [false, Validators.requiredTrue],
     });
 
-    // Avis (modal)
+    // Avis (modal) – corrigé (sans updateOn: 'submit')
     this.avisForm = this.fb.group({
       firstName: ['', [Validators.required, Validators.maxLength(100)]],
       lastName: ['', [Validators.required, Validators.maxLength(100)]],
@@ -119,14 +119,11 @@ export class Accueil implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     if (isPlatformBrowser(this.platformId)) {
-      // écoute correcte sur le BON modal
       const modalEl = document.getElementById('avisModal');
       if (modalEl) {
         modalEl.addEventListener('hidden.bs.modal', () => {
-          // retire le focus “collé” (accessibilité)
           const el = document.activeElement as HTMLElement | null;
           if (el && typeof el.blur === 'function') el.blur();
-          // cleanup de secours si un backdrop reste
           this.cleanupModalArtifacts();
         });
       }
@@ -251,8 +248,13 @@ export class Accueil implements OnInit, AfterViewInit {
   }
 
   submitAvis(): void {
+    this.avisForm.markAllAsTouched();
+
     if (this.avisForm.invalid) {
-      this.avisForm.markAllAsTouched();
+      const invalidControl = document.querySelector('.ng-invalid');
+      if (invalidControl) {
+        invalidControl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
       return;
     }
 
@@ -280,22 +282,19 @@ export class Accueil implements OnInit, AfterViewInit {
       )
       .subscribe({
         next: (res) => {
-          // injecte le nouvel avis en tête
           this.avis = [this.mapToTestimonial(res), ...this.avis];
           this.cdRef.detectChanges();
 
-          // reset UI
           this.modalSuccess = 'Merci ! Votre avis a été ajouté.';
           this.avisForm.reset();
           this.selectedFile = null;
           this.imagePreview = null;
 
-          // fermeture propre du modal + nettoyage de secours
           this.closeAvisModalSafely();
         },
         error: (err) => {
           console.error(err);
-          this.modalError = 'Échec de l’envoi. Vérifiez la connexion et réessayez.';
+          this.modalError = 'Échec de l\'envoi. Vérifiez la connexion et réessayez.';
         },
       });
   }
@@ -303,24 +302,20 @@ export class Accueil implements OnInit, AfterViewInit {
   // =======================
   //   MODAL HELPERS
   // =======================
-  /** Ferme le modal Bootstrap s'il est chargé, puis nettoie tout backdrop résiduel (fallback). */
   private closeAvisModalSafely(): void {
     if (!isPlatformBrowser(this.platformId)) return;
 
     const modalEl = document.getElementById('avisModal') as HTMLElement | null;
     const bootstrap: any = (window as any).bootstrap;
 
-    // 1) fermeture “officielle”
     if (modalEl && bootstrap?.Modal) {
       const instance = bootstrap.Modal.getOrCreateInstance(modalEl);
       instance.hide();
     }
 
-    // 2) cleanup de secours si un backdrop persiste
     setTimeout(() => this.cleanupModalArtifacts(), 300);
   }
 
-  /** Nettoie les artefacts de modal (backdrops, classes body) au cas où. */
   private cleanupModalArtifacts(): void {
     if (!isPlatformBrowser(this.platformId)) return;
     document.querySelectorAll('.modal-backdrop').forEach((el) => el.remove());
@@ -332,7 +327,18 @@ export class Accueil implements OnInit, AfterViewInit {
       modalEl.classList.remove('show');
       modalEl.setAttribute('aria-hidden', 'true');
       modalEl.removeAttribute('aria-modal');
-      (modalEl as HTMLElement).style.display = 'none';
+      modalEl.style.display = 'none';
+    }
+  }
+
+  // =======================
+  //   BLUR HANDLER
+  // =======================
+  onFieldBlur(fieldName: string): void {
+    const control = this.avisForm.get(fieldName);
+    if (control && control.invalid) {
+      control.markAsTouched();
+      this.cdRef.detectChanges();
     }
   }
 }

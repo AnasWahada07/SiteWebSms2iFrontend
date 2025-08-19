@@ -39,14 +39,9 @@ export const routes: Routes = [
   { path: 'espaceuniversitaire', component: EspaceUniversitaire },
   { path: 'password', component: ResetPassword },
   { path: 'maquettes', component: Maquette  },
-  { path: 'viewformationinscrit', component: ViewInscritFormation },
 
 
      
-
-
-
-
 
 
 
@@ -60,7 +55,9 @@ export const routes: Routes = [
     { path: 'contact', component: Contacts , canActivate: [adminGuard] },
         { path: 'viewdemandeformation', component: ViewDemandeFormation , canActivate: [adminGuard] },
             { path: 'competences', component: Viewcompetence , canActivate: [adminGuard] },
-                  { path: 'avis', component: AvisComponent , canActivate: [adminGuard] }
+                  { path: 'avis', component: AvisComponent , canActivate: [adminGuard] },
+                    { path: 'viewformationinscrit', component: ViewInscritFormation , canActivate: [adminGuard] },
+
 
 
 
