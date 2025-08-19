@@ -807,3 +807,323 @@ body { top: 0 !important; }
   background: transparent !important; border: 0 !important; padding: 0 !important;
 }
 #google_translate_element select { padding: 4px 8px; border-radius: 6px; }
+
+.testimonials-section .testimonial-card {
+  background: #fff;
+  border: 1px solid rgba(0,0,0,.06);
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+.testimonials-section .testimonial-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 .75rem 1.5rem rgba(0,0,0,.075);
+}
+.testimonials-section .avatar {
+  width: 56px;
+  height: 56px;
+  overflow: hidden;
+}
+.testimonials-section .avatar-initials {
+  background: #0d6efd10; /* bleu léger */
+  font-weight: 700;
+  font-size: 1rem;
+}
+.testimonials-section .testimonial-text {
+  line-height: 1.6;
+}
+
+/* ===== Variables douces */
+:root {
+  --card-bg: #ffffff;
+  --card-shadow: 0 10px 25px rgba(0,0,0,.06);
+  --card-shadow-lg: 0 16px 40px rgba(0,0,0,.10);
+  --grad-1: linear-gradient(135deg, #4f46e5 0%, #06b6d4 100%);
+  --muted: #6c757d;
+}
+
+/* ===== Titres */
+.section-title { letter-spacing: .2px; }
+.section-subtitle { letter-spacing: .1px; }
+
+/* ===== Bouton “lift” */
+.lift-sm { transition: transform .18s ease, box-shadow .18s ease; }
+.lift-sm:hover { transform: translateY(-2px); box-shadow: var(--card-shadow-lg); }
+
+/* ===== Carte de témoignage */
+.testimonial-card {
+  background: var(--card-bg);
+  box-shadow: var(--card-shadow);
+  border: 1px solid rgba(0,0,0,.05);
+  transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+  position: relative;
+  isolation: isolate;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--card-shadow-lg);
+    border-color: rgba(79,70,229,.25);
+  }
+
+  /* petite déco de guillemet en fond */
+  &::after {
+    content: "❝";
+    position: absolute;
+    font-size: 4.5rem;
+    line-height: 1;
+    right: 1rem;
+    bottom: -1rem;
+    opacity: .05;
+    pointer-events: none;
+  }
+}
+
+/* ===== Bordure dégradée subtile */
+.gradient-border {
+  background:
+    linear-gradient(#fff, #fff) padding-box,
+    var(--grad-1) border-box;
+  border: 1px solid transparent;
+}
+
+/* ===== Avatar */
+.avatar { width: 56px; height: 56px; position: relative; flex: 0 0 56px; }
+.avatar img,
+.avatar-initials { width: 56px; height: 56px; }
+
+.avatar-initials {
+  font-weight: 700;
+  color: #fff;
+  background: conic-gradient(from 220deg at 50% 50%, #4f46e5, #06b6d4, #22c55e, #f59e0b, #ef4444, #4f46e5);
+  filter: saturate(.85);
+}
+
+/* ===== Rating */
+.rating .bi { font-size: .9rem; color: #f59e0b; }
+
+/* ===== Texte clamp */
+.text-clamp-3 {
+  overflow: hidden;
+}
+
+/* ===== Etat vide stylé */
+.empty-state {
+  background:
+    radial-gradient(1000px 400px at 10% -20%, rgba(79,70,229,.06), transparent 60%),
+    radial-gradient(800px 380px at 110% 120%, rgba(6,182,212,.06), transparent 60%),
+    #fff;
+}
+.empty-illustration {
+  width: 64px; height: 64px; margin-inline: auto;
+  display: grid; place-items: center;
+  border-radius: 16px;
+  background: var(--grad-1);
+  color: #fff; font-size: 1.75rem;
+  box-shadow: 0 10px 20px rgba(79,70,229,.25);
+}
+
+/* ===== Modal look & feel */
+.modal-content { border: 1px solid rgba(0,0,0,.06); box-shadow: var(--card-shadow-lg); }
+.modal-header--soft {
+  background:
+    linear-gradient(180deg, rgba(79,70,229,.08), rgba(6,182,212,.05));
+}
+
+/* ===== Inputs & focus (boostrap-friendly) */
+.form-control, .form-select, textarea {
+  transition: border-color .15s ease, box-shadow .15s ease;
+}
+.form-control:focus, .form-select:focus, textarea:focus {
+  border-color: rgba(79,70,229,.45) !important;
+  box-shadow: 0 0 0 .25rem rgba(79,70,229,.15) !important;
+}
+
+/* ===== Image preview */
+.preview-img { max-height: 140px; object-fit: cover; }
+
+/* ===== Accessibilité/favorise le contraste des small texts */
+.text-muted { color: var(--muted) !important; }
+
+/* ===== Dark mode (optionnel : si tu ajoutes .dark sur <body>) */
+.dark .testimonials-section { background: #0f1115 !important; color: #e7eaee; }
+.dark .section-subtitle { color: #a8b0bb !important; }
+.dark .testimonial-card { background: #121620; border-color: rgba(255,255,255,.06); }
+.dark .gradient-border { background:
+  linear-gradient(#121620, #121620) padding-box,
+  linear-gradient(135deg, #818cf8, #22d3ee) border-box;
+}
+.dark .empty-state { background: #121620; }
+.dark .modal-content { background: #0f1115; color: #e7eaee; border-color: rgba(255,255,255,.08); }
+.dark .form-control, .dark .form-select, .dark textarea { background: #0b0e14; color: #e7eaee; border-color: rgba(255,255,255,.12); }
+
+/* ===== Réduit animations si préférence utilisateur */
+@media (prefers-reduced-motion: reduce) {
+  .lift-sm, .testimonial-card { transition: none !important; }
+}
+
+/* Agrandir les cartes d’avis */
+.testimonial-card {
+  padding: 2rem !important;      /* plus de marge interne */
+  min-height: 280px;             /* hauteur minimale plus grande */
+  font-size: 1rem;               /* texte un peu plus lisible */
+  line-height: 1.6;
+}
+
+/* Avatar plus grand */
+.testimonial-card .avatar {
+  width: 90px;
+  height: 72px;
+}
+.testimonial-card .avatar img,
+.testimonial-card .avatar-initials {
+  width: 72px;
+  height: 72px;
+  font-size: 1.2rem;
+}
+
+/* Nom plus visible */
+.testimonial-card h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+/* Texte de l’avis plus grand et lisible */
+.testimonial-card .testimonial-text {
+  font-size: 1rem;
+  margin-top: 1rem;
+}
+
+/* Icône de guillemet décoratif */
+.testimonial-card::after {
+  font-size: 5rem;   /* guillemet plus grand */
+  right: 1.5rem;
+  bottom: -1rem;
+}
+
+/* Sur desktop : cartes plus hautes */
+@media (min-width: 992px) {
+  .testimonial-card {
+    min-height: 320px;
+  }
+}
+
+
+/* conteneur avatar un peu plus grand */
+.avatar {
+  width: 84px;
+  height: 84px;
+  flex: 0 0 84px;
+  position: relative;
+}
+
+/* image entière dans un cercle (pas rognée) */
+.avatar-img--circle {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;   /* clé pour voir l’image entière */
+  border-radius: 50%;    /* cercle */
+  background: #fff;      /* fond neutre pour les bandes éventuelles */
+  padding: 3px;          /* petit liseré */
+  display: block;
+}
+
+/* fallback initiales, même taille que l’avatar */
+.avatar-initials {
+  width: 100%;
+  height: 100%;
+  font-weight: 700;
+  color: #fff;
+  background: #6c63ff; /* ou ton dégradé si tu préfères */
+  font-size: 1.1rem;
+}
+
+.avatar-img--circle {
+  width: 100px;
+  height: 100px;
+  object-fit: scale-down;  /* réduit mais jamais coupé */
+  border-radius: 50%;      /* cercle */
+  background: #fff;        /* blanc autour si besoin */
+  padding: 3px;
+}
+
+/* Style pour la section avis */
+.testimonials-section {
+  background: linear-gradient(135deg, #f8f9fa 0%, #f1f3f5 100%);
+  overflow: hidden;
+}
+
+/* Style pour les cartes de témoignage */
+.testimonial-card {
+  transition: all 0.3s ease;
+  border-radius: 12px;
+  background: white;
+}
+
+.testimonial-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
+}
+
+.testimonial-text {
+  line-height: 1.6;
+  color: #495057;
+}
+
+/* Style pour l'avatar */
+.avatar {
+  width: 56px;
+  height: 56px;
+  flex-shrink: 0;
+}
+
+.avatar-img {
+  width: 100%;
+  height: 100%;
+}
+
+.avatar-initials {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+}
+
+/* Style pour le gradient de texte */
+.text-gradient-primary {
+  background: linear-gradient(90deg, #3b5bdb 0%, #4dabf7 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Style pour l'image de preview */
+.preview-img {
+  max-width: 100%;
+  height: auto;
+  max-height: 200px;
+  object-fit: contain;
+  margin: 0 auto;
+  display: block;
+}
+
+.border-dashed {
+  border: 2px dashed #dee2e6 !important;
+}
+
+/* Animation */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate__fadeInUp {
+  animation-name: fadeInUp;
+  animation-duration: 0.6s;
+  animation-fill-mode: both;
+}
