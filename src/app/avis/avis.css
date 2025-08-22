@@ -1,0 +1,130 @@
+/* ========== Cartes et effets ========== */
+.card-elevated {
+  border: 1px solid rgba(0, 0, 0, 0.04);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+}
+
+.card-hover {
+  transition: all 0.25s cubic-bezier(0.23, 1, 0.32, 1);
+  will-change: transform, box-shadow;
+}
+
+.card-hover:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px -6px rgba(0, 0, 0, 0.12);
+  border-color: rgba(0, 0, 0, 0.08);
+}
+
+/* ========== Effets de focus améliorés ========== */
+.form-control:focus,
+.form-select:focus,
+textarea.form-control:focus {
+  box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.2);
+  border-color: rgba(13, 110, 253, 0.5);
+  transition: all 0.2s ease-out;
+}
+
+/* ========== Avatar ========== */
+.avatar {
+  width: 60px;
+  height: 60px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.avatar-initials {
+  background: linear-gradient(135deg, #e9f2ff, #d6e4ff);
+  color: #1a3b6b;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* ========== Image preview ========== */
+.preview-img {
+  width: 100%;
+  max-width: 240px;
+  height: 150px;
+  border-radius: 8px;
+  overflow: hidden;
+  position: relative;
+  background-color: #f8f9fa;
+  border: 1px dashed #dee2e6;
+}
+
+.preview-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: opacity 0.3s ease;
+}
+
+.preview-img:hover img {
+  opacity: 0.9;
+}
+
+/* ========== Gestion du texte multiligne ========== */
+.text-clamp-3 {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.5;
+}
+
+/* ========== Icônes ========== */
+.bi {
+  vertical-align: middle;
+  transition: transform 0.2s ease;
+}
+
+.btn:hover .bi {
+  transform: scale(1.1);
+}
+
+/* ========== Accessibilité ========== */
+.invalid-feedback {
+  display: block;
+  opacity: 0;
+  max-height: 0;
+  transition: all 0.3s ease;
+}
+
+.is-invalid ~ .invalid-feedback {
+  opacity: 1;
+  max-height: 100px;
+}
+
+/* ========== Animations subtiles ========== */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.card {
+  animation: fadeIn 0.4s ease-out forwards;
+}
+
+/* ========== Effets au survol des boutons ========== */
+.btn {
+  transition: all 0.2s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+}
+
+.btn:active {
+  transform: translateY(0);
+}
+
+.btn-outline-danger:hover {
+  background-color: var(--bs-danger);
+  color: white;
+}

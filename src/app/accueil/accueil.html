@@ -366,6 +366,7 @@
       </div>
     </div>
 
+
     <!-- Modals par projet -->
     <ng-container *ngFor="let projet of projets">
       <div class="modal fade" [id]="'projectModal' + projet.id" tabindex="-1" [attr.aria-labelledby]="'projectModalLabel' + projet.id" aria-hidden="true">
@@ -388,6 +389,202 @@
     </ng-container>
   </div>
 </section>
+
+
+<!-- Testimonials / Avis Section -->
+<section class="testimonials-section py-5 bg-light position-relative" id="avis">
+  <div class="container position-relative z-1">
+    <div class="text-center mb-5 animate__animated animate__fadeIn">
+      <h2 class="section-title display-5 fw-bold mb-2 text-gradient-primary">Ils Nous Font Confiance</h2>
+      <p class="section-subtitle lead text-muted mb-4">Découvrez les témoignages de nos clients et partenaires</p>
+
+      <button class="btn btn-primary px-4 py-2 rounded-pill shadow-sm lift-sm" data-bs-toggle="modal" data-bs-target="#avisModal">
+        <i class="bi bi-chat-dots me-2"></i> Laisser un avis
+      </button>
+    </div>
+
+    <!-- Liste des avis -->
+    <div class="row g-4 justify-content-center" *ngIf="avis?.length">
+      <div class="col-md-6 col-lg-4 d-flex animate__animated animate__fadeInUp" 
+           *ngFor="let t of avis; let i = index"
+           [style.animation-delay]="(i * 0.1) + 's'">
+        <article class="testimonial-card card border-0 shadow-sm h-100 w-100 overflow-hidden hover-lift">
+          <div class="card-body p-4 d-flex flex-column">
+            <div class="d-flex align-items-start gap-3 mb-3">
+              <!-- Avatar -->
+              <div class="avatar position-relative">
+                <ng-container *ngIf="t.avatarUrl; else initials">
+                  <img [src]="t.avatarUrl"
+                       alt="{{t.firstName}} {{t.lastName}}"
+                       class="avatar-img rounded-circle object-fit-cover border border-2 border-white shadow-sm">
+                </ng-container>
+                <ng-template #initials>
+                  <div class="avatar-initials rounded-circle d-flex align-items-center justify-content-center bg-gradient-primary text-white fw-bold">
+                    {{ ((t.firstName && t.firstName.length>0) ? t.firstName[0] : '').toUpperCase() }}{{ ((t.lastName && t.lastName.length>0) ? t.lastName[0] : '').toUpperCase() }}
+                  </div>
+                </ng-template>
+                <div class="position-absolute bottom-0 end-0 bg-white rounded-circle p-1 shadow-sm">
+                  <i class="bi bi-patch-check-fill text-primary"></i>
+                </div>
+              </div>
+
+              <div class="flex-grow-1">
+                <h3 class="h5 mb-1 fw-semibold">{{ t.firstName }} {{ t.lastName }}</h3>
+                <p class="text-muted small mb-0">
+                  <span class="d-inline-flex align-items-center"><i class="bi bi-briefcase me-1"></i>{{ t.role }}</span>
+                  <span class="text-body-secondary mx-2">•</span>
+                  <span class="d-inline-flex align-items-center"><i class="bi bi-building me-1"></i>{{ t.company }}</span>
+                </p>
+              </div>
+            </div>
+
+            <p class="testimonial-text mt-auto mb-0 position-relative ps-3">
+              <i class="bi bi-quote text-primary opacity-25 position-absolute start-0 top-0 fs-1"></i>
+              {{ t.review }}
+            </p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Modal Ajouter un avis -->
+<div class="modal fade" id="avisModal" tabindex="-1" aria-labelledby="avisModalLabel" aria-hidden="true" data-bs-backdrop="static">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content border-0 rounded-4 overflow-hidden shadow-lg">
+      <form [formGroup]="avisForm" (ngSubmit)="submitAvis()" autocomplete="off">
+        
+        <!-- Header -->
+        <div class="modal-header bg-gradient-primary text-white border-0 py-3">
+          <h5 class="modal-title d-flex align-items-center gap-2" id="avisModalLabel">
+            <i class="bi bi-chat-dots-fill"></i> Ajouter un avis
+          </h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Fermer"></button>
+        </div>
+
+        <!-- Body -->
+        <div class="modal-body p-4">
+          <div class="row g-3">
+
+            <!-- Prénom -->
+            <div class="col-md-6">
+              <label class="form-label fw-semibold" for="firstName">Prénom <span class="text-danger">*</span></label>
+              <input id="firstName" type="text" class="form-control form-control-lg"
+                     formControlName="firstName" aria-required="true" autocomplete="given-name"
+                     [ngClass]="{'is-invalid': avisForm.get('firstName')?.invalid && (avisForm.get('firstName')?.touched || avisForm.get('firstName')?.dirty)}">
+              <div *ngIf="avisForm.get('firstName')?.invalid && (avisForm.get('firstName')?.touched || avisForm.get('firstName')?.dirty)" 
+                   class="invalid-feedback d-flex align-items-center gap-1">
+                <i class="bi bi-exclamation-circle"></i> Prénom requis
+              </div>
+            </div>
+
+            <!-- Nom -->
+            <div class="col-md-6">
+              <label class="form-label fw-semibold" for="lastName">Nom <span class="text-danger">*</span></label>
+              <input id="lastName" type="text" class="form-control form-control-lg"
+                     formControlName="lastName" aria-required="true" autocomplete="family-name"
+                     [ngClass]="{'is-invalid': avisForm.get('lastName')?.invalid && (avisForm.get('lastName')?.touched || avisForm.get('lastName')?.dirty)}">
+              <div *ngIf="avisForm.get('lastName')?.invalid && (avisForm.get('lastName')?.touched || avisForm.get('lastName')?.dirty)" 
+                   class="invalid-feedback d-flex align-items-center gap-1">
+                <i class="bi bi-exclamation-circle"></i> Nom requis
+              </div>
+            </div>
+
+            <!-- Poste -->
+            <div class="col-md-6">
+              <label class="form-label fw-semibold" for="role">Poste <span class="text-danger">*</span></label>
+              <input id="role" type="text" class="form-control form-control-lg"
+                     formControlName="role" aria-required="true"
+                     [ngClass]="{'is-invalid': avisForm.get('role')?.invalid && (avisForm.get('role')?.touched || avisForm.get('role')?.dirty)}">
+              <div *ngIf="avisForm.get('role')?.invalid && (avisForm.get('role')?.touched || avisForm.get('role')?.dirty)" 
+                   class="invalid-feedback d-flex align-items-center gap-1">
+                <i class="bi bi-exclamation-circle"></i> Poste requis
+              </div>
+            </div>
+
+            <!-- Société -->
+            <div class="col-md-6">
+              <label class="form-label fw-semibold" for="company">Société <span class="text-danger">*</span></label>
+              <input id="company" type="text" class="form-control form-control-lg"
+                     formControlName="company" aria-required="true"
+                     [ngClass]="{'is-invalid': avisForm.get('company')?.invalid && (avisForm.get('company')?.touched || avisForm.get('company')?.dirty)}">
+              <div *ngIf="avisForm.get('company')?.invalid && (avisForm.get('company')?.touched || avisForm.get('company')?.dirty)" 
+                   class="invalid-feedback d-flex align-items-center gap-1">
+                <i class="bi bi-exclamation-circle"></i> Société requise
+              </div>
+            </div>
+
+            <!-- Email -->
+            <div class="col-12">
+              <label class="form-label fw-semibold" for="email">Email <span class="text-danger">*</span></label>
+              <input id="email" type="email" class="form-control form-control-lg"
+                     formControlName="email" aria-required="true" autocomplete="email"
+                     [ngClass]="{'is-invalid': avisForm.get('email')?.invalid && (avisForm.get('email')?.touched || avisForm.get('email')?.dirty)}">
+              <div *ngIf="avisForm.get('email')?.invalid && (avisForm.get('email')?.touched || avisForm.get('email')?.dirty)" 
+                   class="invalid-feedback d-flex align-items-center gap-1">
+                <i class="bi bi-exclamation-circle"></i> Email valide requis
+              </div>
+            </div>
+
+            <!-- Avis -->
+            <div class="col-12">
+              <label class="form-label fw-semibold" for="review">Votre avis <span class="text-danger">*</span></label>
+              <textarea id="review" rows="4" class="form-control form-control-lg"
+                        formControlName="review" aria-required="true"
+                        [ngClass]="{'is-invalid': avisForm.get('review')?.invalid && (avisForm.get('review')?.touched || avisForm.get('review')?.dirty)}"></textarea>
+              <div *ngIf="avisForm.get('review')?.invalid && (avisForm.get('review')?.touched || avisForm.get('review')?.dirty)" 
+                   class="invalid-feedback d-flex align-items-center gap-1">
+                <i class="bi bi-exclamation-circle"></i> Avis requis
+              </div>
+            </div>
+
+            <!-- Fichier -->
+            <div class="col-12">
+              <label class="form-label fw-semibold" for="file">Photo personnelle</label>
+              <input id="file" type="file" class="form-control form-control-lg" 
+                     (change)="onAvisFileChange($event)" accept="image/*">
+              <div class="form-text">Formats acceptés : JPG, PNG, WebP (max 2MB)</div>
+
+              <div *ngIf="imagePreview" class="mt-3 text-center">
+                <img [src]="imagePreview" alt="Prévisualisation" 
+                     class="img-thumbnail rounded-4 preview-img border-dashed shadow-sm">
+              </div>
+            </div>
+          </div>
+
+          <!-- Messages généraux -->
+          <div *ngIf="modalError" class="alert alert-danger mt-4 d-flex align-items-center gap-2">
+            <i class="bi bi-exclamation-triangle-fill"></i>
+            <div>{{ modalError }}</div>
+          </div>
+          <div *ngIf="modalSuccess" class="alert alert-success mt-4 d-flex align-items-center gap-2">
+            <i class="bi bi-check-circle-fill"></i>
+            <div>{{ modalSuccess }}</div>
+          </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="modal-footer border-0 bg-light py-3 px-4">
+          <button type="button" class="btn btn-outline-secondary rounded-pill px-4" data-bs-dismiss="modal">
+            Annuler
+          </button>
+          <button type="submit" class="btn btn-primary rounded-pill px-4 lift-sm" [disabled]="avisForm.invalid || saving">
+            <span *ngIf="!saving" class="d-inline-flex align-items-center gap-2">
+              <i class="bi bi-send-fill"></i> Envoyer
+            </span>
+            <span *ngIf="saving" class="d-inline-flex align-items-center gap-2">
+              <i class="bi bi-arrow-repeat spin"></i> Envoi...
+            </span>
+          </button>
+        </div>
+
+      </form>
+    </div>
+  </div>
+</div>
+
+
 
 <!-- Modal Notre Histoire -->
 <div class="modal fade" id="histoireModal" tabindex="-1" aria-labelledby="histoireModalLabel" aria-hidden="true">

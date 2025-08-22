@@ -358,3 +358,9 @@ body {
   border-radius: 25px;
   box-shadow: inset 0 0 4px rgba(31, 94, 255, 0.2);
 }
+
+.project-card { padding: 1rem; border: 1px solid #eee; border-radius: 12px; margin-bottom: 1rem; background:#fff; }
+.image-placeholder { min-height: 160px; background: #f8f9fa; color:#94a3b8; border:1px dashed #e2e8f0; }
+.project-meta .meta-item svg { opacity: .7; }
+.section-title { font-weight: 600; }
+.file-upload .upload-button input[type="file"] { display:none; }

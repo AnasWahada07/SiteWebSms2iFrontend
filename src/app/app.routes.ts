@@ -23,6 +23,7 @@ import { Maquette } from './maquette/maquette';
 import { ViewDemandeFormation } from './view-demande-formation/view-demande-formation';
 import { ViewInscritFormation } from './view-inscrit-formation/view-inscrit-formation';
 import { Viewcompetence } from './viewcompetence/viewcompetence';
+import { AvisComponent } from './avis/avis';
 
 
 export const routes: Routes = [
@@ -38,14 +39,9 @@ export const routes: Routes = [
   { path: 'espaceuniversitaire', component: EspaceUniversitaire },
   { path: 'password', component: ResetPassword },
   { path: 'maquettes', component: Maquette  },
-  { path: 'viewformationinscrit', component: ViewInscritFormation },
-    { path: 'competences', component: Viewcompetence },
+
 
      
-
-
-
-
 
 
 
@@ -59,6 +55,10 @@ export const routes: Routes = [
     { path: 'contact', component: Contacts , canActivate: [adminGuard] },
         { path: 'viewdemandeformation', component: ViewDemandeFormation , canActivate: [adminGuard] },
             { path: 'competences', component: Viewcompetence , canActivate: [adminGuard] },
+                  { path: 'avis', component: AvisComponent , canActivate: [adminGuard] },
+                    { path: 'viewformationinscrit', component: ViewInscritFormation , canActivate: [adminGuard] },
+
+
 
 
 
