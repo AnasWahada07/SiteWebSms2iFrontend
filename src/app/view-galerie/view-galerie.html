@@ -1,27 +1,27 @@
 <div class="container">
 
-<div class="row mb-4 align-items-center">
-  <div class="col-md-6 mb-2 mb-md-0">
-    <input
-      type="text"
-      class="form-control shadow-sm"
-      placeholder="🔍 Rechercher par titre ou client"
-      [(ngModel)]="searchQuery"
-      (ngModelChange)="applyFilter()" />
-  </div>
+  <div class="row mb-4 align-items-center">
+    <div class="col-md-6 mb-2 mb-md-0">
+      <input
+        type="text"
+        class="form-control shadow-sm"
+        placeholder="🔍 Rechercher par titre ou client"
+        [(ngModel)]="searchQuery"
+        (ngModelChange)="applyFilter()" />
+    </div>
 
-  <div class="col-md-6 text-md-end d-flex flex-wrap gap-2 justify-content-md-end">
-    <!-- Bouton Retour Dashboard -->
-    <button class="btn btn-outline-primary btn-sm shadow-sm" (click)="goToDashboard()">
-      <i class="bi bi-arrow-left me-1"></i> Retour au Dashboard
-    </button>
+    <div class="col-md-6 text-md-end d-flex flex-wrap gap-2 justify-content-md-end">
+      <!-- Bouton Retour Dashboard -->
+      <button class="btn btn-outline-primary btn-sm shadow-sm" (click)="goToDashboard()">
+        <i class="bi bi-arrow-left me-1"></i> Retour au Dashboard
+      </button>
 
-    <!-- Bouton Réinitialiser -->
-    <button class="btn btn-outline-secondary btn-sm shadow-sm" (click)="resetFilter()">
-      <i class="bi bi-x-circle me-1"></i> Réinitialiser Recherche
-    </button>
+      <!-- Bouton Réinitialiser -->
+      <button class="btn btn-outline-secondary btn-sm shadow-sm" (click)="resetFilter()">
+        <i class="bi bi-x-circle me-1"></i> Réinitialiser Recherche
+      </button>
+    </div>
   </div>
-</div>
 
   <div class="galerie-list">
     <h2 class="section-title">Mes Galeries</h2>
@@ -62,13 +62,10 @@
     </ng-template>
   </div>
 
-  <!-- ➕ Formulaire d'ajout ou de modification -->
-  <div class="galerie-form" [class.active]="galerieForm.valid || updateMode">
+  <!-- ➕ Formulaire d'ajout -->
+  <div class="galerie-form">
     <div class="form-header">
-      <h2>{{ updateMode ? 'Modifier la galerie' : 'Ajouter une galerie' }}</h2>
-      <button class="close-btn" (click)="resetForm()" *ngIf="updateMode">
-        <i class="fas fa-times"></i>
-      </button>
+      <h2>Ajouter une galerie</h2>
     </div>
 
     <form [formGroup]="galerieForm" (ngSubmit)="onSubmit()">
@@ -95,7 +92,7 @@
           <input #fileInput type="file" (change)="onFileSelected($event)" accept="image/*" hidden />
         </div>
 
-        <!-- Aperçu de l'image sélectionnée ou existante -->
+        <!-- Aperçu de l'image sélectionnée -->
         <div class="image-preview-container" *ngIf="selectedImageUrl">
           <p>Aperçu de l'image :</p>
           <img [src]="selectedImageUrl" alt="Aperçu image" class="image-preview" />
@@ -104,15 +101,13 @@
 
       <div class="button-group">
         <button type="submit" class="primary-btn" [disabled]="galerieForm.invalid">
-          {{ updateMode ? 'Mettre à jour' : 'Ajouter' }}
-        </button>
-        <button type="button" class="secondary-btn" (click)="resetForm()" *ngIf="updateMode">
-          Annuler
+          Ajouter
         </button>
       </div>
     </form>
   </div>
 </div>
+
 <footer class="text-center py-3 bg-light border-top mt-4">
   <div class="small text-muted">
     &copy; {{ currentYear || '2025' }} <strong class="text-dark">SMS2I</strong> — Tous droits réservés.

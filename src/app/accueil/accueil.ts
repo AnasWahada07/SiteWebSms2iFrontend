@@ -247,56 +247,72 @@ export class Accueil implements OnInit, AfterViewInit {
     reader.readAsDataURL(this.selectedFile);
   }
 
-  submitAvis(): void {
-    this.avisForm.markAllAsTouched();
+submitAvis(): void {
+  this.avisForm.markAllAsTouched();
 
-    if (this.avisForm.invalid) {
-      const invalidControl = document.querySelector('.ng-invalid');
-      if (invalidControl) {
-        invalidControl.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      }
-      return;
+  if (this.avisForm.invalid) {
+    const invalidControl = document.querySelector('.ng-invalid');
+    if (invalidControl) {
+      invalidControl.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
+    return;
+  }
 
-    const v = this.avisForm.value;
-    const fd = new FormData();
-    fd.append('prenom', v.firstName as string);
-    fd.append('nom', v.lastName as string);
-    fd.append('poste', v.role as string);
-    fd.append('societe', v.company as string);
-    fd.append('avis', v.review as string);
-    fd.append('email', v.email as string);
-    if (this.selectedFile) fd.append('file', this.selectedFile);
+  const v = this.avisForm.value;
+  const fd = new FormData();
+  fd.append('prenom', v.firstName as string);
+  fd.append('nom', v.lastName as string);
+  fd.append('poste', v.role as string);
+  fd.append('societe', v.company as string);
+  fd.append('avis', v.review as string);
+  fd.append('email', v.email as string);
+  if (this.selectedFile) fd.append('file', this.selectedFile);
 
-    this.saving = true;
-    this.modalError = null;
-    this.modalSuccess = null;
+  this.saving = true;
+  this.modalError = null;
+  this.modalSuccess = null;
 
-    this.http
-      .post<BackendAvis>(this.avisApi, fd)
-      .pipe(
-        timeout(15000),
-        finalize(() => {
-          this.saving = false;
-        })
-      )
-      .subscribe({
-        next: (res) => {
-          this.avis = [this.mapToTestimonial(res), ...this.avis];
-          this.cdRef.detectChanges();
+  this.http
+    .post<BackendAvis>(this.avisApi, fd)
+    .pipe(
+      timeout(15000),
+      finalize(() => {
+        this.saving = false;
+      })
+    )
+    .subscribe({
+      next: (res) => {
+        this.avis = [this.mapToTestimonial(res), ...this.avis];
+        this.cdRef.detectChanges();
 
-          this.modalSuccess = 'Merci ! Votre avis a été ajouté.';
-          this.avisForm.reset();
-          this.selectedFile = null;
-          this.imagePreview = null;
+        // Utilisation de SweetAlert2 au lieu du message simple
+        Swal.fire({
+          icon: 'success',
+          title: 'Merci !',
+          text: 'Votre avis a été ajouté avec succès.',
+          confirmButtonColor: '#3085d6',
+          confirmButtonText: 'OK'
+        });
 
-          this.closeAvisModalSafely();
-        },
-        error: (err) => {
-          console.error(err);
-          this.modalError = 'Échec de l\'envoi. Vérifiez la connexion et réessayez.';
-        },
-      });
+        this.avisForm.reset();
+        this.selectedFile = null;
+        this.imagePreview = null;
+
+        this.closeAvisModalSafely();
+      },
+      error: (err) => {
+        console.error(err);
+        
+        // Utilisation de SweetAlert2 pour l'erreur
+        Swal.fire({
+          icon: 'error',
+          title: 'Erreur',
+          text: 'Échec de l\'envoi. Vérifiez la connexion et réessayez.',
+          confirmButtonColor: '#d33',
+          confirmButtonText: 'OK'
+        });
+      },
+    });
   }
 
   // =======================

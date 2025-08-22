@@ -1,137 +1,147 @@
 <div class="inscription-dashboard">
 
-
   <div class="row mb-4">
-  <div class="col-md-8">
-    <input
-      type="text"
-      class="form-control shadow-sm"
-      placeholder="🔍 Rechercher par nom, prénom, classe ou sujet"
-      [(ngModel)]="searchQuery"
-      (ngModelChange)="applyFilter()" />
+    <div class="col-md-8">
+      <input
+        type="text"
+        class="form-control shadow-sm"
+        placeholder="🔍 Rechercher par nom, prénom, classe ou sujet"
+        [(ngModel)]="searchQuery"
+        (ngModelChange)="applyFilter()" />
+    </div>
+    <div class="col-md-4 text-end">
+      <button class="btn btn-outline-secondary btn-sm shadow-sm" (click)="resetFilter()">
+        <i class="fas fa-times-circle me-1"></i> Réinitialiser
+      </button>
+    </div>
+
+    <div class="d-flex justify-content-end mb-3">
+      <button class="btn btn-outline-primary btn-sm shadow-sm" (click)="goToDashboard()">
+        <i class="bi bi-arrow-left me-1"></i> Retour au Dashboard
+      </button>
+    </div>
   </div>
-  <div class="col-md-4 text-end">
-    <button class="btn btn-outline-secondary btn-sm shadow-sm" (click)="resetFilter()">
-      <i class="fas fa-times-circle me-1"></i> Réinitialiser
-    </button>
-  </div>
-
-<div class="d-flex justify-content-end mb-3">
-  <button class="btn btn-outline-primary btn-sm shadow-sm" (click)="goToDashboard()">
-    <i class="bi bi-arrow-left me-1"></i> Retour au Dashboard
-  </button>
-</div>
-
-
-</div>
 
   <h2 class="dashboard-title">
     <i class="fas fa-user-graduate"></i> Gestion des Inscriptions
   </h2>
 
-  <div class="table-wrapper">
-    <table class="modern-table">
-      <thead>
-        <tr>
-          <th class="column-id">ID</th>
-          <th>Nom</th>
-          <th>Prénom</th>
-          <th class="column-email">Email</th>
-          <th class="column-phone">Téléphone</th>
-          <th class="column-class">Classe</th>
-          <th class="column-specialty">Spécialité</th>
-          <th class="column-subject">Sujet</th>
-          <th class="column-status">État</th>
-          <th class="column-actions">Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let i of inscriptions" [class.is-editing]="selectedInscription?.id === i.id">
-          <td class="column-id">{{ i.id }}</td>
+  <!-- ✅ Vérification si inscriptions est vide -->
+  <ng-container *ngIf="inscriptions.length > 0; else emptyState">
 
-          <!-- Mode édition -->
-          <ng-container *ngIf="selectedInscription && selectedInscription.id === i.id; else viewMode">
-            <td><input class="form-input" [(ngModel)]="selectedInscription.nom" placeholder="Nom" /></td>
-            <td><input class="form-input" [(ngModel)]="selectedInscription.prenom" placeholder="Prénom" /></td>
-            <td class="column-email"><input class="form-input" type="email" [(ngModel)]="selectedInscription.email" placeholder="Email" /></td>
-            <td class="column-phone"><input class="form-input" type="tel" [(ngModel)]="selectedInscription.telephone" placeholder="Téléphone" /></td>
-            <td class="column-class"><input class="form-input" [(ngModel)]="selectedInscription.classe" placeholder="Classe" /></td>
-            <td class="column-specialty"><input class="form-input" [(ngModel)]="selectedInscription.specialite" placeholder="Spécialité" /></td>
-            <td class="column-subject"><input class="form-input" [(ngModel)]="selectedInscription.sujetTitre" placeholder="Sujet" /></td>
-            <td class="column-status">
-              <select class="form-select" [(ngModel)]="selectedInscription.etat">
-                <option value="CONTACTEZ_ADMINISTRATION_DE_SMS2I_POUR_EFFECTUER_LE_PAIEMENT">
-                  CONTACTEZ_ADMINISTRATION_DE_SMS2I_POUR_EFFECTUER_LE_PAIEMENT
-                </option>
-                <option value="PAIEMENT_CONFIRMÉ_AVEC_SUCCÈS">
-                  PAIEMENT_CONFIRMÉ_AVEC_SUCCÈS
-                </option>
-              </select>
-            </td>
-            <td class="column-actions">
-              <div class="action-group">
-                <button class="action-btn save-btn" (click)="saveModification()" title="Enregistrer">
-                  <i class="fas fa-check-circle"></i>
-                </button>
-                <button class="action-btn cancel-btn" (click)="cancelEdit()" title="Annuler">
-                  <i class="fas fa-times-circle"></i>
-                </button>
-              </div>
-            </td>
-          </ng-container>
+    <div class="table-wrapper">
+      <table class="modern-table">
+        <thead>
+          <tr>
+            <th class="column-id">ID</th>
+            <th>Nom</th>
+            <th>Prénom</th>
+            <th class="column-email">Email</th>
+            <th class="column-phone">Téléphone</th>
+            <th class="column-class">Classe</th>
+            <th class="column-specialty">Spécialité</th>
+            <th class="column-subject">Sujet</th>
+            <th class="column-status">État</th>
+            <th class="column-actions">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let i of inscriptions" [class.is-editing]="selectedInscription?.id === i.id">
+            <td class="column-id">{{ i.id }}</td>
 
-          <!-- Mode affichage -->
-          <ng-template #viewMode>
-            <td>{{ i.nom }}</td>
-            <td>{{ i.prenom }}</td>
-            <td class="column-email">
-              <a href="mailto:{{i.email}}" class="email-link">{{ i.email }}</a>
-            </td>
-            <td class="column-phone">
-              <a href="tel:{{i.telephone}}" class="phone-link">{{ i.telephone }}</a>
-            </td>
-            <td class="column-class">{{ i.classe }}</td>
-            <td class="column-specialty">{{ i.specialite }}</td>
-            <td class="column-subject">{{ i.sujetTitre }}</td>
-<td class="column-status">
-  <span class="status-tag"
-        [ngClass]="{
-          'is-pending': i.etat === 'CONTACTEZ_ADMINISTRATION_DE_SMS2I_POUR_EFFECTUER_LE_PAIEMENT',
-          'is-confirmed': i.etat === 'PAIEMENT_CONFIRMÉ_AVEC_SUCCÈS'
-        }">
+            <!-- Mode édition -->
+            <ng-container *ngIf="selectedInscription && selectedInscription.id === i.id; else viewMode">
+              <td><input class="form-input" [(ngModel)]="selectedInscription.nom" placeholder="Nom" /></td>
+              <td><input class="form-input" [(ngModel)]="selectedInscription.prenom" placeholder="Prénom" /></td>
+              <td class="column-email"><input class="form-input" type="email" [(ngModel)]="selectedInscription.email" placeholder="Email" /></td>
+              <td class="column-phone"><input class="form-input" type="tel" [(ngModel)]="selectedInscription.telephone" placeholder="Téléphone" /></td>
+              <td class="column-class"><input class="form-input" [(ngModel)]="selectedInscription.classe" placeholder="Classe" /></td>
+              <td class="column-specialty"><input class="form-input" [(ngModel)]="selectedInscription.specialite" placeholder="Spécialité" /></td>
+              <td class="column-subject"><input class="form-input" [(ngModel)]="selectedInscription.sujetTitre" placeholder="Sujet" /></td>
+              <td class="column-status">
+                <select class="form-select" [(ngModel)]="selectedInscription.etat">
+                  <option value="CONTACTEZ_ADMINISTRATION_DE_SMS2I_POUR_EFFECTUER_LE_PAIEMENT">
+                    CONTACTEZ_ADMINISTRATION_DE_SMS2I_POUR_EFFECTUER_LE_PAIEMENT
+                  </option>
+                  <option value="PAIEMENT_CONFIRMÉ_AVEC_SUCCÈS">
+                    PAIEMENT_CONFIRMÉ_AVEC_SUCCÈS
+                  </option>
+                </select>
+              </td>
+              <td class="column-actions">
+                <div class="action-group">
+                  <button class="action-btn save-btn" (click)="saveModification()" title="Enregistrer">
+                    <i class="fas fa-check-circle"></i>
+                  </button>
+                  <button class="action-btn cancel-btn" (click)="cancelEdit()" title="Annuler">
+                    <i class="fas fa-times-circle"></i>
+                  </button>
+                </div>
+              </td>
+            </ng-container>
 
-    <i class="status-icon me-1"
-       [ngClass]="{
-         'bi-clock-fill': i.etat === 'CONTACTEZ_ADMINISTRATION_DE_SMS2I_POUR_EFFECTUER_LE_PAIEMENT',
-         'fas fa-check-circle text-success': i.etat === 'PAIEMENT_CONFIRMÉ_AVEC_SUCCÈS'
-       }">
-    </i>
-
-    {{ i.etat === 'CONTACTEZ_ADMINISTRATION_DE_SMS2I_POUR_EFFECTUER_LE_PAIEMENT'
-        ? 'En attente de paiement'
-        : 'Paiement confirmé' }}
-  </span>
-</td>            <td class="column-actions">
-              <div class="action-group">
-                <button class="action-btn edit-btn" (click)="editInscription(i)" title="Modifier">
-                  <i class="fas fa-edit"></i>
-                </button>
-                <button class="action-btn delete-btn" (click)="deleteInscription(i.id)" title="Supprimer">
-                  <i class="fas fa-trash-alt"></i>
-                </button>
-              </div>
-            </td>
-          </ng-template>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-
-  <div class="summary-footer">
-    <div class="total-count">
-      <i class="fas fa-users"></i> Total: {{ inscriptions.length }} inscriptions
+            <!-- Mode affichage -->
+            <ng-template #viewMode>
+              <td>{{ i.nom }}</td>
+              <td>{{ i.prenom }}</td>
+              <td class="column-email">
+                <a href="mailto:{{i.email}}" class="email-link">{{ i.email }}</a>
+              </td>
+              <td class="column-phone">
+                <a href="tel:{{i.telephone}}" class="phone-link">{{ i.telephone }}</a>
+              </td>
+              <td class="column-class">{{ i.classe }}</td>
+              <td class="column-specialty">{{ i.specialite }}</td>
+              <td class="column-subject">{{ i.sujetTitre }}</td>
+              <td class="column-status">
+                <span class="status-tag"
+                      [ngClass]="{
+                        'is-pending': i.etat === 'CONTACTEZ_ADMINISTRATION_DE_SMS2I_POUR_EFFECTUER_LE_PAIEMENT',
+                        'is-confirmed': i.etat === 'PAIEMENT_CONFIRMÉ_AVEC_SUCCÈS'
+                      }">
+                  <i class="status-icon me-1"
+                     [ngClass]="{
+                       'bi-clock-fill': i.etat === 'CONTACTEZ_ADMINISTRATION_DE_SMS2I_POUR_EFFECTUER_LE_PAIEMENT',
+                       'fas fa-check-circle text-success': i.etat === 'PAIEMENT_CONFIRMÉ_AVEC_SUCCÈS'
+                     }">
+                  </i>
+                  {{ i.etat === 'CONTACTEZ_ADMINISTRATION_DE_SMS2I_POUR_EFFECTUER_LE_PAIEMENT'
+                      ? 'En attente de paiement'
+                      : 'Paiement confirmé' }}
+                </span>
+              </td>
+              <td class="column-actions">
+                <div class="action-group">
+                  <button class="action-btn edit-btn" (click)="editInscription(i)" title="Modifier">
+                    <i class="fas fa-edit"></i>
+                  </button>
+                  <button class="action-btn delete-btn" (click)="deleteInscription(i.id)" title="Supprimer">
+                    <i class="fas fa-trash-alt"></i>
+                  </button>
+                </div>
+              </td>
+            </ng-template>
+          </tr>
+        </tbody>
+      </table>
     </div>
-  </div>
+
+    <div class="summary-footer">
+      <div class="total-count">
+        <i class="fas fa-users"></i> Total: {{ inscriptions.length }} inscriptions
+      </div>
+    </div>
+  </ng-container>
+
+  <!-- ✅ Template vide -->
+  <ng-template #emptyState>
+    <div class="text-center py-5">
+      <div style="font-size: 3rem;">📭</div>
+      <h5 class="mt-3 text-muted">Aucune inscription PFE pour le moment</h5>
+      <p class="text-secondary">Revenez plus tard </p>
+    </div>
+  </ng-template>
+
 </div>
 
 <footer class="text-center py-3 bg-light border-top mt-4">

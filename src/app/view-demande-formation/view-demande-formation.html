@@ -98,12 +98,27 @@
     </table>
 
     <!-- 📭 Aucun résultat -->
-    <ng-template #emptyFormationsTpl>
-      <div class="text-center py-5">
-        <div class="display-6 mb-3" aria-hidden="true">📭</div>
-        <p class="text-muted fs-5 mb-0">Aucune formation trouvée Pour le Moment.</p>
-      </div>
-    </ng-template>
+<ng-template #emptyFormationsTpl>
+  <div class="d-flex flex-column align-items-center justify-content-center py-5">
+    <!-- Icône animée -->
+    <div class="mb-3" style="font-size: 3rem;" aria-hidden="true">📭</div>
+
+    <!-- Message principal -->
+    <h5 class="fw-bold text-secondary mb-2">
+      Aucune formation disponible
+    </h5>
+
+    <!-- Message secondaire -->
+    <p class="text-muted mb-4 text-center" style="max-width: 400px;">
+      Il n’y a actuellement aucune formation Revenez plus tard . 
+      
+    </p>
+
+    <!-- Boutons d’action -->
+    <div>
+    </div>
+  </div>
+</ng-template>
   </div>
 
   <!-- 📝 Formulaire de modification -->

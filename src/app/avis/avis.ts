@@ -4,6 +4,7 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Avis } from '../Class/Avis';
 import { AvisService } from '../Services/avis.service';
 import Swal from 'sweetalert2';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-avis',
@@ -14,6 +15,7 @@ import Swal from 'sweetalert2';
 export class AvisComponent implements OnInit {
 
   private fb = inject(FormBuilder);
+  private router = inject(Router);
   private avisService = inject(AvisService);
     currentYear: number = new Date().getFullYear();
 
@@ -202,4 +204,9 @@ export class AvisComponent implements OnInit {
       confirmButtonColor: '#d33'
     });
   }
+
+    goToDashboard(): void {
+    this.router.navigate(['/Admin']);
+  }
+
 }

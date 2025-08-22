@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Projet } from '../Class/Projet';
 import { ProjetService } from '../Services/Projet.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -7,31 +7,38 @@ import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
 
+// Import du type Modal depuis Bootstrap (bundle doit être chargé via angular.json)
+import * as bootstrap from 'bootstrap';
+
 @Component({
   selector: 'app-view-projet',
-  imports: [
-    ReactiveFormsModule,
-    HttpClientModule,
-    FormsModule,
-    CommonModule
-  ],
+  standalone: true,
+  imports: [ReactiveFormsModule, HttpClientModule, FormsModule, CommonModule],
   templateUrl: './view-projet.html',
-  styleUrl: './view-projet.css'
+  styleUrls: ['./view-projet.css']
 })
 export class ViewProjet implements OnInit {
   projets: Projet[] = [];
-  newProjet: any = {};
-  selectedImageFile?: File;
-  previewUrl: string | ArrayBuffer | null = null;
+  projetsOriginal: Projet[] = [];
 
+  // Ajout
+  newProjet: Partial<Projet> = {};
+  selectedImageFile?: File;
+  previewUrl: string | null = null;
+
+  // Edition (modal)
+  selectedProjet: Partial<Projet> | null = null;
+  selectedEditImageFile?: File;
+  editPreviewUrl: string | null = null;
+
+  // Recherche
   searchQuery: string = '';
-  projetsOriginal: any[] = [];
 
   currentYear: number = new Date().getFullYear();
 
-  selectedProjet?: any;
-  selectedEditImageFile?: File;
-  editPreviewUrl: string | ArrayBuffer | null = null;
+  // Référence au modal Bootstrap
+  @ViewChild('editProjetModal') editProjetModalRef!: ElementRef<HTMLDivElement>;
+  private editModalInstance?: bootstrap.Modal;
 
   constructor(
     private projetService: ProjetService,
@@ -43,117 +50,136 @@ export class ViewProjet implements OnInit {
     this.loadProjets();
   }
 
+  /** =============== NAV =============== */
   goToDashboard(): void {
     this.router.navigate(['/Admin']);
   }
 
+  /** =============== CHARGEMENT =============== */
   loadProjets(): void {
     this.projetService.getAllProjets().subscribe({
       next: (data) => {
-        this.projets = data;
-        this.cdRef.detectChanges();
+        this.projets = data ?? [];
         this.projetsOriginal = [...this.projets];
+        this.cdRef.detectChanges();
       },
-      error: () => {
-        Swal.fire('Erreur', 'Erreur de chargement des projets', 'error');
-      }
+      error: () => Swal.fire('Erreur', 'Erreur de chargement des projets', 'error')
     });
   }
 
+  /** =============== AJOUT =============== */
   onFileSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
     if (input.files?.length) {
       this.selectedImageFile = input.files[0];
+
+      if (this.previewUrl?.startsWith('blob:')) {
+        URL.revokeObjectURL(this.previewUrl);
+      }
       const reader = new FileReader();
-      reader.onload = () => this.previewUrl = reader.result;
+      reader.onload = () => (this.previewUrl = reader.result as string);
       reader.readAsDataURL(this.selectedImageFile);
     }
   }
 
-saveProjet(): void {
-  const fd = new FormData();
-  fd.append('title', this.newProjet.title ?? '');
-  fd.append('description', this.newProjet.description ?? '');
-  fd.append('duree', this.newProjet.duree ?? '');
-  fd.append('client', this.newProjet.client ?? '');
-  fd.append('technologie', this.newProjet.technologie ?? '');
-  if (this.selectedImageFile) fd.append('image', this.selectedImageFile);
+  saveProjet(): void {
+    const fd = new FormData();
+    fd.append('title', this.newProjet.title ?? '');
+    fd.append('description', this.newProjet.description ?? '');
+    fd.append('duree', this.newProjet.duree ?? '');
+    fd.append('client', this.newProjet.client ?? '');
+    fd.append('technologie', this.newProjet.technologie ?? '');
+    if (this.selectedImageFile) fd.append('image', this.selectedImageFile);
 
-  this.projetService.createProjetWithImage(fd).subscribe({
-    next: (res) => {
-      this.newProjet = {};
-      this.previewUrl = null;
-      this.selectedImageFile = undefined;
-      this.loadProjets();
-      Swal.fire('Succès', 'Projet ajouté avec succès', 'success');
-    },
-    error: (err) => {
-      const msg =
-        (err?.headers?.get?.('X-Error')) ||
-        (err?.error?.message) ||
-        'Échec de l\'ajout du projet';
-      console.error('Upload error:', err);
-      Swal.fire('Erreur', msg, 'error');
-    }
-  });
-}
-  editProjet(projet: Projet): void {
-    this.selectedProjet = { ...projet };
-    this.editPreviewUrl = projet.imageUrl;
-    this.selectedEditImageFile = undefined;
-  }
-
-  onEditFileSelected(event: Event): void {
-    const input = event.target as HTMLInputElement;
-    if (input.files?.length) {
-      this.selectedEditImageFile = input.files[0];
-      const reader = new FileReader();
-      reader.onload = () => this.editPreviewUrl = reader.result;
-      reader.readAsDataURL(this.selectedEditImageFile);
-    }
-  }
-
-  updateProjet(): void {
-    if (!this.selectedProjet?.id) return;
-
-    const formData = new FormData();
-    formData.append('title', this.selectedProjet.title);
-    formData.append('description', this.selectedProjet.description);
-    formData.append('duree', this.selectedProjet.duree);
-    formData.append('client', this.selectedProjet.client);
-    formData.append('technologie', this.selectedProjet.technologie);
-    if (this.selectedEditImageFile) {
-      formData.append('image', this.selectedEditImageFile);
-    }
-
-    this.projetService.updateProjetWithImage(this.selectedProjet.id, formData).subscribe({
+    this.projetService.createProjetWithImage(fd).subscribe({
       next: () => {
-        this.selectedProjet = undefined;
-        this.editPreviewUrl = null;
-        this.selectedEditImageFile = undefined;
+        this.newProjet = {};
+        if (this.previewUrl?.startsWith('blob:')) URL.revokeObjectURL(this.previewUrl);
+        this.previewUrl = null;
+        this.selectedImageFile = undefined;
         this.loadProjets();
-        Swal.fire('Succès', 'Projet mis à jour avec succès', 'success');
+        Swal.fire('Succès', 'Projet ajouté avec succès', 'success');
       },
-      error: () => {
-        Swal.fire('Erreur', 'Échec de la mise à jour du projet', 'error');
+      error: (err) => {
+        const msg = err?.headers?.get?.('X-Error') || err?.error?.message || 'Échec de l\'ajout du projet';
+        console.error('Upload error:', err);
+        Swal.fire('Erreur', msg, 'error');
       }
     });
   }
 
-  applyProjetFilter(): void {
-    const query = this.searchQuery.toLowerCase().trim();
+  /** =============== MODAL ÉDITION =============== */
+  // Ouvre le modal et pré-remplit les valeurs
+  editProjet(projet: Projet): void {
+    this.selectedProjet = { ...projet };
+    this.selectedEditImageFile = undefined;
+    this.editPreviewUrl = projet.imageUrl ?? null;
 
-    this.projets = this.projetsOriginal.filter(projet =>
-      (projet.title && projet.title.toLowerCase().includes(query)) ||
-      (projet.client && projet.client.toLowerCase().includes(query))
-    );
+    // Instancie + ouvre le modal Bootstrap
+    if (!this.editModalInstance) {
+      this.editModalInstance = new bootstrap.Modal(this.editProjetModalRef.nativeElement, {
+        backdrop: 'static',
+        keyboard: false
+      });
+    }
+    this.editModalInstance.show();
   }
 
-  resetProjetFilter(): void {
-    this.searchQuery = '';
-    this.projets = [...this.projetsOriginal];
+  // Ferme le modal et nettoie l'état
+  closeEditModal(): void {
+    this.editModalInstance?.hide();
+    this.selectedEditImageFile = undefined;
+    this.editPreviewUrl = null;
+    this.selectedProjet = null;
   }
 
+  // Gestion du fichier (édition)
+  onEditFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files?.length) {
+      this.selectedEditImageFile = input.files[0];
+
+      if (this.editPreviewUrl?.startsWith('blob:')) {
+        URL.revokeObjectURL(this.editPreviewUrl);
+      }
+      const reader = new FileReader();
+      reader.onload = () => (this.editPreviewUrl = reader.result as string);
+      reader.readAsDataURL(this.selectedEditImageFile);
+    }
+  }
+
+  // Soumission édition
+  updateProjet(): void {
+    if (!this.selectedProjet?.id) return;
+
+    // Validations rapides
+    const title = (this.selectedProjet.title ?? '').trim();
+    const description = (this.selectedProjet.description ?? '').trim();
+    const client = (this.selectedProjet.client ?? '').trim();
+    if (!title || !description || !client) {
+      Swal.fire('Champs requis', 'Titre, description et client sont obligatoires.', 'warning');
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append('title', title);
+    formData.append('description', description);
+    formData.append('duree', this.selectedProjet.duree ?? '');
+    formData.append('client', client);
+    formData.append('technologie', this.selectedProjet.technologie ?? '');
+    if (this.selectedEditImageFile) formData.append('image', this.selectedEditImageFile);
+
+    this.projetService.updateProjetWithImage(this.selectedProjet.id!, formData).subscribe({
+      next: () => {
+        this.closeEditModal();
+        this.loadProjets();
+        Swal.fire('Succès', 'Projet mis à jour avec succès', 'success');
+      },
+      error: () => Swal.fire('Erreur', 'Échec de la mise à jour du projet', 'error')
+    });
+  }
+
+  /** =============== SUPPRESSION =============== */
   deleteProjet(id: number): void {
     Swal.fire({
       title: 'Confirmation',
@@ -169,11 +195,23 @@ saveProjet(): void {
             this.loadProjets();
             Swal.fire('Supprimé', 'Projet supprimé avec succès', 'success');
           },
-          error: () => {
-            Swal.fire('Erreur', 'Erreur lors de la suppression', 'error');
-          }
+          error: () => Swal.fire('Erreur', 'Erreur lors de la suppression', 'error')
         });
       }
     });
+  }
+
+  /** =============== RECHERCHE =============== */
+  applyProjetFilter(): void {
+    const q = this.searchQuery.toLowerCase().trim();
+    this.projets = this.projetsOriginal.filter(p =>
+      (p.title && p.title.toLowerCase().includes(q)) ||
+      (p.client && p.client.toLowerCase().includes(q))
+    );
+  }
+
+  resetProjetFilter(): void {
+    this.searchQuery = '';
+    this.projets = [...this.projetsOriginal];
   }
 }

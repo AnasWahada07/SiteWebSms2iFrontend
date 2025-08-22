@@ -4,10 +4,18 @@
     <span>Gestion des Avis</span>
   </h2>
 
+
   <div *ngIf="errorMsg()" class="alert alert-danger d-flex align-items-center gap-2 mb-4" role="alert">
     <i class="bi bi-exclamation-triangle-fill fs-5"></i>
     <span>{{ errorMsg() }}</span>
   </div>
+
+        <div class="col-md-4 d-flex justify-content-md-end gap-2">
+      <button class="btn btn-outline-secondary btn-sm shadow-sm" (click)="goToDashboard()">
+        <i class="bi bi-arrow-left me-1"></i> Retour au Dashboard
+      </button>
+    </div>
+
 
   <!-- État vide -->
   <div *ngIf="!avisList().length" class="card shadow-sm p-5 mb-4 text-center">
