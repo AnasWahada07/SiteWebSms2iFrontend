@@ -92,20 +92,31 @@ updateCurrentTime(): void {
     };
     this.currentDateFormatted = new Date().toLocaleDateString('fr-FR', options);
 
-    const hijri = new HijriDate();
-    const hijriDay = hijri.getDate();
-    const hijriMonth = hijri.getMonth();
-    const hijriYear = hijri.getFullYear();
+const hijri = new HijriDate();
+const hijriDay = hijri.getDate();
+const hijriMonth = hijri.getMonth();      
+const hijriYear = hijri.getFullYear();
 
-    const hijriMonths = [
-      'Muharram', 'Safar', 'Rabiʿ al-awwal', 'Rabiʿ al-thani',
-      'Jumada al-awwal', 'Jumada al-thani', 'Rajab', 'Shaʿban',
-      'Ramadan', 'Shawwal', 'Dhu al-Qiʿdah', 'Dhu al-Ḥijjah'
-    ];
+const hijriMonths = [
+  'Muharram',
+  'Safar',
+  'Rabiʿ al-awwal',
+  'Rabiʿ al-thani',
+  'Jumada al-awwal',
+  'Jumada al-thani',
+  'Rajab',
+  'Shaʿban',
+  'Ramadan',
+  'Shawwal',
+  'Dhu al-Qiʿdah',
+  'Dhu al-Ḥijjah'
+];
 
-    this.hijriDateFormatted = `${hijriDay} ${hijriMonths[hijriMonth]} ${hijriYear} هـ`;
+const monthIndex = ((hijriMonth - 1) + 12) % 12;
+
+this.hijriDateFormatted = `${hijriDay} ${hijriMonths[monthIndex]} ${hijriYear} هـ`;
+    this.cdr.detectChanges();
   }
-
   loadAllNotifications(): void {
     this.notificationService.getAllNotifications().subscribe((data) => {
       this.notificationsOriginal = data;
