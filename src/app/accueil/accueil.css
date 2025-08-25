@@ -1127,3 +1127,47 @@ body { top: 0 !important; }
   animation-duration: 0.6s;
   animation-fill-mode: both;
 }
+
+
+.exclamation-as-i {
+  font-family: Arial, sans-serif;
+  font-style: normal;
+  font-weight: bold;
+  display: inline-block; 
+  transform: scaleY(1.2); 
+  margin-left: 1px;
+  margin-right: 1px;
+}
+
+.slider-section .carousel-item img {
+  max-width: 300px;   /* largeur max de l’image */
+  height: auto;       /* conserve les proportions */
+  margin: 0 auto;     /* centre l’image */
+}
+
+.logo-slider {
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+  background: #fff; /* couleur de fond */
+  padding: 20px 0;
+}
+
+.logo-track {
+  display: flex;
+  width: calc(200px * 14); /* largeur = nb images × largeur approx */
+  animation: scroll 20s linear infinite;
+}
+
+.logo-track img {
+  height: 80px;       /* ajuste la taille des logos */
+  margin: 0 40px;     /* espacement entre logos */
+  object-fit: contain;
+}
+
+@keyframes scroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); } /* défile vers la gauche */
+}
+
+
