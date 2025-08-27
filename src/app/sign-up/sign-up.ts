@@ -132,7 +132,7 @@ ngOnInit(): void {
       password: formData.password,
     };
 
-    this.http.post('https://sitewebsms2ibackend-production.up.railway.app/api/users/register', userData).subscribe({
+    this.http.post('https://anas-wahada1997.alwaysdata.net/api/users/register', userData).subscribe({
       next: () => {
         Swal.fire({
           icon: 'success',

@@ -18,7 +18,7 @@ export interface InscriptionPFE {
   providedIn: 'root'
 })
 export class ViewInscriptionService {
-  private apiUrl = 'https://sitewebsms2ibackend-production.up.railway.app/api/inscriptions';
+  private apiUrl = 'https://anas-wahada1997.alwaysdata.net/api/inscriptions';
 
   constructor(private http: HttpClient) {}
 

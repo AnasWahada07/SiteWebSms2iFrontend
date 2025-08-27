@@ -6,7 +6,7 @@ import { Avis } from '../Class/Avis';
 @Injectable({ providedIn: 'root' })
 export class AvisService {
   private http = inject(HttpClient);
-  private baseUrl = `https://sitewebsms2ibackend-production.up.railway.app/api/avis`;
+  private baseUrl = `https://anas-wahada1997.alwaysdata.net/api/avis`;
 
   list(): Observable<Avis[]> {
     return this.http.get<Avis[]>(this.baseUrl);

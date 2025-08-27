@@ -10,9 +10,9 @@ import { InscriptionFormation } from '../Class/InscriptionFormation';
   providedIn: 'root'
 })
 export class FormationService {
-  private apiUrl = 'https://sitewebsms2ibackend-production.up.railway.app/api/formations';
-  private baseUrl= 'https://sitewebsms2ibackend-production.up.railway.app/api/inscriptions/formation';
-  private urlParType = 'https://sitewebsms2ibackend-production.up.railway.app/api/formations/confirmetype';
+  private apiUrl = 'https://anas-wahada1997.alwaysdata.net/api/formations';
+  private baseUrl= 'https://anas-wahada1997.alwaysdata.net/api/inscriptions/formation';
+  private urlParType = 'https://anas-wahada1997.alwaysdata.net/api/formations/confirmetype';
 
   constructor(private http: HttpClient) {}
 

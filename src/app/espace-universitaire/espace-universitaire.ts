@@ -117,7 +117,7 @@ export class EspaceUniversitaire implements OnInit {
   onSubmitDemandeMaquette(): void {
     if (this.demandeMaquetteForm.invalid) return;
     const data = this.demandeMaquetteForm.value;
-    this.http.post('https://sitewebsms2ibackend-production.up.railway.app/api/demandes', data).subscribe({
+    this.http.post('https://anas-wahada1997.alwaysdata.net/api/demandes', data).subscribe({
       next: () => {
         bootstrap.Modal.getInstance(document.getElementById('demanderMaquetteModal')!)?.hide();
         this.cleanModalState();
@@ -143,7 +143,7 @@ export class EspaceUniversitaire implements OnInit {
     const formData = new FormData();
     formData.append('maquette', new Blob([JSON.stringify(this.form)], { type: 'application/json' }));
     formData.append('file', this.selectedFileMaquette);
-    this.http.post('https://sitewebsms2ibackend-production.up.railway.app/api/maquettes', formData).subscribe({
+    this.http.post('https://anas-wahada1997.alwaysdata.net/api/maquettes', formData).subscribe({
       next: () => {
         this.resetMaquetteForm();
         bootstrap.Modal.getInstance(document.getElementById('proposerMaquetteModal')!)?.hide();
@@ -231,7 +231,7 @@ export class EspaceUniversitaire implements OnInit {
     const formData = new FormData();
     formData.append('sujet', new Blob([JSON.stringify(this.sujet)], { type: 'application/json' }));
     formData.append('file', this.selectedFile);
-    this.http.post('https://sitewebsms2ibackend-production.up.railway.app/api/sujets', formData).subscribe({
+    this.http.post('https://anas-wahada1997.alwaysdata.net/api/sujets', formData).subscribe({
       next: () => {
         this.resetForm();
         Swal.fire('Succès', 'Sujet proposé avec succès.', 'success');

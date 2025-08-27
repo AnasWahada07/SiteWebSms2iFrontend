@@ -12,7 +12,7 @@ export interface Notification {
 
 @Injectable({ providedIn: 'root' })
 export class NotificationService {
-  private baseUrl = 'https://sitewebsms2ibackend-production.up.railway.app/api/notifications';
+  private baseUrl = 'https://anas-wahada1997.alwaysdata.net/api/notifications';
   private weatherApiKey = 'd4018802d6ad0ae758708a18a30c201b'; 
   private city = 'Msaken'; 
 

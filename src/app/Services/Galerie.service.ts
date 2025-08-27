@@ -7,7 +7,7 @@ import { Galeries } from '../Class/Galeries';
   providedIn: 'root'
 })
 export class GalerieService {
-  private apiUrl = 'https://sitewebsms2ibackend-production.up.railway.app/api/galeries';
+  private apiUrl = 'https://anas-wahada1997.alwaysdata.net/api/galeries';
 
   constructor(private http: HttpClient) {}
 

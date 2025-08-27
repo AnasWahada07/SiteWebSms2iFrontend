@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
-const API_URL = 'https://sitewebsms2ibackend-production.up.railway.app/api/inscriptions/formation';
+const API_URL = 'https://anas-wahada1997.alwaysdata.net/api/inscriptions/formation';
 
 @Injectable({
   providedIn: 'root'
