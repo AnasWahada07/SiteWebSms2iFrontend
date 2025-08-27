@@ -6,7 +6,7 @@ import { Competence } from '../Class/Competence';
 @Injectable({ providedIn: 'root' })
 export class CompetenceService {
   // base API (prod Railway – adapte si besoin)
-  private apiUrl = 'https://sitewebsms2ibackend-production.up.railway.app/api/competences';
+  private apiUrl = 'https://anas-wahada1997.alwaysdata.net/api/competences';
 
   constructor(private http: HttpClient) {}
 

@@ -104,6 +104,6 @@ export class ViewFormation implements OnInit {
   }
 
   getFileUrl(fileName: string): string {
-    return `https://sitewebsms2ibackend-production.up.railway.app/api/sujets/files/${fileName}`;
+    return `https://anas-wahada1997.alwaysdata.net/api/sujets/files/${fileName}`;
   }
 }

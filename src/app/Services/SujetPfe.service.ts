@@ -11,7 +11,7 @@ import { SujetsParTypeDTO } from '../Class/SujetsParTypeDTO';
 })
 export class SujetPfeService {
 
-  private apiUrl = 'https://sitewebsms2ibackend-production.up.railway.app/api/sujets/confirmes-groupes'; 
+  private apiUrl = 'https://anas-wahada1997.alwaysdata.net/api/sujets/confirmes-groupes'; 
 
   constructor(private http: HttpClient) {}
 

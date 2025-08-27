@@ -25,7 +25,7 @@ export interface SujetPFE {
 
 @Injectable({ providedIn: 'root' })
 export class ViewFormationService {
-  private apiUrl = 'https://sitewebsms2ibackend-production.up.railway.app/api/sujets';
+  private apiUrl = 'https://anas-wahada1997.alwaysdata.net/api/sujets';
 
   constructor(private http: HttpClient) {}
 

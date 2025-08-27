@@ -60,7 +60,7 @@ export class Accueil implements OnInit, AfterViewInit {
   modalSuccess: string | null = null;
 
   // API avis
-  private readonly avisApi = 'https://sitewebsms2ibackend-production.up.railway.app/api/avis';
+  private readonly avisApi = 'https://anas-wahada1997.alwaysdata.net/api/avis';
 
   constructor(
     private fb: FormBuilder,

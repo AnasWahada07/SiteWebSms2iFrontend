@@ -6,7 +6,7 @@ import { AuthResponse } from '../Class/AuthResponse';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  private baseUrl = 'https://sitewebsms2ibackend-production.up.railway.app/api/auth';
+  private baseUrl = 'https://anas-wahada1997.alwaysdata.net/api/auth';
   private readonly STORAGE_KEY = 'currentUser';
 
   constructor(
