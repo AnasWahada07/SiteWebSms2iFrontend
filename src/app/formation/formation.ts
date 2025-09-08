@@ -49,7 +49,7 @@ export class Formation implements OnInit {
       new w.google.translate.TranslateElement(
         {
           pageLanguage: 'fr',
-          includedLanguages: 'fr,en,es,ar,de',
+          includedLanguages: 'fr,en,es,ar,de,it,pt,tr',
           layout: w.google.translate.TranslateElement.InlineLayout.SIMPLE
         },
         'google_translate_element'

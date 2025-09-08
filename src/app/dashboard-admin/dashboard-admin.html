@@ -22,17 +22,30 @@
   </svg>
 
   <!-- Menu déroulant -->
-  <div *ngIf="showDropdown" class="notif-dropdown">
-    <div *ngIf="notifications.length > 0; else noNotif">
-      <div *ngFor="let notif of notifications" (click)="markNotificationAsSeen(notif)" class="notif-item">
-        <span class="notif-message">{{ notif.message }}</span>
-        <span class="notif-date">{{ notif.createdAt | date:'short' }}</span>
-      </div>
+<div *ngIf="showDropdown" class="notif-dropdown dropdown-menu show p-0 shadow border-0" role="menu" aria-label="Liste des notifications">
+  <div *ngIf="notifications.length > 0; else noNotif" class="list-group list-group-flush">
+    <div
+      *ngFor="let notif of notifications"
+      (click)="markNotificationAsSeen(notif)"
+      class="notif-item list-group-item list-group-item-action d-flex align-items-start gap-3 px-3 py-2"
+      role="menuitem"
+      tabindex="0"
+    >
+      <span class="notif-message fw-semibold flex-grow-1 text-wrap">
+        {{ notif.message }}
+      </span>
+      <span class="notif-date text-muted ms-auto">
+        {{ notif.createdAt | date:'short' }}
+      </span>
     </div>
-    <ng-template #noNotif>
-      <div class="notif-item">Aucune nouvelle notification</div>
-    </ng-template>
   </div>
+
+  <ng-template #noNotif>
+    <div class="notif-item px-4 py-4 text-center text-muted">
+      Aucune nouvelle notification
+    </div>
+  </ng-template>
+</div>
 </div>
       <div class="user-profile">
 <div class="admin-info">

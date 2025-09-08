@@ -91,7 +91,7 @@ export class SignIn {
           Swal.fire({
             icon: 'warning',
             title: 'Accès refusé',
-            text: 'Vous n’êtes pas autorisé à accéder à l’espace Admin.'
+            text: 'Vous disposez actuellement d’un compte utilisateur standard. Pour obtenir les droits d’administrateur, veuillez patienter jusqu’à l’approbation de l’administrateur.'
           }).then(() => this.router.navigate(['/acceuil']));
         }
       },
