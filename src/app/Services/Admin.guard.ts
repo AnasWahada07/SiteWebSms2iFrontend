@@ -37,7 +37,7 @@ export const adminGuard: CanActivateFn = (route, state) => {
       Swal.fire({
         icon: 'error',
         title: 'Accès refusé',
-        text: 'Vous devez être administrateur.',
+        text: 'Vous devez être administrateur pour accéder à cette page.',
         confirmButtonText: 'Retour'
       }).then(() => {
         router.navigate(['/acceuil']);

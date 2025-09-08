@@ -25,10 +25,71 @@
         </li>
 
         <!-- Sélecteur de langue Google -->
-        <li class="nav-item">
-          <div id="google_translate_element"></div>
-        </li>
-      </ul>
+<li class="nav-item d-flex align-items-center">
+  <button id="translateToggle"
+          class="nav-link btn btn-link d-flex align-items-center gap-1 p-0"
+          type="button"
+          aria-haspopup="true"
+          [attr.aria-expanded]="isTranslateOpen"
+          (click)="toggleTranslate($event)">
+    <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" fill="currentColor"
+         class="bi bi-translate" viewBox="0 0 16 16" aria-hidden="true">
+      <path d="M4.545 6.714 4.11 8H3l1.862-5h1.284L8 8H6.833l-.435-1.286zm1.634-.736L5.5 3.956h-.049l-.679 2.022z"/>
+      <path d="M0 2a2 2 0 0 1 2-2h7a2 2 0 0 1 2 2v3h3a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-3H2a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v7a1 1 0 0 0 1 1h7a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1zm7.138 9.995q.289.451.63.846c-.748.575-1.673 1.001-2.768 1.292.178.217.451.635.555.867 1.125-.359 2.08-.844 2.886-1.494.777.665 1.739 1.165 2.93 1.472.133-.254.414-.673.629-.89-1.125-.253-2.057-.694-2.82-1.284.681-.747 1.222-1.651 1.621-2.757H14V8h-3v1.047h.765c-.318.844-.74 1.546-1.272 2.13a6 6 0 0 1-.415-.492 2 2 0 0 1-.94.31"/>
+    </svg>
+  </button>
+</li>
+
+<div id="gt-popover" class="gt-popover d-none" role="dialog" aria-modal="false" aria-label="Choisir la langue">
+  <div class="gt-arrow"></div>
+
+
+  <!-- Menu de langues (ton UI) -->
+<ul class="gt-menu list-unstyled mb-0 d-flex flex-wrap justify-content-center">
+  <li class="m-1">
+    <button type="button" class="btn btn-outline-primary btn-lang" (click)="chooseLang('fr')">
+      <span class="fi fi-fr me-2"></span> Français
+    </button>
+  </li>
+  <li class="m-1">
+    <button type="button" class="btn btn-outline-primary btn-lang" (click)="chooseLang('en')">
+      <span class="fi fi-gb me-2"></span> English
+    </button>
+  </li>
+<li class="m-1">
+  <button type="button" class="btn btn-outline-primary btn-lang" (click)="chooseLang('ar')">
+    <span class="fi fi-tn me-2"></span> العربية
+  </button>
+</li>
+  <li class="m-1">
+    <button type="button" class="btn btn-outline-primary btn-lang" (click)="chooseLang('es')">
+      <span class="fi fi-es me-2"></span> Español
+    </button>
+  </li>
+  <li class="m-1">
+    <button type="button" class="btn btn-outline-primary btn-lang" (click)="chooseLang('de')">
+      <span class="fi fi-de me-2"></span> Deutsch
+    </button>
+  </li>
+  <li class="m-1">
+    <button type="button" class="btn btn-outline-primary btn-lang" (click)="chooseLang('it')">
+      <span class="fi fi-it me-2"></span> Italiano
+    </button>
+  </li>
+  <li class="m-1">
+    <button type="button" class="btn btn-outline-primary btn-lang" (click)="chooseLang('pt')">
+      <span class="fi fi-pt me-2"></span> Português
+    </button>
+  </li>
+  <li class="m-1">
+    <button type="button" class="btn btn-outline-primary btn-lang" (click)="chooseLang('tr')">
+      <span class="fi fi-tr me-2"></span> Türkçe
+    </button>
+  </li>
+</ul>
+</div>
+
+</ul>
     </div>
   </div>
 </nav>
@@ -45,7 +106,7 @@
     <div class="row align-items-center">
       <div class="col-lg-7">
         <div class="hero-content animate__animated animate__fadeInUp">
-          <h1 class="hero-title">WELCOME TO <span>SMS2!</span></h1>
+          <h1 class="hero-title">BIENVENUE CHEZ <span>SMS2!</span></h1>
           <p class="hero-subtitle">SMS2! offre des services complets d'automatisation et de maintenance pour optimiser vos processus industriels.</p>
           <div class="d-flex gap-3">
             <a href="#"

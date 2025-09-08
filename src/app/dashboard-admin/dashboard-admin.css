@@ -1146,7 +1146,47 @@ blockquote {
   z-index: 999;
 }
 
-
-
 }
+}
+
+/* Conteneur du dropdown */
+.notif-dropdown {
+  position: absolute;
+  right: 0;
+  top: calc(100% + .5rem);
+  width: min(420px, 92vw);
+  max-height: 60vh;
+  overflow: auto;
+  border-radius: .75rem;
+}
+
+/* Items */
+.notif-item {
+  transition: background-color .15s ease-in-out;
+  cursor: pointer;
+}
+.notif-item:hover,
+.notif-item:focus {
+  background-color: rgba(0, 0, 0, .03);
+  outline: none;
+}
+
+/* Message : limiter à 2 lignes si trop long */
+.notif-message {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Date compacte et non coupée */
+.notif-date {
+  white-space: nowrap;
+  font-size: .875rem; /* ~ small */
+}
+
+/* Scrollbar douce (facultatif) */
+.notif-dropdown::-webkit-scrollbar { width: 8px; }
+.notif-dropdown::-webkit-scrollbar-thumb {
+  background: rgba(0,0,0,.15);
+  border-radius: 8px;
 }
